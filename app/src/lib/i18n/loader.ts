@@ -39,7 +39,7 @@ function parseCopyMd(raw: string): CopyMap {
       currentSection = sectionMatch[1]
         .trim()
         .toLowerCase()
-        .replace(/[^a-z0-9\uAC00-\uD7A3\u3131-\u3163]+/g, '_')
+        .replace(/[^a-z0-9.\uAC00-\uD7A3\u3131-\u3163]+/g, '_')
         .replace(/^_|_$/g, '');
       continue;
     }

@@ -12,6 +12,9 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
+		paths: {
+			base: process.env.GITHUB_PAGES ? '/vibesec' : ''
+		},
 		alias: {
 			'$content': '../content'
 		}

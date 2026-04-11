@@ -6,11 +6,11 @@
   // Symptoms from journey.md S7
   // These correspond to common emergency scenarios
   const symptoms = [
-    { id: 'billing', icon: '\uD83D\uDCB3', label: t('incident.symptom_billing', '') },
-    { id: 'data', icon: '\uD83D\uDDC4', label: t('incident.symptom_data', '') },
-    { id: 'site', icon: '\uD83C\uDF10', label: t('incident.symptom_site', '') },
-    { id: 'account', icon: '\uD83D\uDD12', label: t('incident.symptom_account', '') },
-    { id: 'other', icon: '\u2753', label: t('incident.symptom_other', '') },
+    { id: 'billing', icon: '\uD83D\uDCB3', label: t('incident.symptoms.billing', '') },
+    { id: 'data', icon: '\uD83D\uDDC4', label: t('incident.symptoms.data', '') },
+    { id: 'site', icon: '\uD83C\uDF10', label: t('incident.symptoms.site', '') },
+    { id: 'account', icon: '\uD83D\uDD12', label: t('incident.symptoms.account', '') },
+    { id: 'other', icon: '\u2753', label: t('incident.symptoms.other', '') },
   ];
 
   let selectedSymptom = $state<string | null>(null);
@@ -32,9 +32,9 @@
 </script>
 
 <div class="incident-page">
-  <Toolbar title={t('incident.page_title', '')}>
+  <Toolbar title={t('incident.page.title', '')}>
     {#snippet leading()}
-      <Button variant="ghost" size="sm" ariaLabel={t('incident.back_to_home', '')} onclick={() => goto('/')}>
+      <Button variant="ghost" size="sm" ariaLabel={t('incident.nav.back_to_home', '')} onclick={() => goto('/')}>
         {'\u2190'}
       </Button>
     {/snippet}
@@ -47,10 +47,10 @@
         <Card glass padding="lg">
           <div class="complete-inner">
             <span class="complete-icon" aria-hidden="true">{'\uD83D\uDC4C'}</span>
-            <h2 class="complete-title">{t('incident.contact_complete_title', '')}</h2>
-            <p class="complete-body">{t('incident.contact_complete_body', '')}</p>
+            <h2 class="complete-title">{t('incident.contact.complete_title', '')}</h2>
+            <p class="complete-body">{t('incident.contact.complete_body', '')}</p>
             <Button variant="primary" size="lg" fullWidth onclick={() => goto('/')}>
-              {t('incident.back_to_home', '')}
+              {t('incident.nav.back_to_home', '')}
             </Button>
           </div>
         </Card>
@@ -61,7 +61,7 @@
         <Card glass padding="lg">
           <div class="header-inner">
             <span class="header-icon" aria-hidden="true">{'\uD83D\uDE91'}</span>
-            <h1 class="header-title">{t('incident.page_subtitle', '')}</h1>
+            <h1 class="header-title">{t('incident.page.subtitle', '')}</h1>
           </div>
         </Card>
       </section>
@@ -89,7 +89,7 @@
       <!-- Emergency tip -->
       <section class="emergency-tip">
         <Card padding="md" glass={false}>
-          <p class="tip-text">{t('incident.emergency_tip', '')}</p>
+          <p class="tip-text">{t('incident.tip.emergency', '')}</p>
         </Card>
       </section>
 
@@ -102,7 +102,7 @@
           disabled={!selectedSymptom}
           onclick={handleContact}
         >
-          {t('incident.contact_kakao', '')}
+          {t('incident.contact.kakao', '')}
         </Button>
         <Button
           variant="secondary"
@@ -111,7 +111,7 @@
           disabled={!selectedSymptom}
           onclick={handleCall}
         >
-          {t('incident.contact_call', '')}
+          {t('incident.contact.call', '')}
         </Button>
       </section>
     {/if}
