@@ -1,0 +1,21 @@
+{
+  "id": "PKG-INF-SSL-WATCH",
+  "name": "SSL WATCH",
+  "name_kr": "자물쇠 감시",
+  "subtitle_kr": "인증서 만료 알림 설정",
+  "severity": "low",
+  "price_krw": 29000,
+  "duration": "당일",
+  "symptoms": [
+    "인증서 만료일을 모르겠어요"
+  ],
+  "description_kr": "자물쇠(인증서) 만료일을 감시하고 미리 알려드려요.",
+  "fixes_vulns": [
+    "VULN-INF-012"
+  ],
+  "includes": [
+    "만료일 확인",
+    "자동 알림 설정"
+  ],
+  "warranty_days": 14
+}

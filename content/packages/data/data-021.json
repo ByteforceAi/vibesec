@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-BACKUP-BUNDLE",
+  "name": "BACKUP BUNDLE",
+  "name_kr": "백업 안심세트",
+  "subtitle_kr": "백업 설정+테스트 묶음",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "백업을 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "백업 설정부터 복구 테스트까지 한번에 해드려요. 실제로 복구가 되는지 확인까지요.",
+  "fixes_vulns": [
+    "VULN-DAT-004",
+    "VULN-DAT-012"
+  ],
+  "includes": [
+    "자동 백업 설정",
+    "복구 테스트",
+    "백업 모니터링 안내"
+  ],
+  "warranty_days": 30
+}

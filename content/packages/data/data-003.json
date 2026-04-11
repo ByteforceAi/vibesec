@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-DB-PASSWORD",
+  "name": "DB PASSWORD",
+  "name_kr": "금고 비번교체",
+  "subtitle_kr": "금고 비밀번호 강화",
+  "severity": "high",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "데이터베이스 비밀번호가 기본값이에요",
+    "금고 비밀번호를 바꾼 적이 없어요"
+  ],
+  "description_kr": "금고 비밀번호가 초기값 그대로예요. 누구나 알 수 있는 상태니까 새로운 강력한 비밀번호로 바꿔드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-002"
+  ],
+  "includes": [
+    "비밀번호 교체",
+    "강력한 비밀번호 설정",
+    "연결 확인"
+  ],
+  "warranty_days": 14
+}

@@ -1,0 +1,27 @@
+{
+  "id": "PKG-AUT-WATCH-PRO",
+  "name": "AUTH WATCH PRO",
+  "name_kr": "출입 프로감시",
+  "subtitle_kr": "매일 인증 체계 감시",
+  "severity": "low",
+  "price_krw": 99000,
+  "duration": "월간",
+  "symptoms": [
+    "매일 로그인 감시가 필요해요",
+    "인증 체계를 완전히 맡기고 싶어요"
+  ],
+  "description_kr": "매일 인증 체계를 감시하고 이상이 있으면 즉시 대응해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-006",
+    "VULN-AUT-008"
+  ],
+  "includes": [
+    "매일 자동 감시",
+    "즉시 이상 대응",
+    "주간 상세 리포트",
+    "전담 매니저"
+  ],
+  "warranty_days": 0
+}

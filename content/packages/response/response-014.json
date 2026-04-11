@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-MANUAL",
+  "name": "RESPONSE MANUAL",
+  "name_kr": "대응 매뉴얼",
+  "subtitle_kr": "사고 대응 매뉴얼 작성",
+  "severity": "low",
+  "price_krw": 89000,
+  "duration": "3일",
+  "symptoms": [
+    "사고 대응 매뉴얼을 만들고 싶어요",
+    "비상 연락망이 없어요"
+  ],
+  "description_kr": "사고가 나면 누가 뭘 해야 하는지 매뉴얼을 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-RES-013"
+  ],
+  "includes": [
+    "대응 매뉴얼 작성",
+    "비상 연락망 구성",
+    "역할 분담 정리"
+  ],
+  "warranty_days": 14
+}

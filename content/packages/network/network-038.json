@@ -1,0 +1,25 @@
+{
+  "id": "PKG-NET-911",
+  "name": "NETWORK 911",
+  "name_kr": "울타리 출동",
+  "subtitle_kr": "네트워크 침입 긴급 대응",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "네트워크를 통해 침입이 발생한 것 같아요"
+  ],
+  "description_kr": "네트워크를 통한 침입이 발생한 긴급 상황이에요. 바로 대응해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002",
+    "VULN-NET-003"
+  ],
+  "includes": [
+    "즉시 침입 차단",
+    "네트워크 복구",
+    "보안 강화",
+    "7일 모니터링"
+  ],
+  "warranty_days": 30
+}

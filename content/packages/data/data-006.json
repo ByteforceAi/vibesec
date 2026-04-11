@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-CLEAN",
+  "name": "DATA CLEAN",
+  "name_kr": "데이터 정리",
+  "subtitle_kr": "삭제 데이터 확인 정리",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "삭제한 데이터가 진짜 삭제됐는지 모르겠어요"
+  ],
+  "description_kr": "삭제했다고 생각한 데이터가 실제로 없어졌는지 확인하고 깨끗이 정리해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-005"
+  ],
+  "includes": [
+    "삭제 데이터 확인",
+    "잔여 데이터 정리",
+    "삭제 절차 개선"
+  ],
+  "warranty_days": 14
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-ACCOUNT-DELETE",
+  "name": "ACCOUNT DELETE",
+  "name_kr": "탈퇴 기능",
+  "subtitle_kr": "회원 탈퇴 기능 추가",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "2일",
+  "symptoms": [
+    "탈퇴 기능이 없어요",
+    "사용자가 계정을 삭제할 방법이 없어요"
+  ],
+  "description_kr": "사용자가 원할 때 계정을 삭제할 수 있는 기능을 추가해드려요. 법적으로도 꼭 필요한 기능이에요.",
+  "fixes_vulns": [
+    "VULN-AUT-009"
+  ],
+  "includes": [
+    "탈퇴 기능 구현",
+    "데이터 삭제 처리",
+    "확인 절차 추가"
+  ],
+  "warranty_days": 30
+}

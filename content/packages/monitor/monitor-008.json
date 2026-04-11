@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-LOG-FILTER",
+  "name": "LOG FILTER",
+  "name_kr": "기록 필터",
+  "subtitle_kr": "중요한 기록만 걸러내기",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "기록이 너무 많아서 중요한 걸 못 찾겠어요"
+  ],
+  "description_kr": "수많은 기록 중에서 중요한 것만 골라볼 수 있게 필터를 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-007"
+  ],
+  "includes": [
+    "필터 규칙 설정",
+    "중요도 분류",
+    "검색 기능"
+  ],
+  "warranty_days": 14
+}

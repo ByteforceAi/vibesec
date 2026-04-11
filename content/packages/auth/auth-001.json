@@ -1,0 +1,22 @@
+{
+  "id": "PKG-AUT-BASIC-SCAN",
+  "name": "AUTH SCAN BASIC",
+  "name_kr": "출입 간단진단",
+  "subtitle_kr": "로그인 상태 간단 점검",
+  "severity": "low",
+  "price_krw": 0,
+  "duration": "5분",
+  "symptoms": [
+    "로그인이 안전한지 확인하고 싶어요",
+    "무료로 한번 점검해보고 싶어요"
+  ],
+  "description_kr": "로그인 체계가 안전한지 빠르게 확인해드려요. 무료니까 부담 없이 받아보세요.",
+  "fixes_vulns": [
+    "VULN-AUT-001"
+  ],
+  "includes": [
+    "로그인 보안 상태 확인",
+    "결과 요약 리포트"
+  ],
+  "warranty_days": 0
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-DASHBOARD-BUNDLE",
+  "name": "DASHBOARD BUNDLE",
+  "name_kr": "현황판 세트",
+  "subtitle_kr": "상태+보안 현황판 묶음",
+  "severity": "medium",
+  "price_krw": 109000,
+  "duration": "2일",
+  "symptoms": [
+    "현황판을 전체적으로 구축하고 싶어요"
+  ],
+  "description_kr": "서버 상태와 보안 이벤트를 한눈에 보는 현황판을 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-MON-006",
+    "VULN-MON-010"
+  ],
+  "includes": [
+    "상태 현황판",
+    "보안 대시보드",
+    "통합 뷰"
+  ],
+  "warranty_days": 30
+}

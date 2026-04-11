@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-AUTH-WALL",
+  "name": "AUTH WALL",
+  "name_kr": "출입문 설치",
+  "subtitle_kr": "비로그인 접근 차단",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "당일",
+  "symptoms": [
+    "로그인 없이 개인 페이지에 들어갈 수 있어요",
+    "누구나 내부 페이지를 볼 수 있어요"
+  ],
+  "description_kr": "로그인하지 않은 사람이 개인 페이지를 볼 수 없도록 출입문을 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-002"
+  ],
+  "includes": [
+    "비인증 접근 차단",
+    "보호 페이지 설정",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

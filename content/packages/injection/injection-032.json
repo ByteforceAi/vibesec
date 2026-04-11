@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-HEADER-GUARD",
+  "name": "HEADER GUARD",
+  "name_kr": "요청 보호막",
+  "subtitle_kr": "이상한 요청 헤더 차단",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "이상한 요청이 들어올 수 있어요"
+  ],
+  "description_kr": "정상적이지 않은 요청을 걸러내는 보호막을 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-009"
+  ],
+  "includes": [
+    "요청 검증 추가",
+    "필터 설정",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

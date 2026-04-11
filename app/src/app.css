@@ -1,0 +1,145 @@
+/* Global styles - token-based */
+
+:root {
+	/* iOS 26 Liquid Glass base tokens */
+	--lg-light-angle: -45deg;
+	--lg-opacity: 0.6;
+	--lg-refraction: 1.0;
+	--lg-frost-radius-s: 7px;
+	--lg-frost-radius-m: 12px;
+	--lg-frost-radius-l: 14px;
+	--lg-depth: 16;
+	--lg-shadow-blur-layer: 40px;
+	--lg-shadow-blur-bg: 80px;
+
+	/* System colors - light mode */
+	--color-system-red: #ff3b30;
+	--color-system-orange: #ff9500;
+	--color-system-yellow: #ffcc00;
+	--color-system-green: #34c759;
+	--color-system-blue: #007aff;
+	--color-system-indigo: #5856d6;
+	--color-system-purple: #af52de;
+	--color-system-pink: #ff2d55;
+	--color-system-teal: #5ac8fa;
+	--color-system-cyan: #32d7e2;
+
+	/* Semantic colors */
+	--color-label: #000000;
+	--color-label-secondary: #3c3c43cc;
+	--color-label-tertiary: #3c3c434d;
+	--color-label-quaternary: #3c3c432e;
+	--color-fill: #78788033;
+	--color-fill-secondary: #78788029;
+	--color-fill-tertiary: #7676801f;
+	--color-bg-primary: #ffffff;
+	--color-bg-secondary: #f2f2f7;
+	--color-bg-tertiary: #ffffff;
+	--color-separator: #3c3c4349;
+	--color-separator-opaque: #c6c6c8;
+
+	/* Glass materials */
+	--glass-bg: rgba(255, 255, 255, 0.6);
+	--glass-bg-thick: rgba(255, 255, 255, 0.78);
+	--glass-bg-thin: rgba(255, 255, 255, 0.42);
+	--glass-border: rgba(255, 255, 255, 0.35);
+
+	/* Typography */
+	--font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+		'Pretendard Variable', Pretendard, 'Noto Sans KR', system-ui, sans-serif;
+	--font-large-title: 700 34px/41px var(--font-family);
+	--font-title-1: 700 28px/34px var(--font-family);
+	--font-title-2: 700 22px/28px var(--font-family);
+	--font-title-3: 600 20px/25px var(--font-family);
+	--font-headline: 600 17px/22px var(--font-family);
+	--font-body: 400 17px/22px var(--font-family);
+	--font-callout: 400 16px/21px var(--font-family);
+	--font-subheadline: 400 15px/20px var(--font-family);
+	--font-footnote: 400 13px/18px var(--font-family);
+	--font-caption-1: 400 12px/16px var(--font-family);
+	--font-caption-2: 400 11px/13px var(--font-family);
+
+	/* Spacing */
+	--space-xs: 4px;
+	--space-sm: 8px;
+	--space-md: 16px;
+	--space-lg: 24px;
+	--space-xl: 32px;
+	--space-2xl: 48px;
+
+	/* Radius */
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
+	--radius-xl: 22px;
+	--radius-full: 9999px;
+
+	/* Safe area */
+	--safe-area-top: env(safe-area-inset-top, 0px);
+	--safe-area-bottom: env(safe-area-inset-bottom, 0px);
+	--safe-area-left: env(safe-area-inset-left, 0px);
+	--safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-label: #ffffff;
+		--color-label-secondary: #ebebf5cc;
+		--color-label-tertiary: #ebebf54d;
+		--color-label-quaternary: #ebebf52e;
+		--color-fill: #7878805c;
+		--color-fill-secondary: #78788052;
+		--color-fill-tertiary: #7676803d;
+		--color-bg-primary: #000000;
+		--color-bg-secondary: #1c1c1e;
+		--color-bg-tertiary: #2c2c2e;
+		--color-separator: #54545899;
+		--color-separator-opaque: #38383a;
+
+		--glass-bg: rgba(44, 44, 46, 0.6);
+		--glass-bg-thick: rgba(44, 44, 46, 0.78);
+		--glass-bg-thin: rgba(44, 44, 46, 0.42);
+		--glass-border: rgba(255, 255, 255, 0.15);
+	}
+}
+
+/* Reset and base */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font: var(--font-body);
+	color: var(--color-label);
+	background: var(--color-bg-primary);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	min-height: 100dvh;
+	font-family: var(--font-family);
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+	outline: 2px solid var(--color-system-blue);
+	outline-offset: 2px;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

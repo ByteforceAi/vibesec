@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-BEHAVIOR-WATCH",
+  "name": "BEHAVIOR WATCH",
+  "name_kr": "행동 감지기",
+  "subtitle_kr": "특정 행동 감지 설정",
+  "severity": "low",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "특정 행동을 감지하고 싶어요",
+    "수상한 행동을 알고 싶어요"
+  ],
+  "description_kr": "특정 행동이 감지되면 알려주는 감지기를 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-012"
+  ],
+  "includes": [
+    "행동 감지 규칙",
+    "알림 설정",
+    "기록 남기기"
+  ],
+  "warranty_days": 30
+}

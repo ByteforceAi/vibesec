@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-SOCIAL-AUTH-CHECK",
+  "name": "SOCIAL AUTH CHECK",
+  "name_kr": "소셜 점검",
+  "subtitle_kr": "소셜 로그인 설정 점검",
+  "severity": "low",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "소셜 로그인 설정이 맞는지 불안해요",
+    "구글/카카오 로그인이 안전한지 모르겠어요"
+  ],
+  "description_kr": "소셜 로그인이 제대로 안전하게 설정돼 있는지 확인해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-012"
+  ],
+  "includes": [
+    "소셜 로그인 설정 점검",
+    "보안 항목 확인",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

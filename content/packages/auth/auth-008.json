@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-EMAIL-VERIFY",
+  "name": "EMAIL VERIFY",
+  "name_kr": "이메일 확인기",
+  "subtitle_kr": "가입 시 이메일 확인 추가",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "회원가입 시 이메일 확인을 안 해요",
+    "가짜 이메일로 가입할 수 있어요"
+  ],
+  "description_kr": "가입할 때 이메일이 진짜인지 확인하는 과정을 추가해드려요. 가짜 계정을 막아줘요.",
+  "fixes_vulns": [
+    "VULN-AUT-007"
+  ],
+  "includes": [
+    "이메일 확인 기능 추가",
+    "확인 메일 템플릿",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

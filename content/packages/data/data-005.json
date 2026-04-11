@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-BACKUP-START",
+  "name": "BACKUP START",
+  "name_kr": "복사본 만들기",
+  "subtitle_kr": "첫 백업 설정",
+  "severity": "high",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "백업이 한 번도 없어요",
+    "데이터가 사라지면 끝이에요"
+  ],
+  "description_kr": "소중한 데이터의 복사본을 자동으로 만들어두는 설정을 해드려요. 만약의 사고에도 데이터를 되살릴 수 있어요.",
+  "fixes_vulns": [
+    "VULN-DAT-004"
+  ],
+  "includes": [
+    "자동 백업 설정",
+    "백업 저장 위치 선정",
+    "복구 테스트"
+  ],
+  "warranty_days": 30
+}

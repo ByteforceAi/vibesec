@@ -1,0 +1,27 @@
+{
+  "id": "PKG-RES-POST-BUNDLE",
+  "name": "POST INCIDENT BUNDLE",
+  "name_kr": "사후 처리세트",
+  "subtitle_kr": "사고 후 처리 종합 묶음",
+  "severity": "medium",
+  "price_krw": 299000,
+  "duration": "5일",
+  "symptoms": [
+    "사고 후 처리를 전부 한번에 해결하고 싶어요"
+  ],
+  "description_kr": "사고 보고서, 재발 방지, 고객 공지, 전체 점검까지 사고 후 처리를 한번에 해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-007",
+    "VULN-RES-008",
+    "VULN-RES-009",
+    "VULN-RES-015"
+  ],
+  "includes": [
+    "사고 보고서",
+    "재발 방지",
+    "고객 공지",
+    "전체 점검",
+    "로드맵 제공"
+  ],
+  "warranty_days": 30
+}

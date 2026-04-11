@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-PRIVACY",
+  "name": "PRIVACY SETUP",
+  "name_kr": "개인정보판",
+  "subtitle_kr": "개인정보처리방침 작성",
+  "severity": "low",
+  "price_krw": 59000,
+  "duration": "2일",
+  "symptoms": [
+    "개인정보처리방침이 없어요",
+    "법적으로 꼭 필요한 건가요"
+  ],
+  "description_kr": "법적으로 필요한 개인정보처리방침을 만들어드려요. 어렵지 않게 우리 서비스에 맞게 작성해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-014"
+  ],
+  "includes": [
+    "개인정보처리방침 작성",
+    "서비스 맞춤 항목 정리",
+    "게시 안내"
+  ],
+  "warranty_days": 14
+}

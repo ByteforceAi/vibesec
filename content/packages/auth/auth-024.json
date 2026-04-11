@@ -1,0 +1,28 @@
+{
+  "id": "PKG-AUT-911",
+  "name": "AUTH 911",
+  "name_kr": "출입 긴급출동",
+  "subtitle_kr": "계정 탈취 긴급 대응",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "누군가 관리자로 로그인한 것 같아요",
+    "계정이 탈취당한 것 같아요",
+    "모르는 사람이 내 서비스에 들어왔어요"
+  ],
+  "description_kr": "계정 탈취가 의심되는 긴급 상황이에요. 지금 바로 출동해서 침입자를 차단하고 보안을 강화해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-006"
+  ],
+  "includes": [
+    "즉시 침입자 차단",
+    "비밀번호 강제 재설정",
+    "세션 전체 만료",
+    "보안 강화 조치",
+    "7일 집중 모니터링"
+  ],
+  "warranty_days": 30
+}

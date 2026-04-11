@@ -1,0 +1,24 @@
+{
+  "id": "PKG-INJ-AUDIT-LITE",
+  "name": "INJECTION AUDIT LITE",
+  "name_kr": "침입 기본",
+  "subtitle_kr": "핵심 침입 경로만 점검",
+  "severity": "medium",
+  "price_krw": 190000,
+  "duration": "2일",
+  "symptoms": [
+    "핵심 침입 경로만 보고 싶어요"
+  ],
+  "description_kr": "가장 위험한 침입 경로만 골라서 점검하고 막아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003"
+  ],
+  "includes": [
+    "핵심 경로 점검",
+    "주요 수리",
+    "요약 리포트"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-TRAFFIC-STAT",
+  "name": "TRAFFIC STAT",
+  "name_kr": "접속 통계표",
+  "subtitle_kr": "접속 통계 확인 기능",
+  "severity": "low",
+  "price_krw": 39000,
+  "duration": "1일",
+  "symptoms": [
+    "접속 통계를 보고 싶어요"
+  ],
+  "description_kr": "우리 서비스에 몇 명이 언제 접속하는지 통계를 보여드려요.",
+  "fixes_vulns": [
+    "VULN-MON-011"
+  ],
+  "includes": [
+    "통계 설정",
+    "시각화",
+    "리포트 안내"
+  ],
+  "warranty_days": 14
+}

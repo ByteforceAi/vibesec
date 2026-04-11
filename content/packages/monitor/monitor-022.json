@@ -1,0 +1,25 @@
+{
+  "id": "PKG-MON-911",
+  "name": "MONITOR 911",
+  "name_kr": "감시 긴급출동",
+  "subtitle_kr": "침입 흔적 긴급 추적",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "침입 흔적이 있는 것 같아요",
+    "누군가 들어온 것 같은데 기록이 없어요"
+  ],
+  "description_kr": "침입 흔적을 긴급으로 추적하고 증거를 확보해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002"
+  ],
+  "includes": [
+    "침입 흔적 추적",
+    "증거 확보",
+    "긴급 기록 설치",
+    "7일 모니터링"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,32 @@
+{
+  "id": "PKG-BDL-MONTHLY-PRO",
+  "name": "MONTHLY PRO",
+  "name_kr": "프로 단골관리",
+  "subtitle_kr": "전 분야 심화 정기 점검",
+  "severity": "low",
+  "price_krw": 199000,
+  "duration": "월간",
+  "symptoms": [
+    "심화 정기 관리를 받고 싶어요",
+    "프로 수준의 단골 관리가 필요해요"
+  ],
+  "description_kr": "매달 전 분야를 심도 있게 점검하고 즉시 대응까지 해드려요.",
+  "fixes_vulns": [
+    "VULN-SEC-001",
+    "VULN-AUT-001",
+    "VULN-DAT-001",
+    "VULN-NET-001",
+    "VULN-INJ-001",
+    "VULN-INF-001",
+    "VULN-MON-001",
+    "VULN-RES-001"
+  ],
+  "includes": [
+    "주간 전 분야 점검",
+    "즉시 이상 대응",
+    "주간 리포트",
+    "전담 매니저",
+    "긴급 핫라인"
+  ],
+  "warranty_days": 0
+}

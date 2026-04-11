@@ -1,0 +1,26 @@
+{
+  "id": "PKG-DAT-PRIVACY-BUNDLE",
+  "name": "PRIVACY BUNDLE",
+  "name_kr": "개인정보 세트",
+  "subtitle_kr": "개인정보 관리 묶음",
+  "severity": "medium",
+  "price_krw": 129000,
+  "duration": "3일",
+  "symptoms": [
+    "개인정보 관리를 제대로 하고 싶어요"
+  ],
+  "description_kr": "개인정보 수집부터 처리방침, 보관 정책까지 한번에 정비해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-009",
+    "VULN-DAT-010",
+    "VULN-DAT-014",
+    "VULN-DAT-015"
+  ],
+  "includes": [
+    "수집 항목 정리",
+    "처리방침 작성",
+    "보관 정책 수립",
+    "탈퇴자 처리"
+  ],
+  "warranty_days": 14
+}

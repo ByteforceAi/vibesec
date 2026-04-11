@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-REVIEW-SERVICE",
+  "name": "REVIEW SERVICE",
+  "name_kr": "대응 리뷰",
+  "subtitle_kr": "사고 대응 과정 리뷰",
+  "severity": "low",
+  "price_krw": 89000,
+  "duration": "2일",
+  "symptoms": [
+    "우리가 사고에 잘 대응했는지 알고 싶어요"
+  ],
+  "description_kr": "사고 대응 과정을 리뷰해서 잘한 점과 개선할 점을 알려드려요.",
+  "fixes_vulns": [
+    "VULN-RES-007",
+    "VULN-RES-008"
+  ],
+  "includes": [
+    "대응 과정 리뷰",
+    "잘한 점/개선점",
+    "개선 로드맵"
+  ],
+  "warranty_days": 14
+}

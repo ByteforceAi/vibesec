@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INF-LOG-CLEAN",
+  "name": "LOG CLEAN",
+  "name_kr": "기록 정리",
+  "subtitle_kr": "로그 파일 정리",
+  "severity": "low",
+  "price_krw": 29000,
+  "duration": "당일",
+  "symptoms": [
+    "로그 파일이 쌓여서 디스크가 찼어요"
+  ],
+  "description_kr": "쌓인 기록 파일을 정리하고 자동 관리를 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-014"
+  ],
+  "includes": [
+    "로그 정리",
+    "자동 삭제 설정",
+    "용량 관리"
+  ],
+  "warranty_days": 14
+}

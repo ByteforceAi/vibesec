@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-TRAFFIC-FILTER",
+  "name": "TRAFFIC FILTER",
+  "name_kr": "트래픽 필터",
+  "subtitle_kr": "비정상 트래픽 구분",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "비정상 트래픽을 구분 못 해요"
+  ],
+  "description_kr": "정상 방문자와 비정상 접근을 구분하는 필터를 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-010"
+  ],
+  "includes": [
+    "트래픽 분석 설정",
+    "비정상 감지 규칙",
+    "차단 자동화"
+  ],
+  "warranty_days": 30
+}

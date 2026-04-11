@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-POLICY",
+  "name": "DATA POLICY",
+  "name_kr": "보관 규칙서",
+  "subtitle_kr": "데이터 보관 기간 정책",
+  "severity": "low",
+  "price_krw": 39000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터 보관 기간 정책이 없어요"
+  ],
+  "description_kr": "데이터를 얼마나 보관하고 언제 삭제할지 규칙을 정해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-015"
+  ],
+  "includes": [
+    "보관 정책 수립",
+    "자동 삭제 안내",
+    "법적 기준 정리"
+  ],
+  "warranty_days": 14
+}

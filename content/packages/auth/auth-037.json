@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-PERMISSION-CHECK",
+  "name": "PERMISSION CHECK",
+  "name_kr": "권한 점검기",
+  "subtitle_kr": "페이지별 접근 권한 점검",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "어떤 페이지에 누가 접근할 수 있는지 모르겠어요"
+  ],
+  "description_kr": "각 페이지에 누가 접근할 수 있는지 점검하고 정리해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-002",
+    "VULN-AUT-015"
+  ],
+  "includes": [
+    "페이지별 권한 점검",
+    "접근 규칙 정리",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

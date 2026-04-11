@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-LOG-START",
+  "name": "LOG START",
+  "name_kr": "기록 시작",
+  "subtitle_kr": "접속 기록 시스템 설치",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "1일",
+  "symptoms": [
+    "누가 접속했는지 기록이 전혀 없어요",
+    "무슨 일이 있었는지 알 방법이 없어요"
+  ],
+  "description_kr": "누가 언제 들어왔는지 기록을 남기는 시스템을 설치해드려요. 사고가 나도 기록이 있어야 원인을 찾을 수 있어요.",
+  "fixes_vulns": [
+    "VULN-MON-001"
+  ],
+  "includes": [
+    "기록 시스템 설치",
+    "기록 조회 방법",
+    "보관 설정"
+  ],
+  "warranty_days": 30
+}

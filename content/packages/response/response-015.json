@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-DRILL",
+  "name": "DRILL SETUP",
+  "name_kr": "모의 훈련",
+  "subtitle_kr": "사고 대응 모의 훈련",
+  "severity": "low",
+  "price_krw": 149000,
+  "duration": "3일",
+  "symptoms": [
+    "정기적으로 모의 훈련하고 싶어요",
+    "실제 사고 때 잘 대응할 수 있을지 불안해요"
+  ],
+  "description_kr": "실제 사고 상황을 가정한 모의 훈련을 해드려요. 대응 능력이 올라가요.",
+  "fixes_vulns": [
+    "VULN-RES-014"
+  ],
+  "includes": [
+    "모의 시나리오 설계",
+    "훈련 실행",
+    "결과 평가",
+    "개선점 안내"
+  ],
+  "warranty_days": 14
+}

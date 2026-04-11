@@ -1,0 +1,23 @@
+{
+  "id": "PKG-NET-CDN-SETUP",
+  "name": "CDN SETUP",
+  "name_kr": "속도 부스터",
+  "subtitle_kr": "콘텐츠 배달 설정",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "사이트가 느려요",
+    "이미지 로딩이 오래 걸려요"
+  ],
+  "description_kr": "콘텐츠를 빠르게 전달하는 설정을 해드려요. 사이트 속도가 빨라져요.",
+  "fixes_vulns": [
+    "VULN-NET-012"
+  ],
+  "includes": [
+    "콘텐츠 배달 설정",
+    "캐시 설정",
+    "속도 테스트"
+  ],
+  "warranty_days": 14
+}

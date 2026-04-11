@@ -1,0 +1,31 @@
+{
+  "id": "PKG-INJ-FULL-AUDIT",
+  "name": "INJECTION FULL AUDIT",
+  "name_kr": "침입 정밀",
+  "subtitle_kr": "전면 침입 경로 감사",
+  "severity": "medium",
+  "price_krw": 390000,
+  "duration": "5일",
+  "symptoms": [
+    "침입 방지 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "모든 침입 경로를 정밀하게 점검하고 막아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003",
+    "VULN-INJ-004",
+    "VULN-INJ-005",
+    "VULN-INJ-006",
+    "VULN-INJ-007",
+    "VULN-INJ-008",
+    "VULN-INJ-009",
+    "VULN-INJ-010"
+  ],
+  "includes": [
+    "전체 침입 경로 감사",
+    "모든 보안 수리",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

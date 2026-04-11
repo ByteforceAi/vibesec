@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-ANNUAL-PLAN",
+  "name": "ANNUAL PLAN",
+  "name_kr": "연간 대응계획",
+  "subtitle_kr": "연간 보안 사고 대응 계획",
+  "severity": "low",
+  "price_krw": 199000,
+  "duration": "5일",
+  "symptoms": [
+    "연간 보안 계획을 세우고 싶어요"
+  ],
+  "description_kr": "1년간의 보안 사고 대응 계획을 세워드려요. 훈련, 점검, 대비가 포함돼요.",
+  "fixes_vulns": [
+    "VULN-RES-013",
+    "VULN-RES-014"
+  ],
+  "includes": [
+    "연간 계획 수립",
+    "분기별 점검 일정",
+    "훈련 일정",
+    "예산 안내"
+  ],
+  "warranty_days": 14
+}

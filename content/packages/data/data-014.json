@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-MAP",
+  "name": "DATA MAP",
+  "name_kr": "데이터 지도",
+  "subtitle_kr": "데이터 저장 위치 파악",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "어떤 데이터를 어디에 저장하는지 모르겠어요"
+  ],
+  "description_kr": "데이터가 어디에 어떻게 저장돼 있는지 지도를 만들어드려요. 한눈에 파악할 수 있어요.",
+  "fixes_vulns": [
+    "VULN-DAT-013"
+  ],
+  "includes": [
+    "데이터 저장 위치 조사",
+    "데이터 흐름 지도",
+    "관리 가이드"
+  ],
+  "warranty_days": 14
+}

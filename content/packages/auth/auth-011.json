@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-SESSION-MANAGER",
+  "name": "SESSION MANAGER",
+  "name_kr": "출입증 관리",
+  "subtitle_kr": "동시 로그인 관리",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "동시 로그인 관리가 안 돼요",
+    "여러 기기에서 동시에 로그인 돼 있어요"
+  ],
+  "description_kr": "한 계정으로 여러 곳에서 로그인됐을 때 관리할 수 있게 해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-010"
+  ],
+  "includes": [
+    "동시 로그인 관리",
+    "세션 목록 표시",
+    "원격 로그아웃 기능"
+  ],
+  "warranty_days": 30
+}

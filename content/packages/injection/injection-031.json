@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-REDIRECT-GUARD",
+  "name": "REDIRECT GUARD",
+  "name_kr": "이동 보호막",
+  "subtitle_kr": "위험한 이동 차단",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "사용자를 이상한 사이트로 보낼 수 있어요"
+  ],
+  "description_kr": "사용자를 위험한 곳으로 보내는 걸 막아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-006"
+  ],
+  "includes": [
+    "이동 경로 검증",
+    "허용 목록",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

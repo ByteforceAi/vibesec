@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-LEGAL-GUIDE",
+  "name": "LEGAL GUIDE",
+  "name_kr": "법률 안내",
+  "subtitle_kr": "법적 대응 안내",
+  "severity": "medium",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "법적으로 신고해야 하는 건가요",
+    "법적 절차가 필요한지 모르겠어요"
+  ],
+  "description_kr": "법적으로 어떤 조치가 필요한지 안내해드려요. 신고 절차와 주의사항을 알려드려요.",
+  "fixes_vulns": [
+    "VULN-RES-010"
+  ],
+  "includes": [
+    "법적 의무 안내",
+    "신고 절차 안내",
+    "주의사항 정리"
+  ],
+  "warranty_days": 14
+}

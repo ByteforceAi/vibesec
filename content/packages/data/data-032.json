@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-SOFT-DELETE",
+  "name": "SOFT DELETE",
+  "name_kr": "안전 삭제",
+  "subtitle_kr": "데이터 안전 삭제 설정",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "삭제한 데이터를 나중에 복구하고 싶어요"
+  ],
+  "description_kr": "데이터를 바로 없애지 않고 안전하게 보관했다가 복구할 수 있게 해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-005"
+  ],
+  "includes": [
+    "안전 삭제 설정",
+    "복구 가능 기간 설정",
+    "가이드 제공"
+  ],
+  "warranty_days": 14
+}

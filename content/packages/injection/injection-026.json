@@ -1,0 +1,25 @@
+{
+  "id": "PKG-INJ-WATCH-MONTHLY",
+  "name": "INJECTION WATCH",
+  "name_kr": "침입 정기",
+  "subtitle_kr": "입력란 이상 행위 감지",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "월간",
+  "symptoms": [
+    "입력란 이상을 자동으로 감시해줬으면 좋겠어요"
+  ],
+  "description_kr": "입력란을 통한 이상 행위를 자동으로 감지하고 알려드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003"
+  ],
+  "includes": [
+    "자동 감지",
+    "이상 알림",
+    "월간 리포트",
+    "우선 상담"
+  ],
+  "warranty_days": 0
+}

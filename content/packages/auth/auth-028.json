@@ -1,0 +1,24 @@
+{
+  "id": "PKG-AUT-SIGNUP-PROTECT",
+  "name": "SIGNUP PROTECT",
+  "name_kr": "가입 보호막",
+  "subtitle_kr": "회원가입 보안 강화",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "봇이 자동으로 가입해요",
+    "스팸 계정이 많아요"
+  ],
+  "description_kr": "봇이나 스팸 계정이 가입하는 걸 막아드려요. 진짜 사람만 가입할 수 있게요.",
+  "fixes_vulns": [
+    "VULN-AUT-007",
+    "VULN-AUT-008"
+  ],
+  "includes": [
+    "봇 차단 설정",
+    "이메일 확인 추가",
+    "의심 가입 알림"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-TAG-CLEANER",
+  "name": "TAG CLEANER",
+  "name_kr": "태그 청소기",
+  "subtitle_kr": "위험한 태그 제거",
+  "severity": "low",
+  "price_krw": 29000,
+  "duration": "당일",
+  "symptoms": [
+    "HTML 태그가 그대로 저장돼요"
+  ],
+  "description_kr": "위험한 태그를 자동으로 제거하고 안전한 것만 남기도록 해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-015"
+  ],
+  "includes": [
+    "태그 필터 설정",
+    "허용 태그 목록",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

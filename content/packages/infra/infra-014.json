@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-ENV-SEPARATOR",
+  "name": "ENV SEPARATOR",
+  "name_kr": "환경 분리기",
+  "subtitle_kr": "개발/운영 환경 분리",
+  "severity": "low",
+  "price_krw": 59000,
+  "duration": "2일",
+  "symptoms": [
+    "여러 환경이 분리가 안 돼요",
+    "개발과 운영이 섞여 있어요"
+  ],
+  "description_kr": "개발용과 운영용 환경을 깔끔하게 분리해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-013"
+  ],
+  "includes": [
+    "환경 분리 설정",
+    "설정 파일 분리",
+    "가이드 제공"
+  ],
+  "warranty_days": 14
+}

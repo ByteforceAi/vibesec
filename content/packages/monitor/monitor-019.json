@@ -1,0 +1,31 @@
+{
+  "id": "PKG-MON-FULL-AUDIT",
+  "name": "MONITOR FULL AUDIT",
+  "name_kr": "감시 정밀검사",
+  "subtitle_kr": "감시 체계 전면 감사",
+  "severity": "medium",
+  "price_krw": 350000,
+  "duration": "5일",
+  "symptoms": [
+    "감시 체계 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "감시 체계 전체를 정밀하게 감사하고 구축해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-003",
+    "VULN-MON-004",
+    "VULN-MON-005",
+    "VULN-MON-006",
+    "VULN-MON-007",
+    "VULN-MON-008",
+    "VULN-MON-009",
+    "VULN-MON-010"
+  ],
+  "includes": [
+    "전체 감사",
+    "감시 체계 구축",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

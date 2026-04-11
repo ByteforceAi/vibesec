@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-DOCKER-CHECK",
+  "name": "DOCKER CHECK",
+  "name_kr": "컨테이너 점검",
+  "subtitle_kr": "컨테이너 보안 점검",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "컨테이너 설정이 안전한지 모르겠어요"
+  ],
+  "description_kr": "컨테이너 보안 설정을 점검하고 개선해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-003",
+    "VULN-INF-005"
+  ],
+  "includes": [
+    "컨테이너 점검",
+    "보안 설정",
+    "가이드 제공"
+  ],
+  "warranty_days": 14
+}

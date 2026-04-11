@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-QUERY-SAFE",
+  "name": "QUERY SAFE",
+  "name_kr": "조회 안전화",
+  "subtitle_kr": "데이터 조회 보안 강화",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터 조회 시 보안이 걱정돼요"
+  ],
+  "description_kr": "데이터를 조회할 때 권한에 맞게만 보이도록 보안을 강화해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-006"
+  ],
+  "includes": [
+    "조회 권한 점검",
+    "보안 강화",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

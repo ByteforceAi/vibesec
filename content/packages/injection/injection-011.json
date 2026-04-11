@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-ERROR-MASK",
+  "name": "ERROR MASK",
+  "name_kr": "에러 가리개",
+  "subtitle_kr": "에러 메시지 정보 숨김",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "에러 메시지에 시스템 정보가 나와요"
+  ],
+  "description_kr": "에러가 났을 때 내부 정보가 밖으로 새지 않도록 가려드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-010"
+  ],
+  "includes": [
+    "에러 메시지 정리",
+    "내부 정보 숨김",
+    "사용자 친화적 에러"
+  ],
+  "warranty_days": 14
+}

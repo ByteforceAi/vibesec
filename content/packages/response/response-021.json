@@ -1,0 +1,29 @@
+{
+  "id": "PKG-RES-FULL-RECOVERY",
+  "name": "FULL RECOVERY",
+  "name_kr": "전면 복구",
+  "subtitle_kr": "전면 복구+재발 방지",
+  "severity": "high",
+  "price_krw": 490000,
+  "duration": "7일",
+  "symptoms": [
+    "서비스 전면 복구가 필요해요",
+    "전부 새로 점검해야 할 것 같아요"
+  ],
+  "description_kr": "서비스를 전면 복구하고 재발 방지까지 해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-002",
+    "VULN-RES-003",
+    "VULN-RES-006",
+    "VULN-RES-007",
+    "VULN-RES-008"
+  ],
+  "includes": [
+    "전면 서비스 복구",
+    "사고 분석",
+    "재발 방지",
+    "전체 점검",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

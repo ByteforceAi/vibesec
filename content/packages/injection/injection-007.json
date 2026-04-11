@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-URL-GUARD",
+  "name": "URL GUARD",
+  "name_kr": "주소 보호막",
+  "subtitle_kr": "주소 조작 방지",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "주소창을 조작하면 다른 페이지가 보여요"
+  ],
+  "description_kr": "주소를 조작해서 숨겨진 페이지에 접근하는 걸 막아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-006"
+  ],
+  "includes": [
+    "주소 검증 설정",
+    "접근 제한",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

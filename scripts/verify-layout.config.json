@@ -1,0 +1,145 @@
+{
+  "viewports": [
+    { "name": "iPhone SE (3rd)", "width": 375, "safeAreaInset": 16 },
+    { "name": "iPhone 16", "width": 393, "safeAreaInset": 16 },
+    { "name": "iPhone 16 Pro Max", "width": 430, "safeAreaInset": 16 },
+    { "name": "iPad Mini", "width": 744, "safeAreaInset": 20 },
+    { "name": "Desktop (Tauri)", "width": 1024, "safeAreaInset": 24 }
+  ],
+  "fontFamily": "-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard Variable', Pretendard, 'Noto Sans KR', system-ui, sans-serif",
+  "componentRules": {
+    "Button.sm": {
+      "font": "600 15px/20px system-ui",
+      "fontSize": 15,
+      "lineHeight": 20,
+      "maxLines": 1,
+      "horizontalPadding": 14,
+      "minWidth": 80,
+      "widthMode": "fit",
+      "description": "Small button (font-subheadline 600). Uses white-space:nowrap so overflow is clipped, not wrapped."
+    },
+    "Button.md": {
+      "font": "600 17px/22px system-ui",
+      "fontSize": 17,
+      "lineHeight": 22,
+      "maxLines": 1,
+      "horizontalPadding": 20,
+      "minWidth": 120,
+      "widthMode": "container",
+      "description": "Medium button (font-body 600). fullWidth buttons use container width minus page padding."
+    },
+    "Button.lg": {
+      "font": "600 17px/22px system-ui",
+      "fontSize": 17,
+      "lineHeight": 22,
+      "maxLines": 1,
+      "horizontalPadding": 28,
+      "minWidth": 160,
+      "widthMode": "container",
+      "description": "Large button (font-headline 600). Typically fullWidth. white-space:nowrap enforced."
+    },
+    "Badge": {
+      "font": "600 12px/16px system-ui",
+      "fontSize": 12,
+      "lineHeight": 16,
+      "maxLines": 1,
+      "horizontalPadding": 8,
+      "widthMode": "fit",
+      "description": "Severity badge (font-caption-1 600). white-space:nowrap."
+    },
+    "Card.title": {
+      "font": "700 28px/34px system-ui",
+      "fontSize": 28,
+      "lineHeight": 34,
+      "maxLines": 2,
+      "horizontalPadding": 24,
+      "widthMode": "container",
+      "description": "Card header title. Used for pkg.name_kr in detail page (font-title-1)."
+    },
+    "Card.subtitle": {
+      "font": "400 17px/22px system-ui",
+      "fontSize": 17,
+      "lineHeight": 22,
+      "maxLines": 3,
+      "horizontalPadding": 24,
+      "widthMode": "container",
+      "description": "Card body text. Used for subtitle_kr and description_kr (font-body)."
+    },
+    "ListRow.title": {
+      "font": "400 17px/22px system-ui",
+      "fontSize": 17,
+      "lineHeight": 22,
+      "maxLines": 1,
+      "horizontalPadding": 16,
+      "leadingWidth": 48,
+      "trailingWidth": 48,
+      "widthMode": "container",
+      "description": "ListRow primary text (font-body). Has text-overflow:ellipsis + white-space:nowrap."
+    },
+    "ListRow.subtitle": {
+      "font": "400 15px/20px system-ui",
+      "fontSize": 15,
+      "lineHeight": 20,
+      "maxLines": 1,
+      "horizontalPadding": 16,
+      "leadingWidth": 48,
+      "trailingWidth": 48,
+      "widthMode": "container",
+      "description": "ListRow secondary text (font-subheadline). Also ellipsis + nowrap."
+    },
+    "Toolbar.title": {
+      "font": "700 34px/41px system-ui",
+      "fontSize": 34,
+      "lineHeight": 41,
+      "maxLines": 1,
+      "horizontalPadding": 60,
+      "widthMode": "container",
+      "description": "Toolbar large title (font-large-title). Leading/trailing buttons consume ~60px each side."
+    },
+    "TabBar.label": {
+      "font": "500 10px/12px system-ui",
+      "fontSize": 10,
+      "lineHeight": 12,
+      "maxLines": 1,
+      "horizontalPadding": 4,
+      "widthMode": "tab-equal",
+      "tabCount": 4,
+      "description": "Tab bar label. Shared width = viewport / tabCount."
+    },
+    "Alert.title": {
+      "font": "700 17px/22px system-ui",
+      "fontSize": 17,
+      "lineHeight": 22,
+      "maxLines": 2,
+      "horizontalPadding": 24,
+      "widthMode": "modal",
+      "description": "Alert modal title (font-headline bold). Modal is typically 270px wide."
+    },
+    "Sheet.title": {
+      "font": "600 17px/22px system-ui",
+      "fontSize": 17,
+      "lineHeight": 22,
+      "maxLines": 1,
+      "horizontalPadding": 48,
+      "widthMode": "container",
+      "description": "Sheet header title. Close button consumes ~48px on one side."
+    }
+  },
+  "packageFieldRoutes": {
+    "name_kr": "ListRow.title",
+    "subtitle_kr": "Card.subtitle",
+    "description_kr": "Card.subtitle",
+    "symptoms": "Card.subtitle",
+    "includes": "Card.subtitle"
+  },
+  "vulnerabilityFieldRoutes": {
+    "title_kr": "ListRow.title",
+    "metaphor_kr": "ListRow.subtitle",
+    "example_damage_kr": "Card.subtitle"
+  },
+  "copyTextRoutes": {
+    "title": "Card.title",
+    "body": "Card.subtitle",
+    "cta": "Button.lg"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "PKG-NET-WATCH-PRO",
+  "name": "NETWORK WATCH PRO",
+  "name_kr": "울타리 감시",
+  "subtitle_kr": "네트워크 전담 관리",
+  "severity": "low",
+  "price_krw": 99000,
+  "duration": "월간",
+  "symptoms": [
+    "네트워크 보안을 완전히 맡기고 싶어요"
+  ],
+  "description_kr": "네트워크 보안을 전담으로 관리해드려요. 감시, 차단, 대응까지 전부요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002",
+    "VULN-NET-003",
+    "VULN-NET-004",
+    "VULN-NET-007"
+  ],
+  "includes": [
+    "24시간 감시",
+    "즉시 대응",
+    "주간 리포트",
+    "전담 매니저"
+  ],
+  "warranty_days": 0
+}

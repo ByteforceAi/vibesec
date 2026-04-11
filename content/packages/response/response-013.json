@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-INSURANCE",
+  "name": "SECURITY INSURANCE",
+  "name_kr": "보안 보험",
+  "subtitle_kr": "사고 시 긴급 대응 보장",
+  "severity": "low",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "보험 같은 게 있나요",
+    "사고에 대비하고 싶어요"
+  ],
+  "description_kr": "사고가 나면 우선 대응을 보장하는 보안 보험이에요.",
+  "fixes_vulns": [
+    "VULN-RES-012"
+  ],
+  "includes": [
+    "보험 계약",
+    "우선 대응 보장",
+    "연간 1회 무료 진단"
+  ],
+  "warranty_days": 365
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-MIGRATION-SAFE",
+  "name": "MIGRATION SAFE",
+  "name_kr": "이전 안전확인",
+  "subtitle_kr": "데이터 이전 시 안전 점검",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터를 다른 곳으로 옮기는데 안전한지 모르겠어요"
+  ],
+  "description_kr": "데이터를 이전할 때 누락이나 유출 없이 안전하게 옮길 수 있도록 점검해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-003",
+    "VULN-DAT-008"
+  ],
+  "includes": [
+    "이전 계획 점검",
+    "안전 절차 안내",
+    "이전 후 확인"
+  ],
+  "warranty_days": 14
+}

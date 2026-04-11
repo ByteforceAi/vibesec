@@ -1,0 +1,26 @@
+{
+  "id": "PKG-INF-911-PLUS",
+  "name": "INFRA 911 PLUS",
+  "name_kr": "건물 출동+",
+  "subtitle_kr": "서버 장애+전면 복구",
+  "severity": "critical",
+  "price_krw": 1190000,
+  "duration": "즉시",
+  "symptoms": [
+    "서버 장애가 심각한 상태예요"
+  ],
+  "description_kr": "심각한 서버 장애에 전면 복구까지 포함된 풀 서비스예요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002",
+    "VULN-INF-003",
+    "VULN-INF-005"
+  ],
+  "includes": [
+    "즉시 복구",
+    "전면 점검",
+    "보안 재구축",
+    "14일 모니터링"
+  ],
+  "warranty_days": 60
+}

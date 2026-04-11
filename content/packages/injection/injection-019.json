@@ -1,0 +1,25 @@
+{
+  "id": "PKG-INJ-WEB-SHIELD",
+  "name": "WEB SHIELD",
+  "name_kr": "웹 보호세트",
+  "subtitle_kr": "웹 침입 방지 묶음",
+  "severity": "high",
+  "price_krw": 149000,
+  "duration": "2일",
+  "symptoms": [
+    "웹 사이트 침입을 한번에 막고 싶어요"
+  ],
+  "description_kr": "웹 사이트에서 가장 흔한 침입 경로를 한번에 막아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-003",
+    "VULN-INJ-009"
+  ],
+  "includes": [
+    "입력 보호",
+    "화면 보호",
+    "입력 소독",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

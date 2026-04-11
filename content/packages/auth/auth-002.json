@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-AUTH-FIX",
+  "name": "AUTH FIX",
+  "name_kr": "로그인 수리",
+  "subtitle_kr": "로그인 보안 구멍 수리",
+  "severity": "high",
+  "price_krw": 89000,
+  "duration": "당일",
+  "symptoms": [
+    "다른 사람 행세로 로그인할 수 있어요",
+    "로그인이 불안해요"
+  ],
+  "description_kr": "다른 사람이 내 행세를 할 수 있는 구멍을 막아드려요. 출입문에 제대로 된 잠금장치를 달아드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-001"
+  ],
+  "includes": [
+    "로그인 보안 구멍 수리",
+    "인증 체계 강화",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

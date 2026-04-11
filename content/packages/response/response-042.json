@@ -1,0 +1,22 @@
+{
+  "id": "PKG-RES-REPUTATION-GUARD",
+  "name": "REPUTATION GUARD",
+  "name_kr": "평판 보호",
+  "subtitle_kr": "사고 후 평판 관리",
+  "severity": "medium",
+  "price_krw": 149000,
+  "duration": "3일",
+  "symptoms": [
+    "사고 후 평판이 걱정돼요",
+    "고객 신뢰를 회복하고 싶어요"
+  ],
+  "description_kr": "사고 후 고객 신뢰를 회복하고 평판을 지키는 것을 도와드려요.",
+  "fixes_vulns": ["VULN-RES-009"],
+  "includes": [
+    "평판 모니터링",
+    "신뢰 회복 전략",
+    "고객 소통 지원",
+    "개선 사항 공개 안내"
+  ],
+  "warranty_days": 14
+}

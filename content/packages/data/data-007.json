@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-LOG",
+  "name": "DATA LOG",
+  "name_kr": "금고 출입기록",
+  "subtitle_kr": "데이터 접근 기록 설정",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "누가 데이터를 열어봤는지 기록이 없어요"
+  ],
+  "description_kr": "누가 언제 금고를 열어봤는지 기록을 남기도록 해드려요. 이상한 접근이 있으면 바로 알 수 있어요.",
+  "fixes_vulns": [
+    "VULN-DAT-006"
+  ],
+  "includes": [
+    "접근 기록 설정",
+    "기록 조회 방법 안내",
+    "이상 접근 알림"
+  ],
+  "warranty_days": 30
+}

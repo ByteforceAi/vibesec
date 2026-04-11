@@ -1,0 +1,27 @@
+{
+  "id": "PKG-INJ-WATCH-PRO",
+  "name": "INJECTION WATCH PRO",
+  "name_kr": "침입 프로감시",
+  "subtitle_kr": "침입 방지 전담 관리",
+  "severity": "low",
+  "price_krw": 89000,
+  "duration": "월간",
+  "symptoms": [
+    "침입 방지를 완전히 맡기고 싶어요"
+  ],
+  "description_kr": "침입 방지를 전담으로 관리하고 이상 시 즉시 대응해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003",
+    "VULN-INJ-004",
+    "VULN-INJ-005"
+  ],
+  "includes": [
+    "24시간 감시",
+    "즉시 대응",
+    "주간 리포트",
+    "전담 매니저"
+  ],
+  "warranty_days": 0
+}

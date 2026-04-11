@@ -1,0 +1,27 @@
+{
+  "id": "PKG-DAT-SUPABASE-BUNDLE",
+  "name": "SUPABASE BUNDLE",
+  "name_kr": "수파 안심세트",
+  "subtitle_kr": "Supabase 보안 통합 세트",
+  "severity": "medium",
+  "price_krw": 179000,
+  "duration": "3일",
+  "symptoms": [
+    "Supabase를 쓰는데 보안 설정이 맞는지 모르겠어요"
+  ],
+  "description_kr": "Supabase 보안 설정 전체를 점검하고 정비해드려요. Supabase 사용자라면 이 세트 하나면 돼요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003",
+    "VULN-DAT-006"
+  ],
+  "includes": [
+    "잠금장치 설정",
+    "비밀번호 교체",
+    "암호화 확인",
+    "접근 기록 설정",
+    "Supabase 전용 가이드"
+  ],
+  "warranty_days": 30
+}

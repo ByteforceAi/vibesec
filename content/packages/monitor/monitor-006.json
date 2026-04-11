@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-ACTIVITY-LOG",
+  "name": "ACTIVITY LOG",
+  "name_kr": "행동 기록기",
+  "subtitle_kr": "사용자 행동 기록 설정",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "사용자 행동을 파악할 수 없어요"
+  ],
+  "description_kr": "사용자가 어떤 행동을 하는지 기록하도록 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-005"
+  ],
+  "includes": [
+    "행동 기록 설정",
+    "기록 조회",
+    "분석 안내"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-ADMIN-LOCK",
+  "name": "ADMIN LOCK",
+  "name_kr": "관리자 자물쇠",
+  "subtitle_kr": "관리자 페이지 잠금",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "당일",
+  "symptoms": [
+    "관리자 페이지에 아무나 들어갈 수 있어요",
+    "관리 기능이 보호되지 않아요"
+  ],
+  "description_kr": "관리자만 들어갈 수 있는 페이지에 자물쇠를 달아드려요. 아무나 못 들어가요.",
+  "fixes_vulns": [
+    "VULN-AUT-006"
+  ],
+  "includes": [
+    "관리자 페이지 접근 제한",
+    "권한 확인 로직 추가",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

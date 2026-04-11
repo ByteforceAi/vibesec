@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-NEWBIE-BUNDLE",
+  "name": "DATA NEWBIE",
+  "name_kr": "금고 초보세트",
+  "subtitle_kr": "데이터 보안 초보자용",
+  "severity": "medium",
+  "price_krw": 79000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터 보안을 처음 해봐요"
+  ],
+  "description_kr": "데이터 보안의 가장 기초를 잡아드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002"
+  ],
+  "includes": [
+    "기본 점검",
+    "필수 잠금",
+    "가이드 제공"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INF-CI-CHECK",
+  "name": "CI CHECK",
+  "name_kr": "자동배포 점검",
+  "subtitle_kr": "자동 배포 보안 확인",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "자동 배포가 안전한지 모르겠어요"
+  ],
+  "description_kr": "자동 배포 설정이 안전한지 점검해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-010"
+  ],
+  "includes": [
+    "자동 배포 점검",
+    "보안 항목 확인",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

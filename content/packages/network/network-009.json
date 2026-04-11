@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-LINK-MONITOR",
+  "name": "LINK MONITOR",
+  "name_kr": "링크 감시",
+  "subtitle_kr": "서비스 주소 도용 감시",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "서비스 주소가 이상한 곳에서 쓰이고 있어요"
+  ],
+  "description_kr": "우리 서비스 주소가 다른 곳에서 무단으로 쓰이고 있는지 감시해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-008"
+  ],
+  "includes": [
+    "링크 사용처 조사",
+    "무단 사용 알림",
+    "차단 안내"
+  ],
+  "warranty_days": 14
+}

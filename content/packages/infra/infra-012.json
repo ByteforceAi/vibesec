@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-SPEED-UP",
+  "name": "SPEED UP",
+  "name_kr": "속도 개선",
+  "subtitle_kr": "사이트 로딩 속도 개선",
+  "severity": "low",
+  "price_krw": 59000,
+  "duration": "2일",
+  "symptoms": [
+    "사이트 성능이 느려요",
+    "페이지 로딩이 오래 걸려요"
+  ],
+  "description_kr": "사이트 속도를 빠르게 개선해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-011"
+  ],
+  "includes": [
+    "성능 분석",
+    "최적화 적용",
+    "속도 테스트"
+  ],
+  "warranty_days": 14
+}

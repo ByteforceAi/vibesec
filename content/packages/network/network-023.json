@@ -1,0 +1,26 @@
+{
+  "id": "PKG-NET-DDOS-911",
+  "name": "DDOS 911",
+  "name_kr": "공격 긴급출동",
+  "subtitle_kr": "대량 공격 긴급 대응",
+  "severity": "critical",
+  "price_krw": 850000,
+  "duration": "즉시",
+  "symptoms": [
+    "서비스가 갑자기 마비됐어요",
+    "대량으로 접속이 몰리고 있어요"
+  ],
+  "description_kr": "대량 공격으로 서비스가 마비된 긴급 상황이에요. 지금 바로 출동해서 공격을 막고 서비스를 복구해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-002",
+    "VULN-NET-004",
+    "VULN-NET-007"
+  ],
+  "includes": [
+    "즉시 공격 차단",
+    "서비스 복구",
+    "방어 체계 구축",
+    "7일 모니터링"
+  ],
+  "warranty_days": 30
+}

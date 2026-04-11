@@ -1,0 +1,24 @@
+{
+  "id": "PKG-AUT-WATCH-MONTHLY",
+  "name": "AUTH WATCH",
+  "name_kr": "출입 정기점검",
+  "subtitle_kr": "매주 로그인 이상 감지",
+  "severity": "low",
+  "price_krw": 59000,
+  "duration": "월간",
+  "symptoms": [
+    "로그인 이상을 자동으로 감지해줬으면 좋겠어요"
+  ],
+  "description_kr": "매주 로그인 이상 여부를 확인하고 이상 접근이 감지되면 바로 알려드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-008"
+  ],
+  "includes": [
+    "주간 로그인 모니터링",
+    "이상 접근 알림",
+    "월간 리포트",
+    "우선 상담"
+  ],
+  "warranty_days": 0
+}

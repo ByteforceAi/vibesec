@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-ALERT-TUNE",
+  "name": "ALERT TUNE",
+  "name_kr": "알림 조율기",
+  "subtitle_kr": "알림 피로 방지 설정",
+  "severity": "low",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "알림이 너무 많아서 다 무시해요",
+    "중요한 알림을 놓치고 있어요"
+  ],
+  "description_kr": "알림을 적절하게 조율해서 정말 중요한 것만 오게 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-009"
+  ],
+  "includes": [
+    "알림 규칙 재설정",
+    "중요도 분류",
+    "알림 채널 정리"
+  ],
+  "warranty_days": 14
+}

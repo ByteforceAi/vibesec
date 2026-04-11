@@ -1,0 +1,26 @@
+{
+  "id": "PKG-RES-COST-911",
+  "name": "COST 911",
+  "name_kr": "요금 긴급출동",
+  "subtitle_kr": "요금 폭탄 긴급 대응",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "OpenAI 요금이 갑자기 폭발했어요",
+    "이상한 요금이 나왔어요",
+    "새벽인데 요금이 계속 올라가고 있어요"
+  ],
+  "description_kr": "요금이 폭발적으로 올라가고 있는 긴급 상황이에요. 바로 원인을 찾아서 막아드려요.",
+  "fixes_vulns": [
+    "VULN-RES-001",
+    "VULN-SEC-001"
+  ],
+  "includes": [
+    "즉시 키 차단",
+    "요금 발생 원인 파악",
+    "피해 최소화",
+    "재발 방지"
+  ],
+  "warranty_days": 30
+}

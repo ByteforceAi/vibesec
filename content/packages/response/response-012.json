@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-DATA-RECOVERY",
+  "name": "DATA RECOVERY",
+  "name_kr": "데이터 복원",
+  "subtitle_kr": "삭제/손상 데이터 복원",
+  "severity": "medium",
+  "price_krw": 149000,
+  "duration": "3일",
+  "symptoms": [
+    "데이터를 복구할 수 있나요",
+    "삭제된 데이터를 되살리고 싶어요"
+  ],
+  "description_kr": "삭제되거나 손상된 데이터를 최대한 복원해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-011"
+  ],
+  "includes": [
+    "데이터 복원 시도",
+    "복원 가능 범위 안내",
+    "백업 체계 구축"
+  ],
+  "warranty_days": 14
+}

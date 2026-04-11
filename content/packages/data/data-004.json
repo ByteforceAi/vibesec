@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-ENCRYPT",
+  "name": "DATA ENCRYPT",
+  "name_kr": "금고 이중잠금",
+  "subtitle_kr": "고객 정보 암호화",
+  "severity": "high",
+  "price_krw": 89000,
+  "duration": "2일",
+  "symptoms": [
+    "고객 정보가 암호화 안 돼 있어요",
+    "금고를 열면 정보가 그대로 보여요"
+  ],
+  "description_kr": "금고 안의 고객 정보에 한 겹 더 잠금을 걸어드려요. 금고가 열려도 정보 자체가 보호돼요.",
+  "fixes_vulns": [
+    "VULN-DAT-003"
+  ],
+  "includes": [
+    "민감 데이터 암호화",
+    "암호화 키 관리",
+    "성능 확인"
+  ],
+  "warranty_days": 30
+}

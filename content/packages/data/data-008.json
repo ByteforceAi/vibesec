@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-SEPARATOR",
+  "name": "DATA SEPARATOR",
+  "name_kr": "데이터 분리기",
+  "subtitle_kr": "테스트/실제 데이터 분리",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "테스트 데이터와 실제 데이터가 섞여 있어요"
+  ],
+  "description_kr": "테스트용 데이터와 실제 고객 데이터를 깔끔하게 분리해드려요. 실수로 섞이는 일을 막아줘요.",
+  "fixes_vulns": [
+    "VULN-DAT-007"
+  ],
+  "includes": [
+    "데이터 분리",
+    "환경별 데이터베이스 설정",
+    "혼용 방지 가이드"
+  ],
+  "warranty_days": 14
+}

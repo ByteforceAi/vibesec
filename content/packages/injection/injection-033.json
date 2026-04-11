@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INJ-OUTPUT-ENCODE",
+  "name": "OUTPUT ENCODE",
+  "name_kr": "출력 안전화",
+  "subtitle_kr": "출력 데이터 안전 처리",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "화면에 표시할 때 안전 처리가 안 돼요"
+  ],
+  "description_kr": "데이터를 화면에 표시할 때 안전하게 처리되도록 해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-003",
+    "VULN-INJ-015"
+  ],
+  "includes": [
+    "출력 안전 처리",
+    "인코딩 설정",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

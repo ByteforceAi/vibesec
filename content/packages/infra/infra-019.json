@@ -1,0 +1,28 @@
+{
+  "id": "PKG-INF-FORTRESS",
+  "name": "INFRA FORTRESS",
+  "name_kr": "건물 요새",
+  "subtitle_kr": "건물 관리 풀 세트",
+  "severity": "medium",
+  "price_krw": 159000,
+  "duration": "3일",
+  "symptoms": [
+    "건물 관리를 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "건물 관리 전체를 한번에 세팅해드려요. 요새처럼 튼튼하게요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002",
+    "VULN-INF-003",
+    "VULN-INF-005",
+    "VULN-INF-008"
+  ],
+  "includes": [
+    "자물쇠 설치",
+    "부품 교체",
+    "설정 숨기기",
+    "배포 점검",
+    "개발도구 분리"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INJ-NEWBIE-BUNDLE",
+  "name": "INJECTION NEWBIE",
+  "name_kr": "입력 초보",
+  "subtitle_kr": "침입 방지 초보자용",
+  "severity": "medium",
+  "price_krw": 79000,
+  "duration": "1일",
+  "symptoms": [
+    "침입 방지를 처음 해봐요"
+  ],
+  "description_kr": "침입 방지의 가장 기초를 잡아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-003"
+  ],
+  "includes": [
+    "기본 점검",
+    "필수 보호",
+    "가이드 제공"
+  ],
+  "warranty_days": 30
+}

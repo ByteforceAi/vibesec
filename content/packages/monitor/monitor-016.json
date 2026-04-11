@@ -1,0 +1,26 @@
+{
+  "id": "PKG-MON-FORTRESS",
+  "name": "MONITOR FORTRESS",
+  "name_kr": "감시 요새",
+  "subtitle_kr": "감시 카메라 풀 세트",
+  "severity": "medium",
+  "price_krw": 169000,
+  "duration": "3일",
+  "symptoms": [
+    "감시 체계를 완벽하게 구축하고 싶어요"
+  ],
+  "description_kr": "기록, 알림, 현황판, 감지까지 한번에 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-004",
+    "VULN-MON-006"
+  ],
+  "includes": [
+    "기록 시스템",
+    "알림 설정",
+    "에러 알림",
+    "상태 현황판"
+  ],
+  "warranty_days": 30
+}

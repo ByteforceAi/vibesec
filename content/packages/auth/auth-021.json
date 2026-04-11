@@ -1,0 +1,33 @@
+{
+  "id": "PKG-AUT-FULL-AUDIT",
+  "name": "AUTH FULL AUDIT",
+  "name_kr": "출입 정밀검사",
+  "subtitle_kr": "인증 체계 전면 감사",
+  "severity": "medium",
+  "price_krw": 390000,
+  "duration": "5일",
+  "symptoms": [
+    "출입 관리 전체를 점검받고 싶어요",
+    "런칭 전에 로그인을 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "로그인과 권한 체계 전체를 정밀하게 감사하고 수리해드려요. 결제 도입 전 필수예요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-003",
+    "VULN-AUT-004",
+    "VULN-AUT-005",
+    "VULN-AUT-006",
+    "VULN-AUT-007",
+    "VULN-AUT-008",
+    "VULN-AUT-009",
+    "VULN-AUT-010"
+  ],
+  "includes": [
+    "전체 인증 감사",
+    "모든 보안 수리",
+    "권한 체계 완성",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

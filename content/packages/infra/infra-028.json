@@ -1,0 +1,25 @@
+{
+  "id": "PKG-INF-VERCEL-BUNDLE",
+  "name": "VERCEL BUNDLE",
+  "name_kr": "V 안심세트",
+  "subtitle_kr": "Vercel 배포 보안 세트",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "Vercel로 배포했는데 보안 설정이 맞는지 모르겠어요"
+  ],
+  "description_kr": "Vercel 배포 환경의 보안을 전체적으로 점검하고 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-003",
+    "VULN-INF-005"
+  ],
+  "includes": [
+    "자물쇠 확인",
+    "설정 보호",
+    "배포 점검",
+    "Vercel 전용 가이드"
+  ],
+  "warranty_days": 14
+}

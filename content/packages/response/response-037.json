@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-NEWBIE-BUNDLE",
+  "name": "RESPONSE NEWBIE",
+  "name_kr": "대응 초보세트",
+  "subtitle_kr": "사고 대응 초보자용",
+  "severity": "medium",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "사고 대응 방법을 전혀 모르겠어요"
+  ],
+  "description_kr": "사고 대응의 기초를 알려드려요.",
+  "fixes_vulns": [
+    "VULN-RES-007",
+    "VULN-RES-013"
+  ],
+  "includes": [
+    "대응 기초 안내",
+    "비상 연락망",
+    "간단 매뉴얼"
+  ],
+  "warranty_days": 14
+}

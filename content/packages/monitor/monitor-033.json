@@ -1,0 +1,26 @@
+{
+  "id": "PKG-MON-911-PLUS",
+  "name": "MONITOR 911 PLUS",
+  "name_kr": "감시 출동+",
+  "subtitle_kr": "침입 추적+감시 재구축",
+  "severity": "critical",
+  "price_krw": 1190000,
+  "duration": "즉시",
+  "symptoms": [
+    "침입 흔적이 심각한 상태예요"
+  ],
+  "description_kr": "심각한 침입 흔적 추적에 감시 체계 재구축까지 포함된 풀 서비스예요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-004",
+    "VULN-MON-006"
+  ],
+  "includes": [
+    "즉시 추적",
+    "감시 재구축",
+    "14일 모니터링",
+    "사고 보고서"
+  ],
+  "warranty_days": 60
+}

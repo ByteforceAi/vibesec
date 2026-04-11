@@ -1,0 +1,26 @@
+{
+  "id": "PKG-INF-CLEANUP-BUNDLE",
+  "name": "INFRA CLEANUP",
+  "name_kr": "건물 대청소",
+  "subtitle_kr": "인프라 전체 정리정돈",
+  "severity": "medium",
+  "price_krw": 89000,
+  "duration": "2일",
+  "symptoms": [
+    "인프라가 지저분해서 정리하고 싶어요"
+  ],
+  "description_kr": "불필요한 파일, 오래된 설정, 쌓인 로그를 정리하고 깔끔하게 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-INF-007",
+    "VULN-INF-008",
+    "VULN-INF-009",
+    "VULN-INF-014"
+  ],
+  "includes": [
+    "미사용 페이지 정리",
+    "개발도구 분리",
+    "폴더 잠금",
+    "로그 정리"
+  ],
+  "warranty_days": 14
+}

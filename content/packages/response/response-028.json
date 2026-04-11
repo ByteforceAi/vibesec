@@ -1,0 +1,27 @@
+{
+  "id": "PKG-RES-LAUNCH-READY",
+  "name": "RESPONSE LAUNCH READY",
+  "name_kr": "대응 런칭준비",
+  "subtitle_kr": "런칭 전 대응 체계 완성",
+  "severity": "medium",
+  "price_krw": 249000,
+  "duration": "5일",
+  "symptoms": [
+    "런칭 전에 사고 대응 체계를 갖추고 싶어요"
+  ],
+  "description_kr": "런칭 전에 사고 대응 체계를 완벽하게 구축해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-008",
+    "VULN-RES-012",
+    "VULN-RES-013",
+    "VULN-RES-014"
+  ],
+  "includes": [
+    "재발 방지 체계",
+    "보안 보험",
+    "대응 매뉴얼",
+    "모의 훈련",
+    "런칭 체크리스트"
+  ],
+  "warranty_days": 30
+}

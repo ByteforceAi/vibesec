@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-HTTPS-DEP-BUNDLE",
+  "name": "HTTPS DEP BUNDLE",
+  "name_kr": "자물쇠+부품",
+  "subtitle_kr": "자물쇠+부품 교체 묶음",
+  "severity": "high",
+  "price_krw": 89000,
+  "duration": "1일",
+  "symptoms": [
+    "자물쇠도 없고 부품도 오래됐어요"
+  ],
+  "description_kr": "가장 시급한 자물쇠 설치와 부품 교체를 한번에 해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002"
+  ],
+  "includes": [
+    "자물쇠 설치",
+    "부품 교체",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

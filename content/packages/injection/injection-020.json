@@ -1,0 +1,24 @@
+{
+  "id": "PKG-INJ-AI-SHIELD",
+  "name": "AI SHIELD",
+  "name_kr": "AI 보호세트",
+  "subtitle_kr": "AI 기능 보안 묶음",
+  "severity": "high",
+  "price_krw": 129000,
+  "duration": "2일",
+  "symptoms": [
+    "AI 기능의 보안을 전체적으로 점검하고 싶어요"
+  ],
+  "description_kr": "AI 기능의 입력과 출력 모두를 보호하는 묶음이에요.",
+  "fixes_vulns": [
+    "VULN-INJ-004",
+    "VULN-INJ-011"
+  ],
+  "includes": [
+    "AI 입력 보호",
+    "AI 답변 필터",
+    "시스템 정보 차단",
+    "모니터링"
+  ],
+  "warranty_days": 30
+}

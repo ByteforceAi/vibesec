@@ -1,0 +1,25 @@
+{
+  "id": "PKG-INF-911",
+  "name": "INFRA 911",
+  "name_kr": "건물 긴급출동",
+  "subtitle_kr": "서버 장애 긴급 복구",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "서버가 완전히 멈췄어요",
+    "사이트가 안 열려요"
+  ],
+  "description_kr": "서버 장애가 발생한 긴급 상황이에요. 바로 출동해서 서비스를 복구해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002"
+  ],
+  "includes": [
+    "즉시 서버 복구",
+    "원인 분석",
+    "재발 방지",
+    "7일 모니터링"
+  ],
+  "warranty_days": 30
+}

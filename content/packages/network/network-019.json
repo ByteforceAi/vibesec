@@ -1,0 +1,26 @@
+{
+  "id": "PKG-NET-PROTECTION-BUNDLE",
+  "name": "PROTECTION BUNDLE",
+  "name_kr": "보호 종합세트",
+  "subtitle_kr": "외부 위협 종합 차단",
+  "severity": "medium",
+  "price_krw": 159000,
+  "duration": "2일",
+  "symptoms": [
+    "외부에서 오는 위협을 종합적으로 막고 싶어요"
+  ],
+  "description_kr": "접근 제한, 스크립트 차단, 봇 차단을 묶어서 외부 위협을 종합적으로 막아드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-003",
+    "VULN-NET-007",
+    "VULN-NET-010"
+  ],
+  "includes": [
+    "접근 제한",
+    "스크립트 차단",
+    "봇 차단",
+    "트래픽 필터"
+  ],
+  "warranty_days": 30
+}

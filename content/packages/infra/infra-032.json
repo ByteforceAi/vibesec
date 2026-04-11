@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INF-BACKUP-SETUP",
+  "name": "INFRA BACKUP",
+  "name_kr": "건물 복사본",
+  "subtitle_kr": "인프라 백업 설정",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "인프라 설정의 백업이 없어요"
+  ],
+  "description_kr": "인프라 설정을 백업해서 사고 시 빠르게 복구할 수 있게 해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-005"
+  ],
+  "includes": [
+    "설정 백업",
+    "복구 테스트",
+    "가이드 제공"
+  ],
+  "warranty_days": 14
+}

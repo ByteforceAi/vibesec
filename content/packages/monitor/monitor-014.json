@@ -1,0 +1,24 @@
+{
+  "id": "PKG-MON-CHECK",
+  "name": "MONITOR CHECK",
+  "name_kr": "감시 전수점검",
+  "subtitle_kr": "감시 체계 전수 점검",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "감시 체계 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "감시 체계 전체를 점검해서 어디가 부족한지 알려드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-003"
+  ],
+  "includes": [
+    "전체 점검",
+    "부족한 부분 정리",
+    "우선순위 안내"
+  ],
+  "warranty_days": 14
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-LOG-READER",
+  "name": "LOG READER",
+  "name_kr": "기록 해독기",
+  "subtitle_kr": "기록 읽기 쉽게 변환",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "기록이 있는데 읽을 수가 없어요",
+    "로그가 너무 어려워요"
+  ],
+  "description_kr": "복잡한 기록을 읽기 쉽게 정리해드려요. 중요한 내용만 골라서 보여줘요.",
+  "fixes_vulns": [
+    "VULN-MON-003"
+  ],
+  "includes": [
+    "기록 정리",
+    "읽기 쉬운 형태 변환",
+    "핵심 내용 분류"
+  ],
+  "warranty_days": 14
+}

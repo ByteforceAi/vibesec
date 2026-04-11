@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-EXPORT-LOCK",
+  "name": "EXPORT LOCK",
+  "name_kr": "반출 잠금",
+  "subtitle_kr": "데이터 내보내기 제한",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터를 내보내기 하는 기능이 누구나 써요"
+  ],
+  "description_kr": "데이터를 내보내는 기능을 허락된 사람만 쓸 수 있게 제한해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-008"
+  ],
+  "includes": [
+    "내보내기 권한 설정",
+    "접근 제한",
+    "기록 남기기"
+  ],
+  "warranty_days": 30
+}

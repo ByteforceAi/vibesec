@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-API-TRACKER",
+  "name": "API TRACKER",
+  "name_kr": "접속 추적기",
+  "subtitle_kr": "서비스 접근자 추적",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "우리 서비스를 누가 쓰는지 모르겠어요"
+  ],
+  "description_kr": "우리 서비스에 누가 얼마나 접근하는지 추적하고 기록해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-009"
+  ],
+  "includes": [
+    "접근 추적 설정",
+    "사용 통계",
+    "이상 접근 알림"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,38 @@
+{
+  "id": "PKG-DAT-AUDIT-PREMIUM",
+  "name": "DATA AUDIT PREMIUM",
+  "name_kr": "금고 프리미엄",
+  "subtitle_kr": "데이터 관리 완전 정복",
+  "severity": "medium",
+  "price_krw": 500000,
+  "duration": "7일",
+  "symptoms": [
+    "데이터 관리를 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "데이터 관리를 최고 수준으로 만들어드려요. 전부 포함된 프리미엄 서비스예요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003",
+    "VULN-DAT-004",
+    "VULN-DAT-005",
+    "VULN-DAT-006",
+    "VULN-DAT-007",
+    "VULN-DAT-008",
+    "VULN-DAT-009",
+    "VULN-DAT-010",
+    "VULN-DAT-011",
+    "VULN-DAT-012",
+    "VULN-DAT-013",
+    "VULN-DAT-014",
+    "VULN-DAT-015"
+  ],
+  "includes": [
+    "전체 감사+수리",
+    "자동 백업+복구",
+    "개인정보 정책",
+    "전담 매니저",
+    "90일 A/S"
+  ],
+  "warranty_days": 90
+}

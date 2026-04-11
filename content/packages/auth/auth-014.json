@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-TWO-STEP",
+  "name": "TWO STEP",
+  "name_kr": "이중 잠금",
+  "subtitle_kr": "2단계 인증 설정",
+  "severity": "low",
+  "price_krw": 69000,
+  "duration": "2일",
+  "symptoms": [
+    "2단계 인증을 넣고 싶어요",
+    "비밀번호만으로는 불안해요"
+  ],
+  "description_kr": "비밀번호 외에 한 단계 더 확인하는 잠금장치를 추가해드려요. 출입문이 이중으로 잠겨요.",
+  "fixes_vulns": [
+    "VULN-AUT-013"
+  ],
+  "includes": [
+    "2단계 인증 설정",
+    "사용자 안내 화면",
+    "백업 코드 관리"
+  ],
+  "warranty_days": 30
+}

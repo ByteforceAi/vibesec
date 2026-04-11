@@ -1,0 +1,25 @@
+{
+  "id": "PKG-DAT-STARTER",
+  "name": "DATA STARTER",
+  "name_kr": "금고 첫걸음",
+  "subtitle_kr": "데이터 보안 입문 세트",
+  "severity": "medium",
+  "price_krw": 119000,
+  "duration": "2일",
+  "symptoms": [
+    "데이터 보안을 처음부터 잡고 싶어요"
+  ],
+  "description_kr": "데이터 보안의 기본을 한번에 잡아드려요. 잠금, 백업, 비밀번호 교체까지 입문 세트예요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-004"
+  ],
+  "includes": [
+    "잠금장치 설치",
+    "비밀번호 교체",
+    "백업 설정",
+    "가이드 제공"
+  ],
+  "warranty_days": 30
+}

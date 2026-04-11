@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-API-KEY-GATE",
+  "name": "API KEY GATE",
+  "name_kr": "서비스 관문",
+  "subtitle_kr": "서비스 접근 키 관리",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "누구나 우리 서비스를 쓸 수 있어요"
+  ],
+  "description_kr": "서비스를 쓰려면 열쇠가 필요하도록 관문을 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-009"
+  ],
+  "includes": [
+    "접근 키 발급 설정",
+    "관문 설치",
+    "관리 가이드"
+  ],
+  "warranty_days": 30
+}

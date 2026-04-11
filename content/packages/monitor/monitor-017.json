@@ -1,0 +1,25 @@
+{
+  "id": "PKG-MON-STARTER",
+  "name": "MONITOR STARTER",
+  "name_kr": "감시 첫걸음",
+  "subtitle_kr": "모니터링 입문 세트",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "모니터링을 처음 시작하고 싶어요"
+  ],
+  "description_kr": "모니터링의 기본을 한번에 잡아드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-004"
+  ],
+  "includes": [
+    "기록 시작",
+    "알림 설치",
+    "에러 알림",
+    "가이드 제공"
+  ],
+  "warranty_days": 30
+}

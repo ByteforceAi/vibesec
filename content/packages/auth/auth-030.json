@@ -1,0 +1,30 @@
+{
+  "id": "PKG-AUT-LAUNCH-READY",
+  "name": "AUTH LAUNCH READY",
+  "name_kr": "출입 런칭준비",
+  "subtitle_kr": "런칭 전 인증 완성",
+  "severity": "medium",
+  "price_krw": 199000,
+  "duration": "3일",
+  "symptoms": [
+    "런칭 전에 로그인을 완성하고 싶어요"
+  ],
+  "description_kr": "서비스 런칭 전에 인증 체계를 완벽하게 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-003",
+    "VULN-AUT-006",
+    "VULN-AUT-007",
+    "VULN-AUT-008",
+    "VULN-AUT-009"
+  ],
+  "includes": [
+    "전체 인증 점검",
+    "주요 수리",
+    "권한 설정",
+    "탈퇴 기능",
+    "런칭 체크리스트"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,26 @@
+{
+  "id": "PKG-INF-WATCH-PRO",
+  "name": "INFRA WATCH PRO",
+  "name_kr": "건물 프로감시",
+  "subtitle_kr": "인프라 전담 관리",
+  "severity": "low",
+  "price_krw": 79000,
+  "duration": "월간",
+  "symptoms": [
+    "인프라 관리를 완전히 맡기고 싶어요"
+  ],
+  "description_kr": "인프라를 전담으로 관리해드려요. 감시, 업데이트, 대응까지요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002",
+    "VULN-INF-004",
+    "VULN-INF-012"
+  ],
+  "includes": [
+    "매일 감시",
+    "자동 업데이트 관리",
+    "즉시 대응",
+    "전담 매니저"
+  ],
+  "warranty_days": 0
+}

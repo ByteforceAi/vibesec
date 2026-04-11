@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INF-DEV-TOOL-OFF",
+  "name": "DEV TOOL OFF",
+  "name_kr": "개발도구 끄기",
+  "subtitle_kr": "개발 도구 운영 분리",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "개발용 도구가 운영 사이트에 켜져 있어요"
+  ],
+  "description_kr": "운영 중인 사이트에서 개발용 도구를 끄고 분리해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-008"
+  ],
+  "includes": [
+    "개발 도구 비활성화",
+    "환경 분리 확인",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

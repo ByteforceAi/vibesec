@@ -1,0 +1,36 @@
+{
+  "id": "PKG-NET-AUDIT-PREMIUM",
+  "name": "NETWORK AUDIT PREMIUM",
+  "name_kr": "울타리 프리미",
+  "subtitle_kr": "네트워크 완전 정복",
+  "severity": "medium",
+  "price_krw": 490000,
+  "duration": "7일",
+  "symptoms": [
+    "네트워크를 완벽하게 만들고 싶어요"
+  ],
+  "description_kr": "네트워크 보안을 최고 수준으로 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002",
+    "VULN-NET-003",
+    "VULN-NET-004",
+    "VULN-NET-005",
+    "VULN-NET-006",
+    "VULN-NET-007",
+    "VULN-NET-008",
+    "VULN-NET-009",
+    "VULN-NET-010",
+    "VULN-NET-011",
+    "VULN-NET-012",
+    "VULN-NET-013",
+    "VULN-NET-014",
+    "VULN-NET-015"
+  ],
+  "includes": [
+    "전체 감사+수리",
+    "전담 매니저",
+    "90일 A/S"
+  ],
+  "warranty_days": 90
+}

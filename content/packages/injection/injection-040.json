@@ -1,0 +1,29 @@
+{
+  "id": "PKG-INJ-FULL-PROTECT",
+  "name": "FULL INPUT PROTECT",
+  "name_kr": "입력 완전보호",
+  "subtitle_kr": "모든 입력란 완전 보호",
+  "severity": "medium",
+  "price_krw": 159000,
+  "duration": "3일",
+  "symptoms": [
+    "모든 입력란을 한번에 보호하고 싶어요"
+  ],
+  "description_kr": "모든 종류의 입력란에 대한 보호를 한번에 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003",
+    "VULN-INJ-005",
+    "VULN-INJ-009",
+    "VULN-INJ-014",
+    "VULN-INJ-015"
+  ],
+  "includes": [
+    "전체 입력 보호",
+    "검증 체계",
+    "소독 처리",
+    "서버 검증"
+  ],
+  "warranty_days": 30
+}

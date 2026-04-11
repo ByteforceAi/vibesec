@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-BACKUP-TEST",
+  "name": "BACKUP TEST",
+  "name_kr": "복구 연습",
+  "subtitle_kr": "백업 복구 테스트",
+  "severity": "low",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "백업 복구를 한 번도 테스트 안 해봤어요",
+    "백업이 진짜 되는지 모르겠어요"
+  ],
+  "description_kr": "백업한 데이터가 진짜로 복구되는지 테스트해드려요. 실제로 해봐야 안심이 되니까요.",
+  "fixes_vulns": [
+    "VULN-DAT-012"
+  ],
+  "includes": [
+    "복구 테스트 실행",
+    "결과 확인",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-NET-CORS-RATE-BUNDLE",
+  "name": "CORS RATE BUNDLE",
+  "name_kr": "울타리+방패",
+  "subtitle_kr": "접근제한+요청방패 묶음",
+  "severity": "high",
+  "price_krw": 129000,
+  "duration": "1일",
+  "symptoms": [
+    "접근 제한과 요청 차단을 한번에 하고 싶어요"
+  ],
+  "description_kr": "가장 많이 찾는 울타리 수리와 요청 방패를 한번에 묶었어요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002"
+  ],
+  "includes": [
+    "접근 제한 설정",
+    "요청 방패 설치",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

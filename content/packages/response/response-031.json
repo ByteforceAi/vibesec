@@ -1,0 +1,30 @@
+{
+  "id": "PKG-BDL-MONTHLY-BASIC",
+  "name": "MONTHLY BASIC",
+  "name_kr": "기본 단골관리",
+  "subtitle_kr": "전 분야 기본 정기 점검",
+  "severity": "low",
+  "price_krw": 99000,
+  "duration": "월간",
+  "symptoms": [
+    "매달 전체적으로 점검받고 싶어요",
+    "기본적인 정기 관리를 받고 싶어요"
+  ],
+  "description_kr": "매달 전 분야를 기본적으로 점검하고 이상이 있으면 알려드려요. 단골 관리의 시작이에요.",
+  "fixes_vulns": [
+    "VULN-SEC-001",
+    "VULN-AUT-001",
+    "VULN-DAT-001",
+    "VULN-NET-001",
+    "VULN-INJ-001",
+    "VULN-INF-001",
+    "VULN-MON-001"
+  ],
+  "includes": [
+    "월간 전 분야 점검",
+    "이상 알림",
+    "월간 리포트",
+    "우선 상담"
+  ],
+  "warranty_days": 0
+}

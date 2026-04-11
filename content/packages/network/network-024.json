@@ -1,0 +1,25 @@
+{
+  "id": "PKG-NET-WATCH-MONTHLY",
+  "name": "NETWORK WATCH",
+  "name_kr": "울타리 정기",
+  "subtitle_kr": "트래픽 이상 실시간 감지",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "월간",
+  "symptoms": [
+    "네트워크 이상을 자동으로 감시해줬으면 좋겠어요"
+  ],
+  "description_kr": "트래픽 이상을 실시간으로 감지하고 이상이 있으면 바로 알려드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002",
+    "VULN-NET-004"
+  ],
+  "includes": [
+    "실시간 트래픽 감시",
+    "이상 알림",
+    "월간 리포트",
+    "우선 상담"
+  ],
+  "warranty_days": 0
+}

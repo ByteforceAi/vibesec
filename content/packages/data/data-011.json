@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-FAREWELL",
+  "name": "DATA FAREWELL",
+  "name_kr": "데이터 안녕",
+  "subtitle_kr": "탈퇴 회원 데이터 정리",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "탈퇴한 고객 데이터가 남아있어요",
+    "탈퇴 후 데이터 처리가 안 돼요"
+  ],
+  "description_kr": "탈퇴한 고객의 데이터를 법적 기준에 맞게 정리해드려요. 불필요한 데이터를 안전하게 처리해요.",
+  "fixes_vulns": [
+    "VULN-DAT-010"
+  ],
+  "includes": [
+    "탈퇴자 데이터 정리",
+    "자동 삭제 설정",
+    "법적 보관 기준 안내"
+  ],
+  "warranty_days": 14
+}

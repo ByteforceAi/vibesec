@@ -1,0 +1,23 @@
+{
+  "id": "PKG-NET-CORS-FIX",
+  "name": "CORS FIX",
+  "name_kr": "울타리 수리",
+  "subtitle_kr": "접근 허용 범위 수리",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "당일",
+  "symptoms": [
+    "아무 사이트에서나 우리 서버에 요청을 보낼 수 있어요",
+    "에러 나서 전부 허용해버렸어요"
+  ],
+  "description_kr": "울타리가 없어서 아무 곳에서나 접근할 수 있는 상태예요. 허락된 곳만 접근할 수 있게 울타리를 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001"
+  ],
+  "includes": [
+    "접근 허용 범위 설정",
+    "허용 목록 구성",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

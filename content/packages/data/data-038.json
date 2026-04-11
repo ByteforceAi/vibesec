@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-RETENTION-AUTO",
+  "name": "RETENTION AUTO",
+  "name_kr": "자동 보관관리",
+  "subtitle_kr": "데이터 자동 보관/삭제",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터 보관 기간을 자동으로 관리하고 싶어요"
+  ],
+  "description_kr": "보관 기간이 지난 데이터를 자동으로 정리하는 시스템을 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-015"
+  ],
+  "includes": [
+    "자동 보관 관리 설정",
+    "삭제 규칙",
+    "알림 설정"
+  ],
+  "warranty_days": 14
+}

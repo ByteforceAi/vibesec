@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-TABLETOP",
+  "name": "TABLETOP EXERCISE",
+  "name_kr": "탁상 훈련",
+  "subtitle_kr": "시나리오 기반 토의 훈련",
+  "severity": "low",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "모의 훈련까진 아니고 가볍게 대비하고 싶어요"
+  ],
+  "description_kr": "실제 사고 시나리오를 놓고 어떻게 대응할지 토의하는 훈련이에요.",
+  "fixes_vulns": [
+    "VULN-RES-014"
+  ],
+  "includes": [
+    "시나리오 설계",
+    "토의 진행",
+    "결과 정리",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

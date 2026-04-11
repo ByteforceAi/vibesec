@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-ERROR-ALERT",
+  "name": "ERROR ALERT",
+  "name_kr": "에러 알리미",
+  "subtitle_kr": "에러 발생 즉시 알림",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "에러가 나도 알 방법이 없어요"
+  ],
+  "description_kr": "에러가 발생하면 즉시 알려주는 알림을 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-004"
+  ],
+  "includes": [
+    "에러 알림 설정",
+    "알림 채널 구성",
+    "에러 분류"
+  ],
+  "warranty_days": 30
+}

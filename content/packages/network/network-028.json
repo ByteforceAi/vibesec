@@ -1,0 +1,23 @@
+{
+  "id": "PKG-NET-MONITORING-BUNDLE",
+  "name": "MONITOR BUNDLE",
+  "name_kr": "감시 묶음세트",
+  "subtitle_kr": "접속+트래픽 감시 묶음",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "1일",
+  "symptoms": [
+    "접속과 트래픽을 한번에 감시하고 싶어요"
+  ],
+  "description_kr": "접속 추적과 트래픽 필터를 묶어서 한번에 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-009",
+    "VULN-NET-010"
+  ],
+  "includes": [
+    "접속 추적 설정",
+    "트래픽 필터",
+    "이상 감지 알림"
+  ],
+  "warranty_days": 30
+}

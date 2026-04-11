@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-COST-URGENT",
+  "name": "COST 911 LITE",
+  "name_kr": "요금 긴급확인",
+  "subtitle_kr": "요금 이상 긴급 확인",
+  "severity": "high",
+  "price_krw": 189000,
+  "duration": "24시간 내",
+  "symptoms": [
+    "요금이 이상한데 긴급은 아닌 것 같아요",
+    "내일까지 확인해주세요"
+  ],
+  "description_kr": "요금 이상을 24시간 안에 확인하고 원인을 알려드려요.",
+  "fixes_vulns": [
+    "VULN-RES-001"
+  ],
+  "includes": [
+    "요금 이상 확인",
+    "원인 파악",
+    "대응 안내"
+  ],
+  "warranty_days": 14
+}

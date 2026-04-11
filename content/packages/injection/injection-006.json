@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-UPLOAD-FILTER",
+  "name": "UPLOAD FILTER",
+  "name_kr": "파일 검문소",
+  "subtitle_kr": "위험 파일 업로드 차단",
+  "severity": "high",
+  "price_krw": 69000,
+  "duration": "당일",
+  "symptoms": [
+    "파일 업로드에 아무 파일이나 올릴 수 있어요"
+  ],
+  "description_kr": "위험한 파일이 업로드되는 걸 막아드려요. 안전한 파일만 올릴 수 있게요.",
+  "fixes_vulns": [
+    "VULN-INJ-005"
+  ],
+  "includes": [
+    "파일 종류 제한",
+    "크기 제한",
+    "위험 파일 차단"
+  ],
+  "warranty_days": 30
+}

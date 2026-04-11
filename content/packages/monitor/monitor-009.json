@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-LOG-POLICY",
+  "name": "LOG POLICY",
+  "name_kr": "기록 보관규칙",
+  "subtitle_kr": "기록 보관 기간 설정",
+  "severity": "low",
+  "price_krw": 29000,
+  "duration": "당일",
+  "symptoms": [
+    "기록 보관 기간이 정해져 있지 않아요"
+  ],
+  "description_kr": "기록을 얼마나 보관하고 언제 삭제할지 규칙을 정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-008"
+  ],
+  "includes": [
+    "보관 기간 설정",
+    "자동 삭제 구성",
+    "정책 문서"
+  ],
+  "warranty_days": 14
+}

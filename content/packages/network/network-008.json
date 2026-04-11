@@ -1,0 +1,23 @@
+{
+  "id": "PKG-NET-BOT-BLOCKER",
+  "name": "BOT BLOCKER",
+  "name_kr": "봇 차단기",
+  "subtitle_kr": "봇 트래픽 차단",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "봇 트래픽이 많은 것 같아요",
+    "자동 프로그램이 계속 접속해요"
+  ],
+  "description_kr": "사람이 아닌 봇(자동 프로그램)의 접근을 차단해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-007"
+  ],
+  "includes": [
+    "봇 감지 설정",
+    "차단 규칙",
+    "정상 봇 허용 목록"
+  ],
+  "warranty_days": 30
+}

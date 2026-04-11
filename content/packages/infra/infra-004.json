@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INF-CONFIG-HIDE",
+  "name": "CONFIG HIDE",
+  "name_kr": "설정 숨기기",
+  "subtitle_kr": "서버 설정 파일 보호",
+  "severity": "high",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "서버 설정 파일이 공개돼 있어요"
+  ],
+  "description_kr": "서버 설정 파일이 밖에서 보이지 않도록 숨겨드려요.",
+  "fixes_vulns": [
+    "VULN-INF-003"
+  ],
+  "includes": [
+    "설정 파일 보호",
+    "접근 차단",
+    "확인 테스트"
+  ],
+  "warranty_days": 14
+}

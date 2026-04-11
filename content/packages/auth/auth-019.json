@@ -1,0 +1,26 @@
+{
+  "id": "PKG-AUT-STARTER-BUNDLE",
+  "name": "AUTH STARTER",
+  "name_kr": "출입 첫걸음",
+  "subtitle_kr": "로그인 보안 입문 세트",
+  "severity": "medium",
+  "price_krw": 119000,
+  "duration": "2일",
+  "symptoms": [
+    "로그인 보안을 처음부터 잡고 싶어요"
+  ],
+  "description_kr": "로그인 보안의 기본을 한번에 잡아드려요. 필수 항목만 모은 입문 세트예요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-003",
+    "VULN-AUT-008"
+  ],
+  "includes": [
+    "로그인 보안 수리",
+    "접근 차단 설정",
+    "세션 타이머",
+    "시도 제한"
+  ],
+  "warranty_days": 30
+}

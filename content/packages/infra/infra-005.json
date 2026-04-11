@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-DOMAIN-GUARD",
+  "name": "DOMAIN GUARD",
+  "name_kr": "주소 지킴이",
+  "subtitle_kr": "도메인 만료 방지",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "도메인이 만료될 뻔했어요",
+    "도메인 관리가 안 돼요"
+  ],
+  "description_kr": "도메인(주소) 만료일을 관리하고 자동 갱신을 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-004"
+  ],
+  "includes": [
+    "도메인 만료일 확인",
+    "자동 갱신 설정",
+    "알림 설정"
+  ],
+  "warranty_days": 14
+}

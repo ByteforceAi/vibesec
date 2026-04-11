@@ -1,0 +1,24 @@
+{
+  "id": "PKG-INF-CHECK",
+  "name": "INFRA CHECK",
+  "name_kr": "건물 전수점검",
+  "subtitle_kr": "건물 전수 점검",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "1일",
+  "symptoms": [
+    "건물 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "건물(인프라) 전체를 점검해서 어디가 약한지 알려드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002",
+    "VULN-INF-003"
+  ],
+  "includes": [
+    "전체 점검",
+    "약점 목록",
+    "우선순위 안내"
+  ],
+  "warranty_days": 14
+}

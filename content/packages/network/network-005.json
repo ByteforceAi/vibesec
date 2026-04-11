@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-TRAFFIC-GUARD",
+  "name": "TRAFFIC GUARD",
+  "name_kr": "교통정리",
+  "subtitle_kr": "갑작스런 트래픽 대비",
+  "severity": "medium",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "서버가 갑자기 느려지면 대책이 없어요"
+  ],
+  "description_kr": "갑자기 방문자가 몰려도 서비스가 버틸 수 있도록 교통정리를 해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-004"
+  ],
+  "includes": [
+    "트래픽 대응 설정",
+    "과부하 방지",
+    "알림 설정"
+  ],
+  "warranty_days": 30
+}

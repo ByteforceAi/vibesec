@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-CUSTOMER-CARE",
+  "name": "CUSTOMER CARE",
+  "name_kr": "고객 안심",
+  "subtitle_kr": "사고 후 고객 안심 서비스",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "사고 후 고객들이 불안해해요",
+    "고객한테 어떻게 설명해야 할지 모르겠어요"
+  ],
+  "description_kr": "사고 후 고객에게 상황을 설명하고 안심시키는 것을 도와드려요.",
+  "fixes_vulns": [
+    "VULN-RES-009"
+  ],
+  "includes": [
+    "고객 공지 작성",
+    "FAQ 작성",
+    "응대 가이드",
+    "신뢰 회복 전략"
+  ],
+  "warranty_days": 14
+}

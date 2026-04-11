@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-LOG-ALERT-BUNDLE",
+  "name": "LOG ALERT BUNDLE",
+  "name_kr": "기록+알림",
+  "subtitle_kr": "기록+알림 한번에 설치",
+  "severity": "high",
+  "price_krw": 129000,
+  "duration": "2일",
+  "symptoms": [
+    "기록과 알림을 한번에 설치하고 싶어요"
+  ],
+  "description_kr": "기록 시스템과 알림을 한번에 설치해드려요. 가장 많이 찾는 묶음이에요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002"
+  ],
+  "includes": [
+    "기록 시스템",
+    "알림 설정",
+    "기록 조회 방법"
+  ],
+  "warranty_days": 30
+}

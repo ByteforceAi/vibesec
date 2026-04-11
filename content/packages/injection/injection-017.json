@@ -1,0 +1,24 @@
+{
+  "id": "PKG-INJ-CHECK",
+  "name": "INPUT CHECK",
+  "name_kr": "입력 전수점검",
+  "subtitle_kr": "전체 입력란 점검",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "입력란 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "모든 입력란을 점검해서 어디가 위험한지 알려드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003"
+  ],
+  "includes": [
+    "전체 입력란 점검",
+    "위험도 분류",
+    "우선순위 안내"
+  ],
+  "warranty_days": 14
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-NOSQL-GUARD",
+  "name": "NOSQL GUARD",
+  "name_kr": "주입 방지",
+  "subtitle_kr": "비정형 데이터 침입 차단",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "1일",
+  "symptoms": [
+    "검색이나 필터에 이상한 값을 넣을 수 있어요"
+  ],
+  "description_kr": "비정형 데이터베이스로의 이상한 입력을 차단해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-002"
+  ],
+  "includes": [
+    "입력 검증 추가",
+    "차단 규칙",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

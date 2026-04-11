@@ -1,0 +1,29 @@
+{
+  "id": "PKG-AUT-FORTRESS",
+  "name": "AUTH FORTRESS",
+  "name_kr": "출입 요새",
+  "subtitle_kr": "출입 관리 풀 세트",
+  "severity": "medium",
+  "price_krw": 169000,
+  "duration": "3일",
+  "symptoms": [
+    "로그인 관련 전부 한번에 하고 싶어요",
+    "출입 관리를 완벽하게 만들고 싶어요"
+  ],
+  "description_kr": "로그인, 권한, 세션 관리를 한번에 세팅해드려요. 출입문을 요새처럼 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-003",
+    "VULN-AUT-006",
+    "VULN-AUT-008"
+  ],
+  "includes": [
+    "로그인 보안 강화",
+    "권한 체계 설정",
+    "세션 관리",
+    "시도 제한",
+    "관리자 페이지 잠금"
+  ],
+  "warranty_days": 30
+}

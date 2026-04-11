@@ -1,0 +1,26 @@
+{
+  "id": "PKG-NET-FORTRESS",
+  "name": "NETWORK FORTRESS",
+  "name_kr": "울타리 요새",
+  "subtitle_kr": "울타리 풀 세트",
+  "severity": "medium",
+  "price_krw": 179000,
+  "duration": "3일",
+  "symptoms": [
+    "네트워크 보안을 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "울타리 설치부터 봇 차단, 트래픽 관리까지 한번에 세팅해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002",
+    "VULN-NET-003",
+    "VULN-NET-007"
+  ],
+  "includes": [
+    "접근 제한 설정",
+    "요청 방패",
+    "스크립트 차단",
+    "봇 차단"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-NET-DDOS-URGENT",
+  "name": "DDOS URGENT",
+  "name_kr": "공격 긴급방어",
+  "subtitle_kr": "24시간 내 공격 방어 설치",
+  "severity": "high",
+  "price_krw": 199000,
+  "duration": "24시간 내",
+  "symptoms": [
+    "대량 공격에 대비해야 해요"
+  ],
+  "description_kr": "대량 공격 방어를 24시간 안에 우선 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-002",
+    "VULN-NET-004"
+  ],
+  "includes": [
+    "우선 배정",
+    "방어 설치",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

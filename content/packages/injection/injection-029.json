@@ -1,0 +1,29 @@
+{
+  "id": "PKG-INJ-LAUNCH-READY",
+  "name": "INJECTION LAUNCH READY",
+  "name_kr": "침입방지 런칭",
+  "subtitle_kr": "런칭 전 입력 보안 완성",
+  "severity": "medium",
+  "price_krw": 249000,
+  "duration": "3일",
+  "symptoms": [
+    "런칭 전에 입력 보안을 완성하고 싶어요"
+  ],
+  "description_kr": "런칭 전에 모든 입력란의 보안을 완벽하게 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003",
+    "VULN-INJ-005",
+    "VULN-INJ-009",
+    "VULN-INJ-014"
+  ],
+  "includes": [
+    "전체 입력 보호",
+    "파일 검문",
+    "입력 소독",
+    "서버 검증",
+    "런칭 체크리스트"
+  ],
+  "warranty_days": 30
+}

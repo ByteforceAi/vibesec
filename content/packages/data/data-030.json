@@ -1,0 +1,25 @@
+{
+  "id": "PKG-DAT-FIREBASE-BUNDLE",
+  "name": "FIREBASE BUNDLE",
+  "name_kr": "파이어 세트",
+  "subtitle_kr": "Firebase 보안 통합 세트",
+  "severity": "medium",
+  "price_krw": 169000,
+  "duration": "3일",
+  "symptoms": [
+    "Firebase를 쓰는데 보안 설정이 맞는지 모르겠어요"
+  ],
+  "description_kr": "Firebase 보안 설정 전체를 점검하고 정비해드려요. Firebase 사용자를 위한 맞춤 세트예요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003"
+  ],
+  "includes": [
+    "보안 규칙 점검",
+    "인증 설정 확인",
+    "데이터 접근 제한",
+    "Firebase 전용 가이드"
+  ],
+  "warranty_days": 30
+}

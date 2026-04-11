@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INJ-SQL-URGENT",
+  "name": "SQL GUARD URGENT",
+  "name_kr": "입력 긴급차단",
+  "subtitle_kr": "24시간 내 입력란 긴급 보호",
+  "severity": "high",
+  "price_krw": 169000,
+  "duration": "24시간 내",
+  "symptoms": [
+    "데이터가 입력란을 통해 빠져나갈 수 있어요"
+  ],
+  "description_kr": "데이터 유출 위험이 있는 입력란을 24시간 안에 보호해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002"
+  ],
+  "includes": [
+    "우선 배정",
+    "긴급 보호",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

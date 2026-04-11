@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-CHECK",
+  "name": "NETWORK CHECK",
+  "name_kr": "울타리 점검",
+  "subtitle_kr": "네트워크 설정 전수 점검",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "네트워크 설정이 맞는지 모르겠어요"
+  ],
+  "description_kr": "네트워크 설정 전체를 점검해서 어디가 열려있는지 알려드려요.",
+  "fixes_vulns": [
+    "VULN-NET-011"
+  ],
+  "includes": [
+    "전체 설정 점검",
+    "약점 목록 정리",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

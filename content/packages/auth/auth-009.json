@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-LOGIN-GUARD",
+  "name": "LOGIN GUARD",
+  "name_kr": "로그인 방패",
+  "subtitle_kr": "로그인 시도 횟수 제한",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "로그인 시도 횟수 제한이 없어요",
+    "무한으로 비밀번호를 시도할 수 있어요"
+  ],
+  "description_kr": "로그인 시도 횟수를 제한해서 비밀번호를 마구잡이로 넣어보는 걸 막아드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-008"
+  ],
+  "includes": [
+    "로그인 시도 제한 설정",
+    "차단 알림 추가",
+    "해제 절차 안내"
+  ],
+  "warranty_days": 30
+}

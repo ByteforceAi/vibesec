@@ -1,0 +1,27 @@
+{
+  "id": "PKG-DAT-WATCH-PRO",
+  "name": "DATA WATCH PRO",
+  "name_kr": "금고 프로감시",
+  "subtitle_kr": "데이터 보안 전담 관리",
+  "severity": "low",
+  "price_krw": 119000,
+  "duration": "월간",
+  "symptoms": [
+    "데이터 보안을 완전히 맡기고 싶어요"
+  ],
+  "description_kr": "데이터 보안을 전담으로 관리해드려요. 감시, 백업 확인, 접근 기록까지 전부요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-004",
+    "VULN-DAT-006"
+  ],
+  "includes": [
+    "매일 전체 감시",
+    "백업 상태 확인",
+    "접근 기록 분석",
+    "즉시 대응",
+    "전담 매니저"
+  ],
+  "warranty_days": 0
+}

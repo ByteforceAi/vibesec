@@ -1,0 +1,28 @@
+{
+  "id": "PKG-AUT-911-PLUS",
+  "name": "AUTH 911 PLUS",
+  "name_kr": "출입 출동+",
+  "subtitle_kr": "계정 탈취+전체 복구",
+  "severity": "critical",
+  "price_krw": 1190000,
+  "duration": "즉시",
+  "symptoms": [
+    "계정이 탈취됐고 피해가 큰 것 같아요"
+  ],
+  "description_kr": "계정 탈취 긴급 대응에 전체 인증 복구까지 포함된 풀 서비스예요.",
+  "fixes_vulns": [
+    "VULN-AUT-001",
+    "VULN-AUT-002",
+    "VULN-AUT-006",
+    "VULN-AUT-008",
+    "VULN-AUT-010"
+  ],
+  "includes": [
+    "즉시 차단",
+    "전체 인증 복구",
+    "세션 정리",
+    "보안 강화",
+    "14일 모니터링"
+  ],
+  "warranty_days": 60
+}

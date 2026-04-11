@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-WEBSOCKET-FIX",
+  "name": "WEBSOCKET FIX",
+  "name_kr": "실시간 수리",
+  "subtitle_kr": "실시간 통신 보안 수리",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "채팅이나 실시간 기능이 불안해요"
+  ],
+  "description_kr": "실시간 연결의 보안을 강화해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-013"
+  ],
+  "includes": [
+    "실시간 연결 보안",
+    "인증 추가",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

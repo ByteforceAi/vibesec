@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-DIET",
+  "name": "DATA DIET",
+  "name_kr": "데이터 절식",
+  "subtitle_kr": "불필요한 수집 항목 줄이기",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "개인정보를 너무 많이 수집하고 있어요",
+    "꼭 필요한 것만 모으고 싶어요"
+  ],
+  "description_kr": "꼭 필요한 정보만 수집하도록 줄여드려요. 적게 모을수록 관리도 쉽고 안전해요.",
+  "fixes_vulns": [
+    "VULN-DAT-009"
+  ],
+  "includes": [
+    "수집 항목 점검",
+    "불필요 항목 제거",
+    "수집 정책 안내"
+  ],
+  "warranty_days": 14
+}

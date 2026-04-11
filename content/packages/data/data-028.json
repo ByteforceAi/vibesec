@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-RLS-URGENT",
+  "name": "RLS LOCKDOWN URGENT",
+  "name_kr": "금고 긴급잠금",
+  "subtitle_kr": "24시간 내 잠금장치 설치",
+  "severity": "high",
+  "price_krw": 299000,
+  "duration": "24시간 내",
+  "symptoms": [
+    "금고가 열려있는데 빨리 잠가야 해요"
+  ],
+  "description_kr": "금고 문이 열려있는 걸 확인했고 빨리 잠가야 할 때. 24시간 안에 잠금장치를 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-001"
+  ],
+  "includes": [
+    "우선 배정",
+    "24시간 내 잠금",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

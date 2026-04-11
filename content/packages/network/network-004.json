@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-CSP-SETUP",
+  "name": "CSP SETUP",
+  "name_kr": "스크립트단속",
+  "subtitle_kr": "외부 스크립트 차단 설정",
+  "severity": "high",
+  "price_krw": 69000,
+  "duration": "당일",
+  "symptoms": [
+    "우리 사이트에 이상한 스크립트가 들어올 수 있어요"
+  ],
+  "description_kr": "허락 안 한 외부 코드가 우리 사이트에 끼어드는 걸 막아드려요. 문단속을 해주는 거예요.",
+  "fixes_vulns": [
+    "VULN-NET-003"
+  ],
+  "includes": [
+    "보안 정책 설정",
+    "허용 목록 구성",
+    "동작 확인"
+  ],
+  "warranty_days": 30
+}

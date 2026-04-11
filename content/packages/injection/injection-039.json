@@ -1,0 +1,24 @@
+{
+  "id": "PKG-INJ-PROMPT-PRO",
+  "name": "PROMPT GUARD PRO",
+  "name_kr": "AI 프로막",
+  "subtitle_kr": "AI 기능 고급 보호",
+  "severity": "high",
+  "price_krw": 149000,
+  "duration": "2일",
+  "symptoms": [
+    "AI 기능의 보안을 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "AI 기능의 입력, 출력, 시스템 보호를 완벽하게 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-004",
+    "VULN-INJ-011"
+  ],
+  "includes": [
+    "AI 입력 고급 필터",
+    "시스템 정보 완전 차단",
+    "출력 검증",
+    "모니터링"
+  ],
+  "warranty_days": 30
+}

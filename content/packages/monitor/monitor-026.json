@@ -1,0 +1,29 @@
+{
+  "id": "PKG-MON-LAUNCH-READY",
+  "name": "MONITOR LAUNCH READY",
+  "name_kr": "감시 런칭준비",
+  "subtitle_kr": "런칭 전 감시 체계 완성",
+  "severity": "medium",
+  "price_krw": 199000,
+  "duration": "3일",
+  "symptoms": [
+    "런칭 전에 감시 체계를 갖추고 싶어요"
+  ],
+  "description_kr": "런칭 전에 감시 체계를 완벽하게 구축해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-004",
+    "VULN-MON-006",
+    "VULN-MON-010"
+  ],
+  "includes": [
+    "기록 시스템",
+    "알림 설치",
+    "에러 알림",
+    "상태 현황판",
+    "보안 대시보드",
+    "런칭 체크리스트"
+  ],
+  "warranty_days": 30
+}

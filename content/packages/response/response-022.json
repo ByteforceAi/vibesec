@@ -1,0 +1,31 @@
+{
+  "id": "PKG-RES-INCIDENT-911",
+  "name": "INCIDENT 911",
+  "name_kr": "사고 긴급출동",
+  "subtitle_kr": "긴급출동 풀 서비스",
+  "severity": "critical",
+  "price_krw": 950000,
+  "duration": "즉시",
+  "symptoms": [
+    "지금 당장 전문가가 필요해요",
+    "새벽이든 주말이든 도와주세요"
+  ],
+  "description_kr": "어떤 사고든 지금 바로 출동해요. 24시간 대응이에요.",
+  "fixes_vulns": [
+    "VULN-RES-001",
+    "VULN-RES-002",
+    "VULN-RES-003",
+    "VULN-RES-004",
+    "VULN-RES-005",
+    "VULN-RES-006"
+  ],
+  "includes": [
+    "즉시 출동",
+    "상황 진단",
+    "긴급 조치",
+    "복구",
+    "사고 보고서",
+    "7일 모니터링"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,28 @@
+{
+  "id": "PKG-INJ-FORTRESS",
+  "name": "INJECTION FORTRESS",
+  "name_kr": "침입방지 요새",
+  "subtitle_kr": "침입 방지 풀 세트",
+  "severity": "medium",
+  "price_krw": 179000,
+  "duration": "3일",
+  "symptoms": [
+    "침입 방지를 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "모든 입력란에 보호막을 설치하고 침입을 완전히 차단해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003",
+    "VULN-INJ-005",
+    "VULN-INJ-009"
+  ],
+  "includes": [
+    "전체 입력 보호",
+    "검색 방패",
+    "화면 보호막",
+    "파일 검문",
+    "입력 소독"
+  ],
+  "warranty_days": 30
+}

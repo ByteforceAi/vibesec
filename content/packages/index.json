@@ -1,0 +1,2498 @@
+[
+  {
+    "id": "PKG-SEC-BASIC-SCAN",
+    "category": "SECRETS",
+    "name": "SECRET SCAN BASIC",
+    "name_kr": "비밀 간단진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-KEY-RESCUE",
+    "category": "SECRETS",
+    "name": "KEY RESCUE",
+    "name_kr": "키 구조대",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-KEY-RESCUE-PRO",
+    "category": "SECRETS",
+    "name": "KEY RESCUE PRO",
+    "name_kr": "키 구조 프로",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-GIT-CLEAN",
+    "category": "SECRETS",
+    "name": "GIT CLEAN",
+    "name_kr": "기록 청소",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-SECRET-SCAN",
+    "category": "SECRETS",
+    "name": "SECRET SCAN",
+    "name_kr": "비밀 탐색대",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-ORGANIZE",
+    "category": "SECRETS",
+    "name": "KEY ORGANIZE",
+    "name_kr": "키 정리함",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-REFRESH",
+    "category": "SECRETS",
+    "name": "KEY REFRESH",
+    "name_kr": "키 새로고침",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-SAFE-SHARE",
+    "category": "SECRETS",
+    "name": "KEY SAFE SHARE",
+    "name_kr": "키 안전배달",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-INVENTORY",
+    "category": "SECRETS",
+    "name": "KEY INVENTORY",
+    "name_kr": "키 재고조사",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-SEPARATOR",
+    "category": "SECRETS",
+    "name": "KEY SEPARATOR",
+    "name_kr": "키 분리기",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-WATCH",
+    "category": "SECRETS",
+    "name": "KEY WATCH",
+    "name_kr": "키 파수꾼",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-SECRET-GUIDE",
+    "category": "SECRETS",
+    "name": "SECRET GUIDE",
+    "name_kr": "비밀 길잡이",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-DEPLOY-CHECK",
+    "category": "SECRETS",
+    "name": "DEPLOY CHECK",
+    "name_kr": "배포 점검대",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-KEY-DASHBOARD",
+    "category": "SECRETS",
+    "name": "KEY DASHBOARD",
+    "name_kr": "키 현황판",
+    "price_krw": 59000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-KEY-AUTO",
+    "category": "SECRETS",
+    "name": "KEY AUTO",
+    "name_kr": "키 자동관리",
+    "price_krw": 89000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-VAULT",
+    "category": "SECRETS",
+    "name": "SECRET VAULT",
+    "name_kr": "비밀 금고",
+    "price_krw": 149000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-TEAM-SAFE",
+    "category": "SECRETS",
+    "name": "TEAM SAFE",
+    "name_kr": "팀 비밀함",
+    "price_krw": 169000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-STARTER",
+    "category": "SECRETS",
+    "name": "SECRET STARTER",
+    "name_kr": "비밀 첫걸음",
+    "price_krw": 129000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-RESCUE-BUNDLE",
+    "category": "SECRETS",
+    "name": "SECRET RESCUE BUNDLE",
+    "name_kr": "비밀 긴급세트",
+    "price_krw": 179000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-FULL-AUDIT",
+    "category": "SECRETS",
+    "name": "SECRET FULL AUDIT",
+    "name_kr": "비밀 정밀검사",
+    "price_krw": 350000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-FULL-AUDIT-LITE",
+    "category": "SECRETS",
+    "name": "SECRET AUDIT LITE",
+    "name_kr": "비밀 기본검사",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-FULL-AUDIT-PREMIUM",
+    "category": "SECRETS",
+    "name": "SECRET AUDIT PREMIUM",
+    "name_kr": "비밀 프리미엄",
+    "price_krw": 490000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-911",
+    "category": "SECRETS",
+    "name": "SECRET 911",
+    "name_kr": "비밀 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-SEC-911-PLUS",
+    "category": "SECRETS",
+    "name": "SECRET 911 PLUS",
+    "name_kr": "비밀 출동+",
+    "price_krw": 1190000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-SEC-WATCH-MONTHLY",
+    "category": "SECRETS",
+    "name": "SECRET WATCH",
+    "name_kr": "비밀 정기점검",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-WATCH-PRO",
+    "category": "SECRETS",
+    "name": "SECRET WATCH PRO",
+    "name_kr": "비밀 프로감시",
+    "price_krw": 89000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-SEC-ENV-SETUP",
+    "category": "SECRETS",
+    "name": "ENV SETUP",
+    "name_kr": "보관함 세팅",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-GITIGNORE-FIX",
+    "category": "SECRETS",
+    "name": "GITIGNORE FIX",
+    "name_kr": "무시목록 수리",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-SUPABASE-KEY",
+    "category": "SECRETS",
+    "name": "SUPABASE KEY FIX",
+    "name_kr": "수파 키 수리",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-FIREBASE-KEY",
+    "category": "SECRETS",
+    "name": "FIREBASE KEY FIX",
+    "name_kr": "파이어 수리",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-VERCEL-ENV",
+    "category": "SECRETS",
+    "name": "VERCEL ENV SETUP",
+    "name_kr": "배포환경 세팅",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-OPENAI-LIMIT",
+    "category": "SECRETS",
+    "name": "OPENAI LIMIT",
+    "name_kr": "AI요금 방패",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-MULTI-KEY",
+    "category": "SECRETS",
+    "name": "MULTI KEY GUARD",
+    "name_kr": "멀티키 보호",
+    "price_krw": 79000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-NEWBIE-BUNDLE",
+    "category": "SECRETS",
+    "name": "SECRET NEWBIE",
+    "name_kr": "비밀 초보세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-LAUNCH-READY",
+    "category": "SECRETS",
+    "name": "SECRET LAUNCH READY",
+    "name_kr": "비밀 런칭준비",
+    "price_krw": 199000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-CLEANUP-BUNDLE",
+    "category": "SECRETS",
+    "name": "SECRET CLEANUP",
+    "name_kr": "비밀 대청소",
+    "price_krw": 159000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-SEC-KEY-RESCUE-URGENT",
+    "category": "SECRETS",
+    "name": "KEY RESCUE URGENT",
+    "name_kr": "키 긴급회수",
+    "price_krw": 189000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-SEC-GIT-CLEAN-URGENT",
+    "category": "SECRETS",
+    "name": "GIT CLEAN URGENT",
+    "name_kr": "기록 긴급청소",
+    "price_krw": 149000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-BDL-STARTER-SHIELD",
+    "category": "SECRETS",
+    "name": "STARTER SHIELD",
+    "name_kr": "초보 보호막",
+    "price_krw": 149000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-BDL-LAUNCH-READY",
+    "category": "SECRETS",
+    "name": "LAUNCH READY",
+    "name_kr": "런칭 준비완료",
+    "price_krw": 390000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-BDL-FULL-AUDIT",
+    "category": "SECRETS",
+    "name": "FULL AUDIT",
+    "name_kr": "전체 정밀검사",
+    "price_krw": 490000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-BASIC-SCAN",
+    "category": "AUTH",
+    "name": "AUTH SCAN BASIC",
+    "name_kr": "출입 간단진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-AUTH-FIX",
+    "category": "AUTH",
+    "name": "AUTH FIX",
+    "name_kr": "로그인 수리",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-AUT-AUTH-WALL",
+    "category": "AUTH",
+    "name": "AUTH WALL",
+    "name_kr": "출입문 설치",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-AUT-ADMIN-LOCK",
+    "category": "AUTH",
+    "name": "ADMIN LOCK",
+    "name_kr": "관리자 자물쇠",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-AUT-SESSION-TIMER",
+    "category": "AUTH",
+    "name": "SESSION TIMER",
+    "name_kr": "출입증 타이머",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-PASSWORD-GUARD",
+    "category": "AUTH",
+    "name": "PASSWORD GUARD",
+    "name_kr": "비번 보호대",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-AUTH-EXPAND",
+    "category": "AUTH",
+    "name": "AUTH EXPAND",
+    "name_kr": "로그인 확장",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-EMAIL-VERIFY",
+    "category": "AUTH",
+    "name": "EMAIL VERIFY",
+    "name_kr": "이메일 확인기",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-LOGIN-GUARD",
+    "category": "AUTH",
+    "name": "LOGIN GUARD",
+    "name_kr": "로그인 방패",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-ACCOUNT-DELETE",
+    "category": "AUTH",
+    "name": "ACCOUNT DELETE",
+    "name_kr": "탈퇴 기능",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-SESSION-MANAGER",
+    "category": "AUTH",
+    "name": "SESSION MANAGER",
+    "name_kr": "출입증 관리",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-AUTO-LOGIN-CHECK",
+    "category": "AUTH",
+    "name": "AUTO LOGIN CHECK",
+    "name_kr": "자동로그인",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-SOCIAL-AUTH-CHECK",
+    "category": "AUTH",
+    "name": "SOCIAL AUTH CHECK",
+    "name_kr": "소셜 점검",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-TWO-STEP",
+    "category": "AUTH",
+    "name": "TWO STEP",
+    "name_kr": "이중 잠금",
+    "price_krw": 69000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-LOGIN-LOG",
+    "category": "AUTH",
+    "name": "LOGIN LOG",
+    "name_kr": "출입 기록부",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-ROLE-SETUP",
+    "category": "AUTH",
+    "name": "ROLE SETUP",
+    "name_kr": "권한 분리기",
+    "price_krw": 69000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-CHECK",
+    "category": "AUTH",
+    "name": "AUTH CHECK",
+    "name_kr": "출입 전수점검",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-FORTRESS",
+    "category": "AUTH",
+    "name": "AUTH FORTRESS",
+    "name_kr": "출입 요새",
+    "price_krw": 169000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-STARTER-BUNDLE",
+    "category": "AUTH",
+    "name": "AUTH STARTER",
+    "name_kr": "출입 첫걸음",
+    "price_krw": 119000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-SOCIAL-BUNDLE",
+    "category": "AUTH",
+    "name": "SOCIAL AUTH BUNDLE",
+    "name_kr": "소셜 세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-FULL-AUDIT",
+    "category": "AUTH",
+    "name": "AUTH FULL AUDIT",
+    "name_kr": "출입 정밀검사",
+    "price_krw": 390000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-AUDIT-LITE",
+    "category": "AUTH",
+    "name": "AUTH AUDIT LITE",
+    "name_kr": "출입 기본검사",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-AUDIT-PREMIUM",
+    "category": "AUTH",
+    "name": "AUTH AUDIT PREMIUM",
+    "name_kr": "출입 프리미엄",
+    "price_krw": 490000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-911",
+    "category": "AUTH",
+    "name": "AUTH 911",
+    "name_kr": "출입 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-AUT-WATCH-MONTHLY",
+    "category": "AUTH",
+    "name": "AUTH WATCH",
+    "name_kr": "출입 정기점검",
+    "price_krw": 59000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-WATCH-PRO",
+    "category": "AUTH",
+    "name": "AUTH WATCH PRO",
+    "name_kr": "출입 프로감시",
+    "price_krw": 99000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-AUT-COOKIE-FIX",
+    "category": "AUTH",
+    "name": "COOKIE FIX",
+    "name_kr": "쿠키 수리",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-SIGNUP-PROTECT",
+    "category": "AUTH",
+    "name": "SIGNUP PROTECT",
+    "name_kr": "가입 보호막",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-AUTH-FIX-URGENT",
+    "category": "AUTH",
+    "name": "AUTH FIX URGENT",
+    "name_kr": "로그인 급수리",
+    "price_krw": 189000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-AUT-LAUNCH-READY",
+    "category": "AUTH",
+    "name": "AUTH LAUNCH READY",
+    "name_kr": "출입 런칭준비",
+    "price_krw": 199000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-PASSWORD-BUNDLE",
+    "category": "AUTH",
+    "name": "PASSWORD BUNDLE",
+    "name_kr": "비번 안심세트",
+    "price_krw": 89000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-ADMIN-BUNDLE",
+    "category": "AUTH",
+    "name": "ADMIN BUNDLE",
+    "name_kr": "관리자 세트",
+    "price_krw": 129000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-AUT-SUPABASE-AUTH",
+    "category": "AUTH",
+    "name": "SUPABASE AUTH FIX",
+    "name_kr": "수파 로그인",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-FIREBASE-AUTH",
+    "category": "AUTH",
+    "name": "FIREBASE AUTH FIX",
+    "name_kr": "파이어 인증",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-TOKEN-FIX",
+    "category": "AUTH",
+    "name": "TOKEN FIX",
+    "name_kr": "출입증 수리",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-LOGOUT-FIX",
+    "category": "AUTH",
+    "name": "LOGOUT FIX",
+    "name_kr": "로그아웃 수리",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-PERMISSION-CHECK",
+    "category": "AUTH",
+    "name": "PERMISSION CHECK",
+    "name_kr": "권한 점검기",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-RECOVERY-FIX",
+    "category": "AUTH",
+    "name": "RECOVERY FIX",
+    "name_kr": "계정복구 수리",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-NEWBIE-BUNDLE",
+    "category": "AUTH",
+    "name": "AUTH NEWBIE",
+    "name_kr": "출입 초보세트",
+    "price_krw": 79000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-AUT-911-PLUS",
+    "category": "AUTH",
+    "name": "AUTH 911 PLUS",
+    "name_kr": "출입 출동+",
+    "price_krw": 1190000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-DAT-BASIC-SCAN",
+    "category": "DATA",
+    "name": "DATA SCAN BASIC",
+    "name_kr": "금고 간단진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-RLS-LOCKDOWN",
+    "category": "DATA",
+    "name": "RLS LOCKDOWN",
+    "name_kr": "금고 잠금장치",
+    "price_krw": 149000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-DAT-DB-PASSWORD",
+    "category": "DATA",
+    "name": "DB PASSWORD",
+    "name_kr": "금고 비번교체",
+    "price_krw": 49000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-DAT-ENCRYPT",
+    "category": "DATA",
+    "name": "DATA ENCRYPT",
+    "name_kr": "금고 이중잠금",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-DAT-BACKUP-START",
+    "category": "DATA",
+    "name": "BACKUP START",
+    "name_kr": "복사본 만들기",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-DAT-CLEAN",
+    "category": "DATA",
+    "name": "DATA CLEAN",
+    "name_kr": "데이터 정리",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-LOG",
+    "category": "DATA",
+    "name": "DATA LOG",
+    "name_kr": "금고 출입기록",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-SEPARATOR",
+    "category": "DATA",
+    "name": "DATA SEPARATOR",
+    "name_kr": "데이터 분리기",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-EXPORT-LOCK",
+    "category": "DATA",
+    "name": "EXPORT LOCK",
+    "name_kr": "반출 잠금",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-DIET",
+    "category": "DATA",
+    "name": "DATA DIET",
+    "name_kr": "데이터 절식",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-FAREWELL",
+    "category": "DATA",
+    "name": "DATA FAREWELL",
+    "name_kr": "데이터 안녕",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-ACCESS-LOG",
+    "category": "DATA",
+    "name": "DB ACCESS LOG",
+    "name_kr": "금고 접속기록",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-BACKUP-TEST",
+    "category": "DATA",
+    "name": "BACKUP TEST",
+    "name_kr": "복구 연습",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-MAP",
+    "category": "DATA",
+    "name": "DATA MAP",
+    "name_kr": "데이터 지도",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-PRIVACY",
+    "category": "DATA",
+    "name": "PRIVACY SETUP",
+    "name_kr": "개인정보판",
+    "price_krw": 59000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-POLICY",
+    "category": "DATA",
+    "name": "DATA POLICY",
+    "name_kr": "보관 규칙서",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-CHECK",
+    "category": "DATA",
+    "name": "DATA CHECK",
+    "name_kr": "금고 전수점검",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-FORTRESS",
+    "category": "DATA",
+    "name": "DATA FORTRESS",
+    "name_kr": "금고 요새",
+    "price_krw": 189000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-STARTER",
+    "category": "DATA",
+    "name": "DATA STARTER",
+    "name_kr": "금고 첫걸음",
+    "price_krw": 119000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-PRIVACY-BUNDLE",
+    "category": "DATA",
+    "name": "PRIVACY BUNDLE",
+    "name_kr": "개인정보 세트",
+    "price_krw": 129000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-BACKUP-BUNDLE",
+    "category": "DATA",
+    "name": "BACKUP BUNDLE",
+    "name_kr": "백업 안심세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-FULL-AUDIT",
+    "category": "DATA",
+    "name": "DATA FULL AUDIT",
+    "name_kr": "금고 정밀검사",
+    "price_krw": 450000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-AUDIT-LITE",
+    "category": "DATA",
+    "name": "DATA AUDIT LITE",
+    "name_kr": "금고 기본검사",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-AUDIT-PREMIUM",
+    "category": "DATA",
+    "name": "DATA AUDIT PREMIUM",
+    "name_kr": "금고 프리미엄",
+    "price_krw": 500000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-911",
+    "category": "DATA",
+    "name": "DATA 911",
+    "name_kr": "금고 긴급출동",
+    "price_krw": 950000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-DAT-WATCH-MONTHLY",
+    "category": "DATA",
+    "name": "DATA WATCH",
+    "name_kr": "금고 정기점검",
+    "price_krw": 69000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-WATCH-PRO",
+    "category": "DATA",
+    "name": "DATA WATCH PRO",
+    "name_kr": "금고 프로감시",
+    "price_krw": 119000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-RLS-URGENT",
+    "category": "DATA",
+    "name": "RLS LOCKDOWN URGENT",
+    "name_kr": "금고 긴급잠금",
+    "price_krw": 299000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-DAT-SUPABASE-BUNDLE",
+    "category": "DATA",
+    "name": "SUPABASE BUNDLE",
+    "name_kr": "수파 안심세트",
+    "price_krw": 179000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-FIREBASE-BUNDLE",
+    "category": "DATA",
+    "name": "FIREBASE BUNDLE",
+    "name_kr": "파이어 세트",
+    "price_krw": 169000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-LAUNCH-READY",
+    "category": "DATA",
+    "name": "DATA LAUNCH READY",
+    "name_kr": "금고 런칭준비",
+    "price_krw": 249000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-SOFT-DELETE",
+    "category": "DATA",
+    "name": "SOFT DELETE",
+    "name_kr": "안전 삭제",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-ANONYMIZE",
+    "category": "DATA",
+    "name": "DATA ANONYMIZE",
+    "name_kr": "데이터 익명화",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-ENCRYPTION-CHECK",
+    "category": "DATA",
+    "name": "ENCRYPTION CHECK",
+    "name_kr": "암호화 점검",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-MIGRATION-SAFE",
+    "category": "DATA",
+    "name": "MIGRATION SAFE",
+    "name_kr": "이전 안전확인",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-QUERY-SAFE",
+    "category": "DATA",
+    "name": "QUERY SAFE",
+    "name_kr": "조회 안전화",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-AUDIT-LOG",
+    "category": "DATA",
+    "name": "DATA AUDIT LOG",
+    "name_kr": "금고 감사기록",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-RETENTION-AUTO",
+    "category": "DATA",
+    "name": "RETENTION AUTO",
+    "name_kr": "자동 보관관리",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-DAT-NEWBIE-BUNDLE",
+    "category": "DATA",
+    "name": "DATA NEWBIE",
+    "name_kr": "금고 초보세트",
+    "price_krw": 79000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-DAT-911-PLUS",
+    "category": "DATA",
+    "name": "DATA 911 PLUS",
+    "name_kr": "금고 출동+",
+    "price_krw": 1290000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-NET-BASIC-SCAN",
+    "category": "NETWORK",
+    "name": "NETWORK SCAN BASIC",
+    "name_kr": "울타리 진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-CORS-FIX",
+    "category": "NETWORK",
+    "name": "CORS FIX",
+    "name_kr": "울타리 수리",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-RATE-SHIELD",
+    "category": "NETWORK",
+    "name": "RATE SHIELD",
+    "name_kr": "요청 방패",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-CSP-SETUP",
+    "category": "NETWORK",
+    "name": "CSP SETUP",
+    "name_kr": "스크립트단속",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-TRAFFIC-GUARD",
+    "category": "NETWORK",
+    "name": "TRAFFIC GUARD",
+    "name_kr": "교통정리",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-ACCESS-MAP",
+    "category": "NETWORK",
+    "name": "ACCESS MAP",
+    "name_kr": "접속 지도",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-GEO-FENCE",
+    "category": "NETWORK",
+    "name": "GEO FENCE",
+    "name_kr": "지역 울타리",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-BOT-BLOCKER",
+    "category": "NETWORK",
+    "name": "BOT BLOCKER",
+    "name_kr": "봇 차단기",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-LINK-MONITOR",
+    "category": "NETWORK",
+    "name": "LINK MONITOR",
+    "name_kr": "링크 감시",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-API-TRACKER",
+    "category": "NETWORK",
+    "name": "API TRACKER",
+    "name_kr": "접속 추적기",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-TRAFFIC-FILTER",
+    "category": "NETWORK",
+    "name": "TRAFFIC FILTER",
+    "name_kr": "트래픽 필터",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-CHECK",
+    "category": "NETWORK",
+    "name": "NETWORK CHECK",
+    "name_kr": "울타리 점검",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-CDN-SETUP",
+    "category": "NETWORK",
+    "name": "CDN SETUP",
+    "name_kr": "속도 부스터",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-SOCKET-CHECK",
+    "category": "NETWORK",
+    "name": "SOCKET CHECK",
+    "name_kr": "실시간 점검",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-REDIRECT-FIX",
+    "category": "NETWORK",
+    "name": "REDIRECT FIX",
+    "name_kr": "길안내 수리",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-HEADER-CLEAN",
+    "category": "NETWORK",
+    "name": "HEADER CLEAN",
+    "name_kr": "정보 가리기",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-FORTRESS",
+    "category": "NETWORK",
+    "name": "NETWORK FORTRESS",
+    "name_kr": "울타리 요새",
+    "price_krw": 179000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-CORS-RATE-BUNDLE",
+    "category": "NETWORK",
+    "name": "CORS RATE BUNDLE",
+    "name_kr": "울타리+방패",
+    "price_krw": 129000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-PROTECTION-BUNDLE",
+    "category": "NETWORK",
+    "name": "PROTECTION BUNDLE",
+    "name_kr": "보호 종합세트",
+    "price_krw": 159000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-FULL-AUDIT",
+    "category": "NETWORK",
+    "name": "NETWORK FULL AUDIT",
+    "name_kr": "울타리 정밀",
+    "price_krw": 390000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-AUDIT-LITE",
+    "category": "NETWORK",
+    "name": "NETWORK AUDIT LITE",
+    "name_kr": "울타리 기본",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-AUDIT-PREMIUM",
+    "category": "NETWORK",
+    "name": "NETWORK AUDIT PREMIUM",
+    "name_kr": "울타리 프리미",
+    "price_krw": 490000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-DDOS-911",
+    "category": "NETWORK",
+    "name": "DDOS 911",
+    "name_kr": "공격 긴급출동",
+    "price_krw": 850000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-NET-WATCH-MONTHLY",
+    "category": "NETWORK",
+    "name": "NETWORK WATCH",
+    "name_kr": "울타리 정기",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-WATCH-PRO",
+    "category": "NETWORK",
+    "name": "NETWORK WATCH PRO",
+    "name_kr": "울타리 감시",
+    "price_krw": 99000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-CORS-URGENT",
+    "category": "NETWORK",
+    "name": "CORS FIX URGENT",
+    "name_kr": "울타리 급수리",
+    "price_krw": 169000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-LAUNCH-READY",
+    "category": "NETWORK",
+    "name": "NETWORK LAUNCH READY",
+    "name_kr": "울타리 런칭",
+    "price_krw": 249000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-MONITORING-BUNDLE",
+    "category": "NETWORK",
+    "name": "MONITOR BUNDLE",
+    "name_kr": "감시 묶음세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-API-RATE-LIMIT",
+    "category": "NETWORK",
+    "name": "API RATE LIMIT",
+    "name_kr": "속도 제한",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-DNS-CHECK",
+    "category": "NETWORK",
+    "name": "DNS CHECK",
+    "name_kr": "주소 안전점검",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-SSL-FORCE",
+    "category": "NETWORK",
+    "name": "SSL FORCE",
+    "name_kr": "자물쇠 강제",
+    "price_krw": 39000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-IP-WHITELIST",
+    "category": "NETWORK",
+    "name": "IP WHITELIST",
+    "name_kr": "허용 명단",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-WEBSOCKET-FIX",
+    "category": "NETWORK",
+    "name": "WEBSOCKET FIX",
+    "name_kr": "실시간 수리",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-PROXY-SETUP",
+    "category": "NETWORK",
+    "name": "PROXY SETUP",
+    "name_kr": "대리인 설치",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-API-KEY-GATE",
+    "category": "NETWORK",
+    "name": "API KEY GATE",
+    "name_kr": "서비스 관문",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-NEWBIE-BUNDLE",
+    "category": "NETWORK",
+    "name": "NETWORK NEWBIE",
+    "name_kr": "울타리 초보",
+    "price_krw": 79000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-NET-DDOS-URGENT",
+    "category": "NETWORK",
+    "name": "DDOS URGENT",
+    "name_kr": "공격 긴급방어",
+    "price_krw": 199000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-NET-911",
+    "category": "NETWORK",
+    "name": "NETWORK 911",
+    "name_kr": "울타리 출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-NET-CACHE-FIX",
+    "category": "NETWORK",
+    "name": "CACHE FIX",
+    "name_kr": "캐시 수리",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-NET-911-PLUS",
+    "category": "NETWORK",
+    "name": "NETWORK 911 PLUS",
+    "name_kr": "울타리 출동+",
+    "price_krw": 1190000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-INJ-BASIC-SCAN",
+    "category": "INJECTION",
+    "name": "INJECTION SCAN BASIC",
+    "name_kr": "입력란 진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-INPUT-GUARD",
+    "category": "INJECTION",
+    "name": "INPUT GUARD",
+    "name_kr": "입력 보호막",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-SEARCH-SHIELD",
+    "category": "INJECTION",
+    "name": "SEARCH SHIELD",
+    "name_kr": "검색 방패",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-XSS-BLOCKER",
+    "category": "INJECTION",
+    "name": "XSS BLOCKER",
+    "name_kr": "화면 보호막",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-PROMPT-GUARD",
+    "category": "INJECTION",
+    "name": "PROMPT GUARD",
+    "name_kr": "AI 보호막",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-UPLOAD-FILTER",
+    "category": "INJECTION",
+    "name": "UPLOAD FILTER",
+    "name_kr": "파일 검문소",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-URL-GUARD",
+    "category": "INJECTION",
+    "name": "URL GUARD",
+    "name_kr": "주소 보호막",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-FORM-VALIDATOR",
+    "category": "INJECTION",
+    "name": "FORM VALIDATOR",
+    "name_kr": "입력칸 정리",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-INPUT-CHECKER",
+    "category": "INJECTION",
+    "name": "INPUT CHECKER",
+    "name_kr": "입력 검사기",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-SANITIZE",
+    "category": "INJECTION",
+    "name": "SANITIZE",
+    "name_kr": "입력 소독기",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-ERROR-MASK",
+    "category": "INJECTION",
+    "name": "ERROR MASK",
+    "name_kr": "에러 가리개",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-AI-FILTER",
+    "category": "INJECTION",
+    "name": "AI FILTER",
+    "name_kr": "AI 필터",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-INPUT-LIMIT",
+    "category": "INJECTION",
+    "name": "INPUT LIMIT",
+    "name_kr": "입력 제한기",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-CHAR-FILTER",
+    "category": "INJECTION",
+    "name": "CHAR FILTER",
+    "name_kr": "특수문자 필터",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-SERVER-CHECK",
+    "category": "INJECTION",
+    "name": "SERVER CHECK",
+    "name_kr": "서버 검증기",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-TAG-CLEANER",
+    "category": "INJECTION",
+    "name": "TAG CLEANER",
+    "name_kr": "태그 청소기",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-CHECK",
+    "category": "INJECTION",
+    "name": "INPUT CHECK",
+    "name_kr": "입력 전수점검",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-FORTRESS",
+    "category": "INJECTION",
+    "name": "INJECTION FORTRESS",
+    "name_kr": "침입방지 요새",
+    "price_krw": 179000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-WEB-SHIELD",
+    "category": "INJECTION",
+    "name": "WEB SHIELD",
+    "name_kr": "웹 보호세트",
+    "price_krw": 149000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-AI-SHIELD",
+    "category": "INJECTION",
+    "name": "AI SHIELD",
+    "name_kr": "AI 보호세트",
+    "price_krw": 129000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-FORM-BUNDLE",
+    "category": "INJECTION",
+    "name": "FORM BUNDLE",
+    "name_kr": "입력 종합",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-FULL-AUDIT",
+    "category": "INJECTION",
+    "name": "INJECTION FULL AUDIT",
+    "name_kr": "침입 정밀",
+    "price_krw": 390000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-AUDIT-LITE",
+    "category": "INJECTION",
+    "name": "INJECTION AUDIT LITE",
+    "name_kr": "침입 기본",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-AUDIT-PREMIUM",
+    "category": "INJECTION",
+    "name": "INJECTION AUDIT PREMIUM",
+    "name_kr": "침입 프리미엄",
+    "price_krw": 490000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-911",
+    "category": "INJECTION",
+    "name": "INJECTION 911",
+    "name_kr": "침입 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-INJ-WATCH-MONTHLY",
+    "category": "INJECTION",
+    "name": "INJECTION WATCH",
+    "name_kr": "침입 정기",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-WATCH-PRO",
+    "category": "INJECTION",
+    "name": "INJECTION WATCH PRO",
+    "name_kr": "침입 프로감시",
+    "price_krw": 89000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INJ-URGENT",
+    "category": "INJECTION",
+    "name": "INPUT GUARD URGENT",
+    "name_kr": "입력 긴급보호",
+    "price_krw": 189000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-LAUNCH-READY",
+    "category": "INJECTION",
+    "name": "INJECTION LAUNCH READY",
+    "name_kr": "침입방지 런칭",
+    "price_krw": 249000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-NOSQL-GUARD",
+    "category": "INJECTION",
+    "name": "NOSQL GUARD",
+    "name_kr": "주입 방지",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-REDIRECT-GUARD",
+    "category": "INJECTION",
+    "name": "REDIRECT GUARD",
+    "name_kr": "이동 보호막",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-HEADER-GUARD",
+    "category": "INJECTION",
+    "name": "HEADER GUARD",
+    "name_kr": "요청 보호막",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-OUTPUT-ENCODE",
+    "category": "INJECTION",
+    "name": "OUTPUT ENCODE",
+    "name_kr": "출력 안전화",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-API-VALIDATE",
+    "category": "INJECTION",
+    "name": "API VALIDATE",
+    "name_kr": "입력 검증기",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-FILE-SCAN",
+    "category": "INJECTION",
+    "name": "FILE SCAN",
+    "name_kr": "파일 검사기",
+    "price_krw": 59000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-NEWBIE-BUNDLE",
+    "category": "INJECTION",
+    "name": "INJECTION NEWBIE",
+    "name_kr": "입력 초보",
+    "price_krw": 79000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INJ-SQL-URGENT",
+    "category": "INJECTION",
+    "name": "SQL GUARD URGENT",
+    "name_kr": "입력 긴급차단",
+    "price_krw": 169000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-911-PLUS",
+    "category": "INJECTION",
+    "name": "INJECTION 911 PLUS",
+    "name_kr": "침입 출동+",
+    "price_krw": 1190000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-INJ-PROMPT-PRO",
+    "category": "INJECTION",
+    "name": "PROMPT GUARD PRO",
+    "name_kr": "AI 프로막",
+    "price_krw": 149000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INJ-FULL-PROTECT",
+    "category": "INJECTION",
+    "name": "FULL INPUT PROTECT",
+    "name_kr": "입력 완전보호",
+    "price_krw": 159000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-BASIC-SCAN",
+    "category": "INFRA",
+    "name": "INFRA SCAN BASIC",
+    "name_kr": "건물 간단진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-HTTPS-SETUP",
+    "category": "INFRA",
+    "name": "HTTPS SETUP",
+    "name_kr": "자물쇠 달기",
+    "price_krw": 49000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INF-DEPENDENCY-FIX",
+    "category": "INFRA",
+    "name": "DEPENDENCY FIX",
+    "name_kr": "부품 교체",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INF-CONFIG-HIDE",
+    "category": "INFRA",
+    "name": "CONFIG HIDE",
+    "name_kr": "설정 숨기기",
+    "price_krw": 49000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INF-DOMAIN-GUARD",
+    "category": "INFRA",
+    "name": "DOMAIN GUARD",
+    "name_kr": "주소 지킴이",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-DEPLOY-CHECK",
+    "category": "INFRA",
+    "name": "DEPLOY CHECK",
+    "name_kr": "배포 점검",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-ERROR-PAGE",
+    "category": "INFRA",
+    "name": "ERROR PAGE",
+    "name_kr": "에러화면 수리",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-PAGE-CLEAN",
+    "category": "INFRA",
+    "name": "PAGE CLEAN",
+    "name_kr": "페이지 정리",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-DEV-TOOL-OFF",
+    "category": "INFRA",
+    "name": "DEV TOOL OFF",
+    "name_kr": "개발도구 끄기",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-DIRECTORY-LOCK",
+    "category": "INFRA",
+    "name": "DIRECTORY LOCK",
+    "name_kr": "폴더 잠금",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-CI-CHECK",
+    "category": "INFRA",
+    "name": "CI CHECK",
+    "name_kr": "자동배포 점검",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-SPEED-UP",
+    "category": "INFRA",
+    "name": "SPEED UP",
+    "name_kr": "속도 개선",
+    "price_krw": 59000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-SSL-WATCH",
+    "category": "INFRA",
+    "name": "SSL WATCH",
+    "name_kr": "자물쇠 감시",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-ENV-SEPARATOR",
+    "category": "INFRA",
+    "name": "ENV SEPARATOR",
+    "name_kr": "환경 분리기",
+    "price_krw": 59000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-LOG-CLEAN",
+    "category": "INFRA",
+    "name": "LOG CLEAN",
+    "name_kr": "기록 정리",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-SERVER-UPDATE",
+    "category": "INFRA",
+    "name": "SERVER UPDATE",
+    "name_kr": "서버 업데이트",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-CHECK",
+    "category": "INFRA",
+    "name": "INFRA CHECK",
+    "name_kr": "건물 전수점검",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-HTTPS-DEP-BUNDLE",
+    "category": "INFRA",
+    "name": "HTTPS DEP BUNDLE",
+    "name_kr": "자물쇠+부품",
+    "price_krw": 89000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INF-FORTRESS",
+    "category": "INFRA",
+    "name": "INFRA FORTRESS",
+    "name_kr": "건물 요새",
+    "price_krw": 159000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-FULL-AUDIT",
+    "category": "INFRA",
+    "name": "INFRA FULL AUDIT",
+    "name_kr": "건물 정밀검사",
+    "price_krw": 350000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-AUDIT-LITE",
+    "category": "INFRA",
+    "name": "INFRA AUDIT LITE",
+    "name_kr": "건물 기본검사",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-AUDIT-PREMIUM",
+    "category": "INFRA",
+    "name": "INFRA AUDIT PREMIUM",
+    "name_kr": "건물 프리미엄",
+    "price_krw": 450000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-911",
+    "category": "INFRA",
+    "name": "INFRA 911",
+    "name_kr": "건물 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-INF-WATCH-MONTHLY",
+    "category": "INFRA",
+    "name": "INFRA WATCH",
+    "name_kr": "건물 정기점검",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-WATCH-PRO",
+    "category": "INFRA",
+    "name": "INFRA WATCH PRO",
+    "name_kr": "건물 프로감시",
+    "price_krw": 79000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-INF-HTTPS-URGENT",
+    "category": "INFRA",
+    "name": "HTTPS URGENT",
+    "name_kr": "자물쇠 급설치",
+    "price_krw": 99000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-INF-LAUNCH-READY",
+    "category": "INFRA",
+    "name": "INFRA LAUNCH READY",
+    "name_kr": "건물 런칭준비",
+    "price_krw": 199000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-VERCEL-BUNDLE",
+    "category": "INFRA",
+    "name": "VERCEL BUNDLE",
+    "name_kr": "V 안심세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-NETLIFY-BUNDLE",
+    "category": "INFRA",
+    "name": "NETLIFY BUNDLE",
+    "name_kr": "N 안심세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-CLEANUP-BUNDLE",
+    "category": "INFRA",
+    "name": "INFRA CLEANUP",
+    "name_kr": "건물 대청소",
+    "price_krw": 89000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-DOCKER-CHECK",
+    "category": "INFRA",
+    "name": "DOCKER CHECK",
+    "name_kr": "컨테이너 점검",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-BACKUP-SETUP",
+    "category": "INFRA",
+    "name": "INFRA BACKUP",
+    "name_kr": "건물 복사본",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-NEWBIE-BUNDLE",
+    "category": "INFRA",
+    "name": "INFRA NEWBIE",
+    "name_kr": "건물 초보세트",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-INF-911-PLUS",
+    "category": "INFRA",
+    "name": "INFRA 911 PLUS",
+    "name_kr": "건물 출동+",
+    "price_krw": 1190000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-INF-SECURITY-HEADER",
+    "category": "INFRA",
+    "name": "SECURITY HEADER",
+    "name_kr": "보안 표찰",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-BASIC-SCAN",
+    "category": "MONITOR",
+    "name": "MONITOR SCAN BASIC",
+    "name_kr": "감시 간단진단",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-LOG-START",
+    "category": "MONITOR",
+    "name": "LOG START",
+    "name_kr": "기록 시작",
+    "price_krw": 79000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-MON-ALERT-SETUP",
+    "category": "MONITOR",
+    "name": "ALERT SETUP",
+    "name_kr": "알림 설치",
+    "price_krw": 69000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-MON-LOG-READER",
+    "category": "MONITOR",
+    "name": "LOG READER",
+    "name_kr": "기록 해독기",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-ERROR-ALERT",
+    "category": "MONITOR",
+    "name": "ERROR ALERT",
+    "name_kr": "에러 알리미",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-ACTIVITY-LOG",
+    "category": "MONITOR",
+    "name": "ACTIVITY LOG",
+    "name_kr": "행동 기록기",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-STATUS-BOARD",
+    "category": "MONITOR",
+    "name": "STATUS BOARD",
+    "name_kr": "상태 현황판",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-LOG-FILTER",
+    "category": "MONITOR",
+    "name": "LOG FILTER",
+    "name_kr": "기록 필터",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-LOG-POLICY",
+    "category": "MONITOR",
+    "name": "LOG POLICY",
+    "name_kr": "기록 보관규칙",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-ALERT-TUNE",
+    "category": "MONITOR",
+    "name": "ALERT TUNE",
+    "name_kr": "알림 조율기",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-SECURITY-DASH",
+    "category": "MONITOR",
+    "name": "SECURITY DASH",
+    "name_kr": "보안 현황판",
+    "price_krw": 69000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-TRAFFIC-STAT",
+    "category": "MONITOR",
+    "name": "TRAFFIC STAT",
+    "name_kr": "접속 통계표",
+    "price_krw": 39000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-BEHAVIOR-WATCH",
+    "category": "MONITOR",
+    "name": "BEHAVIOR WATCH",
+    "name_kr": "행동 감지기",
+    "price_krw": 59000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-CHECK",
+    "category": "MONITOR",
+    "name": "MONITOR CHECK",
+    "name_kr": "감시 전수점검",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-LOG-ALERT-BUNDLE",
+    "category": "MONITOR",
+    "name": "LOG ALERT BUNDLE",
+    "name_kr": "기록+알림",
+    "price_krw": 129000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-MON-FORTRESS",
+    "category": "MONITOR",
+    "name": "MONITOR FORTRESS",
+    "name_kr": "감시 요새",
+    "price_krw": 169000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-STARTER",
+    "category": "MONITOR",
+    "name": "MONITOR STARTER",
+    "name_kr": "감시 첫걸음",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-DASHBOARD-BUNDLE",
+    "category": "MONITOR",
+    "name": "DASHBOARD BUNDLE",
+    "name_kr": "현황판 세트",
+    "price_krw": 109000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-FULL-AUDIT",
+    "category": "MONITOR",
+    "name": "MONITOR FULL AUDIT",
+    "name_kr": "감시 정밀검사",
+    "price_krw": 350000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-AUDIT-LITE",
+    "category": "MONITOR",
+    "name": "MONITOR AUDIT LITE",
+    "name_kr": "감시 기본검사",
+    "price_krw": 190000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-AUDIT-PREMIUM",
+    "category": "MONITOR",
+    "name": "MONITOR AUDIT PREMIUM",
+    "name_kr": "감시 프리미엄",
+    "price_krw": 450000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-911",
+    "category": "MONITOR",
+    "name": "MONITOR 911",
+    "name_kr": "감시 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-MON-WATCH-MONTHLY",
+    "category": "MONITOR",
+    "name": "MONITOR WATCH",
+    "name_kr": "감시 정기점검",
+    "price_krw": 69000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-WATCH-PRO",
+    "category": "MONITOR",
+    "name": "MONITOR WATCH PRO",
+    "name_kr": "감시 프로",
+    "price_krw": 119000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-URGENT",
+    "category": "MONITOR",
+    "name": "MONITOR SETUP URGENT",
+    "name_kr": "감시 긴급설치",
+    "price_krw": 199000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-MON-LAUNCH-READY",
+    "category": "MONITOR",
+    "name": "MONITOR LAUNCH READY",
+    "name_kr": "감시 런칭준비",
+    "price_krw": 199000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-UPTIME-CHECK",
+    "category": "MONITOR",
+    "name": "UPTIME CHECK",
+    "name_kr": "작동 확인기",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-PERF-MONITOR",
+    "category": "MONITOR",
+    "name": "PERF MONITOR",
+    "name_kr": "성능 감시기",
+    "price_krw": 49000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-COST-ALERT",
+    "category": "MONITOR",
+    "name": "COST ALERT",
+    "name_kr": "비용 알리미",
+    "price_krw": 39000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-SLACK-ALERT",
+    "category": "MONITOR",
+    "name": "SLACK ALERT",
+    "name_kr": "메신저 알림",
+    "price_krw": 29000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-MON-USER-AUDIT",
+    "category": "MONITOR",
+    "name": "USER AUDIT",
+    "name_kr": "사용자 감사",
+    "price_krw": 59000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-NEWBIE-BUNDLE",
+    "category": "MONITOR",
+    "name": "MONITOR NEWBIE",
+    "name_kr": "감시 초보세트",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-911-PLUS",
+    "category": "MONITOR",
+    "name": "MONITOR 911 PLUS",
+    "name_kr": "감시 출동+",
+    "price_krw": 1190000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-MON-INTEGRATION-BUNDLE",
+    "category": "MONITOR",
+    "name": "INTEGRATION BUNDLE",
+    "name_kr": "감시 통합세트",
+    "price_krw": 139000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-MON-COMPLIANCE-BUNDLE",
+    "category": "MONITOR",
+    "name": "COMPLIANCE BUNDLE",
+    "name_kr": "기록 준수세트",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-BASIC-CONSULT",
+    "category": "RESPONSE",
+    "name": "RESPONSE CONSULT",
+    "name_kr": "긴급 상담",
+    "price_krw": 0,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-COST-911",
+    "category": "RESPONSE",
+    "name": "COST 911",
+    "name_kr": "요금 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-DATA-RESCUE",
+    "category": "RESPONSE",
+    "name": "DATA RESCUE",
+    "name_kr": "데이터 구출",
+    "price_krw": 950000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-SITE-RESCUE",
+    "category": "RESPONSE",
+    "name": "SITE RESCUE",
+    "name_kr": "사이트 구출",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-MAIL-911",
+    "category": "RESPONSE",
+    "name": "MAIL 911",
+    "name_kr": "메일 긴급출동",
+    "price_krw": 890000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-ACCOUNT-911",
+    "category": "RESPONSE",
+    "name": "ACCOUNT 911",
+    "name_kr": "계정 긴급출동",
+    "price_krw": 950000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-SERVICE-RESCUE",
+    "category": "RESPONSE",
+    "name": "SERVICE RESCUE",
+    "name_kr": "서비스 구출",
+    "price_krw": 950000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-INCIDENT-REPORT",
+    "category": "RESPONSE",
+    "name": "INCIDENT REPORT",
+    "name_kr": "사고 보고서",
+    "price_krw": 89000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-PREVENTION",
+    "category": "RESPONSE",
+    "name": "PREVENTION SETUP",
+    "name_kr": "재발 방지",
+    "price_krw": 149000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-NOTICE-GUIDE",
+    "category": "RESPONSE",
+    "name": "NOTICE GUIDE",
+    "name_kr": "공지 도우미",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-LEGAL-GUIDE",
+    "category": "RESPONSE",
+    "name": "LEGAL GUIDE",
+    "name_kr": "법률 안내",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-DATA-RECOVERY",
+    "category": "RESPONSE",
+    "name": "DATA RECOVERY",
+    "name_kr": "데이터 복원",
+    "price_krw": 149000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-INSURANCE",
+    "category": "RESPONSE",
+    "name": "SECURITY INSURANCE",
+    "name_kr": "보안 보험",
+    "price_krw": 69000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-MANUAL",
+    "category": "RESPONSE",
+    "name": "RESPONSE MANUAL",
+    "name_kr": "대응 매뉴얼",
+    "price_krw": 89000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-DRILL",
+    "category": "RESPONSE",
+    "name": "DRILL SETUP",
+    "name_kr": "모의 훈련",
+    "price_krw": 149000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-POST-AUDIT",
+    "category": "RESPONSE",
+    "name": "POST INCIDENT AUDIT",
+    "name_kr": "사후 전체점검",
+    "price_krw": 149000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-KIT",
+    "category": "RESPONSE",
+    "name": "RESPONSE KIT",
+    "name_kr": "대응 기본세트",
+    "price_krw": 189000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-911-BUNDLE",
+    "category": "RESPONSE",
+    "name": "RESPONSE 911 BUNDLE",
+    "name_kr": "긴급 종합세트",
+    "price_krw": 1290000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-ANALYSIS-BUNDLE",
+    "category": "RESPONSE",
+    "name": "ANALYSIS BUNDLE",
+    "name_kr": "분석 종합세트",
+    "price_krw": 199000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-PREPAREDNESS-BUNDLE",
+    "category": "RESPONSE",
+    "name": "PREPAREDNESS BUNDLE",
+    "name_kr": "대비 종합세트",
+    "price_krw": 249000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-FULL-RECOVERY",
+    "category": "RESPONSE",
+    "name": "FULL RECOVERY",
+    "name_kr": "전면 복구",
+    "price_krw": 490000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-RES-INCIDENT-911",
+    "category": "RESPONSE",
+    "name": "INCIDENT 911",
+    "name_kr": "사고 긴급출동",
+    "price_krw": 950000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-RES-READY-MONTHLY",
+    "category": "RESPONSE",
+    "name": "RESPONSE READY",
+    "name_kr": "긴급 대기",
+    "price_krw": 89000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-READY-PRO",
+    "category": "RESPONSE",
+    "name": "RESPONSE READY PRO",
+    "name_kr": "긴급 전담대기",
+    "price_krw": 190000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-COST-URGENT",
+    "category": "RESPONSE",
+    "name": "COST 911 LITE",
+    "name_kr": "요금 긴급확인",
+    "price_krw": 189000,
+    "severity": "high"
+  },
+  {
+    "id": "PKG-RES-LEGAL-NOTICE-BUNDLE",
+    "category": "RESPONSE",
+    "name": "LEGAL NOTICE BUNDLE",
+    "name_kr": "법률+공지",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-POST-BUNDLE",
+    "category": "RESPONSE",
+    "name": "POST INCIDENT BUNDLE",
+    "name_kr": "사후 처리세트",
+    "price_krw": 299000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-LAUNCH-READY",
+    "category": "RESPONSE",
+    "name": "RESPONSE LAUNCH READY",
+    "name_kr": "대응 런칭준비",
+    "price_krw": 249000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-BDL-911-BUNDLE",
+    "category": "RESPONSE",
+    "name": "911 BUNDLE",
+    "name_kr": "긴급 통합출동",
+    "price_krw": 1290000,
+    "severity": "critical"
+  },
+  {
+    "id": "PKG-BDL-MONTHLY-BASIC",
+    "category": "RESPONSE",
+    "name": "MONTHLY BASIC",
+    "name_kr": "기본 단골관리",
+    "price_krw": 99000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-BDL-MONTHLY-PRO",
+    "category": "RESPONSE",
+    "name": "MONTHLY PRO",
+    "name_kr": "프로 단골관리",
+    "price_krw": 199000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-HOTLINE-SETUP",
+    "category": "RESPONSE",
+    "name": "HOTLINE SETUP",
+    "name_kr": "비상 연락망",
+    "price_krw": 49000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-BACKUP-RESTORE",
+    "category": "RESPONSE",
+    "name": "BACKUP RESTORE",
+    "name_kr": "백업 복원",
+    "price_krw": 89000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-CUSTOMER-CARE",
+    "category": "RESPONSE",
+    "name": "CUSTOMER CARE",
+    "name_kr": "고객 안심",
+    "price_krw": 99000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-FORENSIC",
+    "category": "RESPONSE",
+    "name": "FORENSIC ANALYSIS",
+    "name_kr": "흔적 분석",
+    "price_krw": 199000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-NEWBIE-BUNDLE",
+    "category": "RESPONSE",
+    "name": "RESPONSE NEWBIE",
+    "name_kr": "대응 초보세트",
+    "price_krw": 69000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-REVIEW-SERVICE",
+    "category": "RESPONSE",
+    "name": "REVIEW SERVICE",
+    "name_kr": "대응 리뷰",
+    "price_krw": 89000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-TABLETOP",
+    "category": "RESPONSE",
+    "name": "TABLETOP EXERCISE",
+    "name_kr": "탁상 훈련",
+    "price_krw": 99000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-ANNUAL-PLAN",
+    "category": "RESPONSE",
+    "name": "ANNUAL PLAN",
+    "name_kr": "연간 대응계획",
+    "price_krw": 199000,
+    "severity": "low"
+  },
+  {
+    "id": "PKG-RES-COMMUNICATION-KIT",
+    "category": "RESPONSE",
+    "name": "COMMUNICATION KIT",
+    "name_kr": "소통 도구함",
+    "price_krw": 129000,
+    "severity": "medium"
+  },
+  {
+    "id": "PKG-RES-REPUTATION-GUARD",
+    "category": "RESPONSE",
+    "name": "REPUTATION GUARD",
+    "name_kr": "평판 보호",
+    "price_krw": 149000,
+    "severity": "medium"
+  }
+]

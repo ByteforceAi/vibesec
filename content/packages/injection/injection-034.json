@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INJ-API-VALIDATE",
+  "name": "API VALIDATE",
+  "name_kr": "입력 검증기",
+  "subtitle_kr": "서비스 입력값 전수 검증",
+  "severity": "medium",
+  "price_krw": 69000,
+  "duration": "2일",
+  "symptoms": [
+    "서비스 입력값이 제대로 검증이 안 돼요"
+  ],
+  "description_kr": "서비스로 들어오는 모든 입력을 검증하는 체계를 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-014"
+  ],
+  "includes": [
+    "입력 스키마 설정",
+    "검증 로직",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

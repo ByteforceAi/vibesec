@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-NOTICE-GUIDE",
+  "name": "NOTICE GUIDE",
+  "name_kr": "공지 도우미",
+  "subtitle_kr": "고객 공지 작성 도움",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "고객에게 공지를 보내야 할까요",
+    "어떻게 알려야 할지 모르겠어요"
+  ],
+  "description_kr": "고객에게 상황을 알리는 공지를 작성하고 보내는 걸 도와드려요.",
+  "fixes_vulns": [
+    "VULN-RES-009"
+  ],
+  "includes": [
+    "공지 문구 작성",
+    "발송 방법 안내",
+    "FAQ 작성"
+  ],
+  "warranty_days": 14
+}

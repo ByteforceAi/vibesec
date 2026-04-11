@@ -1,0 +1,25 @@
+{
+  "id": "PKG-MON-WATCH-MONTHLY",
+  "name": "MONITOR WATCH",
+  "name_kr": "감시 정기점검",
+  "subtitle_kr": "24시간 감시 서비스",
+  "severity": "low",
+  "price_krw": 69000,
+  "duration": "월간",
+  "symptoms": [
+    "24시간 감시를 맡기고 싶어요"
+  ],
+  "description_kr": "24시간 감시하고 이상이 있으면 바로 알려드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-004"
+  ],
+  "includes": [
+    "24시간 감시",
+    "이상 알림",
+    "월간 리포트",
+    "우선 상담"
+  ],
+  "warranty_days": 0
+}

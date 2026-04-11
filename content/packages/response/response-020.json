@@ -1,0 +1,25 @@
+{
+  "id": "PKG-RES-PREPAREDNESS-BUNDLE",
+  "name": "PREPAREDNESS BUNDLE",
+  "name_kr": "대비 종합세트",
+  "subtitle_kr": "사고 대비 종합 묶음",
+  "severity": "medium",
+  "price_krw": 249000,
+  "duration": "5일",
+  "symptoms": [
+    "사고에 미리 대비하고 싶어요"
+  ],
+  "description_kr": "사고 대응 매뉴얼, 모의 훈련, 보험까지 대비를 위한 종합 세트예요.",
+  "fixes_vulns": [
+    "VULN-RES-012",
+    "VULN-RES-013",
+    "VULN-RES-014"
+  ],
+  "includes": [
+    "대응 매뉴얼",
+    "모의 훈련",
+    "보안 보험",
+    "비상 연락망"
+  ],
+  "warranty_days": 30
+}

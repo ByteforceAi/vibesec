@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-LEGAL-NOTICE-BUNDLE",
+  "name": "LEGAL NOTICE BUNDLE",
+  "name_kr": "법률+공지",
+  "subtitle_kr": "법적 대응+고객 공지 묶음",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "법적 대응과 고객 공지를 한번에 처리하고 싶어요"
+  ],
+  "description_kr": "법적 절차 안내와 고객 공지 작성을 한번에 해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-009",
+    "VULN-RES-010"
+  ],
+  "includes": [
+    "법적 안내",
+    "공지 작성",
+    "FAQ 작성",
+    "발송 도움"
+  ],
+  "warranty_days": 14
+}

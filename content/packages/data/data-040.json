@@ -1,0 +1,28 @@
+{
+  "id": "PKG-DAT-911-PLUS",
+  "name": "DATA 911 PLUS",
+  "name_kr": "금고 출동+",
+  "subtitle_kr": "데이터 유출+전면 복구",
+  "severity": "critical",
+  "price_krw": 1290000,
+  "duration": "즉시",
+  "symptoms": [
+    "데이터 유출이 심각한 상태예요"
+  ],
+  "description_kr": "심각한 데이터 유출에 전면 복구까지 포함된 풀 서비스예요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003",
+    "VULN-DAT-004",
+    "VULN-DAT-006"
+  ],
+  "includes": [
+    "즉시 접근 차단",
+    "전면 복구",
+    "보안 재구축",
+    "14일 모니터링",
+    "사고 보고서"
+  ],
+  "warranty_days": 60
+}

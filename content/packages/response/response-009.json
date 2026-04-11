@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-PREVENTION",
+  "name": "PREVENTION SETUP",
+  "name_kr": "재발 방지",
+  "subtitle_kr": "같은 사고 재발 방지 조치",
+  "severity": "medium",
+  "price_krw": 149000,
+  "duration": "3일",
+  "symptoms": [
+    "같은 일이 다시 안 일어나게 해주세요",
+    "재발 방지가 필요해요"
+  ],
+  "description_kr": "같은 사고가 다시 일어나지 않도록 방지 조치를 해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-008"
+  ],
+  "includes": [
+    "재발 원인 차단",
+    "보안 강화",
+    "모니터링 설정",
+    "가이드 제공"
+  ],
+  "warranty_days": 30
+}

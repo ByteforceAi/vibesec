@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-RECOVERY-FIX",
+  "name": "RECOVERY FIX",
+  "name_kr": "계정복구 수리",
+  "subtitle_kr": "계정 복구 기능 안전 점검",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "계정 복구 기능이 안전한지 모르겠어요",
+    "비밀번호 재설정 링크가 걱정돼요"
+  ],
+  "description_kr": "계정 복구 기능이 안전하게 동작하는지 점검하고 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-004"
+  ],
+  "includes": [
+    "복구 기능 점검",
+    "보안 강화",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

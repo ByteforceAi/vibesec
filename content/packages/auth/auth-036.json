@@ -1,0 +1,24 @@
+{
+  "id": "PKG-AUT-LOGOUT-FIX",
+  "name": "LOGOUT FIX",
+  "name_kr": "로그아웃 수리",
+  "subtitle_kr": "로그아웃 안전 처리",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "로그아웃해도 아직 접근이 돼요",
+    "로그아웃이 제대로 안 돼요"
+  ],
+  "description_kr": "로그아웃할 때 모든 출입증이 확실히 만료되도록 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-003",
+    "VULN-AUT-010"
+  ],
+  "includes": [
+    "로그아웃 처리 수리",
+    "세션 완전 만료",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

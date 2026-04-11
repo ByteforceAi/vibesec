@@ -1,0 +1,24 @@
+{
+  "id": "PKG-MON-AUDIT-LITE",
+  "name": "MONITOR AUDIT LITE",
+  "name_kr": "감시 기본검사",
+  "subtitle_kr": "핵심 감시만 점검",
+  "severity": "medium",
+  "price_krw": 190000,
+  "duration": "2일",
+  "symptoms": [
+    "핵심 감시만 점검하고 싶어요"
+  ],
+  "description_kr": "가장 중요한 감시 항목만 골라서 점검해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002",
+    "VULN-MON-004"
+  ],
+  "includes": [
+    "핵심 점검",
+    "주요 설치",
+    "요약 리포트"
+  ],
+  "warranty_days": 30
+}

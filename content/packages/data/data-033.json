@@ -1,0 +1,23 @@
+{
+  "id": "PKG-DAT-ANONYMIZE",
+  "name": "DATA ANONYMIZE",
+  "name_kr": "데이터 익명화",
+  "subtitle_kr": "개인식별 정보 익명 처리",
+  "severity": "medium",
+  "price_krw": 69000,
+  "duration": "2일",
+  "symptoms": [
+    "테스트할 때 실제 고객 데이터를 쓰고 있어요"
+  ],
+  "description_kr": "테스트용으로 쓸 때 개인 정보를 알아볼 수 없게 처리해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-007",
+    "VULN-DAT-009"
+  ],
+  "includes": [
+    "익명화 처리 설정",
+    "테스트 데이터 생성",
+    "가이드 제공"
+  ],
+  "warranty_days": 14
+}

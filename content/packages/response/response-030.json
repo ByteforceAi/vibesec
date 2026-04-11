@@ -1,0 +1,29 @@
+{
+  "id": "PKG-BDL-911-BUNDLE",
+  "name": "911 BUNDLE",
+  "name_kr": "긴급 통합출동",
+  "subtitle_kr": "긴급대응+비밀+출입 통합",
+  "severity": "critical",
+  "price_krw": 1290000,
+  "duration": "즉시",
+  "symptoms": [
+    "전부 다 터진 것 같아요",
+    "긴급 대응이 여러 분야에 걸쳐 필요해요"
+  ],
+  "description_kr": "여러 분야에 걸친 긴급 상황에 통합으로 대응해드려요. 가장 빠르고 포괄적인 긴급 서비스예요.",
+  "fixes_vulns": [
+    "VULN-SEC-001",
+    "VULN-AUT-001",
+    "VULN-RES-001",
+    "VULN-RES-002",
+    "VULN-RES-005"
+  ],
+  "includes": [
+    "즉시 통합 대응",
+    "키 차단",
+    "계정 보호",
+    "서비스 복구",
+    "14일 모니터링"
+  ],
+  "warranty_days": 60
+}

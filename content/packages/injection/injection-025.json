@@ -1,0 +1,26 @@
+{
+  "id": "PKG-INJ-911",
+  "name": "INJECTION 911",
+  "name_kr": "침입 긴급출동",
+  "subtitle_kr": "침입 발생 긴급 대응",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "입력란을 통해 침입이 발생한 것 같아요",
+    "데이터가 빠져나간 것 같아요"
+  ],
+  "description_kr": "침입이 발생한 긴급 상황이에요. 바로 출동해서 침입 경로를 막고 피해를 확인해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003"
+  ],
+  "includes": [
+    "즉시 침입 차단",
+    "피해 범위 파악",
+    "보안 강화",
+    "7일 모니터링"
+  ],
+  "warranty_days": 30
+}

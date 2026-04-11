@@ -1,0 +1,25 @@
+{
+  "id": "PKG-AUT-ADMIN-BUNDLE",
+  "name": "ADMIN BUNDLE",
+  "name_kr": "관리자 세트",
+  "subtitle_kr": "관리자 보안 묶음",
+  "severity": "high",
+  "price_krw": 129000,
+  "duration": "2일",
+  "symptoms": [
+    "관리자 관련 보안을 한번에 하고 싶어요"
+  ],
+  "description_kr": "관리자 페이지 잠금부터 권한 분리까지 관리자 관련 보안을 한번에 해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-006",
+    "VULN-AUT-015",
+    "VULN-AUT-014"
+  ],
+  "includes": [
+    "관리자 잠금",
+    "권한 분리",
+    "로그인 기록",
+    "관리자 알림"
+  ],
+  "warranty_days": 30
+}

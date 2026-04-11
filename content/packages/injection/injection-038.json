@@ -1,0 +1,27 @@
+{
+  "id": "PKG-INJ-911-PLUS",
+  "name": "INJECTION 911 PLUS",
+  "name_kr": "침입 출동+",
+  "subtitle_kr": "침입 발생+전면 복구",
+  "severity": "critical",
+  "price_krw": 1190000,
+  "duration": "즉시",
+  "symptoms": [
+    "심각한 침입이 발생했어요"
+  ],
+  "description_kr": "심각한 침입에 전면 복구까지 포함된 풀 서비스예요.",
+  "fixes_vulns": [
+    "VULN-INJ-001",
+    "VULN-INJ-002",
+    "VULN-INJ-003",
+    "VULN-INJ-004",
+    "VULN-INJ-005"
+  ],
+  "includes": [
+    "즉시 대응",
+    "전면 보호",
+    "보안 재구축",
+    "14일 모니터링"
+  ],
+  "warranty_days": 60
+}

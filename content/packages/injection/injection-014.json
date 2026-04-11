@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-CHAR-FILTER",
+  "name": "CHAR FILTER",
+  "name_kr": "특수문자 필터",
+  "subtitle_kr": "위험 특수문자 걸러내기",
+  "severity": "low",
+  "price_krw": 29000,
+  "duration": "당일",
+  "symptoms": [
+    "특수문자 처리를 안 하고 있어요"
+  ],
+  "description_kr": "위험한 특수문자를 안전하게 처리하도록 해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-013"
+  ],
+  "includes": [
+    "특수문자 필터 설정",
+    "안전 처리",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

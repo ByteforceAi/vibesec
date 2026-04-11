@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INJ-FORM-VALIDATOR",
+  "name": "FORM VALIDATOR",
+  "name_kr": "입력칸 정리",
+  "subtitle_kr": "입력 형식 검증 설정",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "폼에 긴 글을 넣으면 화면이 깨져요",
+    "입력칸에 뭘 넣어도 되는 상태예요"
+  ],
+  "description_kr": "입력칸에 올바른 형식만 들어오도록 검증을 추가해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-007"
+  ],
+  "includes": [
+    "입력 형식 검증",
+    "길이 제한",
+    "에러 안내 추가"
+  ],
+  "warranty_days": 14
+}

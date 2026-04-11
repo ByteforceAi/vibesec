@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INJ-INPUT-GUARD",
+  "name": "INPUT GUARD",
+  "name_kr": "입력 보호막",
+  "subtitle_kr": "입력란 침입 차단",
+  "severity": "high",
+  "price_krw": 89000,
+  "duration": "당일",
+  "symptoms": [
+    "입력란에 이상한 코드를 넣으면 데이터가 나와요",
+    "검색창이 위험할 수 있다고 들었어요"
+  ],
+  "description_kr": "입력란으로 이상한 명령이 들어오는 걸 막아드려요. 문 앞에 경비원을 세우는 거예요.",
+  "fixes_vulns": [
+    "VULN-INJ-001"
+  ],
+  "includes": [
+    "입력란 보호 설치",
+    "침입 차단 규칙",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

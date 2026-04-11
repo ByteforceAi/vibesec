@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-XSS-BLOCKER",
+  "name": "XSS BLOCKER",
+  "name_kr": "화면 보호막",
+  "subtitle_kr": "화면 조작 공격 차단",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "당일",
+  "symptoms": [
+    "댓글에 코드를 넣으면 다른 사람 화면에서 실행돼요"
+  ],
+  "description_kr": "다른 사람이 우리 화면에 몰래 코드를 심는 걸 막아드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-003"
+  ],
+  "includes": [
+    "화면 조작 차단",
+    "출력 필터 설정",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

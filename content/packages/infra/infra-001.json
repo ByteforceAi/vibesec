@@ -1,0 +1,21 @@
+{
+  "id": "PKG-INF-BASIC-SCAN",
+  "name": "INFRA SCAN BASIC",
+  "name_kr": "건물 간단진단",
+  "subtitle_kr": "건물 상태 간단 점검",
+  "severity": "low",
+  "price_krw": 0,
+  "duration": "5분",
+  "symptoms": [
+    "인프라 상태가 괜찮은지 확인하고 싶어요"
+  ],
+  "description_kr": "건물(인프라) 상태를 빠르게 확인해드려요. 무료로 받아보세요.",
+  "fixes_vulns": [
+    "VULN-INF-001"
+  ],
+  "includes": [
+    "건물 상태 확인",
+    "결과 요약"
+  ],
+  "warranty_days": 0
+}

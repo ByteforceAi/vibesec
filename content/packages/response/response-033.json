@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-HOTLINE-SETUP",
+  "name": "HOTLINE SETUP",
+  "name_kr": "비상 연락망",
+  "subtitle_kr": "긴급 연락 체계 구축",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "비상 연락망이 없어요",
+    "긴급할 때 누구한테 연락해야 하는지 모르겠어요"
+  ],
+  "description_kr": "사고가 나면 누구에게 연락해야 하는지 비상 연락 체계를 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-RES-013"
+  ],
+  "includes": [
+    "비상 연락망 구성",
+    "연락 체계 문서",
+    "테스트 확인"
+  ],
+  "warranty_days": 14
+}

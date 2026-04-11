@@ -1,0 +1,22 @@
+{
+  "id": "PKG-DAT-ENCRYPTION-CHECK",
+  "name": "ENCRYPTION CHECK",
+  "name_kr": "암호화 점검",
+  "subtitle_kr": "저장 데이터 암호화 점검",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "데이터가 암호화돼 있는지 확인하고 싶어요"
+  ],
+  "description_kr": "저장된 데이터가 안전하게 잠겨 있는지 점검해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-003"
+  ],
+  "includes": [
+    "암호화 상태 점검",
+    "미암호화 항목 파악",
+    "개선 안내"
+  ],
+  "warranty_days": 14
+}

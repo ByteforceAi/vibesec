@@ -1,0 +1,24 @@
+{
+  "id": "PKG-INF-WATCH-MONTHLY",
+  "name": "INFRA WATCH",
+  "name_kr": "건물 정기점검",
+  "subtitle_kr": "건물 상태 정기 점검",
+  "severity": "low",
+  "price_krw": 39000,
+  "duration": "월간",
+  "symptoms": [
+    "건물 상태를 정기적으로 점검받고 싶어요"
+  ],
+  "description_kr": "매주 건물 상태를 점검하고 이상이 있으면 알려드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002"
+  ],
+  "includes": [
+    "주간 점검",
+    "이상 알림",
+    "월간 리포트",
+    "우선 상담"
+  ],
+  "warranty_days": 0
+}

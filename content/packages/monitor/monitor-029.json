@@ -1,0 +1,24 @@
+{
+  "id": "PKG-MON-COST-ALERT",
+  "name": "COST ALERT",
+  "name_kr": "비용 알리미",
+  "subtitle_kr": "비용 이상 알림 설정",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "비용이 갑자기 올라도 알 방법이 없어요",
+    "요금 폭탄을 미리 감지하고 싶어요"
+  ],
+  "description_kr": "비용이 갑자기 올라가면 바로 알려드려요. 요금 폭탄을 미리 막아줘요.",
+  "fixes_vulns": [
+    "VULN-MON-002",
+    "VULN-SEC-001"
+  ],
+  "includes": [
+    "비용 한도 설정",
+    "이상 알림",
+    "모니터링 안내"
+  ],
+  "warranty_days": 14
+}

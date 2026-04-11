@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-POST-AUDIT",
+  "name": "POST INCIDENT AUDIT",
+  "name_kr": "사후 전체점검",
+  "subtitle_kr": "사고 후 전체 점검",
+  "severity": "low",
+  "price_krw": 149000,
+  "duration": "3일",
+  "symptoms": [
+    "사고 후 전체 점검을 받고 싶어요",
+    "다른 곳은 괜찮은지 확인하고 싶어요"
+  ],
+  "description_kr": "사고 이후 전체 서비스를 점검해서 다른 곳은 괜찮은지 확인해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-015"
+  ],
+  "includes": [
+    "전체 서비스 점검",
+    "추가 약점 파악",
+    "개선 로드맵"
+  ],
+  "warranty_days": 30
+}

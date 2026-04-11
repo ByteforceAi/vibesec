@@ -1,0 +1,24 @@
+{
+  "id": "PKG-AUT-PASSWORD-BUNDLE",
+  "name": "PASSWORD BUNDLE",
+  "name_kr": "비번 안심세트",
+  "subtitle_kr": "비밀번호 관리 묶음",
+  "severity": "medium",
+  "price_krw": 89000,
+  "duration": "1일",
+  "symptoms": [
+    "비밀번호 관련 전체를 정비하고 싶어요"
+  ],
+  "description_kr": "비밀번호 찾기, 재설정, 보호 관련 기능을 한번에 점검하고 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-004",
+    "VULN-AUT-008",
+    "VULN-AUT-011"
+  ],
+  "includes": [
+    "비밀번호 찾기 점검",
+    "시도 제한 설정",
+    "쿠키 보안 설정"
+  ],
+  "warranty_days": 30
+}

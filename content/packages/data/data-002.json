@@ -1,0 +1,24 @@
+{
+  "id": "PKG-DAT-RLS-LOCKDOWN",
+  "name": "RLS LOCKDOWN",
+  "name_kr": "금고 잠금장치",
+  "subtitle_kr": "데이터 접근 규칙 설치",
+  "severity": "high",
+  "price_krw": 149000,
+  "duration": "2일",
+  "symptoms": [
+    "아무나 다른 사람 데이터를 볼 수 있어요",
+    "금고 문이 열려있다고 진단받았어요"
+  ],
+  "description_kr": "금고(데이터베이스) 문이 열려있어서 아무나 들어올 수 있는 상태예요. 잠금장치를 달아서 주인만 열 수 있게 해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-001"
+  ],
+  "includes": [
+    "데이터 접근 규칙 설정",
+    "사용자별 권한 분리",
+    "테스트 검증",
+    "규칙 가이드"
+  ],
+  "warranty_days": 30
+}

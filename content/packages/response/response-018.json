@@ -1,0 +1,30 @@
+{
+  "id": "PKG-RES-911-BUNDLE",
+  "name": "RESPONSE 911 BUNDLE",
+  "name_kr": "긴급 종합세트",
+  "subtitle_kr": "긴급 대응+복구 묶음",
+  "severity": "critical",
+  "price_krw": 1290000,
+  "duration": "즉시",
+  "symptoms": [
+    "긴급 대응부터 복구까지 전부 필요해요"
+  ],
+  "description_kr": "긴급 대응, 복구, 재발 방지를 한번에 해드려요. 가장 포괄적인 긴급 서비스예요.",
+  "fixes_vulns": [
+    "VULN-RES-001",
+    "VULN-RES-002",
+    "VULN-RES-003",
+    "VULN-RES-005",
+    "VULN-RES-006",
+    "VULN-RES-007",
+    "VULN-RES-008"
+  ],
+  "includes": [
+    "즉시 긴급 대응",
+    "서비스 복구",
+    "사고 보고서",
+    "재발 방지",
+    "14일 모니터링"
+  ],
+  "warranty_days": 60
+}

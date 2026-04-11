@@ -1,0 +1,31 @@
+{
+  "id": "PKG-NET-FULL-AUDIT",
+  "name": "NETWORK FULL AUDIT",
+  "name_kr": "울타리 정밀",
+  "subtitle_kr": "네트워크 전면 감사",
+  "severity": "medium",
+  "price_krw": 390000,
+  "duration": "5일",
+  "symptoms": [
+    "네트워크 보안 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "네트워크 보안 전체를 정밀하게 감사하고 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-001",
+    "VULN-NET-002",
+    "VULN-NET-003",
+    "VULN-NET-004",
+    "VULN-NET-005",
+    "VULN-NET-006",
+    "VULN-NET-007",
+    "VULN-NET-008",
+    "VULN-NET-009",
+    "VULN-NET-010"
+  ],
+  "includes": [
+    "전체 네트워크 감사",
+    "모든 보안 수리",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

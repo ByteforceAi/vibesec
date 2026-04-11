@@ -1,0 +1,22 @@
+{
+  "id": "PKG-NET-RATE-SHIELD",
+  "name": "RATE SHIELD",
+  "name_kr": "요청 방패",
+  "subtitle_kr": "무한 요청 차단 설정",
+  "severity": "high",
+  "price_krw": 79000,
+  "duration": "당일",
+  "symptoms": [
+    "한 사람이 무한으로 요청을 보내도 막지 못해요"
+  ],
+  "description_kr": "한 사람이 문을 무한으로 두드려도 막을 수 있는 방패를 설치해드려요.",
+  "fixes_vulns": [
+    "VULN-NET-002"
+  ],
+  "includes": [
+    "요청 제한 설정",
+    "차단 규칙 구성",
+    "알림 설정"
+  ],
+  "warranty_days": 30
+}

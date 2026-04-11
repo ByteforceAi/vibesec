@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-TOKEN-FIX",
+  "name": "TOKEN FIX",
+  "name_kr": "출입증 수리",
+  "subtitle_kr": "만료된 출입증 문제 수리",
+  "severity": "medium",
+  "price_krw": 49000,
+  "duration": "당일",
+  "symptoms": [
+    "로그인이 자꾸 풀려요",
+    "출입증이 제대로 안 돼요"
+  ],
+  "description_kr": "로그인 출입증이 제대로 갱신되지 않는 문제를 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-003"
+  ],
+  "includes": [
+    "출입증 갱신 수리",
+    "만료 설정 조정",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

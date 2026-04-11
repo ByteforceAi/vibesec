@@ -1,0 +1,36 @@
+{
+  "id": "PKG-INF-AUDIT-PREMIUM",
+  "name": "INFRA AUDIT PREMIUM",
+  "name_kr": "건물 프리미엄",
+  "subtitle_kr": "인프라 완전 정복",
+  "severity": "medium",
+  "price_krw": 450000,
+  "duration": "7일",
+  "symptoms": [
+    "인프라를 완벽하게 만들고 싶어요"
+  ],
+  "description_kr": "인프라를 최고 수준으로 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002",
+    "VULN-INF-003",
+    "VULN-INF-004",
+    "VULN-INF-005",
+    "VULN-INF-006",
+    "VULN-INF-007",
+    "VULN-INF-008",
+    "VULN-INF-009",
+    "VULN-INF-010",
+    "VULN-INF-011",
+    "VULN-INF-012",
+    "VULN-INF-013",
+    "VULN-INF-014",
+    "VULN-INF-015"
+  ],
+  "includes": [
+    "전체 감사+수리",
+    "전담 매니저",
+    "90일 A/S"
+  ],
+  "warranty_days": 90
+}

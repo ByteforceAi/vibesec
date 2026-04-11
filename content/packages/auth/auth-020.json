@@ -1,0 +1,24 @@
+{
+  "id": "PKG-AUT-SOCIAL-BUNDLE",
+  "name": "SOCIAL AUTH BUNDLE",
+  "name_kr": "소셜 세트",
+  "subtitle_kr": "소셜 로그인 점검+확장",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "소셜 로그인 전체를 정비하고 싶어요"
+  ],
+  "description_kr": "소셜 로그인 점검부터 추가 방법 설정까지 한번에 해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-005",
+    "VULN-AUT-012"
+  ],
+  "includes": [
+    "소셜 로그인 점검",
+    "추가 방법 설정",
+    "보안 확인",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

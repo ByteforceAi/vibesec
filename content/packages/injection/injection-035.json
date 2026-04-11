@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-FILE-SCAN",
+  "name": "FILE SCAN",
+  "name_kr": "파일 검사기",
+  "subtitle_kr": "업로드 파일 악성 검사",
+  "severity": "high",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "업로드 파일이 위험한지 검사를 안 해요"
+  ],
+  "description_kr": "업로드된 파일을 검사해서 위험한 파일을 차단해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-005"
+  ],
+  "includes": [
+    "파일 검사 설정",
+    "위험 파일 차단",
+    "알림 설정"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-MAIL-911",
+  "name": "MAIL 911",
+  "name_kr": "메일 긴급출동",
+  "subtitle_kr": "이상 메일 발송 대응",
+  "severity": "critical",
+  "price_krw": 890000,
+  "duration": "즉시",
+  "symptoms": [
+    "고객한테 이상한 메일이 갔어요",
+    "우리 이름으로 스팸이 나갔어요"
+  ],
+  "description_kr": "우리 서비스 이름으로 이상한 메일이 나간 긴급 상황이에요. 바로 막고 고객에게 안내해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-004"
+  ],
+  "includes": [
+    "메일 발송 차단",
+    "원인 파악",
+    "고객 안내 도움",
+    "재발 방지"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-INPUT-CHECKER",
+  "name": "INPUT CHECKER",
+  "name_kr": "입력 검사기",
+  "subtitle_kr": "이메일 등 입력 검증",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "이메일 입력란에 아무거나 넣어도 돼요"
+  ],
+  "description_kr": "이메일, 전화번호 같은 입력란에 올바른 형식만 들어오는지 확인해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-008"
+  ],
+  "includes": [
+    "입력 형식 검증 추가",
+    "에러 안내",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

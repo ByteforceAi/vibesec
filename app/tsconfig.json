@@ -1,0 +1,23 @@
+{
+  "extends": "./.svelte-kit/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "bundler",
+    "module": "es2022",
+    "target": "es2022",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "checkJs": true,
+    "sourceMap": true,
+    "declaration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "verbatimModuleSyntax": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "PKG-INJ-FORM-BUNDLE",
+  "name": "FORM BUNDLE",
+  "name_kr": "입력 종합",
+  "subtitle_kr": "입력 검증 종합 묶음",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "1일",
+  "symptoms": [
+    "입력 검증을 전체적으로 정비하고 싶어요"
+  ],
+  "description_kr": "모든 입력칸의 검증을 한번에 정비해드려요.",
+  "fixes_vulns": [
+    "VULN-INJ-007",
+    "VULN-INJ-008",
+    "VULN-INJ-012",
+    "VULN-INJ-013"
+  ],
+  "includes": [
+    "형식 검증",
+    "길이 제한",
+    "특수문자 필터",
+    "에러 안내"
+  ],
+  "warranty_days": 14
+}

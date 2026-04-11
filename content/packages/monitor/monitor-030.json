@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-SLACK-ALERT",
+  "name": "SLACK ALERT",
+  "name_kr": "메신저 알림",
+  "subtitle_kr": "슬랙/카톡 알림 연결",
+  "severity": "low",
+  "price_krw": 29000,
+  "duration": "당일",
+  "symptoms": [
+    "알림을 슬랙이나 카톡으로 받고 싶어요"
+  ],
+  "description_kr": "보안 알림을 슬랙이나 카카오톡으로 받을 수 있게 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-002"
+  ],
+  "includes": [
+    "메신저 연결",
+    "알림 규칙",
+    "테스트 확인"
+  ],
+  "warranty_days": 14
+}

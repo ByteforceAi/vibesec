@@ -1,0 +1,31 @@
+{
+  "id": "PKG-INF-FULL-AUDIT",
+  "name": "INFRA FULL AUDIT",
+  "name_kr": "건물 정밀검사",
+  "subtitle_kr": "인프라 전면 감사",
+  "severity": "medium",
+  "price_krw": 350000,
+  "duration": "5일",
+  "symptoms": [
+    "인프라 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "인프라 전체를 정밀하게 감사하고 수리해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-001",
+    "VULN-INF-002",
+    "VULN-INF-003",
+    "VULN-INF-004",
+    "VULN-INF-005",
+    "VULN-INF-006",
+    "VULN-INF-007",
+    "VULN-INF-008",
+    "VULN-INF-009",
+    "VULN-INF-010"
+  ],
+  "includes": [
+    "전체 인프라 감사",
+    "모든 수리",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

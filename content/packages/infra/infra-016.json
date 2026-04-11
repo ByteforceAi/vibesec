@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INF-SERVER-UPDATE",
+  "name": "SERVER UPDATE",
+  "name_kr": "서버 업데이트",
+  "subtitle_kr": "서버 소프트웨어 갱신",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "서버 업데이트를 안 한 지 오래됐어요"
+  ],
+  "description_kr": "서버 소프트웨어를 안전한 최신 버전으로 업데이트해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-015"
+  ],
+  "includes": [
+    "업데이트 대상 파악",
+    "안전한 업데이트",
+    "호환성 확인"
+  ],
+  "warranty_days": 14
+}

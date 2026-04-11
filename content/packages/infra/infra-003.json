@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-DEPENDENCY-FIX",
+  "name": "DEPENDENCY FIX",
+  "name_kr": "부품 교체",
+  "subtitle_kr": "오래된 부품 업데이트",
+  "severity": "high",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "오래된 부품을 쓰고 있어서 위험해요",
+    "라이브러리 업데이트를 안 했어요"
+  ],
+  "description_kr": "오래된 부품(라이브러리)을 새것으로 교체해드려요. 건물이 더 튼튼해져요.",
+  "fixes_vulns": [
+    "VULN-INF-002"
+  ],
+  "includes": [
+    "오래된 부품 목록 파악",
+    "안전한 버전으로 교체",
+    "호환성 확인"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-DATA-RESCUE",
+  "name": "DATA RESCUE",
+  "name_kr": "데이터 구출",
+  "subtitle_kr": "사라진 데이터 복구",
+  "severity": "critical",
+  "price_krw": 950000,
+  "duration": "즉시",
+  "symptoms": [
+    "데이터베이스 내용이 사라졌어요",
+    "데이터가 갑자기 없어졌어요"
+  ],
+  "description_kr": "사라진 데이터를 최대한 복구해드려요. 백업이 있으면 빠르게, 없어도 최선을 다해요.",
+  "fixes_vulns": [
+    "VULN-RES-002"
+  ],
+  "includes": [
+    "데이터 복구 시도",
+    "백업 확인",
+    "피해 범위 파악",
+    "재발 방지"
+  ],
+  "warranty_days": 30
+}

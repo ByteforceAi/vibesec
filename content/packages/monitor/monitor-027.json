@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-UPTIME-CHECK",
+  "name": "UPTIME CHECK",
+  "name_kr": "작동 확인기",
+  "subtitle_kr": "서비스 작동 여부 감시",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "서비스가 멈추면 알 방법이 없어요"
+  ],
+  "description_kr": "서비스가 멈추면 바로 알려주는 감시를 설정해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-006"
+  ],
+  "includes": [
+    "작동 감시 설정",
+    "알림 설정",
+    "기록 보관"
+  ],
+  "warranty_days": 14
+}

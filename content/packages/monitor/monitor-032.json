@@ -1,0 +1,23 @@
+{
+  "id": "PKG-MON-NEWBIE-BUNDLE",
+  "name": "MONITOR NEWBIE",
+  "name_kr": "감시 초보세트",
+  "subtitle_kr": "모니터링 초보자용",
+  "severity": "medium",
+  "price_krw": 69000,
+  "duration": "1일",
+  "symptoms": [
+    "모니터링을 처음 해봐요"
+  ],
+  "description_kr": "모니터링의 가장 기초를 잡아드려요.",
+  "fixes_vulns": [
+    "VULN-MON-001",
+    "VULN-MON-002"
+  ],
+  "includes": [
+    "기본 점검",
+    "필수 설치",
+    "가이드 제공"
+  ],
+  "warranty_days": 30
+}

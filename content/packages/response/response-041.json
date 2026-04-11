@@ -1,0 +1,22 @@
+{
+  "id": "PKG-RES-COMMUNICATION-KIT",
+  "name": "COMMUNICATION KIT",
+  "name_kr": "소통 도구함",
+  "subtitle_kr": "사고 시 소통 도구 세트",
+  "severity": "medium",
+  "price_krw": 129000,
+  "duration": "2일",
+  "symptoms": [
+    "사고 시 고객/팀과 소통하는 방법이 없어요",
+    "위기 소통을 체계적으로 하고 싶어요"
+  ],
+  "description_kr": "사고가 나면 고객과 팀에게 어떻게 알리고 소통할지 도구와 절차를 마련해드려요.",
+  "fixes_vulns": ["VULN-RES-009", "VULN-RES-013"],
+  "includes": [
+    "소통 절차 수립",
+    "공지 템플릿 제작",
+    "팀 소통 체계",
+    "고객 FAQ 작성"
+  ],
+  "warranty_days": 14
+}

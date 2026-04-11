@@ -1,0 +1,33 @@
+{
+  "id": "PKG-DAT-FULL-AUDIT",
+  "name": "DATA FULL AUDIT",
+  "name_kr": "금고 정밀검사",
+  "subtitle_kr": "데이터 전면 감사",
+  "severity": "medium",
+  "price_krw": 450000,
+  "duration": "5일",
+  "symptoms": [
+    "데이터 관리 전체를 점검받고 싶어요"
+  ],
+  "description_kr": "데이터 관리 전체를 정밀하게 감사하고 수리해드려요. 잠금부터 백업, 개인정보까지 전부 포함이에요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003",
+    "VULN-DAT-004",
+    "VULN-DAT-005",
+    "VULN-DAT-006",
+    "VULN-DAT-007",
+    "VULN-DAT-008",
+    "VULN-DAT-009",
+    "VULN-DAT-010"
+  ],
+  "includes": [
+    "전체 데이터 감사",
+    "모든 보안 수리",
+    "백업 체계",
+    "개인정보 정책",
+    "30일 A/S"
+  ],
+  "warranty_days": 30
+}

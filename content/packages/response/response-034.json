@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-BACKUP-RESTORE",
+  "name": "BACKUP RESTORE",
+  "name_kr": "백업 복원",
+  "subtitle_kr": "백업에서 데이터 복원",
+  "severity": "medium",
+  "price_krw": 89000,
+  "duration": "1일",
+  "symptoms": [
+    "백업에서 데이터를 되살려야 해요"
+  ],
+  "description_kr": "기존 백업에서 데이터를 복원하고 정상 동작을 확인해드려요.",
+  "fixes_vulns": [
+    "VULN-RES-002",
+    "VULN-RES-011"
+  ],
+  "includes": [
+    "백업 확인",
+    "데이터 복원",
+    "정상 확인",
+    "가이드 제공"
+  ],
+  "warranty_days": 14
+}

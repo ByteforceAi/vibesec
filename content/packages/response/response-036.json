@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-FORENSIC",
+  "name": "FORENSIC ANALYSIS",
+  "name_kr": "흔적 분석",
+  "subtitle_kr": "침입 흔적 정밀 분석",
+  "severity": "medium",
+  "price_krw": 199000,
+  "duration": "5일",
+  "symptoms": [
+    "누가 어떻게 침입했는지 정확히 알고 싶어요"
+  ],
+  "description_kr": "침입 흔적을 정밀하게 분석해서 누가 어떻게 들어왔는지 밝혀드려요.",
+  "fixes_vulns": [
+    "VULN-RES-007"
+  ],
+  "includes": [
+    "침입 흔적 분석",
+    "타임라인 구성",
+    "증거 보관",
+    "상세 보고서"
+  ],
+  "warranty_days": 14
+}

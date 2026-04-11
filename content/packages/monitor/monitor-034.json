@@ -1,0 +1,24 @@
+{
+  "id": "PKG-MON-INTEGRATION-BUNDLE",
+  "name": "INTEGRATION BUNDLE",
+  "name_kr": "감시 통합세트",
+  "subtitle_kr": "감시 도구 통합 설정",
+  "severity": "medium",
+  "price_krw": 139000,
+  "duration": "2일",
+  "symptoms": [
+    "감시 도구가 여기저기 흩어져 있어요"
+  ],
+  "description_kr": "흩어진 감시 도구를 하나로 통합하고 관리를 쉽게 해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-003",
+    "VULN-MON-007",
+    "VULN-MON-010"
+  ],
+  "includes": [
+    "감시 도구 통합",
+    "대시보드 구축",
+    "필터 설정"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,25 @@
+{
+  "id": "PKG-RES-READY-MONTHLY",
+  "name": "RESPONSE READY",
+  "name_kr": "긴급 대기",
+  "subtitle_kr": "24시간 긴급출동 대기",
+  "severity": "low",
+  "price_krw": 89000,
+  "duration": "월간",
+  "symptoms": [
+    "24시간 도와줄 사람이 있으면 안심이 될 것 같아요"
+  ],
+  "description_kr": "24시간 긴급출동 대기 상태를 유지해드려요. 사고가 나면 바로 달려가요.",
+  "fixes_vulns": [
+    "VULN-RES-001",
+    "VULN-RES-002",
+    "VULN-RES-003"
+  ],
+  "includes": [
+    "24시간 대기",
+    "긴급 핫라인",
+    "월간 점검",
+    "우선 대응 보장"
+  ],
+  "warranty_days": 0
+}

@@ -1,0 +1,23 @@
+{
+  "id": "PKG-AUT-ROLE-SETUP",
+  "name": "ROLE SETUP",
+  "name_kr": "권한 분리기",
+  "subtitle_kr": "관리자/일반 권한 분리",
+  "severity": "low",
+  "price_krw": 69000,
+  "duration": "2일",
+  "symptoms": [
+    "권한 분리가 필요해요",
+    "관리자와 일반 사용자 구분이 없어요"
+  ],
+  "description_kr": "관리자와 일반 사용자의 권한을 분리해서 각자 할 수 있는 일을 구분해드려요.",
+  "fixes_vulns": [
+    "VULN-AUT-015"
+  ],
+  "includes": [
+    "권한 체계 설계",
+    "역할별 접근 제한",
+    "관리 화면 추가"
+  ],
+  "warranty_days": 30
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-COMPLIANCE-BUNDLE",
+  "name": "COMPLIANCE BUNDLE",
+  "name_kr": "기록 준수세트",
+  "subtitle_kr": "기록 보관 규정 준수",
+  "severity": "medium",
+  "price_krw": 99000,
+  "duration": "2일",
+  "symptoms": [
+    "기록을 법적 기준에 맞게 관리해야 해요"
+  ],
+  "description_kr": "기록을 법적 기준에 맞게 보관하고 관리하는 체계를 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-MON-008"
+  ],
+  "includes": [
+    "보관 규정 안내",
+    "자동 관리 설정",
+    "정책 문서"
+  ],
+  "warranty_days": 14
+}

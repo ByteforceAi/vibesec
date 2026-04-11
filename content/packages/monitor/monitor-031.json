@@ -1,0 +1,22 @@
+{
+  "id": "PKG-MON-USER-AUDIT",
+  "name": "USER AUDIT",
+  "name_kr": "사용자 감사",
+  "subtitle_kr": "사용자 활동 감사 기록",
+  "severity": "medium",
+  "price_krw": 59000,
+  "duration": "1일",
+  "symptoms": [
+    "사용자가 뭘 하는지 감사 기록이 없어요"
+  ],
+  "description_kr": "사용자의 중요한 활동을 기록하고 감사할 수 있게 해드려요.",
+  "fixes_vulns": [
+    "VULN-MON-005"
+  ],
+  "includes": [
+    "활동 기록 설정",
+    "감사 기록 보관",
+    "조회 방법"
+  ],
+  "warranty_days": 30
+}

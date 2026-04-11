@@ -1,0 +1,23 @@
+{
+  "id": "PKG-RES-BASIC-CONSULT",
+  "name": "RESPONSE CONSULT",
+  "name_kr": "긴급 상담",
+  "subtitle_kr": "15분 무료 긴급 상담",
+  "severity": "low",
+  "price_krw": 0,
+  "duration": "15분",
+  "symptoms": [
+    "무슨 일이 있는지 빨리 상담받고 싶어요",
+    "이게 긴급한 건지 모르겠어요"
+  ],
+  "description_kr": "지금 상황이 어떤 건지 15분간 무료로 상담해드려요. 어떤 처방이 필요한지 알려드려요.",
+  "fixes_vulns": [
+    "VULN-RES-001"
+  ],
+  "includes": [
+    "15분 긴급 상담",
+    "상황 파악",
+    "처방 안내"
+  ],
+  "warranty_days": 0
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PKG-INJ-SERVER-CHECK",
+  "name": "SERVER CHECK",
+  "name_kr": "서버 검증기",
+  "subtitle_kr": "서버 측 입력 검증 추가",
+  "severity": "low",
+  "price_krw": 49000,
+  "duration": "1일",
+  "symptoms": [
+    "입력 검증이 화면에서만 되고 서버에선 안 돼요"
+  ],
+  "description_kr": "화면에서만 하던 입력 검증을 서버에서도 하도록 추가해드려요. 이중으로 안전해져요.",
+  "fixes_vulns": [
+    "VULN-INJ-014"
+  ],
+  "includes": [
+    "서버 측 검증 추가",
+    "이중 검증 체계",
+    "테스트 검증"
+  ],
+  "warranty_days": 30
+}

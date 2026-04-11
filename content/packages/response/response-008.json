@@ -1,0 +1,24 @@
+{
+  "id": "PKG-RES-INCIDENT-REPORT",
+  "name": "INCIDENT REPORT",
+  "name_kr": "사고 보고서",
+  "subtitle_kr": "사고 원인 분석 리포트",
+  "severity": "medium",
+  "price_krw": 89000,
+  "duration": "2일",
+  "symptoms": [
+    "무슨 일이 있었는지 알고 싶어요",
+    "사고 원인을 파악하고 싶어요"
+  ],
+  "description_kr": "무슨 일이 어떻게 일어났는지 원인을 분석해서 알기 쉽게 보고서로 만들어드려요.",
+  "fixes_vulns": [
+    "VULN-RES-007"
+  ],
+  "includes": [
+    "사고 경위 분석",
+    "원인 파악",
+    "피해 범위 정리",
+    "보고서 작성"
+  ],
+  "warranty_days": 14
+}

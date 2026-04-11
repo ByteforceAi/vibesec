@@ -1,0 +1,23 @@
+{
+  "id": "PKG-INF-SECURITY-HEADER",
+  "name": "SECURITY HEADER",
+  "name_kr": "보안 표찰",
+  "subtitle_kr": "보안 헤더 설정",
+  "severity": "medium",
+  "price_krw": 39000,
+  "duration": "당일",
+  "symptoms": [
+    "보안 관련 설정이 빠져있는 것 같아요"
+  ],
+  "description_kr": "서비스에 필요한 보안 설정을 추가해드려요.",
+  "fixes_vulns": [
+    "VULN-INF-003",
+    "VULN-INF-015"
+  ],
+  "includes": [
+    "보안 설정 추가",
+    "설정 확인",
+    "테스트 검증"
+  ],
+  "warranty_days": 14
+}

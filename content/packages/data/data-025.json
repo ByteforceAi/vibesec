@@ -1,0 +1,28 @@
+{
+  "id": "PKG-DAT-911",
+  "name": "DATA 911",
+  "name_kr": "금고 긴급출동",
+  "subtitle_kr": "데이터 유출 긴급 대응",
+  "severity": "critical",
+  "price_krw": 950000,
+  "duration": "즉시",
+  "symptoms": [
+    "데이터가 유출된 것 같아요",
+    "고객 정보가 밖에 나간 것 같아요"
+  ],
+  "description_kr": "데이터 유출이 의심되는 긴급 상황이에요. 지금 바로 출동해서 유출을 막고 피해를 최소화해드려요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003"
+  ],
+  "includes": [
+    "즉시 접근 차단",
+    "유출 범위 파악",
+    "긴급 잠금",
+    "복구 조치",
+    "7일 모니터링",
+    "사고 보고서"
+  ],
+  "warranty_days": 30
+}

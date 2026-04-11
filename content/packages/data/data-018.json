@@ -1,0 +1,28 @@
+{
+  "id": "PKG-DAT-FORTRESS",
+  "name": "DATA FORTRESS",
+  "name_kr": "금고 요새",
+  "subtitle_kr": "금고 관리 풀 세트",
+  "severity": "medium",
+  "price_krw": 189000,
+  "duration": "3일",
+  "symptoms": [
+    "금고 관리를 완벽하게 하고 싶어요"
+  ],
+  "description_kr": "금고 잠금부터 접근 기록, 백업까지 한번에 세팅해드려요. 금고를 요새처럼 만들어요.",
+  "fixes_vulns": [
+    "VULN-DAT-001",
+    "VULN-DAT-002",
+    "VULN-DAT-003",
+    "VULN-DAT-004",
+    "VULN-DAT-006"
+  ],
+  "includes": [
+    "잠금장치 설치",
+    "비밀번호 강화",
+    "암호화",
+    "백업 설정",
+    "접근 기록"
+  ],
+  "warranty_days": 30
+}
