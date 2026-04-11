@@ -1,0 +1,10 @@
+{
+  "name": "vibesec-root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install:app": "cd app && npm install",
+    "build": "cd app && npm run build",
+    "dev": "cd app && npm run dev"
+  }
+}
