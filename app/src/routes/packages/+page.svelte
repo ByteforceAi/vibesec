@@ -3,6 +3,7 @@
   import type { TabItem } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import packagesIndex from '$content/packages/index.json';
 
   interface PkgSummary {
@@ -18,25 +19,25 @@
 
   // Categories
   const categories = [
-    { id: 'ALL', label: 'All' },
-    { id: 'SECRETS', label: 'Secrets' },
-    { id: 'AUTH', label: 'Auth' },
-    { id: 'DATA', label: 'Data' },
-    { id: 'NETWORK', label: 'Network' },
-    { id: 'INJECTION', label: 'Injection' },
-    { id: 'INFRA', label: 'Infra' },
-    { id: 'MONITOR', label: 'Monitor' },
-    { id: 'RESPONSE', label: 'Response' },
+    { id: 'ALL', label: '전체' },
+    { id: 'SECRETS', label: '비밀키' },
+    { id: 'AUTH', label: '인증' },
+    { id: 'DATA', label: '데이터' },
+    { id: 'NETWORK', label: '네트워크' },
+    { id: 'INJECTION', label: '인젝션' },
+    { id: 'INFRA', label: '인프라' },
+    { id: 'MONITOR', label: '모니터링' },
+    { id: 'RESPONSE', label: '대응' },
   ];
 
   // Price filter options
   type PriceRange = 'all' | 'free' | 'under100k' | 'under300k' | 'over300k';
   const priceFilters: { id: PriceRange; label: string }[] = [
-    { id: 'all', label: 'All' },
-    { id: 'free', label: 'Free' },
-    { id: 'under100k', label: '~10' },
-    { id: 'under300k', label: '~30' },
-    { id: 'over300k', label: '30+' },
+    { id: 'all', label: '전체' },
+    { id: 'free', label: '무료' },
+    { id: 'under100k', label: '~10만' },
+    { id: 'under300k', label: '~30만' },
+    { id: 'over300k', label: '30만+' },
   ];
 
   // State
@@ -123,7 +124,7 @@
   });
 
   function formatPrice(price: number): string {
-    if (price === 0) return 'Free';
+    if (price === 0) return '무료';
     return price.toLocaleString('ko-KR');
   }
 
@@ -135,20 +136,20 @@
 
   // Tab bar
   const navTabs: TabItem[] = [
-    { id: 'home', label: 'Home', icon: '\u2302' },
-    { id: 'diagnose', label: 'Diagnose', icon: '\uD83D\uDD0D' },
-    { id: 'report', label: 'Report', icon: '\uD83D\uDCC4' },
-    { id: 'packages', label: 'Packages', icon: '\uD83D\uDCE6' },
+    { id: 'home', label: t('home.tabs.home', '홈'), icon: '\u2302' },
+    { id: 'diagnose', label: t('home.tabs.diagnose', '진단'), icon: '\uD83D\uDD0D' },
+    { id: 'report', label: t('home.tabs.report', '리포트'), icon: '\uD83D\uDCC4' },
+    { id: 'packages', label: t('home.tabs.packages', '패키지'), icon: '\uD83D\uDCE6' },
   ];
 
   function handleNavTab(id: string) {
-    if (id === 'home') goto('/');
-    else goto(`/${id}`);
+    if (id === 'home') goto(`${base}/`);
+    else goto(`${base}/${id}`);
   }
 </script>
 
 <div class="packages-page">
-  <Toolbar title="Packages" largeTitle />
+  <Toolbar title={t('home.tabs.packages', '패키지')} largeTitle />
 
   <div class="packages-content">
     <!-- Search -->
@@ -195,7 +196,7 @@
           class:filter-chip--active={activeSeverity === 'all'}
           onclick={() => { activeSeverity = 'all'; }}
         >
-          All
+          전체
         </button>
         <button
           class="filter-chip filter-chip--red"
@@ -238,7 +239,7 @@
           <ListRow
             title={pkg.name_kr}
             subtitle={formatPrice(pkg.price_krw)}
-            onclick={() => goto(`/packages/${pkg.id}`)}
+            onclick={() => goto(`${base}/packages/${pkg.id}`)}
           >
             {#snippet leading()}
               <Badge severity={severityToBadge(pkg.severity)}>

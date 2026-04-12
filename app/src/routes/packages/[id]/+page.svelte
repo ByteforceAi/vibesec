@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { Button, Card, Badge, Toolbar, ListRow } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { addToCart, cartItems } from '$lib/stores/cart';
@@ -74,11 +75,11 @@
 
   function handleBuyNow() {
     if (pkgId) addToCart(pkgId);
-    goto('/checkout');
+    goto(`${base}/checkout`);
   }
 
   function formatPrice(price: number): string {
-    if (price === 0) return 'Free';
+    if (price === 0) return '무료';
     return price.toLocaleString('ko-KR');
   }
 
@@ -92,7 +93,7 @@
 <div class="pkg-detail-page">
   <Toolbar title={pkg()?.name_kr ?? ''}>
     {#snippet leading()}
-      <Button variant="ghost" size="sm" ariaLabel="뒤로 가기" onclick={() => goto('/packages')}>
+      <Button variant="ghost" size="sm" ariaLabel="뒤로 가기" onclick={() => goto(`${base}/packages`)}>
         {'\u2190'}
       </Button>
     {/snippet}
@@ -177,7 +178,7 @@
             <ListRow
               title={rel.name_kr}
               subtitle={formatPrice(rel.price_krw)}
-              onclick={() => goto(`/packages/${rel.id}`)}
+              onclick={() => goto(`${base}/packages/${rel.id}`)}
             >
               {#snippet leading()}
                 <Badge severity={severityToBadge(rel.severity)}>
@@ -192,7 +193,7 @@
       <!-- CTA -->
       <section class="cta-section">
         {#if inCart}
-          <Button variant="secondary" size="lg" fullWidth onclick={() => goto('/checkout')}>
+          <Button variant="secondary" size="lg" fullWidth onclick={() => goto(`${base}/checkout`)}>
             {t('checkout.payment_complete.complete_title', '')}
           </Button>
         {:else}
@@ -209,7 +210,7 @@
     <div class="not-found">
       <Card glass padding="lg">
         <p>{t('errors.page_not_found_404.body', '')}</p>
-        <Button variant="primary" size="md" onclick={() => goto('/packages')}>
+        <Button variant="primary" size="md" onclick={() => goto(`${base}/packages`)}>
           {t('errors.page_not_found_404.cta', '')}
         </Button>
       </Card>

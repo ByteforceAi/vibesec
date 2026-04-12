@@ -2,6 +2,7 @@
   import { Button, Card } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
 
   // Onboarding steps from content/copy/onboarding.md
   interface Step {
@@ -56,7 +57,7 @@
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('vibesec_visited', 'true');
     }
-    goto('/diagnose');
+    goto(`${base}/diagnose`);
   }
 
   const step = $derived(steps[currentStep]);
@@ -68,7 +69,7 @@
   <div class="skip-area">
     {#if !isLast}
       <Button variant="ghost" size="sm" onclick={skipOnboarding}>
-        Skip
+        건너뛰기
       </Button>
     {/if}
   </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { Button, Card, Toolbar, ListRow, Alert } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { cartItems, removeFromCart, clearCart, calculateTotal } from '$lib/stores/cart';
@@ -45,7 +46,7 @@
   const removeConfirm = t('checkout.cart.delete_confirmation', '');
 
   function formatPrice(price: number): string {
-    if (price === 0) return 'Free';
+    if (price === 0) return '무료';
     return price.toLocaleString('ko-KR');
   }
 
@@ -73,7 +74,7 @@
   }
 
   function handleBackHome() {
-    goto('/');
+    goto(`${base}/`);
   }
 </script>
 
@@ -109,7 +110,7 @@
             <span class="empty-icon" aria-hidden="true">{'\uD83D\uDED2'}</span>
             <h2 class="empty-title">{emptyTitle}</h2>
             <p class="empty-body">{emptyBody}</p>
-            <Button variant="primary" size="md" onclick={() => goto('/packages')}>
+            <Button variant="primary" size="md" onclick={() => goto(`${base}/packages`)}>
               {emptyCta}
             </Button>
           </div>
@@ -125,12 +126,12 @@
               <ListRow
                 title={pkg.name_kr}
                 subtitle={formatPrice(pkg.price_krw)}
-                onclick={() => goto(`/packages/${item.packageId}`)}
+                onclick={() => goto(`${base}/packages/${item.packageId}`)}
               >
                 {#snippet trailing()}
                   <button
                     class="remove-btn"
-                    aria-label="Remove"
+                    aria-label="삭제"
                     onclick={(e) => { e.stopPropagation(); handleRemoveConfirm(item.packageId); }}
                   >
                     x
@@ -176,8 +177,8 @@
     severity="warning"
     title={removeConfirm}
     actions={[
-      { label: 'OK', variant: 'destructive', onclick: confirmRemove },
-      { label: 'Cancel', variant: 'cancel', onclick: () => { showRemoveAlert = false; } },
+      { label: '확인', variant: 'destructive', onclick: confirmRemove },
+      { label: '취소', variant: 'cancel', onclick: () => { showRemoveAlert = false; } },
     ]}
     onclose={() => { showRemoveAlert = false; }}
   />

@@ -3,6 +3,7 @@
   import type { TabItem } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { scanHistory } from '$lib/stores/scan';
   import type { ScanResult } from '$lib/stores/scan';
 
@@ -19,15 +20,15 @@
 
   // Tab bar
   const tabs: TabItem[] = [
-    { id: 'home', label: 'Home', icon: '\u2302' },
-    { id: 'diagnose', label: 'Diagnose', icon: '\uD83D\uDD0D' },
-    { id: 'report', label: 'Report', icon: '\uD83D\uDCC4' },
-    { id: 'packages', label: 'Packages', icon: '\uD83D\uDCE6' },
+    { id: 'home', label: t('home.tabs.home', '홈'), icon: '\u2302' },
+    { id: 'diagnose', label: t('home.tabs.diagnose', '진단'), icon: '\uD83D\uDD0D' },
+    { id: 'report', label: t('home.tabs.report', '리포트'), icon: '\uD83D\uDCC4' },
+    { id: 'packages', label: t('home.tabs.packages', '패키지'), icon: '\uD83D\uDCE6' },
   ];
 
   function handleTabSelect(id: string) {
-    if (id === 'home') goto('/');
-    else goto(`/${id}`);
+    if (id === 'home') goto(`${base}/`);
+    else goto(`${base}/${id}`);
   }
 
   function formatDate(iso: string): string {
@@ -57,7 +58,7 @@
             <span class="empty-icon" aria-hidden="true">{'\uD83D\uDCC4'}</span>
             <h2 class="empty-title">{emptyTitle}</h2>
             <p class="empty-body">{emptyBody}</p>
-            <Button variant="primary" size="md" onclick={() => goto('/diagnose')}>
+            <Button variant="primary" size="md" onclick={() => goto(`${base}/diagnose`)}>
               {emptyCta}
             </Button>
           </div>
@@ -70,7 +71,7 @@
           <ListRow
             title={scan.target}
             subtitle={formatDate(scan.finishedAt)}
-            onclick={() => goto(`/report/${scan.scanId}`)}
+            onclick={() => goto(`${base}/report/${scan.scanId}`)}
           >
             {#snippet leading()}
               <div class="scan-badges-compact">

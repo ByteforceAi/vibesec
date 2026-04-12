@@ -2,6 +2,7 @@
   import { Button, Card, Input, ProgressIndicator, Toolbar } from '$lib/components';
   import { t, getSection } from '$lib/i18n/loader';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import {
     scanState,
     startScan,
@@ -70,7 +71,7 @@
       });
       completeScan(result);
       // Navigate to report
-      goto(`/report/${result.scanId}`);
+      goto(`${base}/report/${result.scanId}`);
     } catch {
       failScan(t('errors.diagnosis_failure.body', ''));
     }

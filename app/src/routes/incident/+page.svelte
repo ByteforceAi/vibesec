@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { Button, Card, Toolbar } from '$lib/components';
   import { t } from '$lib/i18n/loader';
 
@@ -34,7 +35,7 @@
 <div class="incident-page">
   <Toolbar title={t('incident.page.title', '')}>
     {#snippet leading()}
-      <Button variant="ghost" size="sm" ariaLabel={t('incident.nav.back_to_home', '')} onclick={() => goto('/')}>
+      <Button variant="ghost" size="sm" ariaLabel={t('incident.nav.back_to_home', '')} onclick={() => goto(`${base}/`)}>
         {'\u2190'}
       </Button>
     {/snippet}
@@ -49,7 +50,7 @@
             <span class="complete-icon" aria-hidden="true">{'\uD83D\uDC4C'}</span>
             <h2 class="complete-title">{t('incident.contact.complete_title', '')}</h2>
             <p class="complete-body">{t('incident.contact.complete_body', '')}</p>
-            <Button variant="primary" size="lg" fullWidth onclick={() => goto('/')}>
+            <Button variant="primary" size="lg" fullWidth onclick={() => goto(`${base}/`)}>
               {t('incident.nav.back_to_home', '')}
             </Button>
           </div>

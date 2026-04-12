@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
+  import { base } from '$app/paths';
   import { Button, Card, Badge, Toolbar, ListRow, Sheet } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { scanHistory } from '$lib/stores/scan';
@@ -69,7 +70,7 @@
   }
 
   function formatPrice(price: number): string {
-    if (price === 0) return 'Free';
+    if (price === 0) return '무료';
     return price.toLocaleString('ko-KR');
   }
 </script>
@@ -77,7 +78,7 @@
 <div class="report-page">
   <Toolbar title={resultTitle}>
     {#snippet leading()}
-      <Button variant="ghost" size="sm" ariaLabel="뒤로 가기" onclick={() => goto('/report')}>
+      <Button variant="ghost" size="sm" ariaLabel="뒤로 가기" onclick={() => goto(`${base}/report`)}>
         {'\u2190'}
       </Button>
     {/snippet}
@@ -135,7 +136,7 @@
         <section class="recommended-section">
           <h3 class="section-heading">{t('diagnosis.report_summary_copy.summary_phrases.template', '')}</h3>
           {#each recommendedPkgs as pkg}
-            <Card glass padding="md" onclick={() => goto(`/packages/${pkg.id}`)}>
+            <Card glass padding="md" onclick={() => goto(`${base}/packages/${pkg.id}`)}>
               <div class="pkg-row">
                 <div class="pkg-info">
                   <span class="pkg-name">{pkg.name_kr}</span>
@@ -149,12 +150,12 @@
           {/each}
 
           <div class="cta-row">
-            <Button variant="primary" size="lg" fullWidth onclick={() => goto('/checkout')}>
+            <Button variant="primary" size="lg" fullWidth onclick={() => goto(`${base}/checkout`)}>
               {t('checkout.payment_complete.complete_title', '')}
             </Button>
           </div>
           <div class="cta-row">
-            <Button variant="ghost" size="md" fullWidth onclick={() => goto('/packages')}>
+            <Button variant="ghost" size="md" fullWidth onclick={() => goto(`${base}/packages`)}>
               {t('empty_states.no_search_results.cta', '')}
             </Button>
           </div>
@@ -180,7 +181,7 @@
                   <Button
                     variant="secondary"
                     size="sm"
-                    onclick={() => { closeFinding(); goto(`/packages/${pkg.id}`); }}
+                    onclick={() => { closeFinding(); goto(`${base}/packages/${pkg.id}`); }}
                   >
                     {pkg.name_kr}
                   </Button>
@@ -197,7 +198,7 @@
       <Card glass padding="lg">
         <div class="not-found-inner">
           <p>{t('errors.page_not_found_404.body', '')}</p>
-          <Button variant="primary" size="md" onclick={() => goto('/diagnose')}>
+          <Button variant="primary" size="md" onclick={() => goto(`${base}/diagnose`)}>
             {t('empty_states.no_diagnosis_records.cta', '')}
           </Button>
         </div>
