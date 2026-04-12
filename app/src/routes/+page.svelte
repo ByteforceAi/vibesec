@@ -26,6 +26,9 @@
   // --- SVG draw progress ---
   let drawProgress = $state(0);
 
+  // --- Scanline position (0..1) ---
+  let scanlineY = $state(0);
+
   // --- Data ---
   let activeTab = $state('home');
   let history = $state<ScanResult[]>([]);
@@ -73,6 +76,24 @@
     } else {
       startFullSequence();
     }
+  });
+
+  // --- Scanline animation ---
+  $effect(() => {
+    if (reducedMotion) return;
+    if (phase !== 'alive' && phase !== 'home-in') return;
+    let animId: number;
+    const duration = 4000;
+    const start = performance.now();
+    function tick() {
+      const elapsed = (performance.now() - start) % duration;
+      const t = elapsed / duration;
+      // ping-pong: 0->1->0
+      scanlineY = t < 0.5 ? t * 2 : 2 - t * 2;
+      animId = requestAnimationFrame(tick);
+    }
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
   });
 
   // --- Full first-visit sequence (~3s splash + home reveal) ---
@@ -147,7 +168,7 @@
     requestAnimationFrame(tick);
   }
 
-  // --- Binary Matrix Rain (canvas) ---
+  // --- Binary Rain Canvas (ascending) ---
   $effect(() => {
     if (!canvasEl) return;
     const ctx = canvasEl.getContext('2d');
@@ -155,21 +176,22 @@
     let animId: number;
     let w = 0, h = 0;
 
-    const COL_GAP = 20;
-    const FONT_SIZE = 11;
-    const SPEED_MIN = 0.5;
-    const SPEED_MAX = 1.5;
-    const CHAR_OPACITY_TOP = 0.08;
-    const CHAR_OPACITY_BOTTOM = 0.02;
+    const LANE_WIDTH = 140;
+    const FONT_SIZE = 13;
+    const CHAR_GAP = 18;
+    const SPEED_MIN = 0.3;
+    const SPEED_MAX = 0.9;
+    const BASE_COLOR = 'rgba(58, 160, 255, 0.14)';
+    const HEAD_COLOR = 'rgba(90, 200, 250, 0.55)';
 
-    interface Column {
+    interface Lane {
       x: number;
       y: number;
       speed: number;
       chars: string[];
       len: number;
     }
-    let columns: Column[] = [];
+    let lanes: Lane[] = [];
 
     function makeChars(len: number): string[] {
       const arr: string[] = [];
@@ -179,11 +201,11 @@
       return arr;
     }
 
-    function resetColumn(col: Column) {
-      col.y = -Math.random() * h * 0.5;
-      col.speed = SPEED_MIN + Math.random() * (SPEED_MAX - SPEED_MIN);
-      col.len = 5 + Math.floor(Math.random() * 11);
-      col.chars = makeChars(col.len);
+    function resetLane(lane: Lane) {
+      lane.y = h + Math.random() * h * 0.5;
+      lane.speed = SPEED_MIN + Math.random() * (SPEED_MAX - SPEED_MIN);
+      lane.len = 8 + Math.floor(Math.random() * 12);
+      lane.chars = makeChars(lane.len);
     }
 
     function resize() {
@@ -195,18 +217,21 @@
 
     function init() {
       resize();
-      columns = [];
-      const numCols = Math.floor(w / COL_GAP);
-      for (let i = 0; i < numCols; i++) {
-        const col: Column = {
-          x: i * COL_GAP + COL_GAP / 2,
-          y: -Math.random() * h,
+      lanes = [];
+      let numLanes = Math.floor(w / LANE_WIDTH);
+      numLanes = Math.max(4, Math.min(10, numLanes));
+      const spacing = w / numLanes;
+      for (let i = 0; i < numLanes; i++) {
+        const jitter = (Math.random() - 0.5) * 0.3 * spacing;
+        const lane: Lane = {
+          x: spacing * (i + 0.5) + jitter,
+          y: h + Math.random() * h,
           speed: SPEED_MIN + Math.random() * (SPEED_MAX - SPEED_MIN),
-          len: 5 + Math.floor(Math.random() * 11),
+          len: 8 + Math.floor(Math.random() * 12),
           chars: [],
         };
-        col.chars = makeChars(col.len);
-        columns.push(col);
+        lane.chars = makeChars(lane.len);
+        lanes.push(lane);
       }
     }
 
@@ -215,26 +240,33 @@
       ctx!.font = `${FONT_SIZE}px "JetBrains Mono","SF Mono",monospace`;
       ctx!.textAlign = 'center';
 
-      for (const col of columns) {
-        col.y += col.speed;
+      for (const lane of lanes) {
+        // Move upward
+        lane.y -= lane.speed;
 
-        for (let i = 0; i < col.chars.length; i++) {
-          const charY = col.y + i * (FONT_SIZE + 2);
-          if (charY < 0 || charY > h) continue;
+        for (let i = 0; i < lane.chars.length; i++) {
+          // 2% chance to flip
+          if (Math.random() < 0.02) {
+            lane.chars[i] = lane.chars[i] === '0' ? '1' : '0';
+          }
 
-          const yRatio = charY / h;
-          const alpha = CHAR_OPACITY_TOP + (CHAR_OPACITY_BOTTOM - CHAR_OPACITY_TOP) * yRatio;
+          const charY = lane.y - i * CHAR_GAP;
+          if (charY < -20 || charY > h + 20) continue;
 
-          ctx!.fillStyle = `rgba(10,132,255,${alpha})`;
-          ctx!.fillText(col.chars[i], col.x, charY);
+          // First char (lowest index = bottom, head of ascending stream) is bright
+          const isHead = i === 0;
+          ctx!.fillStyle = isHead ? HEAD_COLOR : BASE_COLOR;
+          ctx!.fillText(lane.chars[i], lane.x, charY);
         }
 
-        const lastCharY = col.y + col.chars.length * (FONT_SIZE + 2);
-        if (lastCharY > h + 100) {
-          resetColumn(col);
+        // Reset when entire lane has risen above viewport
+        const lastCharY = lane.y - (lane.chars.length - 1) * CHAR_GAP;
+        if (lastCharY < -40) {
+          resetLane(lane);
         }
       }
 
+      if (reducedMotion) return; // static render: one frame only
       animId = requestAnimationFrame(draw);
     }
 
@@ -363,22 +395,25 @@
       <!-- ===== HERO ===== -->
       <section class="hero">
         <div class="shield-wrap" class:shield-wrap--pulse={glowPulse}>
-          <!-- Orbital rings (rotating) -->
-          <div class="orbit orbit--1"></div>
-          <div class="orbit orbit--2"></div>
-          <div class="orbit orbit--3"></div>
+          <!-- Outer dashed ring, slowly rotating -->
+          <div class="outer-ring"></div>
 
           <svg class="hero-shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shield fill -->
             <path
               d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
               fill="rgba(10,132,255,0.04)"
             />
+            <!-- Shield stroke -->
             <path
               d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-              stroke="rgba(10,132,255,0.5)"
-              stroke-width="1.2"
+              stroke="rgba(10,132,255,0.6)"
+              stroke-width="1.5"
               fill="none"
             />
+            <!-- Center core glow -->
+            <circle class="core-pulse" cx="32" cy="40" r="8" fill="var(--blue-glow)" opacity="0.9"/>
+            <!-- Checkmark -->
             <path
               d="M26 38l6 6 12-14"
               stroke="#0A84FF"
@@ -386,6 +421,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
+            <!-- Hammer dents -->
             <circle cx="20" cy="25" r="3" fill="none" stroke="rgba(10,132,255,0.2)" stroke-width="0.8"/>
             <line x1="17" y1="23" x2="15.5" y2="21.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
             <line x1="22" y1="22.5" x2="23.5" y2="21" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
@@ -393,12 +429,30 @@
             <line x1="46" y1="28" x2="47.5" y2="26.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
             <ellipse cx="38" cy="55" rx="4" ry="2" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
             <line x1="41" y1="53.5" x2="43" y2="52" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-            <line x1="35" y1="56.5" x2="33" y2="58" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
+            <!-- Scanline -->
+            <clipPath id="shield-clip">
+              <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"/>
+            </clipPath>
+            <line
+              x1="0" x2="64"
+              y1={6 + scanlineY * 68}
+              y2={6 + scanlineY * 68}
+              stroke="var(--cyan-scan)"
+              stroke-width="1.5"
+              opacity="0.7"
+              filter="url(#scanblur)"
+              clip-path="url(#shield-clip)"
+            />
+            <defs>
+              <filter id="scanblur">
+                <feGaussianBlur stdDeviation="2"/>
+              </filter>
+            </defs>
           </svg>
         </div>
 
         {#if phase === 'alive' && showStatus}
-          <p class="status-text elem-fade-in">{'\uC544\uC9C1 \uC810\uAC80 \uC804\uC785\uB2C8\uB2E4'}</p>
+          <p class="status-text elem-fade-in"><span class="status-prompt">&gt;</span> {'\uC544\uC9C1 \uC810\uAC80 \uC804\uC785\uB2C8\uB2E4'}<span class="cursor-blink"></span></p>
         {/if}
 
         {#if phase === 'alive' && showCta}
@@ -410,6 +464,10 @@
       <section class="cards">
         {#if phase === 'alive' && showCard0}
           <button class="card card--blue elem-rise-in" onclick={() => goto(`${base}/packages`)}>
+            <div class="card-status-dot dot--green">
+              <span class="dot-circle dot-circle--green"></span>
+              <span class="dot-label">ONLINE</span>
+            </div>
             <div class="card-body">
               <div class="card-icon card-icon--blue">
                 <svg viewBox="0 0 64 76" fill="none">
@@ -427,9 +485,13 @@
         {/if}
 
         {#if phase === 'alive' && showCard1}
-          <button class="card card--red elem-rise-in" onclick={() => goto(`${base}/incident`)}>
+          <button class="card card--coral card--urgent elem-rise-in" onclick={() => goto(`${base}/incident`)}>
+            <div class="card-status-dot dot--coral">
+              <span class="dot-circle dot-circle--coral dot-circle--pulse"></span>
+              <span class="dot-label">STANDBY</span>
+            </div>
             <div class="card-body">
-              <div class="card-icon card-icon--red">
+              <div class="card-icon card-icon--coral">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
                 </svg>
@@ -439,12 +501,16 @@
                 <span class="card-sub">{'24\uC2DC\uAC04 \uC774\uB0B4 \uB300\uC751'}</span>
               </div>
             </div>
-            <span class="card-link card-link--red">{'\uAE34\uAE09 \uC694\uCCAD'} &gt;</span>
+            <span class="card-link card-link--coral">{'\uAE34\uAE09 \uC694\uCCAD'} &gt;</span>
           </button>
         {/if}
 
         {#if phase === 'alive' && showCard2}
           <button class="card card--green elem-rise-in" onclick={() => goto(`${base}/packages`)}>
+            <div class="card-status-dot dot--blue">
+              <span class="dot-circle dot-circle--blue"></span>
+              <span class="dot-label">SCHEDULED</span>
+            </div>
             <div class="card-body">
               <div class="card-icon card-icon--green">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -465,30 +531,54 @@
         {/if}
       </section>
 
-      <!-- ===== RECENT SCANS ===== -->
-      {#if phase === 'alive' && showRecent && history.length > 0}
+      <!-- ===== RECENT SCANS - TERMINAL LOG ===== -->
+      {#if phase === 'alive' && showRecent}
         <section class="recent elem-fade-in">
           <h2 class="sec-head">{'\uCD5C\uADFC \uC810\uAC80'}</h2>
-          {#each history.slice(0, 5) as scan}
-            <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
-              <div class="scan-info">
-                <span class="scan-url">{scan.target}</span>
-                <span class="scan-date">{fmtDate(scan.finishedAt)}</span>
-              </div>
-              <div class="scan-tags">
-                {#if scan.summary.critical > 0}<span class="tag tag--c">{scan.summary.critical}</span>{/if}
-                {#if scan.summary.warning > 0}<span class="tag tag--w">{scan.summary.warning}</span>{/if}
-                {#if scan.summary.ok > 0}<span class="tag tag--o">{scan.summary.ok}</span>{/if}
-              </div>
-            </button>
-          {/each}
+          <div class="terminal-log">
+            <div class="log-line">
+              <span class="log-ts">[2026.04.13 00:18]</span>
+              <span class="log-status">SCAN COMPLETE</span>
+            </div>
+            <div class="log-tree">
+              <span class="tree-char">{'\u2514\u2500'}</span>
+              <a class="log-url" href="https://github.com/hangyeolalmighty/TeacherConnect" target="_blank" rel="noopener">https://github.com/hangyeolalmighty/TeacherConnect</a>
+            </div>
+            <div class="log-tree log-tree--sub">
+              <span class="tree-char">{'\u251C\u2500'}</span>
+              <span class="log-detail"><span class="badge badge--blue">6</span> issues detected</span>
+            </div>
+            <div class="log-tree log-tree--sub">
+              <span class="tree-char">{'\u2514\u2500'}</span>
+              <span class="log-detail"><span class="badge badge--coral">1</span> critical</span>
+            </div>
+          </div>
+
+          {#if history.length > 0}
+            {#each history.slice(0, 5) as scan}
+              <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
+                <div class="scan-info">
+                  <span class="scan-url">{scan.target}</span>
+                  <span class="scan-date">{fmtDate(scan.finishedAt)}</span>
+                </div>
+                <div class="scan-tags">
+                  {#if scan.summary.critical > 0}<span class="tag tag--c">{scan.summary.critical}</span>{/if}
+                  {#if scan.summary.warning > 0}<span class="tag tag--w">{scan.summary.warning}</span>{/if}
+                  {#if scan.summary.ok > 0}<span class="tag tag--o">{scan.summary.ok}</span>{/if}
+                </div>
+              </button>
+            {/each}
+          {/if}
         </section>
       {/if}
     </div>
 
     <!-- Bottom nav -->
     <nav class="nav">
-      <button class="nav-i nav-i--on" onclick={() => navTo('home')}>{'\uD648'}</button>
+      <button class="nav-i nav-i--on" onclick={() => navTo('home')}>
+        <span class="nav-indicator"></span>
+        {'\uD648'}
+      </button>
       <button class="nav-i" onclick={() => navTo('diagnose')}>{'\uC9C4\uB2E8'}</button>
       <button class="nav-i" onclick={() => navTo('report')}>{'\uB9AC\uD3EC\uD2B8'}</button>
       <button class="nav-i" onclick={() => navTo('packages')}>{'\uC694\uAE08\uC81C'}</button>
@@ -498,32 +588,38 @@
 
 <style>
   .page {
-    --bg:        #050510;
-    --surface:   #0a0a1a;
-    --surface-2: #0f0f24;
-    --text:      #e8e8f0;
-    --text-2:    #8888a0;
-    --text-3:    #4a4a60;
-    --blue:      #0A84FF;
-    --blue-glow: rgba(10,132,255,0.15);
-    --blue-dim:  rgba(10,132,255,0.06);
-    --green:     #32d74b;
-    --red:       #ff453a;
-    --border:    rgba(10,132,255,0.08);
-    --f: "Instrument Sans","Pretendard Variable",-apple-system,sans-serif;
-    --m: "JetBrains Mono","SF Mono",monospace;
-    --ease: cubic-bezier(0.16,1,0.3,1);
+    --bg-void: #05060A;
+    --bg-abyss: #0A0E1A;
+    --bg-deep: #0D1528;
+    --border-dim: rgba(120, 160, 220, 0.08);
+    --border-active: rgba(10, 132, 255, 0.45);
+    --blue-core: #0A84FF;
+    --blue-glow: #3BA0FF;
+    --blue-deep: #0047B3;
+    --cyan-scan: #5AC8FA;
+    --coral-alert: #FF6B47;
+    --coral-glow: rgba(255, 107, 71, 0.35);
+    --text-primary: #EAF2FF;
+    --text-secondary: rgba(234, 242, 255, 0.62);
+    --text-tertiary: rgba(234, 242, 255, 0.38);
+    --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-pulse: cubic-bezier(0.4, 0, 0.2, 1);
+    --mono: "JetBrains Mono", "SF Mono", monospace;
+    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
 
     position: relative;
     min-height: 100dvh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--f);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 71, 179, 0.08) 0%, transparent 50%),
+      var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== BINARY MATRIX CANVAS ===== */
+  /* ===== BINARY RAIN CANVAS ===== */
   .matrix-canvas {
     position: fixed;
     inset: 0;
@@ -542,8 +638,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
-    transition: opacity 0.5s ease-out;
+    background: var(--bg-void);
+    transition: opacity 0.5s var(--ease-organic);
   }
   .splash--fade {
     opacity: 0;
@@ -562,8 +658,8 @@
     height: 95px;
     opacity: 0;
     transform: scale(0.6);
-    animation: splashShieldIn 0.5s var(--ease) forwards;
-    filter: drop-shadow(0 0 30px rgba(10,132,255,0.25));
+    animation: splashShieldIn 0.5s var(--ease-organic) forwards;
+    filter: drop-shadow(0 0 30px rgba(10,132,255,0.35));
   }
   @keyframes splashShieldIn {
     from { opacity: 0; transform: scale(0.6); }
@@ -577,7 +673,7 @@
     color: rgba(10,132,255,0.8);
     opacity: 0;
     transform: translateY(6px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transition: opacity 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
   }
   .splash-label--in {
     opacity: 1;
@@ -588,10 +684,10 @@
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.2em;
-    color: var(--text-3);
+    color: var(--text-tertiary);
     opacity: 0;
     transform: translateY(4px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    transition: opacity 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
   }
   .splash-brand--in {
     opacity: 1;
@@ -606,7 +702,7 @@
     display: flex;
     flex-direction: column;
     opacity: 0;
-    transition: opacity 0.4s var(--ease);
+    transition: opacity 0.4s var(--ease-organic);
   }
   .app--visible {
     opacity: 1;
@@ -622,13 +718,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background: rgba(5,5,16,0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border-dim);
     opacity: 0;
     transform: translateY(-8px);
-    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+    transition: opacity 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
   }
   .bar--in {
     opacity: 1;
@@ -641,30 +737,30 @@
     gap: 8px;
   }
   .bar-shield {
-    width: 18px;
-    height: 22px;
+    width: 20px;
+    height: 24px;
     opacity: 0.6;
   }
   .bar-brand {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.14em;
-    color: var(--text-3);
+    color: var(--text-tertiary);
   }
   .bar-action {
-    font-family: var(--f);
+    font-family: var(--font);
     font-size: 12px;
     font-weight: 500;
-    color: var(--blue);
+    color: var(--blue-core);
     background: none;
     border: 1px solid rgba(10,132,255,0.3);
     border-radius: 6px;
     padding: 5px 14px;
     cursor: pointer;
-    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    transition: color 0.4s var(--ease-organic), border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic);
   }
   .bar-action:hover {
-    color: #3da0ff;
+    color: var(--blue-glow);
     border-color: rgba(10,132,255,0.5);
     background: rgba(10,132,255,0.05);
   }
@@ -693,7 +789,7 @@
     justify-content: center;
   }
 
-  /* Shield wrapper with orbital rings */
+  /* Shield wrapper */
   .shield-wrap {
     position: relative;
     width: 220px;
@@ -704,7 +800,7 @@
     flex-shrink: 0;
   }
   .shield-wrap--pulse .hero-shield {
-    animation: glowPulseAnim 0.6s ease-in-out;
+    animation: glowPulseAnim 0.6s var(--ease-pulse);
   }
   @keyframes glowPulseAnim {
     0% { filter: drop-shadow(0 0 30px rgba(10,132,255,0.1)); }
@@ -717,60 +813,73 @@
     height: 190px;
     position: relative;
     z-index: 2;
-    filter: drop-shadow(0 0 60px rgba(10,132,255,0.2));
+    filter: drop-shadow(0 0 60px rgba(10,132,255,0.25));
   }
 
-  /* Orbital rings - slowly rotating */
-  .orbit {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(10,132,255,0.08);
-    top: 50%;
-    left: 50%;
-    pointer-events: none;
+  /* Core pulse */
+  .core-pulse {
+    animation: corePulse 2.5s var(--ease-pulse) infinite;
+    transform-origin: 32px 40px;
   }
-  .orbit--1 {
+  @keyframes corePulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  /* Outer dashed ring */
+  .outer-ring {
+    position: absolute;
     width: 200px;
     height: 200px;
-    border-color: rgba(10,132,255,0.1);
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    animation: orbitRotate1 30s linear infinite;
+    border-radius: 50%;
+    border: 1px dashed rgba(10,132,255,0.15);
+    animation: ringRotate 20s linear infinite;
+    pointer-events: none;
   }
-  .orbit--2 {
-    width: 240px;
-    height: 240px;
-    border-color: rgba(10,132,255,0.06);
-    transform: translate(-50%, -50%);
-    animation: orbitRotate2 60s linear infinite;
-  }
-  .orbit--3 {
-    width: 280px;
-    height: 280px;
-    border-color: rgba(10,132,255,0.035);
-    transform: translate(-50%, -50%);
-    animation: orbitRotate3 90s linear infinite;
-  }
-
-  @keyframes orbitRotate1 {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-  @keyframes orbitRotate2 {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(-360deg); }
-  }
-  @keyframes orbitRotate3 {
+  @keyframes ringRotate {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
-  /* Status text */
+  /* Halo synced with core pulse */
+  .hero-shield {
+    animation: haloSync 2.5s var(--ease-pulse) infinite;
+  }
+  @keyframes haloSync {
+    0%, 100% { filter: drop-shadow(0 0 40px rgba(10,132,255,0.2)); }
+    50% { filter: drop-shadow(0 0 70px rgba(10,132,255,0.35)); }
+  }
+
+  /* Status text with terminal style */
   .status-text {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text);
+    font-size: 16px;
+    font-weight: 400;
+    font-family: var(--mono);
+    color: var(--text-secondary);
     text-align: center;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .status-prompt {
+    color: var(--blue-core);
+    margin-right: 8px;
+  }
+  .cursor-blink {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--blue-core);
+    margin-left: 4px;
+    animation: cursorBlink 1s step-end infinite;
+  }
+  @keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
   }
 
   /* CTA Button - pill */
@@ -778,27 +887,27 @@
     padding: 13px 40px;
     border-radius: 980px;
     border: none;
-    background: var(--blue);
+    background: var(--blue-core);
     color: #fff;
-    font-family: var(--f);
+    font-family: var(--font);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    transition: background 0.4s var(--ease-organic), transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
     box-shadow: 0 0 30px rgba(10,132,255,0.2);
   }
   .hero-cta:hover {
-    background: #3da0ff;
+    background: var(--blue-glow);
     transform: translateY(-1px);
     box-shadow: 0 0 50px rgba(10,132,255,0.35);
   }
 
   /* Element animations */
   .elem-fade-in {
-    animation: elemFadeIn 0.4s var(--ease) forwards;
+    animation: elemFadeIn 0.4s var(--ease-organic) forwards;
   }
   .elem-rise-in {
-    animation: elemRiseIn 0.5s var(--ease) forwards;
+    animation: elemRiseIn 0.5s var(--ease-organic) forwards;
   }
   @keyframes elemFadeIn {
     from { opacity: 0; }
@@ -817,53 +926,127 @@
   }
 
   .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
+    background: linear-gradient(165deg, #0D1528 0%, #0A0E1A 100%);
+    border: 1px solid var(--border-dim);
+    border-radius: 14px;
+    padding: 24px;
     cursor: pointer;
     text-align: left;
-    color: var(--text);
-    font-family: var(--f);
+    color: var(--text-primary);
+    font-family: var(--font);
     width: 100%;
-    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-    animation: breathe 4s ease-in-out infinite;
+    overflow: hidden;
+    transition: transform 0.4s var(--ease-organic), border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
   }
 
-  /* Breathing animation per card */
-  .card--blue {
-    border-left: 3px solid var(--blue);
-    animation-delay: 0s;
+  /* Left light bar (::before) */
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
   }
-  .card--red {
-    border-left: 3px solid var(--red);
-    animation-delay: 1s;
+  .card--blue::before {
+    background: var(--blue-core);
+    box-shadow: 0 0 12px rgba(10, 132, 255, 0.4);
   }
-  .card--green {
-    border-left: 3px solid var(--green);
-    animation-delay: 2s;
+  .card--coral::before {
+    background: var(--coral-alert);
+    box-shadow: 0 0 12px var(--coral-glow);
+  }
+  .card--green::before {
+    background: #32d74b;
+    box-shadow: 0 0 12px rgba(50, 215, 75, 0.4);
+  }
+  .card:hover::before {
+    transform: scaleY(1);
   }
 
-  @keyframes breathe {
-    0%, 100% { box-shadow: 0 0 0 rgba(10,132,255,0); }
-    50% { box-shadow: 0 0 20px rgba(10,132,255,0.06); }
-  }
-
+  /* Card hover */
   .card:hover {
-    border-color: rgba(10,132,255,0.25);
-    transform: scale(1.01) translateY(-2px);
-    box-shadow: 0 0 30px rgba(10,132,255,0.12);
+    transform: translateY(-4px);
+    border-color: var(--border-active);
+    background: linear-gradient(165deg, #112041 0%, #0A0E1A 100%);
+    box-shadow:
+      0 12px 40px rgba(0, 71, 179, 0.25),
+      0 0 0 1px rgba(10, 132, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
-  .card--red:hover {
-    border-color: rgba(255,69,58,0.25);
-    box-shadow: 0 0 30px rgba(255,69,58,0.1);
+
+  /* Icon hover */
+  .card:hover .card-icon--blue {
+    filter: drop-shadow(0 0 12px var(--blue-glow));
+    transform: scale(1.08);
   }
-  .card--green:hover {
-    border-color: rgba(50,215,75,0.25);
-    box-shadow: 0 0 30px rgba(50,215,75,0.1);
+  .card:hover .card-icon--coral {
+    filter: drop-shadow(0 0 12px var(--coral-alert));
+    transform: scale(1.08);
+  }
+  .card:hover .card-icon--green {
+    filter: drop-shadow(0 0 12px #32d74b);
+    transform: scale(1.08);
+  }
+
+  /* Urgent card (coral) special */
+  .card--urgent {
+    background: linear-gradient(165deg, #1F1410 0%, #0A0E1A 100%);
+  }
+  .card--urgent:hover {
+    background: linear-gradient(165deg, #2A1A14 0%, #0A0E1A 100%);
+    box-shadow:
+      0 12px 40px rgba(255, 107, 71, 0.15),
+      0 0 0 1px rgba(255, 107, 71, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Status dots */
+  .card-status-dot {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dot-circle {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .dot-circle--green {
+    background: #32d74b;
+  }
+  .dot-circle--coral {
+    background: var(--coral-alert);
+  }
+  .dot-circle--blue {
+    background: var(--blue-core);
+  }
+  .dot-circle--pulse {
+    animation: urgent-pulse 1.2s var(--ease-pulse) infinite;
+  }
+  .dot-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+  }
+
+  @keyframes urgent-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 107, 71, 0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 107, 71, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 107, 71, 0); }
   }
 
   .card-body {
@@ -879,19 +1062,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.3s;
+    transition: filter 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
   }
   .card-icon svg {
     width: 100%;
     height: 100%;
   }
-  .card-icon--blue { color: var(--blue); }
-  .card-icon--red { color: var(--red); }
-  .card-icon--green { color: var(--green); }
-
-  .card:hover .card-icon--blue { color: #3da0ff; }
-  .card:hover .card-icon--red { color: #ff6b63; }
-  .card:hover .card-icon--green { color: #5ee66d; }
+  .card-icon--blue { color: var(--blue-core); }
+  .card-icon--coral { color: var(--coral-alert); }
+  .card-icon--green { color: #32d74b; }
 
   .card-text {
     display: flex;
@@ -901,11 +1080,11 @@
   .card-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--text);
+    color: var(--text-primary);
   }
   .card-sub {
     font-size: 13px;
-    color: var(--text-2);
+    color: var(--text-secondary);
   }
 
   .card-link {
@@ -913,11 +1092,11 @@
     font-weight: 500;
     letter-spacing: 0.01em;
   }
-  .card-link--blue { color: var(--blue); }
-  .card-link--red { color: var(--red); }
-  .card-link--green { color: var(--green); }
+  .card-link--blue { color: var(--blue-core); }
+  .card-link--coral { color: var(--coral-alert); }
+  .card-link--green { color: #32d74b; }
 
-  /* ===== RECENT ===== */
+  /* ===== RECENT - TERMINAL LOG ===== */
   .recent {
     display: flex;
     flex-direction: column;
@@ -927,30 +1106,109 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--text-3);
+    color: var(--text-tertiary);
     margin: 0 0 8px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-dim);
   }
+
+  .terminal-log {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 16px;
+    background: rgba(10, 14, 26, 0.6);
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .log-line {
+    display: flex;
+    gap: 10px;
+  }
+  .log-ts {
+    color: var(--text-tertiary);
+  }
+  .log-status {
+    color: var(--blue-core);
+    font-weight: 500;
+  }
+  .log-tree {
+    display: flex;
+    gap: 6px;
+    padding-left: 4px;
+  }
+  .log-tree--sub {
+    padding-left: 28px;
+  }
+  .tree-char {
+    color: var(--text-tertiary);
+  }
+  .log-url {
+    color: var(--text-secondary);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.4s var(--ease-organic);
+  }
+  .log-url::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--blue-core);
+    transition: width 0.4s var(--ease-organic);
+  }
+  .log-url:hover {
+    color: var(--blue-glow);
+  }
+  .log-url:hover::after {
+    width: 100%;
+  }
+  .log-detail {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .badge--blue {
+    color: var(--blue-core);
+    background: rgba(10, 132, 255, 0.12);
+  }
+  .badge--coral {
+    color: var(--coral-alert);
+    background: rgba(255, 107, 71, 0.12);
+  }
+
   .scan-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-dim);
     background: none;
     width: 100%;
-    font-family: var(--f);
+    font-family: var(--font);
     cursor: pointer;
     text-align: left;
-    color: var(--text);
+    color: var(--text-primary);
     border-left: none;
     border-right: none;
     border-top: none;
-    transition: background 0.15s;
+    transition: background 0.4s var(--ease-organic);
   }
   .scan-row:hover {
-    background: var(--surface);
+    background: rgba(13, 21, 40, 0.5);
   }
   .scan-info {
     display: flex;
@@ -966,7 +1224,7 @@
   }
   .scan-date {
     font-size: 11px;
-    color: var(--text-3);
+    color: var(--text-tertiary);
   }
   .scan-tags {
     display: flex;
@@ -974,17 +1232,17 @@
     flex-shrink: 0;
   }
   .tag {
-    font-family: var(--m);
+    font-family: var(--mono);
     font-size: 11px;
     font-weight: 500;
     padding: 2px 7px;
     border-radius: 3px;
-    border: 1px solid var(--border);
-    background: var(--surface-2);
+    border: 1px solid var(--border-dim);
+    background: var(--bg-deep);
   }
-  .tag--c { color: var(--red); }
+  .tag--c { color: var(--coral-alert); }
   .tag--w { color: #ff9500; }
-  .tag--o { color: var(--green); }
+  .tag--o { color: #32d74b; }
 
   /* ===== BOTTOM NAV ===== */
   .nav {
@@ -994,28 +1252,39 @@
     right: 0;
     z-index: 50;
     display: flex;
-    background: rgba(5,5,16,0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid var(--border-dim);
   }
   .nav-i {
     flex: 1;
     padding: 12px 0;
     background: none;
     border: none;
-    font-family: var(--f);
+    font-family: var(--font);
     font-size: 12px;
     font-weight: 500;
-    color: var(--text-3);
+    color: var(--text-tertiary);
     cursor: pointer;
-    transition: color 0.15s;
+    transition: color 0.4s var(--ease-organic);
+    position: relative;
   }
   .nav-i:hover {
-    color: var(--text-2);
+    color: var(--text-secondary);
   }
   .nav-i--on {
-    color: var(--blue);
+    color: var(--blue-core);
+  }
+  .nav-indicator {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: var(--blue-core);
+    border-radius: 0 0 2px 2px;
   }
 
   /* ===== RESPONSIVE ===== */
@@ -1032,10 +1301,11 @@
       width: 180px;
       height: 180px;
     }
-    .orbit--1 { width: 160px; height: 160px; }
-    .orbit--2 { width: 200px; height: 200px; }
-    .orbit--3 { width: 240px; height: 240px; }
-    .status-text { font-size: 18px; }
+    .outer-ring {
+      width: 170px;
+      height: 170px;
+    }
+    .status-text { font-size: 14px; }
     .content { padding: 0 16px 100px; }
   }
 
@@ -1044,14 +1314,18 @@
     .splash, .splash-shield, .splash-label, .splash-brand,
     .app, .bar, .elem-fade-in, .elem-rise-in,
     .shield-wrap--pulse .hero-shield,
-    .orbit, .orbit--1, .orbit--2, .orbit--3,
-    .card {
+    .outer-ring,
+    .core-pulse,
+    .hero-shield,
+    .card,
+    .dot-circle--pulse,
+    .cursor-blink {
       animation: none !important;
       transition: none !important;
       opacity: 1 !important;
       transform: none !important;
     }
-    .orbit--1, .orbit--2, .orbit--3 {
+    .outer-ring {
       transform: translate(-50%, -50%) !important;
     }
   }
