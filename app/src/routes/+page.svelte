@@ -42,9 +42,23 @@
   // --- Glow pulse for revisit ---
   let glowPulse = $state(false);
 
+  // --- Clock for statusbar ---
+  let clock = $state('');
+
   $effect(() => {
     const unsub = scanHistory.subscribe((h) => { history = h; });
     return unsub;
+  });
+
+  // --- Clock updater ---
+  $effect(() => {
+    function updateClock() {
+      const now = new Date();
+      clock = now.toLocaleTimeString('ko-KR', { hour12: false });
+    }
+    updateClock();
+    const iv = setInterval(updateClock, 1000);
+    return () => clearInterval(iv);
   });
 
   $effect(() => {
@@ -311,7 +325,7 @@
   }
 </script>
 
-<div class="page">
+<div class="os-shell">
   <canvas
     class="matrix-canvas"
     bind:this={canvasEl}
@@ -376,202 +390,267 @@
     class="app"
     class:app--visible={isAppVisible()}
   >
-    <!-- Appbar -->
-    <header class="bar" class:bar--in={isAppVisible()}>
-      <div class="bar-logo">
-        <svg class="bar-shield" viewBox="0 0 64 76" fill="none">
-          <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="rgba(10,132,255,0.3)" stroke-width="1.5" fill="none"/>
-          <path d="M26 38l6 6 12-14" stroke="rgba(10,132,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="20" cy="25" r="2.5" fill="none" stroke="rgba(10,132,255,0.15)" stroke-width="0.5"/>
-          <circle cx="44" cy="30" r="2" fill="none" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-          <ellipse cx="38" cy="55" rx="3" ry="1.5" fill="none" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-        </svg>
-        <span class="bar-brand">BYTEFORCE</span>
+    <!-- Menubar -->
+    <header class="menubar" class:menubar--in={isAppVisible()}>
+      <div class="menubar-left">
+        <div class="traffic-lights">
+          <span class="tl tl--red"></span>
+          <span class="tl tl--yellow"></span>
+          <span class="tl tl--green"></span>
+        </div>
+        <span class="menubar-sep"></span>
+        <span class="menubar-word">BYTEFORCE</span>
+        <span class="menubar-dot"> &middot; </span>
+        <span class="menubar-sub">{'\uBC14\uC774\uBE0C\uC139'}</span>
       </div>
-      <button class="bar-action" onclick={() => goto(`${base}/incident`)}>{'\uC0C1\uB2F4 \uC608\uC57D'}</button>
+      <div class="menubar-right">
+        <span class="menubar-kbd">{'\u2318K'}</span>
+        <button class="menubar-btn" onclick={() => goto(`${base}/incident`)}>{'\uC0C1\uB2F4 \uC608\uC57D'}</button>
+      </div>
     </header>
 
-    <div class="content">
-      <!-- ===== HERO ===== -->
-      <section class="hero">
-        <div class="shield-wrap" class:shield-wrap--pulse={glowPulse}>
-          <!-- Outer dashed ring, slowly rotating -->
-          <div class="outer-ring"></div>
-
-          <svg class="hero-shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Shield fill -->
-            <path
-              d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-              fill="rgba(10,132,255,0.04)"
-            />
-            <!-- Shield stroke -->
-            <path
-              d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-              stroke="rgba(10,132,255,0.6)"
-              stroke-width="1.5"
-              fill="none"
-            />
-            <!-- Center core glow -->
-            <circle class="core-pulse" cx="32" cy="40" r="8" fill="var(--blue-glow)" opacity="0.9"/>
-            <!-- Checkmark -->
-            <path
-              d="M26 38l6 6 12-14"
-              stroke="#0A84FF"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <!-- Hammer dents -->
-            <circle cx="20" cy="25" r="3" fill="none" stroke="rgba(10,132,255,0.2)" stroke-width="0.8"/>
-            <line x1="17" y1="23" x2="15.5" y2="21.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-            <line x1="22" y1="22.5" x2="23.5" y2="21" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-            <circle cx="44" cy="30" r="2.5" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
-            <line x1="46" y1="28" x2="47.5" y2="26.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-            <ellipse cx="38" cy="55" rx="4" ry="2" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
-            <line x1="41" y1="53.5" x2="43" y2="52" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-            <!-- Scanline -->
-            <clipPath id="shield-clip">
-              <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"/>
-            </clipPath>
-            <line
-              x1="0" x2="64"
-              y1={6 + scanlineY * 68}
-              y2={6 + scanlineY * 68}
-              stroke="var(--cyan-scan)"
-              stroke-width="1.5"
-              opacity="0.7"
-              filter="url(#scanblur)"
-              clip-path="url(#shield-clip)"
-            />
-            <defs>
-              <filter id="scanblur">
-                <feGaussianBlur stdDeviation="2"/>
-              </filter>
-            </defs>
+    <!-- Workspace -->
+    <div class="workspace">
+      <!-- Side Dock -->
+      <aside class="dock">
+        <button class="dock-item dock-item--active" onclick={() => navTo('home')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L12 2z"/>
+            <path d="M9 12l2 2 4-4"/>
           </svg>
-        </div>
+          <span class="dock-tooltip">{'\uD648'}</span>
+        </button>
+        <button class="dock-item" onclick={() => goto(`${base}/incident`)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+          </svg>
+          <span class="dock-tooltip">{'\uAE34\uAE09'}</span>
+        </button>
+        <button class="dock-item" onclick={() => goto(`${base}/packages`)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <span class="dock-tooltip">{'\uC694\uAE08\uC81C'}</span>
+        </button>
+        <button class="dock-item" onclick={() => navTo('report')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <line x1="12" y1="20" x2="12" y2="10"/>
+            <line x1="18" y1="20" x2="18" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="16"/>
+          </svg>
+          <span class="dock-tooltip">{'\uB9AC\uD3EC\uD2B8'}</span>
+        </button>
+        <div class="dock-spacer"></div>
+        <button class="dock-item" onclick={() => goto(`${base}/packages`)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v2m0 18v2m-9-11h2m18 0h2m-3.3-6.7-1.4 1.4m-11.6 11.6-1.4 1.4m0-14.4 1.4 1.4m11.6 11.6 1.4 1.4"/>
+          </svg>
+          <span class="dock-tooltip">{'\uC124\uC815'}</span>
+        </button>
+      </aside>
 
-        {#if phase === 'alive' && showStatus}
-          <p class="status-text elem-fade-in"><span class="status-prompt">&gt;</span> {'\uC544\uC9C1 \uC810\uAC80 \uC804\uC785\uB2C8\uB2E4'}<span class="cursor-blink"></span></p>
-        {/if}
+      <!-- Main Content -->
+      <main class="content">
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+          <div class="shield-wrap" class:shield-wrap--pulse={glowPulse}>
+            <!-- Outer dashed ring, slowly rotating -->
+            <div class="outer-ring"></div>
 
-        {#if phase === 'alive' && showCta}
-          <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/diagnose`)}>{'\uB0B4 \uD504\uB85C\uC81D\uD2B8 \uC810\uAC80 \uBC1B\uAE30'}</button>
-        {/if}
-      </section>
-
-      <!-- ===== SERVICE CARDS ===== -->
-      <section class="cards">
-        {#if phase === 'alive' && showCard0}
-          <button class="card card--blue elem-rise-in" onclick={() => goto(`${base}/packages`)}>
-            <div class="card-status-dot dot--green">
-              <span class="dot-circle dot-circle--green"></span>
-              <span class="dot-label">ONLINE</span>
-            </div>
-            <div class="card-body">
-              <div class="card-icon card-icon--blue">
-                <svg viewBox="0 0 64 76" fill="none">
-                  <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <path d="M26 38l6 6 12-14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="card-text">
-                <span class="card-title">{'1:1 \uB300\uBA74 \uC810\uAC80'}</span>
-                <span class="card-sub">{'\uB9C8\uACE1 \uBC29\uBB38 \uB610\uB294 \uD654\uC0C1'}</span>
-              </div>
-            </div>
-            <span class="card-link card-link--blue">{'\uC608\uC57D\uD558\uAE30'} &gt;</span>
-          </button>
-        {/if}
-
-        {#if phase === 'alive' && showCard1}
-          <button class="card card--coral card--urgent elem-rise-in" onclick={() => goto(`${base}/incident`)}>
-            <div class="card-status-dot dot--coral">
-              <span class="dot-circle dot-circle--coral dot-circle--pulse"></span>
-              <span class="dot-label">STANDBY</span>
-            </div>
-            <div class="card-body">
-              <div class="card-icon card-icon--coral">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
-                </svg>
-              </div>
-              <div class="card-text">
-                <span class="card-title">{'\uAE34\uAE09 \uC810\uAC80'}</span>
-                <span class="card-sub">{'24\uC2DC\uAC04 \uC774\uB0B4 \uB300\uC751'}</span>
-              </div>
-            </div>
-            <span class="card-link card-link--coral">{'\uAE34\uAE09 \uC694\uCCAD'} &gt;</span>
-          </button>
-        {/if}
-
-        {#if phase === 'alive' && showCard2}
-          <button class="card card--green elem-rise-in" onclick={() => goto(`${base}/packages`)}>
-            <div class="card-status-dot dot--blue">
-              <span class="dot-circle dot-circle--blue"></span>
-              <span class="dot-label">SCHEDULED</span>
-            </div>
-            <div class="card-body">
-              <div class="card-icon card-icon--green">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2"/>
-                  <line x1="16" y1="2" x2="16" y2="6"/>
-                  <line x1="8" y1="2" x2="8" y2="6"/>
-                  <line x1="3" y1="10" x2="21" y2="10"/>
-                  <rect x="8" y="14" width="3" height="3" rx="0.5"/>
-                </svg>
-              </div>
-              <div class="card-text">
-                <span class="card-title">{'\uC6D4 \uAD00\uB9AC'}</span>
-                <span class="card-sub">{'\uC815\uAE30 \uC810\uAC80 + \uBAA8\uB2C8\uD130\uB9C1'}</span>
-              </div>
-            </div>
-            <span class="card-link card-link--green">{'\uC790\uC138\uD788 \uBCF4\uAE30'} &gt;</span>
-          </button>
-        {/if}
-      </section>
-
-      <!-- ===== RECENT SCANS - TERMINAL LOG ===== -->
-      {#if phase === 'alive' && showRecent}
-        <section class="recent elem-fade-in">
-          <h2 class="sec-head">{'\uCD5C\uADFC \uC810\uAC80'}</h2>
-          <div class="terminal-log">
-            <div class="log-line">
-              <span class="log-ts">[2026.04.13 00:18]</span>
-              <span class="log-status">SCAN COMPLETE</span>
-            </div>
-            <div class="log-tree">
-              <span class="tree-char">{'\u2514\u2500'}</span>
-              <a class="log-url" href="https://github.com/hangyeolalmighty/TeacherConnect" target="_blank" rel="noopener">https://github.com/hangyeolalmighty/TeacherConnect</a>
-            </div>
-            <div class="log-tree log-tree--sub">
-              <span class="tree-char">{'\u251C\u2500'}</span>
-              <span class="log-detail"><span class="badge badge--blue">6</span> issues detected</span>
-            </div>
-            <div class="log-tree log-tree--sub">
-              <span class="tree-char">{'\u2514\u2500'}</span>
-              <span class="log-detail"><span class="badge badge--coral">1</span> critical</span>
-            </div>
+            <svg class="hero-shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Shield fill -->
+              <path
+                d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
+                fill="rgba(10,132,255,0.04)"
+              />
+              <!-- Shield stroke -->
+              <path
+                d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
+                stroke="rgba(10,132,255,0.6)"
+                stroke-width="1.5"
+                fill="none"
+              />
+              <!-- Center core glow -->
+              <circle class="core-pulse" cx="32" cy="40" r="8" fill="var(--blue-glow)" opacity="0.9"/>
+              <!-- Checkmark -->
+              <path
+                d="M26 38l6 6 12-14"
+                stroke="#0A84FF"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <!-- Hammer dents -->
+              <circle cx="20" cy="25" r="3" fill="none" stroke="rgba(10,132,255,0.2)" stroke-width="0.8"/>
+              <line x1="17" y1="23" x2="15.5" y2="21.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
+              <line x1="22" y1="22.5" x2="23.5" y2="21" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
+              <circle cx="44" cy="30" r="2.5" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
+              <line x1="46" y1="28" x2="47.5" y2="26.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
+              <ellipse cx="38" cy="55" rx="4" ry="2" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
+              <line x1="41" y1="53.5" x2="43" y2="52" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
+              <!-- Scanline -->
+              <clipPath id="shield-clip">
+                <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"/>
+              </clipPath>
+              <line
+                x1="0" x2="64"
+                y1={6 + scanlineY * 68}
+                y2={6 + scanlineY * 68}
+                stroke="var(--cyan-scan)"
+                stroke-width="1.5"
+                opacity="0.7"
+                filter="url(#scanblur)"
+                clip-path="url(#shield-clip)"
+              />
+              <defs>
+                <filter id="scanblur">
+                  <feGaussianBlur stdDeviation="2"/>
+                </filter>
+              </defs>
+            </svg>
           </div>
 
-          {#if history.length > 0}
-            {#each history.slice(0, 5) as scan}
-              <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
-                <div class="scan-info">
-                  <span class="scan-url">{scan.target}</span>
-                  <span class="scan-date">{fmtDate(scan.finishedAt)}</span>
-                </div>
-                <div class="scan-tags">
-                  {#if scan.summary.critical > 0}<span class="tag tag--c">{scan.summary.critical}</span>{/if}
-                  {#if scan.summary.warning > 0}<span class="tag tag--w">{scan.summary.warning}</span>{/if}
-                  {#if scan.summary.ok > 0}<span class="tag tag--o">{scan.summary.ok}</span>{/if}
-                </div>
-              </button>
-            {/each}
+          {#if phase === 'alive' && showStatus}
+            <p class="status-text elem-fade-in"><span class="status-prompt">&gt;</span> {'\uC544\uC9C1 \uC810\uAC80 \uC804\uC785\uB2C8\uB2E4'}<span class="cursor-blink"></span></p>
+          {/if}
+
+          {#if phase === 'alive' && showCta}
+            <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/diagnose`)}>{'\uB0B4 \uD504\uB85C\uC81D\uD2B8 \uC810\uAC80 \uBC1B\uAE30'}</button>
           {/if}
         </section>
-      {/if}
+
+        <!-- ===== SERVICE CARDS ===== -->
+        <section class="cards">
+          {#if phase === 'alive' && showCard0}
+            <button class="card card--blue elem-rise-in" onclick={() => goto(`${base}/packages`)}>
+              <div class="card-status-dot dot--green">
+                <span class="dot-circle dot-circle--green"></span>
+                <span class="dot-label">ONLINE</span>
+              </div>
+              <div class="card-body">
+                <div class="card-icon card-icon--blue">
+                  <svg viewBox="0 0 64 76" fill="none">
+                    <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M26 38l6 6 12-14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="card-text">
+                  <span class="card-title">{'1:1 \uB300\uBA74 \uC810\uAC80'}</span>
+                  <span class="card-sub">{'\uB9C8\uACE1 \uBC29\uBB38 \uB610\uB294 \uD654\uC0C1'}</span>
+                </div>
+              </div>
+              <span class="card-link card-link--blue">{'\uC608\uC57D\uD558\uAE30'} &gt;</span>
+            </button>
+          {/if}
+
+          {#if phase === 'alive' && showCard1}
+            <button class="card card--coral card--urgent elem-rise-in" onclick={() => goto(`${base}/incident`)}>
+              <div class="card-status-dot dot--coral">
+                <span class="dot-circle dot-circle--coral dot-circle--pulse"></span>
+                <span class="dot-label">STANDBY</span>
+              </div>
+              <div class="card-body">
+                <div class="card-icon card-icon--coral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+                  </svg>
+                </div>
+                <div class="card-text">
+                  <span class="card-title">{'\uAE34\uAE09 \uC810\uAC80'}</span>
+                  <span class="card-sub">{'24\uC2DC\uAC04 \uC774\uB0B4 \uB300\uC751'}</span>
+                </div>
+              </div>
+              <span class="card-link card-link--coral">{'\uAE34\uAE09 \uC694\uCCAD'} &gt;</span>
+            </button>
+          {/if}
+
+          {#if phase === 'alive' && showCard2}
+            <button class="card card--green elem-rise-in" onclick={() => goto(`${base}/packages`)}>
+              <div class="card-status-dot dot--blue">
+                <span class="dot-circle dot-circle--blue"></span>
+                <span class="dot-label">SCHEDULED</span>
+              </div>
+              <div class="card-body">
+                <div class="card-icon card-icon--green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <rect x="8" y="14" width="3" height="3" rx="0.5"/>
+                  </svg>
+                </div>
+                <div class="card-text">
+                  <span class="card-title">{'\uC6D4 \uAD00\uB9AC'}</span>
+                  <span class="card-sub">{'\uC815\uAE30 \uC810\uAC80 + \uBAA8\uB2C8\uD130\uB9C1'}</span>
+                </div>
+              </div>
+              <span class="card-link card-link--green">{'\uC790\uC138\uD788 \uBCF4\uAE30'} &gt;</span>
+            </button>
+          {/if}
+        </section>
+
+        <!-- ===== RECENT SCANS - TERMINAL LOG ===== -->
+        {#if phase === 'alive' && showRecent}
+          <section class="recent elem-fade-in">
+            <h2 class="sec-head">{'\uCD5C\uADFC \uC810\uAC80'}</h2>
+            <div class="terminal-log">
+              <div class="log-line">
+                <span class="log-ts">[2026.04.13 00:18]</span>
+                <span class="log-status">SCAN COMPLETE</span>
+              </div>
+              <div class="log-tree">
+                <span class="tree-char">{'\u2514\u2500'}</span>
+                <a class="log-url" href="https://github.com/hangyeolalmighty/TeacherConnect" target="_blank" rel="noopener">https://github.com/hangyeolalmighty/TeacherConnect</a>
+              </div>
+              <div class="log-tree log-tree--sub">
+                <span class="tree-char">{'\u251C\u2500'}</span>
+                <span class="log-detail"><span class="badge badge--blue">6</span> issues detected</span>
+              </div>
+              <div class="log-tree log-tree--sub">
+                <span class="tree-char">{'\u2514\u2500'}</span>
+                <span class="log-detail"><span class="badge badge--coral">1</span> critical</span>
+              </div>
+            </div>
+
+            {#if history.length > 0}
+              {#each history.slice(0, 5) as scan}
+                <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
+                  <div class="scan-info">
+                    <span class="scan-url">{scan.target}</span>
+                    <span class="scan-date">{fmtDate(scan.finishedAt)}</span>
+                  </div>
+                  <div class="scan-tags">
+                    {#if scan.summary.critical > 0}<span class="tag tag--c">{scan.summary.critical}</span>{/if}
+                    {#if scan.summary.warning > 0}<span class="tag tag--w">{scan.summary.warning}</span>{/if}
+                    {#if scan.summary.ok > 0}<span class="tag tag--o">{scan.summary.ok}</span>{/if}
+                  </div>
+                </button>
+              {/each}
+            {/if}
+          </section>
+        {/if}
+      </main>
     </div>
+
+    <!-- Statusbar -->
+    <footer class="statusbar">
+      <div class="statusbar-left">
+        <span class="sb-dot sb-dot--pulse"></span>
+        <span class="sb-text">STANDBY</span>
+        <span class="sb-sep"> &middot; </span>
+        <span class="sb-text">3 agents ready</span>
+        <span class="sb-sep"> &middot; </span>
+        <span class="sb-text">v0.1.2</span>
+      </div>
+      <div class="statusbar-right">
+        <span class="sb-clock">{clock}</span>
+      </div>
+    </footer>
 
     <!-- Bottom nav -->
     <nav class="nav">
@@ -587,7 +666,7 @@
 </div>
 
 <style>
-  .page {
+  .os-shell {
     --bg-void: #05060A;
     --bg-abyss: #0A0E1A;
     --bg-deep: #0D1528;
@@ -708,46 +787,87 @@
     opacity: 1;
   }
 
-  /* ===== APPBAR ===== */
-  .bar {
+  /* ===== MENUBAR (replaces .bar) ===== */
+  .menubar {
+    height: 32px;
     position: sticky;
     top: 0;
-    z-index: 90;
-    height: 48px;
+    z-index: 50;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    background: rgba(5, 6, 10, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 0 14px;
+    background: rgba(5, 6, 10, 0.72);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid var(--border-dim);
     opacity: 0;
     transform: translateY(-8px);
     transition: opacity 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
   }
-  .bar--in {
+  .menubar--in {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .bar-logo {
+  .menubar-left {
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .bar-shield {
-    width: 20px;
-    height: 24px;
-    opacity: 0.6;
+
+  .traffic-lights {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .bar-brand {
+  .tl {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .tl--red { background: #FF5F57; }
+  .tl--yellow { background: #FEBC2E; }
+  .tl--green { background: #28C840; }
+
+  .menubar-sep {
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: var(--border-dim);
+    margin: 0 4px;
+  }
+
+  .menubar-word {
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+  .menubar-dot {
+    font-size: 11px;
     color: var(--text-tertiary);
   }
-  .bar-action {
+  .menubar-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .menubar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .menubar-kbd {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+    color: var(--text-tertiary);
+  }
+  .menubar-btn {
     font-family: var(--font);
     font-size: 12px;
     font-weight: 500;
@@ -755,26 +875,156 @@
     background: none;
     border: 1px solid rgba(10,132,255,0.3);
     border-radius: 6px;
-    padding: 5px 14px;
+    padding: 2px 12px;
+    height: 22px;
     cursor: pointer;
     transition: color 0.4s var(--ease-organic), border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic);
   }
-  .bar-action:hover {
+  .menubar-btn:hover {
     color: var(--blue-glow);
     border-color: rgba(10,132,255,0.5);
     background: rgba(10,132,255,0.05);
   }
 
+  /* ===== WORKSPACE ===== */
+  .workspace {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+  }
+
+  /* ===== DOCK ===== */
+  .dock {
+    width: 56px;
+    flex-shrink: 0;
+    background: rgba(5, 6, 10, 0.5);
+    border-right: 1px solid var(--border-dim);
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dock-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s var(--ease-organic);
+    padding: 0;
+  }
+  .dock-item svg {
+    width: 24px;
+    height: 24px;
+  }
+  .dock-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+  }
+  .dock-item--active {
+    background: rgba(10, 132, 255, 0.12);
+    color: var(--blue-glow);
+  }
+  .dock-item--active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--blue-core);
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 8px var(--blue-core);
+  }
+
+  .dock-tooltip {
+    position: absolute;
+    left: 56px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 4px 10px;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-dim);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .dock-item:hover .dock-tooltip {
+    opacity: 1;
+  }
+
+  .dock-spacer {
+    flex: 1;
+  }
+
   /* ===== CONTENT ===== */
   .content {
     flex: 1;
-    padding: 0 20px 100px;
-    max-width: 600px;
+    overflow-y: auto;
+    padding: 48px 64px;
+    max-width: clamp(560px, 61.8vw, 920px);
     margin: 0 auto;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 32px;
+  }
+
+  /* ===== STATUSBAR ===== */
+  .statusbar {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    background: rgba(5, 6, 10, 0.92);
+    border-top: 1px solid var(--border-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+  }
+  .statusbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .statusbar-right {
+    display: flex;
+    align-items: center;
+  }
+  .sb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--coral-alert);
+    margin-right: 8px;
+  }
+  .sb-dot--pulse {
+    animation: urgent-pulse 1.2s var(--ease-pulse) infinite;
+  }
+  .sb-text {
+    color: var(--text-tertiary);
+  }
+  .sb-sep {
+    color: var(--text-tertiary);
+    margin: 0 2px;
+  }
+  .sb-clock {
+    font-variant-numeric: tabular-nums;
   }
 
   /* ===== HERO ===== */
@@ -972,6 +1222,27 @@
     transform: scaleY(1);
   }
 
+  /* Card binary pattern overlay (::after) */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 17px,
+      rgba(58, 160, 255, 0.02) 17px,
+      rgba(58, 160, 255, 0.02) 18px
+    );
+    opacity: 0.3;
+    transition: opacity 0.5s var(--ease-organic);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .card:hover::after {
+    opacity: 0.8;
+  }
+
   /* Card hover */
   .card:hover {
     transform: translateY(-4px);
@@ -1017,6 +1288,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    z-index: 1;
   }
   .dot-circle {
     width: 6px;
@@ -1053,6 +1325,8 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    position: relative;
+    z-index: 1;
   }
 
   .card-icon {
@@ -1076,6 +1350,8 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    position: relative;
+    z-index: 1;
   }
   .card-title {
     font-size: 16px;
@@ -1091,6 +1367,8 @@
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.01em;
+    position: relative;
+    z-index: 1;
   }
   .card-link--blue { color: var(--blue-core); }
   .card-link--coral { color: var(--coral-alert); }
@@ -1289,6 +1567,8 @@
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
+    .dock { display: none; }
+    .menubar-dot, .menubar-sub { display: none; }
     .hero {
       min-height: 300px;
       padding-top: 24px;
@@ -1306,20 +1586,27 @@
       height: 170px;
     }
     .status-text { font-size: 14px; }
-    .content { padding: 0 16px 100px; }
+    .content { padding: 32px 16px 100px; }
+  }
+
+  @media (min-width: 1200px) {
+    .content { padding: 64px 96px; }
   }
 
   /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
     .splash, .splash-shield, .splash-label, .splash-brand,
-    .app, .bar, .elem-fade-in, .elem-rise-in,
+    .app, .menubar, .elem-fade-in, .elem-rise-in,
     .shield-wrap--pulse .hero-shield,
     .outer-ring,
     .core-pulse,
     .hero-shield,
     .card,
     .dot-circle--pulse,
-    .cursor-blink {
+    .cursor-blink,
+    .sb-dot--pulse,
+    .dock-item,
+    .dock-tooltip {
       animation: none !important;
       transition: none !important;
       opacity: 1 !important;
