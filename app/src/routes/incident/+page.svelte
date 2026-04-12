@@ -1,246 +1,207 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { Button, Card, Toolbar } from '$lib/components';
   import { t } from '$lib/i18n/loader';
 
-  // Symptoms from journey.md S7
-  // These correspond to common emergency scenarios
   const symptoms = [
-    { id: 'billing', icon: '\uD83D\uDCB3', label: t('incident.symptoms.billing', '') },
-    { id: 'data', icon: '\uD83D\uDDC4', label: t('incident.symptoms.data', '') },
-    { id: 'site', icon: '\uD83C\uDF10', label: t('incident.symptoms.site', '') },
-    { id: 'account', icon: '\uD83D\uDD12', label: t('incident.symptoms.account', '') },
-    { id: 'other', icon: '\u2753', label: t('incident.symptoms.other', '') },
+    { id: 'billing', label: t('incident.symptoms.billing', '') },
+    { id: 'data', label: t('incident.symptoms.data', '') },
+    { id: 'site', label: t('incident.symptoms.site', '') },
+    { id: 'account', label: t('incident.symptoms.account', '') },
+    { id: 'other', label: t('incident.symptoms.other', '') },
   ];
 
   let selectedSymptom = $state<string | null>(null);
   let contacted = $state(false);
 
-  function selectSymptom(id: string) {
-    selectedSymptom = id;
-  }
-
-  function handleContact() {
-    // Mock contact - in real app would open kakao link
-    contacted = true;
-  }
-
-  function handleCall() {
-    // Mock phone call
-    contacted = true;
-  }
+  function selectSymptom(id: string) { selectedSymptom = id; }
+  function handleContact() { contacted = true; }
+  function handleCall() { contacted = true; }
 </script>
 
-<div class="incident-page">
-  <Toolbar title={t('incident.page.title', '')}>
-    {#snippet leading()}
-      <Button variant="ghost" size="sm" ariaLabel={t('incident.nav.back_to_home', '')} onclick={() => goto(`${base}/`)}>
-        {'\u2190'}
-      </Button>
-    {/snippet}
-  </Toolbar>
+<div class="page">
 
-  <div class="incident-content">
+  <header class="bar">
+    <button class="bar-back" onclick={() => goto(`${base}/`)}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    </button>
+    <span class="bar-title">{t('incident.page.title', '') || '긴급 상담'}</span>
+    <span class="bar-spacer"></span>
+  </header>
+
+  <div class="content">
+
     {#if contacted}
-      <!-- Contact complete -->
-      <section class="contact-complete">
-        <Card glass padding="lg">
-          <div class="complete-inner">
-            <span class="complete-icon" aria-hidden="true">{'\uD83D\uDC4C'}</span>
-            <h2 class="complete-title">{t('incident.contact.complete_title', '')}</h2>
-            <p class="complete-body">{t('incident.contact.complete_body', '')}</p>
-            <Button variant="primary" size="lg" fullWidth onclick={() => goto(`${base}/`)}>
-              {t('incident.nav.back_to_home', '')}
-            </Button>
-          </div>
-        </Card>
+      <section class="state-section">
+        <div class="state-card">
+          <svg class="state-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <h2 class="state-title">{t('incident.contact.complete_title', '')}</h2>
+          <p class="state-body">{t('incident.contact.complete_body', '')}</p>
+          <button class="cta-primary" onclick={() => goto(`${base}/`)}>
+            {t('incident.nav.back_to_home', '') || '홈으로'}
+          </button>
+        </div>
       </section>
+
     {:else}
-      <!-- Emergency header -->
-      <section class="emergency-header">
-        <Card glass padding="lg">
-          <div class="header-inner">
-            <span class="header-icon" aria-hidden="true">{'\uD83D\uDE91'}</span>
-            <h1 class="header-title">{t('incident.page.subtitle', '')}</h1>
-          </div>
-        </Card>
+      <!-- Header -->
+      <section class="emer-header">
+        <h1 class="emer-title">{t('incident.page.subtitle', '') || '어떤 문제가 발생했나요?'}</h1>
       </section>
 
       <!-- Symptom selection -->
       <section class="symptoms">
         {#each symptoms as symptom}
-          <Card
-            glass
-            padding="md"
+          <button
+            class="symptom-btn"
+            class:symptom-btn--on={selectedSymptom === symptom.id}
             onclick={() => selectSymptom(symptom.id)}
-            ariaLabel={symptom.label}
           >
-            <div class="symptom-row" class:symptom-row--selected={selectedSymptom === symptom.id}>
-              <span class="symptom-icon" aria-hidden="true">{symptom.icon}</span>
-              <span class="symptom-label">{symptom.label}</span>
-              {#if selectedSymptom === symptom.id}
-                <span class="check-mark" aria-hidden="true">{'\u2713'}</span>
-              {/if}
-            </div>
-          </Card>
+            <span class="symptom-label">{symptom.label}</span>
+            {#if selectedSymptom === symptom.id}
+              <svg class="symptom-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            {/if}
+          </button>
         {/each}
       </section>
 
-      <!-- Emergency tip -->
-      <section class="emergency-tip">
-        <Card padding="md" glass={false}>
-          <p class="tip-text">{t('incident.tip.emergency', '')}</p>
-        </Card>
+      <!-- Tip -->
+      <section class="tip">
+        <p class="tip-text">{t('incident.tip.emergency', '')}</p>
       </section>
 
       <!-- CTAs -->
       <section class="cta-section">
-        <Button
-          variant="destructive"
-          size="lg"
-          fullWidth
+        <button
+          class="cta-primary"
           disabled={!selectedSymptom}
           onclick={handleContact}
         >
-          {t('incident.contact.kakao', '')}
-        </Button>
-        <Button
-          variant="secondary"
-          size="lg"
-          fullWidth
+          {t('incident.contact.kakao', '') || '카카오톡 상담'}
+        </button>
+        <button
+          class="btn-outline btn-full"
           disabled={!selectedSymptom}
           onclick={handleCall}
         >
-          {t('incident.contact.call', '')}
-        </Button>
+          {t('incident.contact.call', '') || '전화 상담'}
+        </button>
       </section>
     {/if}
+
   </div>
+
 </div>
 
 <style>
-  .incident-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    /* Subtle red tint for urgency but not fear */
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-system-red) 5%, var(--color-bg-primary)) 0%,
-      var(--color-bg-primary) 40%
-    );
+  .page {
+    --black: #000000;
+    --s1: #060608;
+    --s2: #0c0c0e;
+    --s3: #141416;
+    --tx: #ffffff;
+    --tx2: #9a9a9f;
+    --tx3: #4a4a4f;
+    --brd: rgba(255,255,255,0.055);
+    --ok: #32d74b;
+    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+
+    display: flex; flex-direction: column; min-height: 100dvh;
+    background: var(--black); color: var(--tx); font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
   }
 
-  .incident-content {
-    flex: 1;
-    padding: var(--space-md);
-    padding-bottom: var(--space-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+  /* Bar */
+  .bar {
+    position: sticky; top: 0; z-index: 90; height: 48px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 24px; background: var(--black); border-bottom: 1px solid var(--brd);
+  }
+  .bar-back {
+    background: none; border: none; color: var(--tx2); cursor: pointer;
+    display: flex; align-items: center; padding: 4px; transition: color 0.15s;
+  }
+  .bar-back:hover { color: var(--tx); }
+  .bar-title { font-size: 14px; font-weight: 600; color: var(--tx); }
+  .bar-spacer { flex: 1; }
+
+  .content {
+    flex: 1; padding: 24px 24px 32px; display: flex; flex-direction: column; gap: 24px;
   }
 
-  .header-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-md);
+  /* Header */
+  .emer-header {
+    padding: 16px 0;
+  }
+  .emer-title {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--tx); margin: 0;
   }
 
-  .header-icon {
-    font-size: 48px;
-    line-height: 1;
+  /* Symptoms */
+  .symptoms { display: flex; flex-direction: column; gap: 6px; }
+
+  .symptom-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-radius: 6px;
+    border: 1px solid var(--brd); background: var(--s1);
+    color: var(--tx2); font-family: var(--font); font-size: 14px;
+    cursor: pointer; width: 100%; text-align: left;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .symptom-btn:hover { background: var(--s2); color: var(--tx); }
+  .symptom-btn--on {
+    border-color: rgba(255,255,255,0.12); background: var(--s2); color: var(--tx);
   }
 
-  .header-title {
-    font: var(--font-title-1);
-    color: var(--color-label);
-    margin: 0;
-  }
+  .symptom-label { flex: 1; }
+  .symptom-check { flex-shrink: 0; }
 
-  .symptoms {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+  /* Tip */
+  .tip {
+    border-left: 2px solid var(--tx3);
+    padding-left: 16px;
   }
-
-  .symptom-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    min-height: 44px;
-  }
-
-  .symptom-row--selected {
-    color: var(--color-system-blue);
-  }
-
-  .symptom-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-
-  .symptom-label {
-    flex: 1;
-    font: var(--font-body);
-    color: var(--color-label);
-  }
-
-  .symptom-row--selected .symptom-label {
-    color: var(--color-system-blue);
-    font-weight: 600;
-  }
-
-  .check-mark {
-    color: var(--color-system-blue);
-    font-size: 18px;
-    font-weight: 700;
-  }
-
-  .emergency-tip {
-    border-left: 3px solid var(--color-system-orange);
-    border-radius: var(--radius-md);
-  }
-
   .tip-text {
-    font: var(--font-subheadline);
-    color: var(--color-label-secondary);
-    margin: 0;
-    line-height: 1.5;
+    font-size: 13px; color: var(--tx3); margin: 0; line-height: 1.5;
   }
 
+  /* CTAs */
   .cta-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    margin-top: auto;
-    padding-top: var(--space-md);
+    display: flex; flex-direction: column; gap: 8px;
+    margin-top: auto; padding-top: 16px;
   }
 
-  .complete-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-md);
+  .cta-primary {
+    width: 100%; padding: 10px 28px; border-radius: 6px; border: none;
+    background: var(--tx); color: var(--black);
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s;
   }
+  .cta-primary:hover { background: #e0e0e0; }
+  .cta-primary:disabled { opacity: 0.3; cursor: not-allowed; }
 
-  .complete-icon {
-    font-size: 48px;
-    line-height: 1;
+  .btn-outline {
+    padding: 8px 20px; border-radius: 6px; border: 1px solid var(--brd);
+    background: transparent; color: var(--tx2); font-family: var(--font);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
   }
+  .btn-outline:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .btn-outline:disabled { opacity: 0.3; cursor: not-allowed; }
+  .btn-full { width: 100%; }
 
-  .complete-title {
-    font: var(--font-title-2);
-    color: var(--color-label);
-    margin: 0;
+  /* State (complete) */
+  .state-section {
+    flex: 1; display: flex; align-items: center; justify-content: center;
   }
-
-  .complete-body {
-    font: var(--font-body);
-    color: var(--color-label-secondary);
-    margin: 0;
+  .state-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 16px; padding: 40px 24px;
+    background: var(--s1); border: 1px solid var(--brd); border-radius: 8px;
+    max-width: 360px; width: 100%;
   }
+  .state-icon { margin-bottom: 8px; }
+  .state-title { font-size: 20px; font-weight: 700; color: var(--tx); margin: 0; }
+  .state-body { font-size: 14px; color: var(--tx2); margin: 0; line-height: 1.5; }
 </style>

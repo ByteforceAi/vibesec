@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { Button, Card, Badge, Toolbar, TabBar, ListRow } from '$lib/components';
-  import type { TabItem } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
@@ -18,145 +16,169 @@
   const emptyCta = t('empty_states.no_diagnosis_records.cta', '');
   const pageTitle = t('onboarding.step_4_check_results.title', '');
 
-  // Tab bar
-  const tabs: TabItem[] = [
-    { id: 'home', label: t('home.tabs.home', '홈'), icon: '\u2302' },
-    { id: 'diagnose', label: t('home.tabs.diagnose', '진단'), icon: '\uD83D\uDD0D' },
-    { id: 'report', label: t('home.tabs.report', '리포트'), icon: '\uD83D\uDCC4' },
-    { id: 'packages', label: t('home.tabs.packages', '패키지'), icon: '\uD83D\uDCE6' },
-  ];
-
-  function handleTabSelect(id: string) {
-    if (id === 'home') goto(`${base}/`);
-    else goto(`${base}/${id}`);
-  }
-
   function formatDate(iso: string): string {
     try {
       const d = new Date(iso);
-      return d.toLocaleDateString('ko-KR', {
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-    } catch {
-      return iso;
-    }
+      return d.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch { return iso; }
   }
 </script>
 
-<div class="report-list-page">
-  <Toolbar title={pageTitle} largeTitle />
+<div class="page">
 
-  <div class="report-content">
+  <header class="bar">
+    <span class="bar-brand">Byteforce Security</span>
+    <button class="bar-action" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
+  </header>
+
+  <div class="content">
+    <h1 class="page-title">{pageTitle || '진단 리포트'}</h1>
+
     {#if history.length === 0}
-      <!-- Empty state -->
-      <section class="empty-state">
-        <Card glass padding="lg">
-          <div class="empty-inner">
-            <span class="empty-icon" aria-hidden="true">{'\uD83D\uDCC4'}</span>
-            <h2 class="empty-title">{emptyTitle}</h2>
-            <p class="empty-body">{emptyBody}</p>
-            <Button variant="primary" size="md" onclick={() => goto(`${base}/diagnose`)}>
-              {emptyCta}
-            </Button>
-          </div>
-        </Card>
+      <section class="empty">
+        <h2 class="empty-title">{emptyTitle}</h2>
+        <p class="empty-body">{emptyBody}</p>
+        <button class="btn-outline" onclick={() => goto(`${base}/diagnose`)}>{emptyCta}</button>
       </section>
     {:else}
-      <!-- Scan history list -->
-      <section class="history-list">
+      <section class="history">
+        <div class="list-head">
+          <span class="list-head-label">프로젝트</span>
+          <span class="list-head-label">결과</span>
+        </div>
         {#each history as scan}
-          <ListRow
-            title={scan.target}
-            subtitle={formatDate(scan.finishedAt)}
-            onclick={() => goto(`${base}/report/${scan.scanId}`)}
-          >
-            {#snippet leading()}
-              <div class="scan-badges-compact">
-                {#if scan.summary.critical > 0}
-                  <Badge severity="critical">{String(scan.summary.critical)}</Badge>
-                {/if}
-                {#if scan.summary.warning > 0}
-                  <Badge severity="warning">{String(scan.summary.warning)}</Badge>
-                {/if}
-                {#if scan.summary.ok > 0}
-                  <Badge severity="ok">{String(scan.summary.ok)}</Badge>
-                {/if}
-              </div>
-            {/snippet}
-          </ListRow>
+          <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
+            <div class="scan-info">
+              <span class="scan-target">{scan.target}</span>
+              <span class="scan-date">{formatDate(scan.finishedAt)}</span>
+            </div>
+            <div class="scan-stats">
+              {#if scan.summary.critical > 0}
+                <span class="stat stat--crit">{scan.summary.critical}</span>
+              {/if}
+              {#if scan.summary.warning > 0}
+                <span class="stat stat--warn">{scan.summary.warning}</span>
+              {/if}
+              {#if scan.summary.ok > 0}
+                <span class="stat stat--ok">{scan.summary.ok}</span>
+              {/if}
+            </div>
+          </button>
         {/each}
       </section>
     {/if}
   </div>
 
-  <div class="tab-bar-wrapper">
-    <TabBar items={tabs} active="report" onselect={handleTabSelect} />
-  </div>
+  <nav class="nav">
+    <button class="nav-item" onclick={() => goto(`${base}/`)}>홈</button>
+    <button class="nav-item" onclick={() => goto(`${base}/diagnose`)}>진단</button>
+    <button class="nav-item nav-item--on" onclick={() => goto(`${base}/report`)}>리포트</button>
+    <button class="nav-item" onclick={() => goto(`${base}/packages`)}>요금제</button>
+  </nav>
+
 </div>
 
 <style>
-  .report-list-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
+  .page {
+    --black: #000000;
+    --s1: #060608;
+    --s2: #0c0c0e;
+    --s3: #141416;
+    --tx: #ffffff;
+    --tx2: #9a9a9f;
+    --tx3: #4a4a4f;
+    --brd: rgba(255,255,255,0.055);
+    --ok: #32d74b;
+    --warn-color: #ff9500;
+    --crit-color: #ff453a;
+    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", monospace;
+
+    display: flex; flex-direction: column; min-height: 100dvh;
+    background: var(--black); color: var(--tx); font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
   }
 
-  .report-content {
-    flex: 1;
-    padding: var(--space-md);
-    padding-bottom: calc(var(--space-xl) + 80px);
+  .bar {
+    position: sticky; top: 0; z-index: 90; height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; background: var(--black); border-bottom: 1px solid var(--brd);
+  }
+  .bar-brand { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tx3); }
+  .bar-action {
+    font-family: var(--font); font-size: 13px; font-weight: 500; color: var(--tx2);
+    background: none; border: 1px solid var(--brd); border-radius: 6px; padding: 5px 14px; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .bar-action:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+
+  .content { flex: 1; padding: 32px 24px 100px; display: flex; flex-direction: column; gap: 24px; }
+
+  .page-title {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--tx); margin: 0;
   }
 
-  .empty-state {
-    display: flex;
-    justify-content: center;
-    padding-top: var(--space-xl);
+  /* Empty */
+  .empty {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 12px; padding: 48px 0;
+  }
+  .empty-title { font-size: 18px; font-weight: 600; color: var(--tx2); margin: 0; }
+  .empty-body { font-size: 14px; color: var(--tx3); margin: 0; max-width: 280px; line-height: 1.5; }
+
+  .btn-outline {
+    padding: 8px 20px; border-radius: 6px; border: 1px solid var(--brd);
+    background: transparent; color: var(--tx2); font-family: var(--font);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+
+  /* History list */
+  .history { display: flex; flex-direction: column; }
+
+  .list-head {
+    display: flex; justify-content: space-between;
+    padding-bottom: 8px; border-bottom: 1px solid var(--brd); margin-bottom: 0;
+  }
+  .list-head-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--tx3);
   }
 
-  .empty-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-md);
+  .scan-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; border-bottom: 1px solid var(--brd);
+    background: none; border-left: none; border-right: none; border-top: none;
+    width: 100%; font-family: var(--font); cursor: pointer;
+    text-align: left; color: var(--tx); transition: background 0.15s;
   }
+  .scan-row:hover { background: var(--s1); }
 
-  .empty-icon {
-    font-size: 48px;
-    line-height: 1;
-  }
+  .scan-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .scan-target { font-size: 14px; color: var(--tx); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .scan-date { font-size: 11px; color: var(--tx3); }
 
-  .empty-title {
-    font: var(--font-title-2);
-    color: var(--color-label);
-    margin: 0;
-  }
+  .scan-stats { display: flex; gap: 6px; flex-shrink: 0; }
 
-  .empty-body {
-    font: var(--font-body);
-    color: var(--color-label-secondary);
-    margin: 0;
+  .stat {
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    padding: 2px 8px; border-radius: 4px; border: 1px solid var(--brd); background: var(--s2);
   }
+  .stat--crit { color: var(--crit-color); }
+  .stat--warn { color: var(--warn-color); }
+  .stat--ok { color: var(--ok); }
 
-  .history-list {
-    display: flex;
-    flex-direction: column;
+  /* Nav */
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    display: flex; background: var(--s1); border-top: 1px solid var(--brd);
   }
-
-  .scan-badges-compact {
-    display: flex;
-    gap: 2px;
-    flex-direction: column;
+  .nav-item {
+    flex: 1; padding: 12px 0; background: none; border: none;
+    font-family: var(--font); font-size: 13px; font-weight: 500;
+    color: var(--tx3); cursor: pointer; transition: color 0.15s;
   }
-
-  .tab-bar-wrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-  }
+  .nav-item:hover { color: var(--tx2); }
+  .nav-item--on { color: var(--tx); }
 </style>

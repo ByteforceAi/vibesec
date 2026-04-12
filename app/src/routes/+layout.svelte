@@ -16,12 +16,24 @@
 </div>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+	:global(body) {
+		margin: 0;
+		padding: 0;
+		background: #000000;
+		color: #ffffff;
+		font-family: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
 	.app-shell {
 		display: flex;
 		flex-direction: column;
 		min-height: 100dvh;
-		background: var(--color-bg-primary);
-		color: var(--color-label);
+		background: #000000;
+		color: #ffffff;
 	}
 
 	.app-main {

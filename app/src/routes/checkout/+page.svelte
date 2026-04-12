@@ -1,23 +1,16 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { Button, Card, Toolbar, ListRow, Alert } from '$lib/components';
   import { t } from '$lib/i18n/loader';
   import { cartItems, removeFromCart, clearCart, calculateTotal } from '$lib/stores/cart';
   import type { CartItem } from '$lib/stores/cart';
   import packagesIndex from '$content/packages/index.json';
 
-  interface PkgSummary {
-    id: string;
-    name_kr: string;
-    price_krw: number;
-    severity: string;
-  }
+  interface PkgSummary { id: string; name_kr: string; price_krw: number; severity: string; }
   const allPkgs = packagesIndex as PkgSummary[];
   const pkgMap = Object.fromEntries(allPkgs.map((p) => [p.id, p]));
   const priceMap = Object.fromEntries(allPkgs.map((p) => [p.id, p.price_krw]));
 
-  // Cart state - reactive
   let items = $state<CartItem[]>([]);
   $effect(() => {
     const unsub = cartItems.subscribe((i) => { items = i; });
@@ -27,12 +20,10 @@
   const total = $derived(calculateTotal(items, priceMap));
   const isEmpty = $derived(items.length === 0);
 
-  // Checkout state
   let orderComplete = $state(false);
-  let showRemoveAlert = $state(false);
+  let showRemoveConfirm = $state(false);
   let removeTargetId = $state('');
 
-  // Copy
   const emptyTitle = t('empty_states.cart_empty.title', '');
   const emptyBody = t('empty_states.cart_empty.body', '');
   const emptyCta = t('empty_states.cart_empty.cta', '');
@@ -43,7 +34,7 @@
   const kakaoPay = t('checkout.payment_method.kakao_consultation', '');
   const completeTitle = t('checkout.payment_complete.complete_title', '');
   const completeBody = t('checkout.payment_complete.complete_body', '');
-  const removeConfirm = t('checkout.cart.delete_confirmation', '');
+  const removeConfirmText = t('checkout.cart.delete_confirmation', '');
 
   function formatPrice(price: number): string {
     if (price === 0) return '무료';
@@ -52,230 +43,243 @@
 
   function handleRemoveConfirm(pkgId: string) {
     removeTargetId = pkgId;
-    showRemoveAlert = true;
+    showRemoveConfirm = true;
   }
 
   function confirmRemove() {
     removeFromCart(removeTargetId);
-    showRemoveAlert = false;
+    showRemoveConfirm = false;
     removeTargetId = '';
   }
 
-  function handleMockPayment() {
-    // Mock payment - just show completion
-    orderComplete = true;
-    clearCart();
-  }
-
-  function handleKakaoConsult() {
-    // Mock kakao consultation
-    orderComplete = true;
-    clearCart();
-  }
-
-  function handleBackHome() {
-    goto(`${base}/`);
-  }
+  function handleMockPayment() { orderComplete = true; clearCart(); }
+  function handleKakaoConsult() { orderComplete = true; clearCart(); }
+  function handleBackHome() { goto(`${base}/`); }
 </script>
 
-<div class="checkout-page">
-  <Toolbar title={confirmTitle}>
-    {#snippet leading()}
-      <Button variant="ghost" size="sm" ariaLabel="뒤로 가기" onclick={() => goto(-1 as unknown as string)}>
-        {'\u2190'}
-      </Button>
-    {/snippet}
-  </Toolbar>
+<div class="page">
 
-  <div class="checkout-content">
+  <header class="bar">
+    <button class="bar-back" onclick={() => history.back()}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    </button>
+    <span class="bar-title">{confirmTitle || '결제'}</span>
+    <span class="bar-spacer"></span>
+  </header>
+
+  <div class="content">
+
     {#if orderComplete}
-      <!-- Order complete -->
-      <section class="complete-section">
-        <Card glass padding="lg">
-          <div class="complete-inner">
-            <span class="complete-icon" aria-hidden="true">{'\u2705'}</span>
-            <h2 class="complete-title">{completeTitle}</h2>
-            <p class="complete-body">{completeBody}</p>
-            <Button variant="primary" size="lg" fullWidth onclick={handleBackHome}>
-              {t('errors.page_not_found_404.cta', '')}
-            </Button>
-          </div>
-        </Card>
+      <section class="state-section">
+        <div class="state-card">
+          <svg class="state-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#32d74b" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <h2 class="state-title">{completeTitle}</h2>
+          <p class="state-body">{completeBody}</p>
+          <button class="cta-primary" onclick={handleBackHome}>
+            {t('errors.page_not_found_404.cta', '') || '홈으로'}
+          </button>
+        </div>
       </section>
+
     {:else if isEmpty}
-      <!-- Empty cart -->
-      <section class="empty-section">
-        <Card glass padding="lg">
-          <div class="empty-inner">
-            <span class="empty-icon" aria-hidden="true">{'\uD83D\uDED2'}</span>
-            <h2 class="empty-title">{emptyTitle}</h2>
-            <p class="empty-body">{emptyBody}</p>
-            <Button variant="primary" size="md" onclick={() => goto(`${base}/packages`)}>
-              {emptyCta}
-            </Button>
-          </div>
-        </Card>
+      <section class="state-section">
+        <div class="state-card">
+          <h2 class="state-title">{emptyTitle}</h2>
+          <p class="state-body">{emptyBody}</p>
+          <button class="btn-outline" onclick={() => goto(`${base}/packages`)}>{emptyCta}</button>
+        </div>
       </section>
+
     {:else}
       <!-- Cart items -->
-      <section class="cart-items">
-        <Card glass padding="none">
-          {#each items as item}
-            {@const pkg = pkgMap[item.packageId]}
-            {#if pkg}
-              <ListRow
-                title={pkg.name_kr}
-                subtitle={formatPrice(pkg.price_krw)}
-                onclick={() => goto(`${base}/packages/${item.packageId}`)}
+      <section class="cart-list">
+        <h2 class="group-head">선택한 패키지</h2>
+        {#each items as item}
+          {@const pkg = pkgMap[item.packageId]}
+          {#if pkg}
+            <div class="cart-row">
+              <div class="cart-info">
+                <span class="cart-name">{pkg.name_kr}</span>
+                <span class="cart-price">W{formatPrice(pkg.price_krw)}</span>
+              </div>
+              <button
+                class="cart-remove"
+                aria-label="삭제"
+                onclick={() => handleRemoveConfirm(item.packageId)}
               >
-                {#snippet trailing()}
-                  <button
-                    class="remove-btn"
-                    aria-label="삭제"
-                    onclick={(e) => { e.stopPropagation(); handleRemoveConfirm(item.packageId); }}
-                  >
-                    x
-                  </button>
-                {/snippet}
-              </ListRow>
-            {/if}
-          {/each}
-        </Card>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+              </button>
+            </div>
+          {/if}
+        {/each}
       </section>
 
       <!-- Total -->
       <section class="total-section">
-        <Card glass padding="md">
-          <div class="total-row">
-            <span class="total-label">{t('checkout.receipt.total', '')}</span>
-            <span class="total-amount">{formatPrice(total)}</span>
-          </div>
-        </Card>
+        <div class="total-row">
+          <span class="total-label">{t('checkout.receipt.total', '') || '합계'}</span>
+          <span class="total-amount">W{formatPrice(total)}</span>
+        </div>
       </section>
 
-      <!-- Warranty info -->
       <p class="warranty-text">{warrantyInfo}</p>
 
-      <!-- Payment methods (mock) -->
-      <section class="payment-section">
-        <h3 class="section-heading">{payMethodTitle}</h3>
-        <div class="payment-buttons">
-          <Button variant="primary" size="lg" fullWidth onclick={handleMockPayment}>
-            {cardPay}
-          </Button>
-          <Button variant="secondary" size="lg" fullWidth onclick={handleKakaoConsult}>
-            {kakaoPay}
-          </Button>
+      <!-- Payment methods -->
+      <section class="pay-section">
+        <h3 class="group-head">{payMethodTitle}</h3>
+        <div class="pay-buttons">
+          <button class="cta-primary" onclick={handleMockPayment}>{cardPay}</button>
+          <button class="btn-outline btn-full" onclick={handleKakaoConsult}>{kakaoPay}</button>
         </div>
       </section>
     {/if}
   </div>
 
-  <!-- Remove confirmation alert -->
-  <Alert
-    open={showRemoveAlert}
-    severity="warning"
-    title={removeConfirm}
-    actions={[
-      { label: '확인', variant: 'destructive', onclick: confirmRemove },
-      { label: '취소', variant: 'cancel', onclick: () => { showRemoveAlert = false; } },
-    ]}
-    onclose={() => { showRemoveAlert = false; }}
-  />
+  <!-- Remove confirmation -->
+  {#if showRemoveConfirm}
+    <div class="overlay" onclick={() => { showRemoveConfirm = false; }} role="dialog" aria-modal="true">
+      <div class="confirm-box" onclick={(e) => e.stopPropagation()}>
+        <p class="confirm-text">{removeConfirmText}</p>
+        <div class="confirm-actions">
+          <button class="confirm-btn confirm-btn--danger" onclick={confirmRemove}>확인</button>
+          <button class="confirm-btn" onclick={() => { showRemoveConfirm = false; }}>취소</button>
+        </div>
+      </div>
+    </div>
+  {/if}
+
 </div>
 
 <style>
-  .checkout-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
+  .page {
+    --black: #000000;
+    --s1: #060608;
+    --s2: #0c0c0e;
+    --s3: #141416;
+    --tx: #ffffff;
+    --tx2: #9a9a9f;
+    --tx3: #4a4a4f;
+    --brd: rgba(255,255,255,0.055);
+    --ok: #32d74b;
+    --crit-color: #ff453a;
+    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", monospace;
+
+    display: flex; flex-direction: column; min-height: 100dvh;
+    background: var(--black); color: var(--tx); font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
   }
 
-  .checkout-content {
-    flex: 1;
-    padding: var(--space-md);
-    padding-bottom: var(--space-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+  /* Bar */
+  .bar {
+    position: sticky; top: 0; z-index: 90; height: 48px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 24px; background: var(--black); border-bottom: 1px solid var(--brd);
+  }
+  .bar-back {
+    background: none; border: none; color: var(--tx2); cursor: pointer;
+    display: flex; align-items: center; padding: 4px; transition: color 0.15s;
+  }
+  .bar-back:hover { color: var(--tx); }
+  .bar-title { font-size: 14px; font-weight: 600; color: var(--tx); }
+  .bar-spacer { flex: 1; }
+
+  .content {
+    flex: 1; padding: 24px 24px 32px; display: flex; flex-direction: column; gap: 24px;
   }
 
-  .complete-inner,
-  .empty-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-md);
+  /* Group head */
+  .group-head {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--tx3); margin: 0 0 8px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--brd);
   }
 
-  .complete-icon,
-  .empty-icon {
-    font-size: 48px;
-    line-height: 1;
+  /* State (complete / empty) */
+  .state-section {
+    flex: 1; display: flex; align-items: center; justify-content: center;
   }
+  .state-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 16px; padding: 40px 24px;
+    background: var(--s1); border: 1px solid var(--brd); border-radius: 8px;
+    max-width: 360px; width: 100%;
+  }
+  .state-icon { margin-bottom: 8px; }
+  .state-title { font-size: 20px; font-weight: 700; color: var(--tx); margin: 0; }
+  .state-body { font-size: 14px; color: var(--tx2); margin: 0; line-height: 1.5; }
 
-  .complete-title,
-  .empty-title {
-    font: var(--font-title-2);
-    color: var(--color-label);
-    margin: 0;
-  }
+  /* Cart */
+  .cart-list { display: flex; flex-direction: column; }
 
-  .complete-body,
-  .empty-body {
-    font: var(--font-body);
-    color: var(--color-label-secondary);
-    margin: 0;
+  .cart-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; border-bottom: 1px solid var(--brd);
   }
+  .cart-info { display: flex; flex-direction: column; gap: 2px; }
+  .cart-name { font-size: 14px; color: var(--tx); }
+  .cart-price { font-family: var(--mono); font-size: 12px; color: var(--tx3); }
 
-  .total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .cart-remove {
+    width: 32px; height: 32px; border-radius: 6px;
+    border: 1px solid var(--brd); background: var(--s2);
+    color: var(--crit-color); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s;
   }
+  .cart-remove:hover { border-color: rgba(255,255,255,0.15); }
 
-  .total-label {
-    font: var(--font-headline);
-    color: var(--color-label);
+  /* Total */
+  .total-section {
+    padding: 16px; background: var(--s1); border: 1px solid var(--brd); border-radius: 8px;
   }
+  .total-row { display: flex; justify-content: space-between; align-items: center; }
+  .total-label { font-size: 14px; font-weight: 600; color: var(--tx); }
+  .total-amount { font-family: var(--mono); font-size: 22px; font-weight: 500; color: var(--tx); }
 
-  .total-amount {
-    font: var(--font-title-2);
-    color: var(--color-system-blue);
-    font-weight: 700;
-  }
+  .warranty-text { font-size: 12px; color: var(--tx3); text-align: center; margin: 0; }
 
-  .warranty-text {
-    font: var(--font-caption-1);
-    color: var(--color-label-tertiary);
-    text-align: center;
-    margin: 0;
-  }
+  /* Payment */
+  .pay-section { display: flex; flex-direction: column; }
+  .pay-buttons { display: flex; flex-direction: column; gap: 8px; }
 
-  .section-heading {
-    font: var(--font-headline);
-    color: var(--color-label);
-    margin: 0 0 var(--space-sm);
+  .cta-primary {
+    width: 100%; padding: 10px 28px; border-radius: 6px; border: none;
+    background: var(--tx); color: var(--black);
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s;
   }
+  .cta-primary:hover { background: #e0e0e0; }
 
-  .payment-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+  .btn-outline {
+    padding: 8px 20px; border-radius: 6px; border: 1px solid var(--brd);
+    background: transparent; color: var(--tx2); font-family: var(--font);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
   }
+  .btn-outline:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .btn-full { width: 100%; }
 
-  .remove-btn {
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 50%;
-    background: var(--color-fill-secondary);
-    color: var(--color-system-red);
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Overlay */
+  .overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.75);
+    display: flex; align-items: center; justify-content: center;
   }
+  .confirm-box {
+    background: var(--s1); border: 1px solid var(--brd); border-radius: 8px;
+    padding: 24px; max-width: 320px; width: 90%;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .confirm-text { font-size: 15px; color: var(--tx); margin: 0; text-align: center; }
+  .confirm-actions { display: flex; gap: 8px; }
+  .confirm-btn {
+    flex: 1; padding: 8px 0; border-radius: 6px;
+    border: 1px solid var(--brd); background: transparent;
+    color: var(--tx2); font-family: var(--font); font-size: 14px;
+    font-weight: 500; cursor: pointer; transition: all 0.15s;
+  }
+  .confirm-btn:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .confirm-btn--danger { color: var(--crit-color); }
+  .confirm-btn--danger:hover { color: var(--crit-color); border-color: var(--crit-color); }
 </style>
