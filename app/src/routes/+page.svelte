@@ -5,16 +5,35 @@
   import { base } from '$app/paths';
 
   // --- Phase machine ---
-  // black → emblem → morph → skeleton → alive
-  let phase = $state<'black'|'emblem'|'morph'|'skeleton'|'alive'>('black');
+  // black -> emblem -> emblem-text -> emblem-hold -> morph -> appbar -> skeleton -> crossfade -> alive
+  let phase = $state<
+    'black'|'emblem'|'emblem-text'|'emblem-sub'|'emblem-hold'|
+    'morph'|'appbar'|'appbar-hold'|'skeleton'|'crossfade'|'alive'
+  >('black');
 
   // --- Hero typing ---
   const heroLines = ['바이브코딩 보안.', '그게 저희 일입니다.'];
   let typedChars = $state(0);
   const totalChars = heroLines.join('').length;
+  let typingLine = $state(0); // 0 = first line, 1 = second line
+  let typingDone = $state(false);
 
-  // --- Skeleton pulse ---
-  let skeletonVisible = $state(false);
+  // --- Sub-element visibility ---
+  let showSubtext = $state(false);
+  let showTools = $state(false);
+  let showCta = $state(false);
+  let showStat0 = $state(false);
+  let showStat1 = $state(false);
+  let showStat2 = $state(false);
+  let showRecent = $state(false);
+
+  // --- Skeleton stagger ---
+  let skelTitle = $state(false);
+  let skelText = $state(false);
+  let skelBtn = $state(false);
+
+  // --- Canvas opacity ---
+  let canvasOpacity = $state(0);
 
   // --- Canvas ---
   let canvasEl: HTMLCanvasElement | undefined = $state(undefined);
@@ -23,33 +42,147 @@
   let activeTab = $state('home');
   let history = $state<ScanResult[]>([]);
 
+  // --- Reduced motion ---
+  let reducedMotion = $state(false);
+
   $effect(() => {
     const unsub = scanHistory.subscribe((h) => { history = h; });
     return unsub;
   });
 
-  // --- Sequence timer ---
+  // --- Check reduced motion and start sequence ---
   $effect(() => {
-    // 0.0s: black
-    setTimeout(() => { phase = 'emblem'; }, 300);      // 0.3s: emblem appears
-    setTimeout(() => { phase = 'morph'; }, 1200);       // 1.2s: emblem morphs to bar
-    setTimeout(() => {
-      phase = 'skeleton';
-      skeletonVisible = true;
-    }, 1600);                                           // 1.6s: skeleton layout
-    setTimeout(() => {
+    if (typeof window !== 'undefined') {
+      reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    if (reducedMotion) {
+      // Skip all animations
       phase = 'alive';
-      startTyping();
-    }, 2200);                                           // 2.2s: content alive
+      typedChars = totalChars;
+      typingDone = true;
+      typingLine = 1;
+      canvasOpacity = 0.5;
+      showSubtext = true;
+      showTools = true;
+      showCta = true;
+      showStat0 = true;
+      showStat1 = true;
+      showStat2 = true;
+      showRecent = true;
+      skelTitle = true;
+      skelText = true;
+      skelBtn = true;
+      return;
+    }
+    startCinematicSequence();
   });
 
-  function startTyping() {
+  function startCinematicSequence() {
+    // [0.0s] Pure black. Nothing.
+
+    // [0.8s] Shield appears with overshoot bounce
+    setTimeout(() => { phase = 'emblem'; }, 800);
+
+    // [1.5s] Breath -- shield alone. Do nothing.
+
+    // [2.0s] "BYTEFORCE" text gathers in
+    setTimeout(() => { phase = 'emblem-text'; }, 2000);
+
+    // [2.8s] "SECURITY" fades in
+    setTimeout(() => { phase = 'emblem-sub'; }, 2800);
+
+    // [3.2s] Breath -- full emblem holds for 0.8s
+    setTimeout(() => { phase = 'emblem-hold'; }, 3200);
+
+    // [4.0s] Emblem shrinks up + fades. Particles start glowing.
+    setTimeout(() => {
+      phase = 'morph';
+      // Particles fade in over 1s (0 -> 0.5)
+      animateCanvasOpacity();
+    }, 4000);
+
+    // [4.8s] App bar appears
+    setTimeout(() => { phase = 'appbar'; }, 4800);
+
+    // [5.2s] Breath -- app bar only, content empty
+    setTimeout(() => { phase = 'appbar-hold'; }, 5200);
+
+    // [5.5s] Skeleton appears with stagger
+    setTimeout(() => {
+      phase = 'skeleton';
+      skelTitle = true;
+    }, 5500);
+    setTimeout(() => { skelText = true; }, 5650);  // +0.15s
+    setTimeout(() => { skelBtn = true; }, 5800);   // +0.30s
+
+    // [6.5s] Crossfade: skeleton out, real content in
+    setTimeout(() => { phase = 'crossfade'; }, 6500);
+
+    // [6.8s] Content alive, hero typing starts
+    setTimeout(() => {
+      phase = 'alive';
+      startTypingLine1();
+    }, 6800);
+  }
+
+  function startTypingLine1() {
+    const line1 = heroLines[0];
     let c = 0;
     const timer = setInterval(() => {
       c++;
       typedChars = c;
-      if (c >= totalChars) clearInterval(timer);
-    }, 35);
+      if (c >= line1.length) {
+        clearInterval(timer);
+        typingLine = 0;
+        // [7.5s] Breath -- first line only, 0.3s
+        // Then start second line at ~7.8s
+        // Delay from end of first line: 7.8 - (6.8 + line1.length * 0.06)
+        // line1 = 9 chars * 60ms = 540ms, ends at 7.34s. Breath until 7.8s = 460ms
+        setTimeout(() => {
+          typingLine = 1;
+          startTypingLine2();
+        }, 460);
+      }
+    }, 60);
+  }
+
+  function startTypingLine2() {
+    const line1len = heroLines[0].length;
+    const line2 = heroLines[1];
+    let c = 0;
+    const timer = setInterval(() => {
+      c++;
+      typedChars = line1len + c;
+      if (c >= line2.length) {
+        clearInterval(timer);
+        typingDone = true;
+        // After typing done, sequence continues:
+        // [8.5s] Subtext + tools fade in
+        // Typing ends at ~7.8 + 10*60ms = 8.4s
+        setTimeout(() => { showSubtext = true; }, 100);
+        setTimeout(() => { showTools = true; }, 300);
+        // [9.2s] CTA button
+        setTimeout(() => { showCta = true; }, 800);
+        // [9.6s] Stats stagger
+        setTimeout(() => { showStat0 = true; }, 1200);
+        setTimeout(() => { showStat1 = true; }, 1300);
+        setTimeout(() => { showStat2 = true; }, 1400);
+        // [10.0s] Recent history
+        setTimeout(() => { showRecent = true; }, 1600);
+      }
+    }, 60);
+  }
+
+  function animateCanvasOpacity() {
+    const start = performance.now();
+    const duration = 1000; // 1s
+    function tick() {
+      const elapsed = performance.now() - start;
+      const t = Math.min(elapsed / duration, 1);
+      canvasOpacity = t * 0.5;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   function getTyped(): { l1: string; l2: string } {
@@ -132,29 +265,58 @@
 </script>
 
 <div class="page">
-  <canvas class="particles" bind:this={canvasEl}></canvas>
+  <canvas
+    class="particles"
+    bind:this={canvasEl}
+    style="opacity: {canvasOpacity}"
+  ></canvas>
 
   <!-- ===== EMBLEM SPLASH ===== -->
-  {#if phase === 'black' || phase === 'emblem'}
-    <div class="splash" class:splash--show={phase === 'emblem'}>
-      <!-- Shield SVG -->
-      <div class="emblem" class:emblem--in={phase === 'emblem'}>
+  {#if phase === 'black' || phase === 'emblem' || phase === 'emblem-text' || phase === 'emblem-sub' || phase === 'emblem-hold' || phase === 'morph'}
+    <div
+      class="splash"
+      class:splash--show={phase !== 'black'}
+      class:splash--morph={phase === 'morph'}
+    >
+      <div
+        class="emblem"
+        class:emblem--in={phase === 'emblem' || phase === 'emblem-text' || phase === 'emblem-sub' || phase === 'emblem-hold'}
+        class:emblem--morph={phase === 'morph'}
+      >
+        <!-- Shield glow -->
+        <div
+          class="shield-glow"
+          class:shield-glow--in={phase !== 'black'}
+        ></div>
+        <!-- Shield SVG -->
         <svg class="shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
           <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" fill="rgba(255,255,255,0.03)"/>
           <path d="M26 38l6 6 12-14" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
         </svg>
-        <span class="emblem-text" class:emblem-text--in={phase === 'emblem'}>BYTEFORCE</span>
-        <span class="emblem-sub" class:emblem-sub--in={phase === 'emblem'}>SECURITY</span>
+        <span
+          class="emblem-text"
+          class:emblem-text--in={phase === 'emblem-text' || phase === 'emblem-sub' || phase === 'emblem-hold' || phase === 'morph'}
+        >BYTEFORCE</span>
+        <span
+          class="emblem-sub"
+          class:emblem-sub--in={phase === 'emblem-sub' || phase === 'emblem-hold' || phase === 'morph'}
+        >SECURITY</span>
       </div>
     </div>
   {/if}
 
   <!-- ===== MAIN APP ===== -->
-  <div class="app" class:app--morphing={phase === 'morph'} class:app--visible={phase === 'skeleton' || phase === 'alive'}>
+  <div
+    class="app"
+    class:app--visible={phase === 'appbar' || phase === 'appbar-hold' || phase === 'skeleton' || phase === 'crossfade' || phase === 'alive'}
+  >
 
-    <!-- Bar (emblem morphs here) -->
-    <header class="bar">
+    <!-- Bar -->
+    <header
+      class="bar"
+      class:bar--in={phase === 'appbar' || phase === 'appbar-hold' || phase === 'skeleton' || phase === 'crossfade' || phase === 'alive'}
+    >
       <div class="bar-logo">
         <svg class="bar-shield" viewBox="0 0 64 76" fill="none"><path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/><path d="M26 38l6 6 12-14" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="bar-brand">BYTEFORCE</span>
@@ -168,45 +330,59 @@
       <section class="hero">
         {#if phase === 'alive'}
           <h1 class="hero-title">
-            <span>{getTyped().l1}<span class="cursor" class:cursor--blink={typedChars >= totalChars}>|</span></span>
-            {#if getTyped().l2}<br/><span>{getTyped().l2}</span>{/if}
+            <span class="hero-line">{getTyped().l1}<span class="cursor" class:cursor--blink={typingDone}>|</span></span>
+            {#if getTyped().l2}<br/><span class="hero-line">{getTyped().l2}</span>{/if}
           </h1>
-        {:else if skeletonVisible}
-          <div class="skel skel--title"></div>
-          <div class="skel skel--title skel--short"></div>
+        {:else if phase === 'crossfade'}
+          <div class="skel skel--title skel--fading"></div>
+          <div class="skel skel--title skel--short skel--fading"></div>
+        {:else if phase === 'skeleton'}
+          <div class="skel skel--title" class:skel--stagger-in={skelTitle}></div>
+          <div class="skel skel--title skel--short" class:skel--stagger-in={skelTitle}></div>
         {/if}
 
         {#if phase === 'alive'}
-          <p class="hero-sub fade-in" style="animation-delay:0.3s">배포 전 보안 점검. 바이브코더를 위해 만들었습니다.</p>
-          <p class="hero-tools fade-in" style="animation-delay:0.5s">Cursor &middot; Claude Code &middot; v0 &middot; Lovable &middot; bolt.new</p>
-          <button class="hero-cta fade-in" style="animation-delay:0.7s" onclick={() => goto(`${base}/diagnose`)}>레포 점검 시작</button>
-        {:else if skeletonVisible}
-          <div class="skel skel--text"></div>
-          <div class="skel skel--btn"></div>
+          {#if showSubtext}
+            <p class="hero-sub elem-fade-in">배포 전 보안 점검. 바이브코더를 위해 만들었습니다.</p>
+          {/if}
+          {#if showTools}
+            <p class="hero-tools elem-fade-in">Cursor &middot; Claude Code &middot; v0 &middot; Lovable &middot; bolt.new</p>
+          {/if}
+          {#if showCta}
+            <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/diagnose`)}>레포 점검 시작</button>
+          {/if}
+        {:else if phase === 'crossfade'}
+          <div class="skel skel--text skel--fading"></div>
+          <div class="skel skel--btn skel--fading"></div>
+        {:else if phase === 'skeleton'}
+          {#if skelText}<div class="skel skel--text skel--stagger-in"></div>{/if}
+          {#if skelBtn}<div class="skel skel--btn skel--stagger-in"></div>{/if}
         {/if}
       </section>
 
       <!-- STATS -->
       <section class="stats">
         {#if phase === 'alive'}
-          <div class="stat-row fade-in" style="animation-delay:0.9s">
-            <div class="stat"><span class="stat-num">847</span><span class="stat-lbl">노출 키</span></div>
-            <div class="stat"><span class="stat-num">62%</span><span class="stat-lbl">RLS 미설정</span></div>
-            <div class="stat"><span class="stat-num">11일</span><span class="stat-lbl">평균 탐지</span></div>
+          <div class="stat-row">
+            {#if showStat0}<div class="stat elem-fade-in"><span class="stat-num">847</span><span class="stat-lbl">노출 키</span></div>{/if}
+            {#if showStat1}<div class="stat elem-fade-in"><span class="stat-num">62%</span><span class="stat-lbl">RLS 미설정</span></div>{/if}
+            {#if showStat2}<div class="stat elem-fade-in"><span class="stat-num">11일</span><span class="stat-lbl">평균 탐지</span></div>{/if}
           </div>
-          <p class="stat-src fade-in" style="animation-delay:1.1s">2026 3~8월, 312개 레포 기준</p>
-        {:else if skeletonVisible}
+          {#if showStat2}
+            <p class="stat-src elem-fade-in">2026 3~8월, 312개 레포 기준</p>
+          {/if}
+        {:else if phase === 'skeleton' || phase === 'crossfade'}
           <div class="skel-row">
-            <div class="skel skel--stat"></div>
-            <div class="skel skel--stat"></div>
-            <div class="skel skel--stat"></div>
+            <div class="skel skel--stat" class:skel--fading={phase === 'crossfade'}></div>
+            <div class="skel skel--stat" class:skel--fading={phase === 'crossfade'}></div>
+            <div class="skel skel--stat" class:skel--fading={phase === 'crossfade'}></div>
           </div>
         {/if}
       </section>
 
       <!-- RECENT -->
-      {#if phase === 'alive' && history.length > 0}
-        <section class="recent fade-in" style="animation-delay:1.3s">
+      {#if phase === 'alive' && showRecent && history.length > 0}
+        <section class="recent elem-fade-in">
           <h2 class="sec-head">최근 점검</h2>
           {#each history.slice(0, 5) as scan}
             <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
@@ -222,9 +398,9 @@
             </button>
           {/each}
         </section>
-      {:else if skeletonVisible}
-        <div class="skel skel--row"></div>
-        <div class="skel skel--row"></div>
+      {:else if (phase === 'skeleton' || phase === 'crossfade') && skelBtn}
+        <div class="skel skel--row" class:skel--fading={phase === 'crossfade'}></div>
+        <div class="skel skel--row" class:skel--fading={phase === 'crossfade'}></div>
       {/if}
 
     </div>
@@ -247,12 +423,17 @@
     --f: "Instrument Sans","Pretendard Variable",-apple-system,sans-serif;
     --m: "JetBrains Mono","SF Mono",monospace;
     --ease: cubic-bezier(0.16,1,0.3,1);
+    --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative; min-height: 100dvh;
     background: var(--bk); color: var(--tx); font-family: var(--f);
     overflow: hidden; -webkit-font-smoothing: antialiased;
   }
 
-  .particles { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  .particles {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+    opacity: 0; /* controlled via inline style */
+  }
 
   /* ===== SPLASH ===== */
   .splash {
@@ -262,32 +443,68 @@
     opacity: 0; transition: opacity 0.3s;
   }
   .splash--show { opacity: 1; }
+  .splash--morph {
+    opacity: 0;
+    transition: opacity 0.8s var(--ease);
+  }
 
+  /* Emblem container */
   .emblem {
     display: flex; flex-direction: column; align-items: center; gap: 16px;
-    opacity: 0; transform: scale(0.6);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    position: relative;
+    opacity: 0; transform: scale(0);
+    transition: opacity 0.7s var(--ease-overshoot), transform 0.7s var(--ease-overshoot);
   }
-  .emblem--in { opacity: 1; transform: scale(1); }
+  .emblem--in {
+    opacity: 1; transform: scale(1);
+  }
+  .emblem--morph {
+    opacity: 0; transform: scale(0.6) translateY(-60px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
 
-  .shield { width: 72px; height: 86px; filter: drop-shadow(0 0 30px rgba(255,255,255,0.08)); }
+  /* Shield glow */
+  .shield-glow {
+    position: absolute; top: 50%; left: 50%;
+    width: 200px; height: 200px;
+    transform: translate(-50%, -60%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.7s var(--ease);
+    pointer-events: none;
+  }
+  .shield-glow--in { opacity: 1; }
+
+  .shield {
+    width: 72px; height: 86px;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.08));
+    position: relative; z-index: 1;
+  }
 
   .check-path {
     stroke-dasharray: 40; stroke-dashoffset: 40;
-    animation: drawCheck 0.5s ease-out 0.4s forwards;
+    animation: drawCheck 0.5s ease-out 0.9s forwards;
   }
   @keyframes drawCheck { to { stroke-dashoffset: 0; } }
 
+  /* BYTEFORCE text -- letter-spacing gathers from 0.3em to 0.15em */
   .emblem-text {
-    font-size: 28px; font-weight: 700; letter-spacing: 0.15em; color: var(--tx);
-    opacity: 0; transform: translateY(8px);
-    transition: opacity 0.4s var(--ease) 0.3s, transform 0.4s var(--ease) 0.3s;
+    font-size: 28px; font-weight: 700;
+    letter-spacing: 0.3em; color: var(--tx);
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), letter-spacing 0.6s var(--ease);
   }
-  .emblem-text--in { opacity: 1; transform: translateY(0); }
+  .emblem-text--in {
+    opacity: 1; transform: translateY(0);
+    letter-spacing: 0.15em;
+  }
 
+  /* SECURITY text */
   .emblem-sub {
     font-size: 12px; font-weight: 500; letter-spacing: 0.35em; color: var(--tx3);
-    opacity: 0; transition: opacity 0.4s var(--ease) 0.6s;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
   }
   .emblem-sub--in { opacity: 1; }
 
@@ -295,11 +512,10 @@
   .app {
     position: relative; z-index: 10; min-height: 100dvh;
     display: flex; flex-direction: column;
-    opacity: 0; transform: translateY(16px);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
   }
-  .app--morphing { opacity: 0.3; transform: translateY(8px); }
-  .app--visible { opacity: 1; transform: translateY(0); }
+  .app--visible { opacity: 1; }
 
   /* Bar */
   .bar {
@@ -308,7 +524,13 @@
     padding: 0 20px; background: rgba(0,0,0,0.85);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--brd);
+    opacity: 0; transform: translateY(-8px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
   }
+  .bar--in {
+    opacity: 1; transform: translateY(0);
+  }
+
   .bar-logo { display: flex; align-items: center; gap: 8px; }
   .bar-shield { width: 18px; height: 22px; opacity: 0.5; }
   .bar-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--tx3); }
@@ -325,6 +547,7 @@
   /* Hero */
   .hero { display: flex; flex-direction: column; gap: 16px; min-height: 200px; }
   .hero-title { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.25; margin: 0; }
+  .hero-line { display: inline; }
   .cursor { color: var(--tx2); font-weight: 300; }
   .cursor--blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
@@ -337,9 +560,21 @@
   }
   .hero-cta:hover { background: #e0e0e0; transform: translateY(-1px); }
 
-  /* Fade in */
-  .fade-in { opacity: 0; transform: translateY(8px); animation: fadeUp 0.5s var(--ease) forwards; }
-  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  /* Element-level fade in (used for staggered reveals) */
+  .elem-fade-in {
+    animation: elemFadeIn 0.4s var(--ease) forwards;
+  }
+  .elem-rise-in {
+    animation: elemRiseIn 0.4s var(--ease) forwards;
+  }
+  @keyframes elemFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes elemRiseIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
   /* Stats */
   .stats { display: flex; flex-direction: column; gap: 8px; }
@@ -370,8 +605,18 @@
   .skel {
     background: linear-gradient(90deg, var(--s1) 25%, var(--s2) 50%, var(--s1) 75%);
     background-size: 200% 100%;
-    animation: shimmer 1.5s ease-in-out infinite;
     border-radius: 6px;
+    opacity: 0;
+  }
+  .skel--stagger-in {
+    opacity: 1;
+    animation: shimmer 1.5s ease-in-out infinite;
+    transition: opacity 0.2s var(--ease);
+  }
+  .skel--fading {
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+    animation: shimmer 1.5s ease-in-out infinite;
   }
   @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   .skel--title { height: 38px; width: 70%; }
@@ -379,8 +624,8 @@
   .skel--text { height: 16px; width: 80%; margin-top: 8px; }
   .skel--btn { height: 42px; width: 140px; margin-top: 12px; }
   .skel-row { display: flex; gap: 20px; }
-  .skel--stat { height: 48px; width: 80px; }
-  .skel--row { height: 48px; width: 100%; margin-top: 8px; }
+  .skel--stat { height: 48px; width: 80px; opacity: 1; animation: shimmer 1.5s ease-in-out infinite; }
+  .skel--row { height: 48px; width: 100%; margin-top: 8px; opacity: 1; animation: shimmer 1.5s ease-in-out infinite; }
 
   /* Nav */
   .nav {
@@ -405,7 +650,15 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .splash, .emblem, .emblem-text, .emblem-sub, .app, .fade-in, .skel { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+    .splash, .emblem, .emblem-text, .emblem-sub, .app, .bar,
+    .elem-fade-in, .elem-rise-in, .skel, .shield-glow {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
     .check-path { stroke-dashoffset: 0; animation: none; }
+    .skel--stagger-in { opacity: 1 !important; }
+    .skel--fading { opacity: 0 !important; }
   }
 </style>
