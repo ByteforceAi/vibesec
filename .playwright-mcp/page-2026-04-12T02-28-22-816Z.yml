@@ -1,0 +1,35 @@
+- main [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - navigation "Leading actions"
+        - navigation "Trailing actions"
+      - heading "바이브코딩 보안센터" [level=1] [ref=e9]
+    - generic [ref=e10]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: 🔧
+        - heading "바이브코딩 보안센터" [level=2] [ref=e16]
+        - paragraph [ref=e17]: 프로젝트 하나만 보여주시면 무료로 건강검진 해드려요.
+        - button "무료 진단 받기" [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: 무료 진단 받기
+        - button "긴급 도움이 필요해요" [ref=e22] [cursor=pointer]:
+          - generic [ref=e23]: 긴급 도움이 필요해요
+      - generic [ref=e27]:
+        - generic [ref=e28]: 🩺
+        - heading "아직 진단 기록이 없어요" [level=3] [ref=e29]
+        - paragraph [ref=e30]: 프로젝트 주소를 넣어주시면 무료로 건강검진 해드려요.
+        - button "첫 진단 받기" [ref=e31] [cursor=pointer]:
+          - generic [ref=e32]: 첫 진단 받기
+    - tablist [ref=e34]:
+      - tab "홈" [selected] [ref=e35] [cursor=pointer]:
+        - generic [ref=e36]: ⌂
+        - generic [ref=e37]: 홈
+      - tab "진단" [ref=e38] [cursor=pointer]:
+        - generic [ref=e39]: 🔍
+        - generic [ref=e40]: 진단
+      - tab "리포트" [ref=e41] [cursor=pointer]:
+        - generic [ref=e42]: 📄
+        - generic [ref=e43]: 리포트
+      - tab "패키지" [ref=e44] [cursor=pointer]:
+        - generic [ref=e45]: 📦
+        - generic [ref=e46]: 패키지
