@@ -5,17 +5,17 @@
   import { base } from '$app/paths';
 
   // --- Phase machine ---
-  // black -> emblem -> emblem-text -> emblem-hold -> morph -> appbar -> skeleton -> crossfade -> alive
+  // ember -> drawing -> drawn -> glow -> text -> hold -> morph -> appbar -> skeleton -> crossfade -> alive
   let phase = $state<
-    'black'|'emblem'|'emblem-text'|'emblem-sub'|'emblem-hold'|
-    'morph'|'appbar'|'appbar-hold'|'skeleton'|'crossfade'|'alive'
+    'black'|'ember'|'ember-pulse'|'drawing'|'drawn'|'glow'|'text'|'hold'|
+    'morph'|'appbar'|'skeleton'|'crossfade'|'alive'
   >('black');
 
   // --- Hero typing ---
-  const heroLines = ['바이브코딩 보안.', '그게 저희 일입니다.'];
+  const heroLines = ['AI\uAC00 \uC9C0\uC740 \uC9D1,', '\uBCBD\uC740 \uC81C\uAC00 \uB450\uB4DC\uB824\uBCFC\uAC8C\uC694.'];
   let typedChars = $state(0);
   const totalChars = heroLines.join('').length;
-  let typingLine = $state(0); // 0 = first line, 1 = second line
+  let typingLine = $state(0);
   let typingDone = $state(false);
 
   // --- Sub-element visibility ---
@@ -38,6 +38,9 @@
   // --- Canvas ---
   let canvasEl: HTMLCanvasElement | undefined = $state(undefined);
 
+  // --- SVG draw progress ---
+  let drawProgress = $state(0);
+
   // --- Data ---
   let activeTab = $state('home');
   let history = $state<ScanResult[]>([]);
@@ -45,18 +48,33 @@
   // --- Reduced motion ---
   let reducedMotion = $state(false);
 
+  // --- Revisit mode ---
+  let revisitMode = $state<'first'|'recent'|'returning'>('first');
+
   $effect(() => {
     const unsub = scanHistory.subscribe((h) => { history = h; });
     return unsub;
   });
 
-  // --- Check reduced motion and start sequence ---
   $effect(() => {
     if (typeof window !== 'undefined') {
       reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Check revisit
+      const lastVisit = localStorage.getItem('byteforce_lastVisit');
+      if (lastVisit) {
+        const elapsed = Date.now() - parseInt(lastVisit, 10);
+        const h24 = 24 * 60 * 60 * 1000;
+        if (elapsed < h24) {
+          revisitMode = 'recent';
+        } else {
+          revisitMode = 'returning';
+        }
+      }
+      localStorage.setItem('byteforce_lastVisit', String(Date.now()));
     }
+
     if (reducedMotion) {
-      // Skip all animations
       phase = 'alive';
       typedChars = totalChars;
       typingDone = true;
@@ -74,55 +92,124 @@
       skelBtn = true;
       return;
     }
-    startCinematicSequence();
+
+    if (revisitMode === 'recent') {
+      startRecentSequence();
+    } else if (revisitMode === 'returning') {
+      startReturningSequence();
+    } else {
+      startFullSequence();
+    }
   });
 
-  function startCinematicSequence() {
-    // [0.0s] Pure black. Nothing.
+  // --- Full first-visit sequence (~8s total) ---
+  function startFullSequence() {
+    // 1st beat: Ember
+    setTimeout(() => { phase = 'ember'; }, 300);
+    setTimeout(() => { phase = 'ember-pulse'; }, 800);
 
-    // [0.8s] Shield appears with overshoot bounce
-    setTimeout(() => { phase = 'emblem'; }, 800);
+    // 2nd beat: Symbol drawing
+    setTimeout(() => {
+      phase = 'drawing';
+      animateDrawProgress(800);
+    }, 1500);
 
-    // [1.5s] Breath -- shield alone. Do nothing.
+    // Drawn + glow
+    setTimeout(() => { phase = 'drawn'; }, 2300);
+    setTimeout(() => { phase = 'glow'; }, 2500);
 
-    // [2.0s] "BYTEFORCE" text gathers in
-    setTimeout(() => { phase = 'emblem-text'; }, 2000);
+    // Text: "Two-deu-ryeo-bwat-seumnida"
+    setTimeout(() => { phase = 'text'; }, 2800);
 
-    // [2.8s] "SECURITY" fades in
-    setTimeout(() => { phase = 'emblem-sub'; }, 2800);
+    // BYTEFORCE SECURITY sub
+    setTimeout(() => { phase = 'hold'; }, 3200);
 
-    // [3.2s] Breath -- full emblem holds for 0.8s
-    setTimeout(() => { phase = 'emblem-hold'; }, 3200);
-
-    // [4.0s] Emblem shrinks up + fades. Particles start glowing.
+    // 3rd beat: Morph to appbar
     setTimeout(() => {
       phase = 'morph';
-      // Particles fade in over 1s (0 -> 0.5)
       animateCanvasOpacity();
-    }, 4000);
+    }, 3500);
 
-    // [4.8s] App bar appears
-    setTimeout(() => { phase = 'appbar'; }, 4800);
+    // Appbar appears
+    setTimeout(() => { phase = 'appbar'; }, 4300);
 
-    // [5.2s] Breath -- app bar only, content empty
-    setTimeout(() => { phase = 'appbar-hold'; }, 5200);
-
-    // [5.5s] Skeleton appears with stagger
+    // Skeleton
     setTimeout(() => {
       phase = 'skeleton';
       skelTitle = true;
-    }, 5500);
-    setTimeout(() => { skelText = true; }, 5650);  // +0.15s
-    setTimeout(() => { skelBtn = true; }, 5800);   // +0.30s
+    }, 4600);
+    setTimeout(() => { skelText = true; }, 4750);
+    setTimeout(() => { skelBtn = true; }, 4900);
 
-    // [6.5s] Crossfade: skeleton out, real content in
-    setTimeout(() => { phase = 'crossfade'; }, 6500);
+    // Crossfade
+    setTimeout(() => { phase = 'crossfade'; }, 5500);
 
-    // [6.8s] Content alive, hero typing starts
+    // Alive + typing
     setTimeout(() => {
       phase = 'alive';
       startTypingLine1();
-    }, 6800);
+    }, 5800);
+  }
+
+  // Recent revisit: symbol only 0.5s then home
+  function startRecentSequence() {
+    setTimeout(() => { phase = 'drawn'; }, 100);
+    setTimeout(() => {
+      phase = 'morph';
+      animateCanvasOpacity();
+    }, 500);
+    setTimeout(() => { phase = 'appbar'; }, 800);
+    setTimeout(() => {
+      phase = 'alive';
+      typedChars = totalChars;
+      typingDone = true;
+      typingLine = 1;
+      showSubtext = true;
+      showTools = true;
+      showCta = true;
+      showStat0 = true;
+      showStat1 = true;
+      showStat2 = true;
+      showRecent = true;
+    }, 1000);
+  }
+
+  // Returning: skip 1st beat, start from drawing
+  function startReturningSequence() {
+    setTimeout(() => {
+      phase = 'drawing';
+      animateDrawProgress(600);
+    }, 200);
+    setTimeout(() => { phase = 'drawn'; }, 800);
+    setTimeout(() => { phase = 'glow'; }, 1000);
+    setTimeout(() => { phase = 'text'; }, 1200);
+    setTimeout(() => {
+      phase = 'morph';
+      animateCanvasOpacity();
+    }, 1800);
+    setTimeout(() => { phase = 'appbar'; }, 2400);
+    setTimeout(() => {
+      phase = 'skeleton';
+      skelTitle = true;
+    }, 2600);
+    setTimeout(() => { skelText = true; }, 2700);
+    setTimeout(() => { skelBtn = true; }, 2800);
+    setTimeout(() => { phase = 'crossfade'; }, 3200);
+    setTimeout(() => {
+      phase = 'alive';
+      startTypingLine1();
+    }, 3500);
+  }
+
+  function animateDrawProgress(duration: number) {
+    const start = performance.now();
+    function tick() {
+      const elapsed = performance.now() - start;
+      const t = Math.min(elapsed / duration, 1);
+      drawProgress = t;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   function startTypingLine1() {
@@ -134,14 +221,10 @@
       if (c >= line1.length) {
         clearInterval(timer);
         typingLine = 0;
-        // [7.5s] Breath -- first line only, 0.3s
-        // Then start second line at ~7.8s
-        // Delay from end of first line: 7.8 - (6.8 + line1.length * 0.06)
-        // line1 = 9 chars * 60ms = 540ms, ends at 7.34s. Breath until 7.8s = 460ms
         setTimeout(() => {
           typingLine = 1;
           startTypingLine2();
-        }, 460);
+        }, 400);
       }
     }, 60);
   }
@@ -156,18 +239,12 @@
       if (c >= line2.length) {
         clearInterval(timer);
         typingDone = true;
-        // After typing done, sequence continues:
-        // [8.5s] Subtext + tools fade in
-        // Typing ends at ~7.8 + 10*60ms = 8.4s
         setTimeout(() => { showSubtext = true; }, 100);
         setTimeout(() => { showTools = true; }, 300);
-        // [9.2s] CTA button
         setTimeout(() => { showCta = true; }, 800);
-        // [9.6s] Stats stagger
         setTimeout(() => { showStat0 = true; }, 1200);
         setTimeout(() => { showStat1 = true; }, 1300);
         setTimeout(() => { showStat2 = true; }, 1400);
-        // [10.0s] Recent history
         setTimeout(() => { showRecent = true; }, 1600);
       }
     }, 60);
@@ -175,7 +252,7 @@
 
   function animateCanvasOpacity() {
     const start = performance.now();
-    const duration = 1000; // 1s
+    const duration = 1000;
     function tick() {
       const elapsed = performance.now() - start;
       const t = Math.min(elapsed / duration, 1);
@@ -192,7 +269,7 @@
     return { l1: a, l2: b.slice(0, typedChars - a.length) };
   }
 
-  // --- Particles ---
+  // --- Particles (amber-tinted) ---
   $effect(() => {
     if (!canvasEl) return;
     const ctx = canvasEl.getContext('2d');
@@ -214,7 +291,7 @@
         dots.push({
           x: Math.random() * w, y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.12,
-          r: Math.random() * 1 + 0.3, a: Math.random() * 0.35 + 0.05,
+          r: Math.random() * 1 + 0.3, a: Math.random() * 0.12 + 0.03,
         });
       }
     }
@@ -226,7 +303,7 @@
         if (d.y < 0) d.y = h; if (d.y > h) d.y = 0;
         ctx!.beginPath();
         ctx!.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(255,255,255,${d.a})`;
+        ctx!.fillStyle = `rgba(255,149,0,${d.a})`;
         ctx!.fill();
       }
       for (let i = 0; i < dots.length; i++) {
@@ -237,7 +314,7 @@
             ctx!.beginPath();
             ctx!.moveTo(dots[i].x, dots[i].y);
             ctx!.lineTo(dots[j].x, dots[j].y);
-            ctx!.strokeStyle = `rgba(255,255,255,${0.025 * (1 - dist / 90)})`;
+            ctx!.strokeStyle = `rgba(255,149,0,${0.02 * (1 - dist / 90)})`;
             ctx!.lineWidth = 0.5;
             ctx!.stroke();
           }
@@ -262,6 +339,29 @@
       return new Date(iso).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     } catch { return iso; }
   }
+
+  // Shield path total length (approximate)
+  const shieldPathLen = 220;
+  const checkPathLen = 40;
+
+  function shieldDashOffset(): number {
+    return shieldPathLen * (1 - drawProgress);
+  }
+  function checkDashOffset(): number {
+    // Check draws in last 30% of progress
+    const t = Math.max(0, (drawProgress - 0.7) / 0.3);
+    return checkPathLen * (1 - t);
+  }
+
+  // Splash visible phases
+  const splashPhases = ['black','ember','ember-pulse','drawing','drawn','glow','text','hold','morph'];
+
+  function isSplashVisible(): boolean {
+    return splashPhases.includes(phase);
+  }
+  function isAppVisible(): boolean {
+    return ['appbar','skeleton','crossfade','alive'].includes(phase);
+  }
 </script>
 
 <div class="page">
@@ -271,61 +371,105 @@
     style="opacity: {canvasOpacity}"
   ></canvas>
 
-  <!-- ===== EMBLEM SPLASH ===== -->
-  {#if phase === 'black' || phase === 'emblem' || phase === 'emblem-text' || phase === 'emblem-sub' || phase === 'emblem-hold' || phase === 'morph'}
+  <!-- ===== SPLASH: "The 3 Beats" ===== -->
+  {#if isSplashVisible()}
     <div
       class="splash"
-      class:splash--show={phase !== 'black'}
       class:splash--morph={phase === 'morph'}
     >
-      <div
-        class="emblem"
-        class:emblem--in={phase === 'emblem' || phase === 'emblem-text' || phase === 'emblem-sub' || phase === 'emblem-hold'}
-        class:emblem--morph={phase === 'morph'}
-      >
-        <!-- Shield glow -->
+      <!-- 1st beat: Ember dot -->
+      {#if phase === 'ember' || phase === 'ember-pulse'}
+        <div class="ember" class:ember--pulse={phase === 'ember-pulse'}></div>
+      {/if}
+
+      <!-- 2nd beat: Symbol drawing -->
+      {#if phase === 'drawing' || phase === 'drawn' || phase === 'glow' || phase === 'text' || phase === 'hold' || phase === 'morph'}
         <div
-          class="shield-glow"
-          class:shield-glow--in={phase !== 'black'}
-        ></div>
-        <!-- Shield SVG -->
-        <svg class="shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
-          <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" fill="rgba(255,255,255,0.03)"/>
-          <path d="M26 38l6 6 12-14" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
-        </svg>
-        <span
-          class="emblem-text"
-          class:emblem-text--in={phase === 'emblem-text' || phase === 'emblem-sub' || phase === 'emblem-hold' || phase === 'morph'}
-        >BYTEFORCE</span>
-        <span
-          class="emblem-sub"
-          class:emblem-sub--in={phase === 'emblem-sub' || phase === 'emblem-hold' || phase === 'morph'}
-        >SECURITY</span>
-      </div>
+          class="emblem"
+          class:emblem--glow={phase === 'glow' || phase === 'text' || phase === 'hold'}
+          class:emblem--morph={phase === 'morph'}
+        >
+          <svg class="shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shield outline (drawn via stroke-dashoffset) -->
+            <path
+              d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
+              stroke="rgba(255,149,0,0.7)"
+              stroke-width="1.5"
+              fill="none"
+              stroke-dasharray="{shieldPathLen}"
+              stroke-dashoffset="{shieldDashOffset()}"
+            />
+            <path
+              d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
+              fill="rgba(255,149,0,0.03)"
+            />
+            <!-- Check mark -->
+            <path
+              d="M26 38l6 6 12-14"
+              stroke="rgba(240,240,245,0.8)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-dasharray="{checkPathLen}"
+              stroke-dashoffset="{checkDashOffset()}"
+            />
+            <!-- Hammer dent marks -->
+            <!-- Dent 1: top-left small circle -->
+            <circle cx="20" cy="25" r="3" fill="none" stroke="rgba(255,149,0,0.25)" stroke-width="0.8" opacity={drawProgress > 0.5 ? 1 : 0}/>
+            <line x1="17" y1="23" x2="15.5" y2="21.5" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.5 ? 1 : 0}/>
+            <line x1="22" y1="22.5" x2="23.5" y2="21" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.5 ? 1 : 0}/>
+            <!-- Dent 2: center large circle -->
+            <circle cx="32" cy="40" r="4" fill="none" stroke="rgba(255,149,0,0.3)" stroke-width="0.8" opacity={drawProgress > 0.6 ? 1 : 0}/>
+            <line x1="28.5" y1="37" x2="27" y2="35" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.6 ? 1 : 0}/>
+            <line x1="35.5" y1="37" x2="37" y2="35" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.6 ? 1 : 0}/>
+            <line x1="29" y1="43.5" x2="27.5" y2="45.5" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.6 ? 1 : 0}/>
+            <line x1="35" y1="43.5" x2="36.5" y2="45.5" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.6 ? 1 : 0}/>
+            <!-- Dent 3: bottom-right ellipse -->
+            <ellipse cx="44" cy="55" rx="4" ry="2" fill="none" stroke="rgba(255,149,0,0.25)" stroke-width="0.8" opacity={drawProgress > 0.7 ? 1 : 0}/>
+            <line x1="47" y1="53.5" x2="49" y2="52" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.7 ? 1 : 0}/>
+            <line x1="41" y1="56.5" x2="39" y2="58" stroke="rgba(255,149,0,0.15)" stroke-width="0.5" opacity={drawProgress > 0.7 ? 1 : 0}/>
+          </svg>
+
+          <!-- Splash text -->
+          {#if phase === 'text' || phase === 'hold' || phase === 'morph'}
+            <span class="emblem-text"
+              class:emblem-text--in={phase === 'text' || phase === 'hold' || phase === 'morph'}
+            >{'\uB450\uB4DC\uB824\uBD24\uC2B5\uB2C8\uB2E4.'}</span>
+          {/if}
+          {#if phase === 'hold' || phase === 'morph'}
+            <span class="emblem-sub"
+              class:emblem-sub--in={phase === 'hold' || phase === 'morph'}
+            >BYTEFORCE SECURITY</span>
+          {/if}
+        </div>
+      {/if}
     </div>
   {/if}
 
   <!-- ===== MAIN APP ===== -->
   <div
     class="app"
-    class:app--visible={phase === 'appbar' || phase === 'appbar-hold' || phase === 'skeleton' || phase === 'crossfade' || phase === 'alive'}
+    class:app--visible={isAppVisible()}
   >
-
-    <!-- Bar -->
+    <!-- Appbar -->
     <header
       class="bar"
-      class:bar--in={phase === 'appbar' || phase === 'appbar-hold' || phase === 'skeleton' || phase === 'crossfade' || phase === 'alive'}
+      class:bar--in={isAppVisible()}
     >
       <div class="bar-logo">
-        <svg class="bar-shield" viewBox="0 0 64 76" fill="none"><path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none"/><path d="M26 38l6 6 12-14" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="bar-shield" viewBox="0 0 64 76" fill="none">
+          <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="rgba(255,149,0,0.3)" stroke-width="1.5" fill="none"/>
+          <path d="M26 38l6 6 12-14" stroke="rgba(255,149,0,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="20" cy="25" r="2.5" fill="none" stroke="rgba(255,149,0,0.15)" stroke-width="0.5"/>
+          <circle cx="32" cy="40" r="3" fill="none" stroke="rgba(255,149,0,0.2)" stroke-width="0.5"/>
+          <ellipse cx="44" cy="55" rx="3" ry="1.5" fill="none" stroke="rgba(255,149,0,0.15)" stroke-width="0.5"/>
+        </svg>
         <span class="bar-brand">BYTEFORCE</span>
       </div>
-      <button class="bar-action" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
+      <button class="bar-action" onclick={() => goto(`${base}/incident`)}>{'\uC0C1\uB2F4 \uC608\uC57D'}</button>
     </header>
 
     <div class="content">
-
       <!-- HERO -->
       <section class="hero">
         {#if phase === 'alive'}
@@ -343,13 +487,13 @@
 
         {#if phase === 'alive'}
           {#if showSubtext}
-            <p class="hero-sub elem-fade-in">배포 전 보안 점검. 바이브코더를 위해 만들었습니다.</p>
+            <p class="hero-sub elem-fade-in">{'\uBC30\uD3EC \uC804 \uBCF4\uC548 \uC810\uAC80. \uBC14\uC774\uBE0C\uCF54\uB354\uB97C \uC704\uD574 \uB9CC\uB4E4\uC5C8\uC2B5\uB2C8\uB2E4.'}</p>
           {/if}
           {#if showTools}
             <p class="hero-tools elem-fade-in">Cursor &middot; Claude Code &middot; v0 &middot; Lovable &middot; bolt.new</p>
           {/if}
           {#if showCta}
-            <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/diagnose`)}>레포 점검 시작</button>
+            <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/diagnose`)}>{'\uB0B4 \uD504\uB85C\uC81D\uD2B8 \uC810\uAC80 \uBC1B\uAE30'}</button>
           {/if}
         {:else if phase === 'crossfade'}
           <div class="skel skel--text skel--fading"></div>
@@ -364,12 +508,12 @@
       <section class="stats">
         {#if phase === 'alive'}
           <div class="stat-row">
-            {#if showStat0}<div class="stat elem-fade-in"><span class="stat-num">847</span><span class="stat-lbl">노출 키</span></div>{/if}
-            {#if showStat1}<div class="stat elem-fade-in"><span class="stat-num">62%</span><span class="stat-lbl">RLS 미설정</span></div>{/if}
-            {#if showStat2}<div class="stat elem-fade-in"><span class="stat-num">11일</span><span class="stat-lbl">평균 탐지</span></div>{/if}
+            {#if showStat0}<div class="stat elem-fade-in"><span class="stat-num">847</span><span class="stat-lbl">{'\uB178\uCD9C \uD0A4'}</span></div>{/if}
+            {#if showStat1}<div class="stat elem-fade-in"><span class="stat-num">62%</span><span class="stat-lbl">RLS {'\uBBF8\uC124\uC815'}</span></div>{/if}
+            {#if showStat2}<div class="stat elem-fade-in"><span class="stat-num">{'\x31\x31\uC77C'}</span><span class="stat-lbl">{'\uD3C9\uADE0 \uD0D0\uC9C0'}</span></div>{/if}
           </div>
           {#if showStat2}
-            <p class="stat-src elem-fade-in">2026 3~8월, 312개 레포 기준</p>
+            <p class="stat-src elem-fade-in">2026 3~8{'\uC6D4'}, 312{'\uAC1C \uB808\uD3EC \uAE30\uC900'}</p>
           {/if}
         {:else if phase === 'skeleton' || phase === 'crossfade'}
           <div class="skel-row">
@@ -383,7 +527,7 @@
       <!-- RECENT -->
       {#if phase === 'alive' && showRecent && history.length > 0}
         <section class="recent elem-fade-in">
-          <h2 class="sec-head">최근 점검</h2>
+          <h2 class="sec-head">{'\uCD5C\uADFC \uC810\uAC80'}</h2>
           {#each history.slice(0, 5) as scan}
             <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
               <div class="scan-info">
@@ -402,23 +546,23 @@
         <div class="skel skel--row" class:skel--fading={phase === 'crossfade'}></div>
         <div class="skel skel--row" class:skel--fading={phase === 'crossfade'}></div>
       {/if}
-
     </div>
 
     <nav class="nav">
-      <button class="nav-i nav-i--on" onclick={() => navTo('home')}>홈</button>
-      <button class="nav-i" onclick={() => navTo('diagnose')}>진단</button>
-      <button class="nav-i" onclick={() => navTo('report')}>리포트</button>
-      <button class="nav-i" onclick={() => navTo('packages')}>요금제</button>
+      <button class="nav-i nav-i--on" onclick={() => navTo('home')}>{'\uD648'}</button>
+      <button class="nav-i" onclick={() => navTo('diagnose')}>{'\uC9C4\uB2E8'}</button>
+      <button class="nav-i" onclick={() => navTo('report')}>{'\uB9AC\uD3EC\uD2B8'}</button>
+      <button class="nav-i" onclick={() => navTo('packages')}>{'\uC694\uAE08\uC81C'}</button>
     </nav>
   </div>
 </div>
 
 <style>
   .page {
-    --bk: #000; --s1: #060608; --s2: #0c0c0e;
-    --tx: #fff; --tx2: #ababaf; --tx3: #4a4a4f;
-    --brd: rgba(255,255,255,0.055);
+    --bk: #0a0a0f; --s1: #0e0e14; --s2: #141420;
+    --tx: #f0f0f5; --tx2: #a0a0a8; --tx3: #4a4a4f;
+    --amber: #ff9500; --amber-light: #ffab33; --amber-dim: rgba(255,149,0,0.15);
+    --brd: rgba(255,149,0,0.08);
     --ok: #32d74b; --wn: #ff9500; --cr: #ff453a;
     --f: "Instrument Sans","Pretendard Variable",-apple-system,sans-serif;
     --m: "JetBrains Mono","SF Mono",monospace;
@@ -432,7 +576,7 @@
   .particles {
     position: fixed; inset: 0; width: 100%; height: 100%;
     z-index: 0; pointer-events: none;
-    opacity: 0; /* controlled via inline style */
+    opacity: 0;
   }
 
   /* ===== SPLASH ===== */
@@ -440,69 +584,68 @@
     position: fixed; inset: 0; z-index: 200;
     display: flex; align-items: center; justify-content: center;
     background: var(--bk);
-    opacity: 0; transition: opacity 0.3s;
+    transition: opacity 0.8s var(--ease);
   }
-  .splash--show { opacity: 1; }
   .splash--morph {
     opacity: 0;
-    transition: opacity 0.8s var(--ease);
+    pointer-events: none;
+  }
+
+  /* 1st beat: Ember */
+  .ember {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 20px rgba(255,149,0,0.4), 0 0 60px rgba(255,149,0,0.15);
+    opacity: 0;
+    animation: emberIn 0.5s ease-out forwards;
+  }
+  .ember--pulse {
+    animation: emberIn 0.5s ease-out forwards, emberPulse 0.6s ease-in-out 0.5s;
+  }
+  @keyframes emberIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes emberPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); box-shadow: 0 0 30px rgba(255,149,0,0.6), 0 0 80px rgba(255,149,0,0.25); }
+    100% { transform: scale(1); }
   }
 
   /* Emblem container */
   .emblem {
-    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
     position: relative;
-    opacity: 0; transform: scale(0);
-    transition: opacity 0.7s var(--ease-overshoot), transform 0.7s var(--ease-overshoot);
-  }
-  .emblem--in {
-    opacity: 1; transform: scale(1);
-  }
-  .emblem--morph {
-    opacity: 0; transform: scale(0.6) translateY(-60px);
     transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
   }
-
-  /* Shield glow */
-  .shield-glow {
-    position: absolute; top: 50%; left: 50%;
-    width: 200px; height: 200px;
-    transform: translate(-50%, -60%);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.7s var(--ease);
-    pointer-events: none;
+  .emblem--glow .shield {
+    filter: drop-shadow(0 0 20px rgba(255,149,0,0.3)) drop-shadow(0 0 50px rgba(255,149,0,0.1));
+    transition: filter 0.6s var(--ease);
   }
-  .shield-glow--in { opacity: 1; }
+  .emblem--morph {
+    opacity: 0; transform: scale(0.5) translateY(-80px);
+  }
 
   .shield {
     width: 72px; height: 86px;
-    filter: drop-shadow(0 0 30px rgba(255,255,255,0.08));
+    filter: drop-shadow(0 0 12px rgba(255,149,0,0.1));
     position: relative; z-index: 1;
+    transition: filter 0.4s var(--ease);
   }
 
-  .check-path {
-    stroke-dasharray: 40; stroke-dashoffset: 40;
-    animation: drawCheck 0.5s ease-out 0.9s forwards;
-  }
-  @keyframes drawCheck { to { stroke-dashoffset: 0; } }
-
-  /* BYTEFORCE text -- letter-spacing gathers from 0.3em to 0.15em */
+  /* Splash text */
   .emblem-text {
-    font-size: 28px; font-weight: 700;
-    letter-spacing: 0.3em; color: var(--tx);
-    opacity: 0; transform: translateY(4px);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), letter-spacing 0.6s var(--ease);
+    font-size: 15px; font-weight: 400;
+    letter-spacing: 0.1em; color: var(--tx);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   }
   .emblem-text--in {
     opacity: 1; transform: translateY(0);
-    letter-spacing: 0.15em;
   }
 
-  /* SECURITY text */
   .emblem-sub {
-    font-size: 12px; font-weight: 500; letter-spacing: 0.35em; color: var(--tx3);
+    font-size: 11px; font-weight: 500; letter-spacing: 0.2em; color: var(--tx3);
     opacity: 0;
     transition: opacity 0.4s var(--ease);
   }
@@ -517,11 +660,11 @@
   }
   .app--visible { opacity: 1; }
 
-  /* Bar */
+  /* Appbar */
   .bar {
     position: sticky; top: 0; z-index: 90; height: 48px;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 20px; background: rgba(0,0,0,0.85);
+    padding: 0 20px; background: rgba(10,10,15,0.85);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--brd);
     opacity: 0; transform: translateY(-8px);
@@ -532,35 +675,37 @@
   }
 
   .bar-logo { display: flex; align-items: center; gap: 8px; }
-  .bar-shield { width: 18px; height: 22px; opacity: 0.5; }
+  .bar-shield { width: 18px; height: 22px; opacity: 0.6; }
   .bar-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--tx3); }
   .bar-action {
-    font-family: var(--f); font-size: 12px; font-weight: 500; color: var(--tx2);
-    background: none; border: 1px solid var(--brd); border-radius: 6px;
-    padding: 5px 14px; cursor: pointer; transition: color 0.2s, border-color 0.2s;
+    font-family: var(--f); font-size: 12px; font-weight: 500; color: var(--amber);
+    background: none; border: 1px solid rgba(255,149,0,0.3); border-radius: 6px;
+    padding: 5px 14px; cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s;
   }
-  .bar-action:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .bar-action:hover { color: var(--amber-light); border-color: rgba(255,149,0,0.5); background: rgba(255,149,0,0.05); }
 
   /* Content */
   .content { flex: 1; padding: 40px 20px 100px; max-width: 600px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 40px; }
 
   /* Hero */
   .hero { display: flex; flex-direction: column; gap: 16px; min-height: 200px; }
-  .hero-title { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.25; margin: 0; }
+  .hero-title { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.25; margin: 0; color: var(--tx); }
   .hero-line { display: inline; }
-  .cursor { color: var(--tx2); font-weight: 300; }
+  .cursor { color: var(--amber); font-weight: 300; }
   .cursor--blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
   .hero-sub { font-size: 15px; color: var(--tx2); line-height: 1.5; margin: 0; }
   .hero-tools { font-family: var(--m); font-size: 12px; color: var(--tx3); letter-spacing: 0.02em; }
   .hero-cta {
     align-self: flex-start; padding: 11px 28px; border-radius: 6px; border: none;
-    background: var(--tx); color: var(--bk); font-family: var(--f);
-    font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s;
+    background: var(--amber); color: var(--bk); font-family: var(--f);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(255,149,0,0.15);
   }
-  .hero-cta:hover { background: #e0e0e0; transform: translateY(-1px); }
+  .hero-cta:hover { background: var(--amber-light); transform: translateY(-1px); box-shadow: 0 0 30px rgba(255,149,0,0.25); }
 
-  /* Element-level fade in (used for staggered reveals) */
+  /* Element-level fade in */
   .elem-fade-in {
     animation: elemFadeIn 0.4s var(--ease) forwards;
   }
@@ -580,7 +725,7 @@
   .stats { display: flex; flex-direction: column; gap: 8px; }
   .stat-row { display: flex; gap: 28px; }
   .stat { display: flex; flex-direction: column; gap: 3px; }
-  .stat-num { font-family: var(--m); font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .stat-num { font-family: var(--m); font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--amber); }
   .stat-lbl { font-size: 11px; color: var(--tx3); }
   .stat-src { font-size: 10px; color: var(--tx3); font-style: italic; margin: 0; }
 
@@ -630,7 +775,7 @@
   /* Nav */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-    display: flex; background: rgba(6,6,8,0.9);
+    display: flex; background: rgba(10,10,15,0.9);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid var(--brd);
   }
@@ -640,24 +785,22 @@
     color: var(--tx3); cursor: pointer; transition: color 0.15s;
   }
   .nav-i:hover { color: var(--tx2); }
-  .nav-i--on { color: var(--tx); }
+  .nav-i--on { color: var(--amber); }
 
   @media (max-width: 768px) {
     .hero-title { font-size: 28px; }
-    .emblem-text { font-size: 22px; }
     .shield { width: 56px; height: 68px; }
     .content { padding: 32px 16px 100px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .splash, .emblem, .emblem-text, .emblem-sub, .app, .bar,
-    .elem-fade-in, .elem-rise-in, .skel, .shield-glow {
+    .elem-fade-in, .elem-rise-in, .skel, .ember {
       animation: none !important;
       transition: none !important;
       opacity: 1 !important;
       transform: none !important;
     }
-    .check-path { stroke-dashoffset: 0; animation: none; }
     .skel--stagger-in { opacity: 1 !important; }
     .skel--fading { opacity: 0 !important; }
   }
