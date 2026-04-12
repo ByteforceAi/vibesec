@@ -69,9 +69,10 @@
     { q: '환불 되나요?', a: '스캔 시작 전이면 전액 환불. 리포트 전달 후에는 환불이 어렵습니다. 이미 결과물을 받으셨으니까요.' },
   ];
 
-  let activePlan = $state(1); // 0=기본, 1=정밀, 2=풀
+  let activePlan = $state(1);
   let openFaq = $state<number | null>(null);
   let loaded = $state(false);
+  let scrolled = $state(false);
 
   $effect(() => { loaded = true; });
 
@@ -79,212 +80,158 @@
   function getVal(feat: Feature): string {
     return activePlan === 0 ? feat.starter : activePlan === 1 ? feat.pro : feat.full;
   }
+  function handleScroll(e: Event) {
+    const el = e.target as HTMLElement;
+    scrolled = el.scrollTop > 8;
+  }
 </script>
 
-<!-- macOS-style app window -->
-<div class="app-window" class:app-window--loaded={loaded}>
+<div class="void" class:void--in={loaded}>
 
-  <!-- Title bar -->
-  <header class="titlebar">
-    <div class="titlebar-dots">
-      <span class="dot dot--red"></span>
-      <span class="dot dot--yellow"></span>
-      <span class="dot dot--green"></span>
-    </div>
-    <span class="titlebar-title">Byteforce Security — 요금제</span>
-    <div class="titlebar-spacer"></div>
+  <!-- App bar -->
+  <header class="bar" class:bar--scrolled={scrolled}>
+    <span class="bar-brand">Byteforce Security</span>
+    <button class="bar-action" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
   </header>
 
-  <div class="app-body">
+  <div class="shell">
 
     <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="sidebar-section">
-        <span class="sidebar-label">점검 메뉴</span>
+    <nav class="side">
+      <div class="side-group">
+        <span class="side-label">점검</span>
         {#each plans as plan, i}
-          <button
-            class="sidebar-item"
-            class:sidebar-item--active={activePlan === i}
-            onclick={() => { activePlan = i; }}
-          >
-            <span class="sidebar-icon">{i === 0 ? '⬡' : i === 1 ? '⬢' : '◉'}</span>
-            <span class="sidebar-text">{plan.name}</span>
-            {#if plan.popular}
-              <span class="sidebar-badge">추천</span>
-            {/if}
+          <button class="side-item" class:side-item--on={activePlan === i} onclick={() => { activePlan = i; }}>
+            <span class="side-name">{plan.name}</span>
+            {#if plan.popular}<span class="side-tag">추천</span>{/if}
           </button>
         {/each}
       </div>
-      <div class="sidebar-section">
-        <span class="sidebar-label">추가</span>
+      <div class="side-group">
+        <span class="side-label">추가</span>
         {#each extras as extra}
-          <button class="sidebar-item" onclick={() => goto(`${base}/incident`)}>
-            <span class="sidebar-text">{extra.name}</span>
-            <span class="sidebar-price">₩{extra.price}</span>
-          </button>
+          <div class="side-item side-item--static">
+            <span class="side-name">{extra.name}</span>
+            <span class="side-mono">{extra.price}</span>
+          </div>
         {/each}
       </div>
-      <div class="sidebar-section">
-        <span class="sidebar-label">안내</span>
-        <button class="sidebar-item" onclick={() => { const el = document.getElementById('faq'); el?.scrollIntoView({behavior:'smooth'}); }}>
-          <span class="sidebar-text">자주 묻는 질문</span>
+      <div class="side-group">
+        <span class="side-label">안내</span>
+        <button class="side-item" onclick={() => { document.getElementById('loc')?.scrollIntoView({behavior:'smooth'}); }}>
+          <span class="side-name">오시는 곳</span>
         </button>
-        <button class="sidebar-item" onclick={() => { const el = document.getElementById('location'); el?.scrollIntoView({behavior:'smooth'}); }}>
-          <span class="sidebar-text">오시는 곳</span>
+        <button class="side-item" onclick={() => { document.getElementById('faq')?.scrollIntoView({behavior:'smooth'}); }}>
+          <span class="side-name">자주 묻는 질문</span>
         </button>
       </div>
     </nav>
 
-    <!-- Main content -->
-    <main class="main">
+    <!-- Main -->
+    <main class="main" onscroll={handleScroll}>
 
-      <!-- Plan detail pane -->
-      <section class="pane">
-        <div class="pane-header">
-          <!-- Segmented control -->
-          <div class="segmented">
-            {#each plans as plan, i}
-              <button
-                class="seg-btn"
-                class:seg-btn--active={activePlan === i}
-                onclick={() => { activePlan = i; }}
-              >{plan.name}</button>
-            {/each}
-          </div>
-        </div>
+      <!-- Segment -->
+      <div class="seg-wrap">
+        {#each plans as plan, i}
+          <button class="seg" class:seg--on={activePlan === i} onclick={() => { activePlan = i; }}>{plan.name}</button>
+        {/each}
+      </div>
 
-        <!-- Plan info -->
-        <div class="plan-hero">
-          <div class="plan-hero-left">
+      <!-- Plan detail -->
+      {#key activePlan}
+      <section class="plan-card">
+        <div class="plan-top">
+          <div>
             <h1 class="plan-title">{plans[activePlan].name}</h1>
             <p class="plan-desc">{plans[activePlan].desc}</p>
-            <p class="plan-details">{plans[activePlan].details}</p>
+            <p class="plan-meta">{plans[activePlan].details}</p>
           </div>
-          <div class="plan-hero-right">
-            <span class="plan-currency">₩</span>
-            <span class="plan-amount">{plans[activePlan].priceLabel}</span>
+          <div class="plan-price-block">
+            <span class="plan-won">W</span>
+            <span class="plan-num">{plans[activePlan].priceLabel}</span>
             <span class="plan-period">{plans[activePlan].period}</span>
           </div>
         </div>
-
-        <button class="plan-cta" class:plan-cta--popular={plans[activePlan].popular} onclick={() => goto(`${base}/incident`)}>
+        <button class="plan-cta" class:plan-cta--pop={plans[activePlan].popular} onclick={() => goto(`${base}/incident`)}>
           {plans[activePlan].cta}
         </button>
+      </section>
+      {/key}
 
-        <!-- Feature list (grouped rows like iOS Settings) -->
-        <div class="group">
-          <div class="group-title">포함 항목</div>
-          <div class="group-list">
-            {#each features as feat, i}
-              {@const val = getVal(feat)}
-              <div class="row" style="animation-delay: {i * 40}ms">
-                <span class="row-label">{feat.label}</span>
-                <span class="row-value" class:row-value--check={val === 'check'} class:row-value--minus={val === 'minus'}>
-                  {#if val === 'check'}
-                    <svg class="row-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                  {:else if val === 'minus'}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
-                  {:else}
-                    <span class="row-text-val">{val}</span>
-                  {/if}
-                </span>
-              </div>
-            {/each}
+      <!-- Features -->
+      <section class="group">
+        <h2 class="group-head">포함 항목</h2>
+        {#each features as feat, i}
+          {@const val = getVal(feat)}
+          <div class="row" style="animation-delay:{i * 30}ms">
+            <span class="row-key">{feat.label}</span>
+            <span class="row-val" class:row-val--ok={val === 'check'} class:row-val--no={val === 'minus'}>
+              {#if val === 'check'}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              {:else if val === 'minus'}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+              {:else}
+                <span class="row-badge">{val}</span>
+              {/if}
+            </span>
           </div>
-        </div>
+        {/each}
       </section>
 
-      <!-- Terminal threat demo -->
-      <section class="pane terminal-pane">
-        <div class="terminal">
-          <div class="terminal-bar">
-            <span class="dot dot--red dot--sm"></span>
-            <span class="dot dot--yellow dot--sm"></span>
-            <span class="dot dot--green dot--sm"></span>
-            <span class="terminal-title">byteforce scan — .env 점검 예시</span>
-          </div>
-          <pre class="terminal-body"><code><span class="t-prompt">$</span> <span class="t-cmd">byteforce scan</span> --check-secrets
-<span class="t-dim">[scan]</span> Checking .env files...
-<span class="t-dim">[scan]</span> Found <span class="t-file">.env</span> in repository root
-
-<span class="t-key">OPENAI_API_KEY</span>=sk-proj-4f8a...9c2d
-<span class="t-key">SUPABASE_SERVICE_ROLE</span>=eyJhbGci...kX9s
-<span class="t-alert">STRIPE_SECRET_KEY</span>=sk_live_51N...rYz  <span class="t-comment"># committed at a3f7b2</span>
-<span class="t-key">DATABASE_URL</span>=postgresql://admin:pass123@...
-
-<span class="t-warn">⚠ 3 secrets exposed in commit history</span>
-<span class="t-ok">✓ Scan complete. 3 issues found.</span></code></pre>
+      <!-- Terminal -->
+      <section class="term">
+        <div class="term-head">
+          <span class="term-file">.env</span>
+          <span class="term-flag">committed to git</span>
         </div>
-        <p class="terminal-caption">2026년 3~8월 점검한 레포 312개 중 62%에서 유사 이슈 발견</p>
+        <pre class="term-code"><code><span class="t-ln"><span class="t-k">OPENAI_API_KEY</span>=sk-proj-4f8a...9c2d</span>
+<span class="t-ln"><span class="t-k">SUPABASE_SERVICE_ROLE</span>=eyJhbGci...kX9s</span>
+<span class="t-ln t-ln--warn"><span class="t-k t-k--red">STRIPE_SECRET_KEY</span>=sk_live_51N...rYz  <span class="t-c"># commit a3f7b2</span></span>
+<span class="t-ln"><span class="t-k">DATABASE_URL</span>=postgresql://admin:pass123@...5432/prod</span>
+<span class="t-ln t-ln--result"><span class="t-ok">3 secrets exposed</span></span></code></pre>
+        <p class="term-note">312개 레포 점검 기준. 62%에서 유사 이슈 발견.</p>
       </section>
 
       <!-- Extras -->
-      <section class="pane" id="extras">
-        <div class="group">
-          <div class="group-title">추가 메뉴</div>
-          <div class="group-list">
-            {#each extras as extra}
-              <div class="row">
-                <div class="row-col">
-                  <span class="row-label">{extra.name}</span>
-                  <span class="row-sub">{extra.desc}</span>
-                </div>
-                <span class="row-price">₩{extra.price} <span class="row-period">{extra.period}</span></span>
-              </div>
-            {/each}
+      <section class="group" id="extras">
+        <h2 class="group-head">추가 메뉴</h2>
+        {#each extras as extra}
+          <div class="row">
+            <div class="row-col">
+              <span class="row-key">{extra.name}</span>
+              <span class="row-sub">{extra.desc}</span>
+            </div>
+            <span class="row-mono">W{extra.price} <span class="row-dim">{extra.period}</span></span>
           </div>
-        </div>
+        {/each}
       </section>
 
       <!-- Location -->
-      <section class="pane" id="location">
-        <div class="group">
-          <div class="group-title">오시는 곳</div>
-          <div class="group-list">
-            <div class="row">
-              <div class="row-col">
-                <span class="row-label">서울 마곡</span>
-                <span class="row-sub">노트북 들고 오시면 바로 점검. 2~3시간, 당일 리포트.</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="row-col">
-                <span class="row-label">부산 해운대</span>
-                <span class="row-sub">출장 점검 가능. 출장비 별도 협의. 사전 예약 필수.</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="row-col">
-                <span class="row-label">화상 점검</span>
-                <span class="row-sub">Zoom / Google Meet. 화면 공유로 원격 점검. 전국 어디서든.</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section class="group" id="loc">
+        <h2 class="group-head">오시는 곳</h2>
+        <div class="row"><div class="row-col"><span class="row-key">서울 마곡</span><span class="row-sub">노트북 들고 오시면 바로 점검. 2~3시간, 당일 리포트.</span></div></div>
+        <div class="row"><div class="row-col"><span class="row-key">부산 해운대</span><span class="row-sub">출장 점검 가능. 출장비 별도 협의. 사전 예약 필수.</span></div></div>
+        <div class="row"><div class="row-col"><span class="row-key">화상 점검</span><span class="row-sub">Zoom / Google Meet. 전국 어디서든.</span></div></div>
       </section>
 
       <!-- FAQ -->
-      <section class="pane" id="faq">
-        <div class="group">
-          <div class="group-title">자주 묻는 질문</div>
-          <div class="group-list">
-            {#each faqs as faq, i}
-              <button class="row row--faq" onclick={() => toggleFaq(i)} aria-expanded={openFaq === i}>
-                <span class="row-label">{faq.q}</span>
-                <svg class="faq-chev" class:faq-chev--open={openFaq === i} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              {#if openFaq === i}
-                <div class="faq-answer">{faq.a}</div>
-              {/if}
-            {/each}
-          </div>
-        </div>
+      <section class="group" id="faq">
+        <h2 class="group-head">자주 묻는 질문</h2>
+        {#each faqs as faq, i}
+          <button class="row row--btn" onclick={() => toggleFaq(i)} aria-expanded={openFaq === i}>
+            <span class="row-key">{faq.q}</span>
+            <svg class="faq-arr" class:faq-arr--open={openFaq === i} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          {#if openFaq === i}
+            <div class="faq-body">{faq.a}</div>
+          {/if}
+        {/each}
       </section>
 
-      <!-- Footer CTA -->
-      <section class="pane pane--cta">
-        <p class="cta-text">뭐가 필요한지 모르겠으면 일단 오세요.<br/>보고 말씀드리겠습니다.</p>
-        <button class="cta-btn" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
+      <!-- Footer -->
+      <section class="foot">
+        <p class="foot-text">뭐가 필요한지 모르겠으면 일단 오세요.<br/>보고 말씀드리겠습니다.</p>
+        <button class="foot-btn" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
       </section>
 
     </main>
@@ -292,535 +239,473 @@
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  /* ─── OS Tokens ─── */
-  .app-window {
-    --bg: #1a1a1e;
-    --surface: #2a2a2e;
-    --surface-inset: #222226;
-    --sidebar-bg: #1e1e22;
-    --sidebar-active: rgba(255,255,255,0.06);
-    --titlebar-bg: #28282c;
-    --text: #e4e4e8;
-    --text-2: #8e8e93;
-    --text-3: #5a5a5e;
-    --border: rgba(255,255,255,0.08);
-    --accent: #6cb4ee;
-    --accent-hover: #89c4f4;
-    --green: #32d74b;
-    --red: #ff453a;
-    --yellow: #ffd60a;
-    --orange: #ff9f0a;
-    --font: -apple-system, "SF Pro Text", "Pretendard Variable", system-ui, sans-serif;
-    --mono: "JetBrains Mono", "SF Mono", "Menlo", monospace;
-    --r: 8px;
-    --r-sm: 4px;
-    --r-lg: 10px;
-    --shadow-window: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.05);
-    --shadow-group: 0 0.5px 1px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.15);
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  .void {
+    --black:    #000000;
+    --s1:       #060608;
+    --s2:       #0c0c0e;
+    --s3:       #141416;
+    --s4:       #1c1c1f;
+    --tx:       #ffffff;
+    --tx2:      #9a9a9f;
+    --tx3:      #4a4a4f;
+    --brd:      rgba(255,255,255,0.055);
+    --ok:       #32d74b;
+    --warn:     #ff453a;
+    --font:     "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --mono:     "JetBrains Mono", "SF Mono", monospace;
+    --ease:     cubic-bezier(0.16, 1, 0.3, 1);
 
     font-family: var(--font);
-    color: var(--text);
-    background: #111114;
+    color: var(--tx);
+    background: var(--black);
+    background-image: radial-gradient(rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 24px 24px;
     min-height: 100dvh;
-    padding: 24px;
+    display: flex;
+    flex-direction: column;
     -webkit-font-smoothing: antialiased;
     opacity: 0;
-    transform: scale(0.97);
-    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    transition: opacity 0.6s var(--ease);
   }
+  .void--in { opacity: 1; }
 
-  .app-window--loaded {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* ─── Title bar ─── */
-  .titlebar {
+  /* ── Bar ── */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    height: 48px;
     display: flex;
     align-items: center;
-    height: 52px;
-    padding: 0 16px;
-    background: var(--titlebar-bg);
-    border-radius: var(--r-lg) var(--r-lg) 0 0;
-    border-bottom: 0.5px solid var(--border);
-    user-select: none;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: var(--black);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s var(--ease);
   }
+  .bar--scrolled { border-color: var(--brd); }
 
-  .titlebar-dots {
-    display: flex;
-    gap: 8px;
-    margin-right: 16px;
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-  .dot--sm { width: 10px; height: 10px; }
-  .dot--red { background: #6e3630; }
-  .dot--yellow { background: #6e5c28; }
-  .dot--green { background: #2e5e35; }
-
-  .titlebar-title {
-    flex: 1;
-    text-align: center;
-    font-size: 13px;
+  .bar-brand {
+    font-size: 12px;
     font-weight: 600;
-    color: var(--text-2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tx3);
   }
 
-  .titlebar-spacer { width: 60px; }
+  .bar-action {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--tx2);
+    background: none;
+    border: 1px solid var(--brd);
+    border-radius: 6px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .bar-action:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
 
-  /* ─── App body (sidebar + main) ─── */
-  .app-body {
+  /* ── Shell ── */
+  .shell {
+    flex: 1;
     display: flex;
-    background: var(--surface);
-    border-radius: 0 0 var(--r-lg) var(--r-lg);
-    box-shadow: var(--shadow-window);
-    min-height: calc(100dvh - 100px);
     overflow: hidden;
   }
 
-  /* ─── Sidebar ─── */
-  .sidebar {
-    width: 220px;
+  /* ── Sidebar ── */
+  .side {
+    width: 200px;
     flex-shrink: 0;
-    background: var(--sidebar-bg);
-    border-right: 0.5px solid var(--border);
-    padding: 12px 8px;
+    background: var(--s1);
+    border-right: 1px solid var(--brd);
+    padding: 16px 10px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 4px;
-    overflow-y: auto;
   }
 
-  .sidebar-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    margin-bottom: 16px;
+  .side-group {
+    margin-bottom: 20px;
   }
 
-  .sidebar-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text-3);
-    padding: 8px 8px 4px;
-  }
-
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 8px;
-    border: none;
-    background: transparent;
-    border-radius: var(--r-sm);
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--text);
-    cursor: pointer;
-    transition: background 0.15s var(--ease);
-    text-align: left;
-    width: 100%;
-  }
-  .sidebar-item:hover { background: var(--sidebar-active); }
-  .sidebar-item--active {
-    background: var(--accent) !important;
-    color: white;
-  }
-
-  .sidebar-icon {
-    font-size: 14px;
-    width: 20px;
-    text-align: center;
-    opacity: 0.6;
-  }
-  .sidebar-item--active .sidebar-icon { opacity: 1; }
-
-  .sidebar-text { flex: 1; }
-
-  .sidebar-badge {
+  .side-label {
+    display: block;
     font-size: 10px;
     font-weight: 600;
-    background: var(--accent);
-    color: white;
-    padding: 1px 6px;
-    border-radius: 4px;
-  }
-  .sidebar-item--active .sidebar-badge {
-    background: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    padding: 6px 10px 4px;
   }
 
-  .sidebar-price {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-3);
-  }
-  .sidebar-item--active .sidebar-price { color: rgba(255,255,255,0.8); }
-
-  /* ─── Main content ─── */
-  .main {
-    flex: 1;
-    padding: 32px;
-    overflow-y: auto;
+  .side-item {
     display: flex;
-    flex-direction: column;
-    gap: 24px;
-    background: var(--surface-inset);
-  }
-
-  /* ─── Pane ─── */
-  .pane {
-    background: var(--surface);
-    border-radius: var(--r);
-    box-shadow: var(--shadow-group);
-    overflow: hidden;
-  }
-
-  .pane-header {
-    padding: 20px 24px 0;
-  }
-
-  /* ─── Segmented Control ─── */
-  .segmented {
-    display: inline-flex;
-    background: rgba(0,0,0,0.05);
-    border-radius: 8px;
-    padding: 2px;
-  }
-
-  .seg-btn {
-    padding: 6px 20px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
     border: none;
     background: transparent;
     border-radius: 6px;
     font-family: var(--font);
     font-size: 13px;
+    color: var(--tx2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    text-align: left;
+  }
+  .side-item:hover { background: var(--s2); color: var(--tx); }
+  .side-item--on { background: var(--s3); color: var(--tx); }
+  .side-item--static { cursor: default; }
+  .side-item--static:hover { background: transparent; color: var(--tx2); }
+
+  .side-name { flex: 1; }
+
+  .side-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tx3);
+    border: 1px solid var(--brd);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .side-item--on .side-tag { color: var(--tx2); border-color: rgba(255,255,255,0.1); }
+
+  .side-mono {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--tx3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Main ── */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 40px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* ── Segment ── */
+  .seg-wrap {
+    display: inline-flex;
+    background: var(--s1);
+    border: 1px solid var(--brd);
+    border-radius: 8px;
+    padding: 3px;
+    align-self: flex-start;
+  }
+
+  .seg {
+    padding: 6px 18px;
+    border: none;
+    background: transparent;
+    border-radius: 5px;
+    font-family: var(--font);
+    font-size: 13px;
     font-weight: 500;
-    color: var(--text-2);
+    color: var(--tx3);
     cursor: pointer;
     transition: all 0.2s var(--ease);
   }
-  .seg-btn--active {
-    background: rgba(255,255,255,0.1);
-    color: var(--text);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 0.5px 0 rgba(255,255,255,0.06);
+  .seg--on {
+    background: var(--s3);
+    color: var(--tx);
   }
 
-  /* ─── Plan hero ─── */
-  .plan-hero {
+  /* ── Plan card ── */
+  .plan-card {
+    animation: fadeSlide 0.35s var(--ease) both;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .plan-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 24px 24px 16px;
-    gap: 24px;
+    gap: 32px;
+    margin-bottom: 20px;
   }
 
   .plan-title {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     margin: 0 0 6px;
+    line-height: 1.1;
   }
 
   .plan-desc {
     font-size: 15px;
-    color: var(--text-2);
+    color: var(--tx2);
     margin: 0 0 4px;
     line-height: 1.4;
   }
 
-  .plan-details {
-    font-size: 13px;
-    color: var(--text-3);
+  .plan-meta {
+    font-size: 12px;
+    color: var(--tx3);
     margin: 0;
   }
 
-  .plan-hero-right {
+  .plan-price-block {
     display: flex;
     align-items: baseline;
     flex-shrink: 0;
   }
 
-  .plan-currency {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-3);
+  .plan-won {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--tx3);
     margin-right: 2px;
     align-self: flex-start;
     margin-top: 6px;
   }
 
-  .plan-amount {
+  .plan-num {
     font-family: var(--mono);
-    font-size: 40px;
-    font-weight: 600;
+    font-size: 44px;
+    font-weight: 500;
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
-    color: var(--text);
+    line-height: 1;
   }
 
   .plan-period {
-    font-size: 13px;
-    color: var(--text-3);
-    margin-left: 4px;
+    font-size: 12px;
+    color: var(--tx3);
+    margin-left: 6px;
   }
 
-  /* ─── Plan CTA ─── */
   .plan-cta {
-    margin: 0 24px 20px;
     padding: 10px 24px;
-    border-radius: 8px;
-    border: none;
+    border-radius: 6px;
+    border: 1px solid var(--brd);
+    background: transparent;
+    color: var(--tx2);
     font-family: var(--font);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    background: rgba(0,0,0,0.05);
-    color: var(--accent);
-    transition: background 0.2s var(--ease);
+    transition: all 0.2s var(--ease);
   }
-  .plan-cta:hover { background: rgba(255,255,255,0.08); }
-  .plan-cta--popular {
-    background: var(--accent);
-    color: #111;
+  .plan-cta:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .plan-cta--pop {
+    background: var(--tx);
+    color: var(--black);
+    border-color: var(--tx);
   }
-  .plan-cta--popular:hover { background: var(--accent-hover); }
+  .plan-cta--pop:hover { background: #e0e0e0; }
 
-  /* ─── Grouped list (iOS Settings style) ─── */
-  .group {
-    padding: 0;
-  }
+  /* ── Group ── */
+  .group { display: flex; flex-direction: column; }
 
-  .group-title {
-    font-size: 13px;
+  .group-head {
+    font-size: 11px;
     font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text-3);
-    padding: 16px 24px 8px;
-  }
-
-  .group-list {
-    display: flex;
-    flex-direction: column;
+    color: var(--tx3);
+    margin: 0 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--brd);
   }
 
   .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 24px;
-    border-top: 0.5px solid var(--border);
+    padding: 11px 0;
+    border-bottom: 1px solid var(--brd);
     font-size: 14px;
-    animation: rowIn 0.3s var(--ease) both;
+    animation: rowIn 0.25s var(--ease) both;
   }
 
   @keyframes rowIn {
-    from { opacity: 0; transform: translateY(4px); }
+    from { opacity: 0; transform: translateY(3px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .row--faq {
+  .row--btn {
     cursor: pointer;
     background: none;
     border-left: none;
     border-right: none;
-    border-bottom: none;
+    border-top: none;
+    border-bottom: 1px solid var(--brd);
     width: 100%;
     font-family: var(--font);
     text-align: left;
+    color: var(--tx);
+    padding: 11px 0;
   }
-  .row--faq:hover { background: rgba(255,255,255,0.03); }
+  .row--btn:hover { color: var(--tx); }
 
-  .row-col {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .row-col { display: flex; flex-direction: column; gap: 2px; }
 
-  .row-label {
-    font-size: 14px;
-    color: var(--text);
-    font-weight: 400;
-  }
+  .row-key { color: var(--tx2); font-size: 14px; }
+  .row--btn .row-key { color: var(--tx); }
+  .row-sub { font-size: 11px; color: var(--tx3); line-height: 1.4; }
 
-  .row-sub {
-    font-size: 12px;
-    color: var(--text-3);
-    line-height: 1.4;
-  }
+  .row-val { display: flex; align-items: center; }
+  .row-val--ok { color: var(--ok); }
+  .row-val--no { color: var(--tx3); }
 
-  .row-value {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-  }
-  .row-value--check { color: var(--green); }
-  .row-value--minus { color: var(--text-3); }
-
-  .row-check {
-    color: var(--green);
-  }
-
-  .row-text-val {
-    font-size: 12px;
+  .row-badge {
+    font-size: 11px;
     font-weight: 500;
     padding: 2px 8px;
-    background: rgba(108,180,238,0.12);
-    color: var(--accent);
+    background: var(--s2);
+    color: var(--tx2);
     border-radius: 4px;
+    border: 1px solid var(--brd);
   }
 
-  .row-price {
+  .row-mono {
     font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
-    color: var(--text);
+    color: var(--tx2);
     text-align: right;
+    white-space: nowrap;
   }
 
-  .row-period {
-    font-size: 11px;
-    color: var(--text-3);
-    font-family: var(--font);
+  .row-dim { font-size: 10px; color: var(--tx3); font-family: var(--font); }
+
+  /* ── FAQ ── */
+  .faq-arr {
+    flex-shrink: 0;
+    color: var(--tx3);
+    transition: transform 0.25s var(--ease);
+  }
+  .faq-arr--open { transform: rotate(180deg); }
+
+  .faq-body {
+    font-size: 14px;
+    color: var(--tx2);
+    line-height: 1.65;
+    padding: 0 0 14px;
+    border-bottom: 1px solid var(--brd);
+    word-break: keep-all;
   }
 
-  /* ─── Terminal ─── */
-  .terminal-pane {
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .terminal {
-    background: #1e1e1e;
-    border-radius: var(--r);
+  /* ── Terminal ── */
+  .term {
+    background: var(--s1);
+    border: 1px solid var(--brd);
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: var(--shadow-group);
   }
 
-  .terminal-bar {
+  .term-head {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    background: #2d2d2d;
-    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--brd);
   }
 
-  .terminal-title {
-    flex: 1;
-    text-align: center;
+  .term-file {
+    font-family: var(--mono);
     font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    font-weight: 500;
+    color: var(--tx3);
   }
 
-  .terminal-body {
-    padding: 16px 20px;
+  .term-flag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--warn);
+    opacity: 0.7;
+  }
+
+  .term-code {
+    padding: 16px;
     margin: 0;
     overflow-x: auto;
     font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.7;
-    color: #d4d4d4;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--tx2);
   }
 
-  .t-prompt { color: var(--green); font-weight: 600; }
-  .t-cmd { color: #56b6c2; }
-  .t-dim { color: #6a6a6a; }
-  .t-key { color: #9cdcfe; }
-  .t-alert { color: var(--red); font-weight: 500; }
-  .t-comment { color: #6a9955; font-style: italic; }
-  .t-warn { color: var(--orange); }
-  .t-ok { color: var(--green); }
-  .t-file { color: #ce9178; }
+  .t-ln { display: block; }
+  .t-ln--warn { color: var(--warn); opacity: 0.9; }
+  .t-ln--result { margin-top: 8px; }
+  .t-k { color: rgba(255,255,255,0.5); }
+  .t-k--red { color: var(--warn); }
+  .t-c { color: var(--tx3); font-style: italic; }
+  .t-ok { color: var(--ok); }
 
-  .terminal-caption {
-    font-size: 12px;
-    color: var(--text-3);
-    text-align: center;
-    margin: 8px 0 0;
+  .term-note {
+    font-size: 11px;
+    color: var(--tx3);
+    padding: 0 16px 12px;
+    margin: 0;
     font-style: italic;
   }
 
-  /* ─── FAQ ─── */
-  .faq-chev {
-    flex-shrink: 0;
-    color: var(--text-3);
-    transition: transform 0.2s var(--ease);
-  }
-  .faq-chev--open { transform: rotate(180deg); }
-
-  .faq-answer {
-    padding: 0 24px 16px;
-    font-size: 14px;
-    color: var(--text-2);
-    line-height: 1.6;
-    border-top: none;
-  }
-
-  /* ─── Footer CTA ─── */
-  .pane--cta {
+  /* ── Footer ── */
+  .foot {
     text-align: center;
-    padding: 48px 24px;
-    background: var(--surface);
+    padding: 48px 0;
+    border-top: 1px solid var(--brd);
+    margin-top: 16px;
   }
 
-  .cta-text {
+  .foot-text {
     font-size: 18px;
     font-weight: 500;
-    color: var(--text);
-    margin: 0 0 20px;
+    color: var(--tx2);
+    margin: 0 0 24px;
     line-height: 1.5;
     word-break: keep-all;
   }
 
-  .cta-btn {
+  .foot-btn {
     padding: 10px 28px;
-    border-radius: 8px;
-    border: none;
-    background: var(--accent);
-    color: #111;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: transparent;
+    color: var(--tx);
     font-family: var(--font);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s var(--ease);
+    transition: all 0.2s var(--ease);
   }
-  .cta-btn:hover { background: var(--accent-hover); }
+  .foot-btn:hover { background: var(--s2); border-color: rgba(255,255,255,0.2); }
 
-  /* ─── Responsive ─── */
+  /* ── Mobile ── */
   @media (max-width: 768px) {
-    .app-window { padding: 0; }
-    .titlebar { border-radius: 0; }
-    .app-body { flex-direction: column; border-radius: 0; min-height: 100dvh; }
-    .sidebar {
-      width: 100%;
-      flex-direction: row;
-      overflow-x: auto;
-      padding: 8px;
-      gap: 4px;
-      border-right: none;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .sidebar-section { flex-direction: row; gap: 4px; margin-bottom: 0; }
-    .sidebar-label { display: none; }
-    .sidebar-icon { display: none; }
-    .sidebar-item { white-space: nowrap; padding: 6px 12px; }
-    .sidebar-price { display: none; }
-    .main { padding: 16px; }
-    .plan-hero { flex-direction: column; gap: 12px; }
-    .plan-amount { font-size: 32px; }
-    .segmented { width: 100%; }
-    .seg-btn { flex: 1; font-size: 12px; padding: 6px 8px; }
+    .side { display: none; }
+    .main { padding: 20px 16px 48px; }
+    .plan-top { flex-direction: column; gap: 16px; }
+    .plan-num { font-size: 36px; }
+    .plan-title { font-size: 26px; }
+    .seg-wrap { align-self: stretch; }
+    .seg { flex: 1; font-size: 12px; padding: 6px 8px; }
+    .bar { padding: 0 16px; }
+  }
+
+  @media (max-width: 375px) {
+    .plan-num { font-size: 28px; }
+    .plan-title { font-size: 22px; }
+    .main { padding: 16px 12px 40px; gap: 24px; }
   }
 </style>
