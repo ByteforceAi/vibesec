@@ -69,12 +69,137 @@
     { q: '환불 되나요?', a: '스캔 시작 전이면 전액 환불. 리포트 전달 후에는 환불이 어렵습니다. 이미 결과물을 받으셨으니까요.' },
   ];
 
+  const termLines = [
+    { text: 'OPENAI_API_KEY', val: '=sk-proj-4f8a...9c2d', cls: '', keyCls: '' },
+    { text: 'SUPABASE_SERVICE_ROLE', val: '=eyJhbGci...kX9s', cls: '', keyCls: '' },
+    { text: 'STRIPE_SECRET_KEY', val: '=sk_live_51N...rYz', cls: 't-ln--warn', keyCls: 't-k--red', comment: '# commit a3f7b2' },
+    { text: 'DATABASE_URL', val: '=postgresql://admin:pass123@...5432/prod', cls: '', keyCls: '' },
+    { text: '', val: '', cls: 't-ln--result', keyCls: '', result: '3 secrets exposed' },
+  ];
+
   let activePlan = $state(1);
   let openFaq = $state<number | null>(null);
   let loaded = $state(false);
   let scrolled = $state(false);
 
-  $effect(() => { loaded = true; });
+  // 3. Price countup
+  let displayPrice = $state(plans[1].price);
+  let priceAnimating = $state(false);
+
+  // 1. Terminal typing
+  let termVisible = $state(false);
+  let termLineCount = $state(0);
+  let termEl: HTMLElement | undefined = $state(undefined);
+
+  // 2. Features stagger
+  let featuresKey = $state(0);
+
+  // 6. Scroll reveal
+  let revealedSections = $state(new Set<string>());
+  let mainEl: HTMLElement | undefined = $state(undefined);
+
+  // Reduced motion check
+  let reducedMotion = $state(false);
+
+  $effect(() => {
+    loaded = true;
+    if (typeof window !== 'undefined') {
+      reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+  });
+
+  // 3. Price countup effect (untrack displayPrice to avoid loop)
+  let prevPlan = $state(1);
+  $effect(() => {
+    const planIdx = activePlan;
+    if (planIdx === prevPlan) return;
+    const target = plans[planIdx].price;
+    if (reducedMotion) {
+      displayPrice = target;
+      prevPlan = planIdx;
+      return;
+    }
+    const start = displayPrice;
+    const diff = target - start;
+    const duration = 600;
+    const startTime = performance.now();
+    prevPlan = planIdx;
+
+    function easeOut(t: number): number {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function tick() {
+      const elapsed = performance.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      displayPrice = Math.round(start + diff * easeOut(progress));
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      }
+    }
+    requestAnimationFrame(tick);
+  });
+
+  // 2. Features stagger: reset on plan change
+  $effect(() => {
+    // Track activePlan to trigger
+    void activePlan;
+    featuresKey++;
+  });
+
+  // 1. Terminal IntersectionObserver
+  $effect(() => {
+    if (!termEl || !mainEl || reducedMotion) {
+      if (reducedMotion) { termVisible = true; termLineCount = termLines.length; }
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !termVisible) {
+          termVisible = true;
+          let count = 0;
+          const interval = setInterval(() => {
+            count++;
+            termLineCount = count;
+            if (count >= termLines.length) clearInterval(interval);
+          }, 300);
+        }
+      },
+      { threshold: 0.1, root: mainEl }
+    );
+    observer.observe(termEl);
+    return () => observer.disconnect();
+  });
+
+  // 6. Scroll reveal observer
+  $effect(() => {
+    if (!mainEl) return;
+    if (reducedMotion) {
+      revealedSections = new Set(['features','term','extras','loc','faq','foot']);
+      return;
+    }
+
+    const targets = mainEl.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = (entry.target as HTMLElement).dataset.reveal!;
+            revealedSections = new Set([...revealedSections, id]);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05, root: mainEl }
+    );
+    targets.forEach(t => observer.observe(t));
+    return () => observer.disconnect();
+  });
+
+  // Price formatting
+  function formatPrice(n: number): string {
+    return n.toLocaleString('ko-KR');
+  }
 
   function toggleFaq(i: number) { openFaq = openFaq === i ? null : i; }
   function getVal(feat: Feature): string {
@@ -128,16 +253,17 @@
     </nav>
 
     <!-- Main -->
-    <main class="main" onscroll={handleScroll}>
+    <main class="main" bind:this={mainEl} onscroll={handleScroll}>
 
-      <!-- Segment -->
+      <!-- 5. Segment with sliding indicator -->
       <div class="seg-wrap">
+        <div class="seg-indicator" style="transform: translateX({activePlan * 100}%)"></div>
         {#each plans as plan, i}
           <button class="seg" class:seg--on={activePlan === i} onclick={() => { activePlan = i; }}>{plan.name}</button>
         {/each}
       </div>
 
-      <!-- Plan detail -->
+      <!-- Plan detail with 3. price countup -->
       {#key activePlan}
       <section class="plan-card">
         <div class="plan-top">
@@ -148,52 +274,52 @@
           </div>
           <div class="plan-price-block">
             <span class="plan-won">W</span>
-            <span class="plan-num">{plans[activePlan].priceLabel}</span>
+            <span class="plan-num">{formatPrice(displayPrice)}</span>
             <span class="plan-period">{plans[activePlan].period}</span>
           </div>
         </div>
+        <!-- 8. CTA hover -->
         <button class="plan-cta" class:plan-cta--pop={plans[activePlan].popular} onclick={() => goto(`${base}/incident`)}>
           {plans[activePlan].cta}
         </button>
       </section>
       {/key}
 
-      <!-- Features -->
-      <section class="group">
+      <!-- 2. Features with stagger animation -->
+      <section class="group" data-reveal="features" class:reveal--in={revealedSections.has('features') || reducedMotion}>
         <h2 class="group-head">포함 항목</h2>
-        {#each features as feat, i}
-          {@const val = getVal(feat)}
-          <div class="row" style="animation-delay:{i * 30}ms">
-            <span class="row-key">{feat.label}</span>
-            <span class="row-val" class:row-val--ok={val === 'check'} class:row-val--no={val === 'minus'}>
-              {#if val === 'check'}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-              {:else if val === 'minus'}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
-              {:else}
-                <span class="row-badge">{val}</span>
-              {/if}
-            </span>
-          </div>
-        {/each}
+        {#key featuresKey}
+          {#each features as feat, i}
+            {@const val = getVal(feat)}
+            <div class="row feat-row" style="--feat-delay:{i * 30}ms">
+              <span class="row-key">{feat.label}</span>
+              <span class="row-val" class:row-val--ok={val === 'check'} class:row-val--no={val === 'minus'}>
+                {#if val === 'check'}
+                  <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                {:else if val === 'minus'}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+                {:else}
+                  <span class="row-badge">{val}</span>
+                {/if}
+              </span>
+            </div>
+          {/each}
+        {/key}
       </section>
 
-      <!-- Terminal -->
-      <section class="term">
+      <!-- 1. Terminal with typing effect -->
+      <section class="term" bind:this={termEl} data-reveal="term" class:reveal--in={revealedSections.has('term') || reducedMotion}>
         <div class="term-head">
           <span class="term-file">.env</span>
           <span class="term-flag">committed to git</span>
         </div>
-        <pre class="term-code"><code><span class="t-ln"><span class="t-k">OPENAI_API_KEY</span>=sk-proj-4f8a...9c2d</span>
-<span class="t-ln"><span class="t-k">SUPABASE_SERVICE_ROLE</span>=eyJhbGci...kX9s</span>
-<span class="t-ln t-ln--warn"><span class="t-k t-k--red">STRIPE_SECRET_KEY</span>=sk_live_51N...rYz  <span class="t-c"># commit a3f7b2</span></span>
-<span class="t-ln"><span class="t-k">DATABASE_URL</span>=postgresql://admin:pass123@...5432/prod</span>
-<span class="t-ln t-ln--result"><span class="t-ok">3 secrets exposed</span></span></code></pre>
+        <pre class="term-code"><code>{#each termLines as line, i}{#if i < termLineCount}{#if line.result}<span class="t-ln {line.cls}"><span class="t-ok term-blink">{line.result}</span></span>{:else}<span class="t-ln {line.cls}"><span class="t-k {line.keyCls}">{line.text}</span>{line.val}{#if line.comment}  <span class="t-c">{line.comment}</span>{/if}</span>{/if}
+{/if}{/each}</code></pre>
         <p class="term-note">312개 레포 점검 기준. 62%에서 유사 이슈 발견.</p>
       </section>
 
       <!-- Extras -->
-      <section class="group" id="extras">
+      <section class="group" id="extras" data-reveal="extras" class:reveal--in={revealedSections.has('extras') || reducedMotion}>
         <h2 class="group-head">추가 메뉴</h2>
         {#each extras as extra}
           <div class="row">
@@ -207,29 +333,29 @@
       </section>
 
       <!-- Location -->
-      <section class="group" id="loc">
+      <section class="group" id="loc" data-reveal="loc" class:reveal--in={revealedSections.has('loc') || reducedMotion}>
         <h2 class="group-head">오시는 곳</h2>
         <div class="row"><div class="row-col"><span class="row-key">서울 마곡</span><span class="row-sub">노트북 들고 오시면 바로 점검. 2~3시간, 당일 리포트.</span></div></div>
         <div class="row"><div class="row-col"><span class="row-key">부산 해운대</span><span class="row-sub">출장 점검 가능. 출장비 별도 협의. 사전 예약 필수.</span></div></div>
         <div class="row"><div class="row-col"><span class="row-key">화상 점검</span><span class="row-sub">Zoom / Google Meet. 전국 어디서든.</span></div></div>
       </section>
 
-      <!-- FAQ -->
-      <section class="group" id="faq">
+      <!-- 4. FAQ with smooth accordion -->
+      <section class="group" id="faq" data-reveal="faq" class:reveal--in={revealedSections.has('faq') || reducedMotion}>
         <h2 class="group-head">자주 묻는 질문</h2>
         {#each faqs as faq, i}
           <button class="row row--btn" onclick={() => toggleFaq(i)} aria-expanded={openFaq === i}>
             <span class="row-key">{faq.q}</span>
             <svg class="faq-arr" class:faq-arr--open={openFaq === i} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
-          {#if openFaq === i}
-            <div class="faq-body">{faq.a}</div>
-          {/if}
+          <div class="faq-body" class:faq-body--open={openFaq === i}>
+            <div class="faq-inner">{faq.a}</div>
+          </div>
         {/each}
       </section>
 
       <!-- Footer -->
-      <section class="foot">
+      <section class="foot" data-reveal="foot" class:reveal--in={revealedSections.has('foot') || reducedMotion}>
         <p class="foot-text">뭐가 필요한지 모르겠으면 일단 오세요.<br/>보고 말씀드리겠습니다.</p>
         <button class="foot-btn" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
       </section>
@@ -343,6 +469,7 @@
     padding: 6px 10px 4px;
   }
 
+  /* 7. Sidebar hover effect */
   .side-item {
     display: flex;
     align-items: center;
@@ -357,13 +484,18 @@
     font-size: 13px;
     color: var(--tx2);
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s, transform 0.2s var(--ease), filter 0.2s;
     text-align: left;
   }
-  .side-item:hover { background: var(--s2); color: var(--tx); }
+  .side-item:hover {
+    background: var(--s2);
+    color: var(--tx);
+    transform: translateX(2px);
+    filter: brightness(1.15);
+  }
   .side-item--on { background: var(--s3); color: var(--tx); }
   .side-item--static { cursor: default; }
-  .side-item--static:hover { background: transparent; color: var(--tx2); }
+  .side-item--static:hover { background: transparent; color: var(--tx2); transform: none; filter: none; }
 
   .side-name { flex: 1; }
 
@@ -396,7 +528,7 @@
     gap: 32px;
   }
 
-  /* ── Segment ── */
+  /* ── 5. Segment with sliding indicator ── */
   .seg-wrap {
     display: inline-flex;
     background: var(--s1);
@@ -404,6 +536,20 @@
     border-radius: 8px;
     padding: 3px;
     align-self: flex-start;
+    position: relative;
+  }
+
+  .seg-indicator {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc((100% - 6px) / 3);
+    height: calc(100% - 6px);
+    background: var(--s3);
+    border-radius: 5px;
+    transition: transform 0.3s var(--ease);
+    z-index: 0;
+    pointer-events: none;
   }
 
   .seg {
@@ -416,10 +562,11 @@
     font-weight: 500;
     color: var(--tx3);
     cursor: pointer;
-    transition: all 0.2s var(--ease);
+    transition: color 0.2s var(--ease);
+    position: relative;
+    z-index: 1;
   }
   .seg--on {
-    background: var(--s3);
     color: var(--tx);
   }
 
@@ -493,6 +640,7 @@
     margin-left: 6px;
   }
 
+  /* 8. CTA button hover */
   .plan-cta {
     padding: 10px 24px;
     border-radius: 6px;
@@ -505,13 +653,20 @@
     cursor: pointer;
     transition: all 0.2s var(--ease);
   }
-  .plan-cta:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .plan-cta:hover {
+    color: var(--tx);
+    border-color: rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
   .plan-cta--pop {
     background: var(--tx);
     color: var(--black);
     border-color: var(--tx);
   }
-  .plan-cta--pop:hover { background: #e0e0e0; }
+  .plan-cta--pop:hover {
+    background: #d8d8d8;
+    transform: translateY(-1px);
+  }
 
   /* ── Group ── */
   .group { display: flex; flex-direction: column; }
@@ -534,12 +689,31 @@
     padding: 11px 0;
     border-bottom: 1px solid var(--brd);
     font-size: 14px;
-    animation: rowIn 0.25s var(--ease) both;
   }
 
-  @keyframes rowIn {
-    from { opacity: 0; transform: translateY(3px); }
+  /* 2. Feature row stagger animation */
+  .feat-row {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: featIn 0.3s var(--ease) forwards;
+    animation-delay: var(--feat-delay);
+  }
+
+  @keyframes featIn {
+    from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 2. Check icon bounce */
+  .check-icon {
+    animation: checkBounce 0.35s var(--ease) forwards;
+    animation-delay: var(--feat-delay);
+  }
+
+  @keyframes checkBounce {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
   }
 
   .row--btn {
@@ -588,7 +762,7 @@
 
   .row-dim { font-size: 10px; color: var(--tx3); font-family: var(--font); }
 
-  /* ── FAQ ── */
+  /* ── 4. FAQ smooth accordion ── */
   .faq-arr {
     flex-shrink: 0;
     color: var(--tx3);
@@ -597,15 +771,29 @@
   .faq-arr--open { transform: rotate(180deg); }
 
   .faq-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s var(--ease);
+    border-bottom: 1px solid var(--brd);
+  }
+  .faq-body--open {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-inner {
+    overflow: hidden;
     font-size: 14px;
     color: var(--tx2);
     line-height: 1.65;
-    padding: 0 0 14px;
-    border-bottom: 1px solid var(--brd);
     word-break: keep-all;
+    padding: 0 0 0;
+    transition: padding 0.3s var(--ease);
+  }
+  .faq-body--open .faq-inner {
+    padding: 0 0 14px;
   }
 
-  /* ── Terminal ── */
+  /* ── 1. Terminal typing ── */
   .term {
     background: var(--s1);
     border: 1px solid var(--brd);
@@ -642,6 +830,7 @@
     font-size: 12.5px;
     line-height: 1.8;
     color: var(--tx2);
+    min-height: 120px;
   }
 
   .t-ln { display: block; }
@@ -652,12 +841,32 @@
   .t-c { color: var(--tx3); font-style: italic; }
   .t-ok { color: var(--ok); }
 
+  /* 1. Blink for "3 secrets exposed" */
+  .term-blink {
+    animation: termBlink 1s ease-in-out 3;
+  }
+  @keyframes termBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
   .term-note {
     font-size: 11px;
     color: var(--tx3);
     padding: 0 16px 12px;
     margin: 0;
     font-style: italic;
+  }
+
+  /* ── 6. Scroll reveal ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal--in {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* ── Footer ── */
@@ -690,6 +899,23 @@
     transition: all 0.2s var(--ease);
   }
   .foot-btn:hover { background: var(--s2); border-color: rgba(255,255,255,0.2); }
+
+  /* ── prefers-reduced-motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+    }
+    .feat-row {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
   /* ── Mobile ── */
   @media (max-width: 768px) {
