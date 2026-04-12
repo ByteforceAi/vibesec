@@ -99,101 +99,81 @@
   let mainEl: HTMLElement | undefined = $state(undefined);
 
   // Reduced motion check
-  let reducedMotion = $state(false);
+  let reducedMotion = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
 
+  // Init
   $effect(() => {
     loaded = true;
-    if (typeof window !== 'undefined') {
-      reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      termVisible = true;
+      termLineCount = termLines.length;
+      revealedSections = new Set(['features','term','extras','loc','faq','foot']);
     }
   });
 
-  // 3. Price countup effect (untrack displayPrice to avoid loop)
-  let prevPlan = $state(1);
-  $effect(() => {
-    const planIdx = activePlan;
-    if (planIdx === prevPlan) return;
-    const target = plans[planIdx].price;
-    if (reducedMotion) {
-      displayPrice = target;
-      prevPlan = planIdx;
-      return;
-    }
-    const start = displayPrice;
-    const diff = target - start;
+  // 3. Price countup — use onclick handler instead of $effect to avoid loop
+  let _lastPlan = 1;
+  function switchPlan(i: number) {
+    if (i === activePlan) return;
+    const startPrice = displayPrice;
+    activePlan = i;
+    featuresKey++; // 2. stagger reset
+    const target = plans[i].price;
+    if (reducedMotion) { displayPrice = target; return; }
+    const diff = target - startPrice;
     const duration = 600;
-    const startTime = performance.now();
-    prevPlan = planIdx;
-
-    function easeOut(t: number): number {
-      return 1 - Math.pow(1 - t, 3);
-    }
-
+    const t0 = performance.now();
     function tick() {
-      const elapsed = performance.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      displayPrice = Math.round(start + diff * easeOut(progress));
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
+      const p = Math.min((performance.now() - t0) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      displayPrice = Math.round(startPrice + diff * ease);
+      if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
-  });
-
-  // 2. Features stagger: reset on plan change
-  $effect(() => {
-    // Track activePlan to trigger
-    void activePlan;
-    featuresKey++;
-  });
+  }
 
   // 1. Terminal IntersectionObserver
   $effect(() => {
-    if (!termEl || !mainEl || reducedMotion) {
-      if (reducedMotion) { termVisible = true; termLineCount = termLines.length; }
-      return;
-    }
-    const observer = new IntersectionObserver(
+    if (!termEl || !mainEl || reducedMotion) return;
+    const obs = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !termVisible) {
           termVisible = true;
-          let count = 0;
-          const interval = setInterval(() => {
-            count++;
-            termLineCount = count;
-            if (count >= termLines.length) clearInterval(interval);
+          let c = 0;
+          const iv = setInterval(() => {
+            c++;
+            termLineCount = c;
+            if (c >= termLines.length) clearInterval(iv);
           }, 300);
         }
       },
       { threshold: 0.1, root: mainEl }
     );
-    observer.observe(termEl);
-    return () => observer.disconnect();
+    obs.observe(termEl);
+    return () => obs.disconnect();
   });
 
   // 6. Scroll reveal observer
   $effect(() => {
-    if (!mainEl) return;
-    if (reducedMotion) {
-      revealedSections = new Set(['features','term','extras','loc','faq','foot']);
-      return;
-    }
-
+    if (!mainEl || reducedMotion) return;
     const targets = mainEl.querySelectorAll('[data-reveal]');
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const id = (entry.target as HTMLElement).dataset.reveal!;
-            revealedSections = new Set([...revealedSections, id]);
-            observer.unobserve(entry.target);
+            revealedSections.add(id);
+            revealedSections = new Set(revealedSections); // trigger reactivity
+            obs.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.05, root: mainEl }
     );
-    targets.forEach(t => observer.observe(t));
-    return () => observer.disconnect();
+    targets.forEach(t => obs.observe(t));
+    return () => obs.disconnect();
   });
 
   // Price formatting
@@ -226,7 +206,7 @@
       <div class="side-group">
         <span class="side-label">점검</span>
         {#each plans as plan, i}
-          <button class="side-item" class:side-item--on={activePlan === i} onclick={() => { activePlan = i; }}>
+          <button class="side-item" class:side-item--on={activePlan === i} onclick={() => switchPlan(i)}>
             <span class="side-name">{plan.name}</span>
             {#if plan.popular}<span class="side-tag">추천</span>{/if}
           </button>
@@ -259,7 +239,7 @@
       <div class="seg-wrap">
         <div class="seg-indicator" style="transform: translateX({activePlan * 100}%)"></div>
         {#each plans as plan, i}
-          <button class="seg" class:seg--on={activePlan === i} onclick={() => { activePlan = i; }}>{plan.name}</button>
+          <button class="seg" class:seg--on={activePlan === i} onclick={() => switchPlan(i)}>{plan.name}</button>
         {/each}
       </div>
 
@@ -365,8 +345,6 @@
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
   .void {
     --black:    #000000;
     --s1:       #060608;
