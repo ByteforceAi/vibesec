@@ -25,8 +25,8 @@
 	:global(body) {
 		margin: 0;
 		padding: 0;
-		background: #000000;
-		color: #ffffff;
+		background: #050510;
+		color: #e8e8f0;
 		font-family: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -36,8 +36,8 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100dvh;
-		background: #000000;
-		color: #ffffff;
+		background: #050510;
+		color: #e8e8f0;
 	}
 
 	.app-main {
