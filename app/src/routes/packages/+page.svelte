@@ -6,39 +6,51 @@
 
   const plans = [
     {
-      id: 'starter',
-      name: 'Starter',
-      desc: '자동 스캔으로 지금 뭐가 노출됐는지 확인합니다.',
-      price: 0,
-      priceLabel: '0',
-      cta: '내 레포 무료 스캔',
+      id: 'check',
+      name: '기본 점검',
+      desc: '1:1 대면. 레포 전체 보안 스캔 + 리포트.',
+      price: 390000,
+      priceLabel: '390,000',
+      period: '/ 1회',
+      cta: '점검 예약',
       ctaStyle: 'secondary' as const,
+      details: '소요 2~3시간. 마곡 방문 또는 화상.',
     },
     {
       id: 'pro',
-      name: 'Pro',
-      desc: '배포 전 전수 점검 + 수정 가이드.',
-      price: 190000,
-      priceLabel: '190,000',
+      name: '정밀 점검',
+      desc: '점검 + 수정 가이드 + 코드 리뷰.',
+      price: 890000,
+      priceLabel: '890,000',
       period: '/ 프로젝트',
-      cta: 'Pro 점검 시작',
+      cta: '정밀 점검 예약',
       ctaStyle: 'primary' as const,
       popular: true,
+      details: '소요 1~2일. 수정 가이드 PDF 포함.',
     },
     {
       id: 'full',
-      name: 'Full Audit',
-      desc: '엔지니어 1명이 일주일간 붙습니다.',
-      price: 490000,
-      priceLabel: '490,000',
+      name: '풀 정비',
+      desc: '엔지니어가 직접 고칩니다. 배포까지.',
+      price: 1900000,
+      priceLabel: '1,900,000',
       period: '/ 프로젝트',
-      cta: '대표에게 직접 문의',
+      cta: '상담 후 진행',
       ctaStyle: 'secondary' as const,
+      details: '소요 3~7일. 30일 모니터링 포함.',
     },
   ];
 
+  // 추가 메뉴
+  const extras = [
+    { name: '긴급 점검', price: '490,000', desc: '24시간 이내 긴급 대응. 주말/공휴일 가능.', period: '/ 1회' },
+    { name: '출장 점검', price: '+150,000', desc: '서울/경기 출장. 해운대/부산 별도 협의.', period: '/ 출장비' },
+    { name: '월 관리', price: '590,000', desc: '월 1회 정기 점검 + 실시간 모니터링 + 긴급 대응.', period: '/ 월' },
+    { name: '세부 단품', price: '39,000~', desc: '312개 세부 메뉴에서 필요한 것만. 상담 시 안내.', period: '/ 항목' },
+  ];
+
   const features: Feature[] = [
-    { label: '자동 스캔',             starter: 'check', pro: 'check',           full: 'check' },
+    { label: '1:1 대면 점검',         starter: 'check', pro: 'check',           full: 'check' },
     { label: '취약점 리포트',          starter: '요약',   pro: '상세',            full: '상세 + 라인 번호' },
     { label: '비밀키 노출 검사',       starter: 'check', pro: 'check',           full: 'check' },
     { label: '인증 체계 점검',         starter: 'minus', pro: 'check',           full: 'check' },
@@ -166,10 +178,14 @@
               {/if}
             </div>
 
+            {#if plan.details}
+              <p class="plan-details">{plan.details}</p>
+            {/if}
+
             <button
               class="plan-cta"
               class:plan-cta--primary={plan.ctaStyle === 'primary'}
-              onclick={() => goto(`${base}/diagnose`)}
+              onclick={() => goto(`${base}/incident`)}
             >
               {plan.cta}
             </button>
@@ -232,6 +248,52 @@
     </div>
   </section>
 
+  <!-- Extras -->
+  <section class="extras">
+    <div class="container">
+      <h2 class="section-headline">추가 메뉴</h2>
+      <p class="section-sub">필요한 것만 따로도 가능합니다.</p>
+      <div class="extras-grid">
+        {#each extras as extra}
+          <div class="extra-card">
+            <div class="extra-top">
+              <h3 class="extra-name">{extra.name}</h3>
+              <p class="extra-desc">{extra.desc}</p>
+            </div>
+            <div class="extra-bottom">
+              <span class="extra-price">&#8361; {extra.price}</span>
+              <span class="extra-period">{extra.period}</span>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  </section>
+
+  <!-- Location -->
+  <section class="location">
+    <div class="container">
+      <h2 class="section-headline">오시는 곳</h2>
+      <div class="location-grid">
+        <div class="location-card">
+          <h3 class="location-name">서울 마곡</h3>
+          <p class="location-addr">서울특별시 강서구 마곡동</p>
+          <p class="location-note">노트북 들고 오시면 바로 점검합니다.<br/>점검 소요 2~3시간. 당일 리포트.</p>
+        </div>
+        <div class="location-card">
+          <h3 class="location-name">부산 해운대</h3>
+          <p class="location-addr">부산광역시 해운대구</p>
+          <p class="location-note">출장 점검 가능. 출장비 별도 협의.<br/>사전 예약 필수.</p>
+        </div>
+        <div class="location-card">
+          <h3 class="location-name">화상 점검</h3>
+          <p class="location-addr">Zoom / Google Meet</p>
+          <p class="location-note">화면 공유로 원격 점검.<br/>전국 어디서든 가능합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="faq">
     <div class="container">
@@ -255,8 +317,8 @@
   <!-- Footer CTA -->
   <section class="footer-cta">
     <div class="container">
-      <p class="footer-cta-text">어떤 플랜이 맞는지 모르겠으면<br/>레포 URL만 보내주세요. 24시간 안에 요약 보내드립니다.</p>
-      <button class="footer-cta-btn" onclick={() => goto(`${base}/diagnose`)}>레포 URL 보내기</button>
+      <p class="footer-cta-text">뭐가 필요한지 모르겠으면 일단 오세요.<br/>보고 말씀드리겠습니다.</p>
+      <button class="footer-cta-btn" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
     </div>
   </section>
 
@@ -760,13 +822,117 @@
   }
   .footer-cta-btn:hover { background: #333; }
 
+  /* ─── Plan details ─── */
+  .plan-details {
+    font-size: 13px;
+    color: var(--text-3);
+    margin: 0 0 var(--s2);
+    line-height: 1.4;
+  }
+
+  /* ─── Extras ─── */
+  .extras {
+    padding: var(--s7) 0;
+  }
+
+  .extras-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s3);
+  }
+
+  .extra-card {
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-card);
+    padding: var(--s3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--s3);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .extra-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .extra-name {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 var(--s1);
+    color: var(--text);
+  }
+
+  .extra-desc {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .extra-bottom {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s1);
+  }
+
+  .extra-price {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .extra-period {
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  /* ─── Location ─── */
+  .location {
+    padding: var(--s7) 0;
+    background: var(--surface-2);
+  }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s3);
+  }
+
+  .location-card {
+    padding: var(--s4);
+  }
+
+  .location-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 var(--s1);
+    color: var(--text);
+  }
+
+  .location-addr {
+    font-size: 15px;
+    color: var(--text-2);
+    margin: 0 0 var(--s2);
+  }
+
+  .location-note {
+    font-size: 14px;
+    color: var(--text-3);
+    line-height: 1.5;
+    margin: 0;
+  }
+
   /* ─── Responsive ─── */
   @media (max-width: 768px) {
     .hero { padding: var(--s6) 0 var(--s5); }
     .hero-headline { font-size: 32px; }
     .section-headline { font-size: 32px; }
-    .plans, .comparison, .faq, .footer-cta, .stats { padding: var(--s6) 0; }
-    .plans-grid, .stats-grid { grid-template-columns: 1fr; }
+    .plans, .comparison, .faq, .footer-cta, .stats, .extras, .location { padding: var(--s6) 0; }
+    .plans-grid, .stats-grid, .location-grid { grid-template-columns: 1fr; }
+    .extras-grid { grid-template-columns: repeat(2, 1fr); }
     .plan-amount { font-size: 40px; }
     .stat-number { font-size: 36px; }
     .compare-feature-col { min-width: 120px; }
@@ -778,5 +944,6 @@
     .plan-amount { font-size: 32px; }
     .stat-number { font-size: 32px; }
     .container { padding: 0 var(--s2); }
+    .extras-grid { grid-template-columns: 1fr; }
   }
 </style>
