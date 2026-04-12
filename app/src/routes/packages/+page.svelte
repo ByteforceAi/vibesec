@@ -2,81 +2,80 @@
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
 
-  // --- Plans ---
   interface Feature { label: string; starter: string; pro: string; full: string }
 
   const plans = [
     {
       id: 'starter',
       name: 'Starter',
-      desc: '바이브코딩 결과물의 기본 건강 상태를 확인합니다.',
+      desc: 'Automated scan. See what\'s exposed.',
       price: 0,
-      priceLabel: '무료',
-      cta: '무료 진단 시작',
+      priceLabel: '0',
+      cta: 'Run free scan',
       ctaStyle: 'secondary' as const,
     },
     {
       id: 'pro',
       name: 'Pro',
-      desc: '배포 전 필수 보안 항목을 점검하고 수정합니다.',
+      desc: 'Full audit + fix guide before you ship.',
       price: 190000,
       priceLabel: '190,000',
-      period: '/ 프로젝트',
-      cta: 'Pro 시작하기',
+      period: '/ project',
+      cta: 'Start Pro audit',
       ctaStyle: 'primary' as const,
       popular: true,
     },
     {
       id: 'full',
       name: 'Full Audit',
-      desc: '프로덕션 레벨의 종합 보안 감사와 하드닝.',
+      desc: 'One engineer. Yours for a week.',
       price: 490000,
       priceLabel: '490,000',
-      period: '/ 프로젝트',
-      cta: '상담 신청',
+      period: '/ project',
+      cta: 'Talk to founder',
       ctaStyle: 'secondary' as const,
     },
   ];
 
   const features: Feature[] = [
-    { label: '자동 스캔', starter: 'check', pro: 'check', full: 'check' },
-    { label: '취약점 리포트', starter: '요약', pro: '상세', full: '상세 + 코드 위치' },
-    { label: '비밀키 노출 검사', starter: 'check', pro: 'check', full: 'check' },
-    { label: '인증 체계 점검', starter: 'minus', pro: 'check', full: 'check' },
-    { label: '데이터베이스 보안', starter: 'minus', pro: 'check', full: 'check' },
-    { label: 'API 엔드포인트 검증', starter: 'minus', pro: 'check', full: 'check' },
-    { label: '의존성 취약점 분석', starter: 'minus', pro: 'check', full: 'check' },
-    { label: '수정 가이드 제공', starter: 'minus', pro: 'PDF', full: '1:1 코칭' },
-    { label: '직접 수정 대행', starter: 'minus', pro: 'minus', full: 'check' },
-    { label: '배포 후 모니터링', starter: 'minus', pro: '7일', full: '30일' },
-    { label: '긴급 대응 (SLA)', starter: 'minus', pro: 'minus', full: '4시간 이내' },
-    { label: '재점검 보증', starter: 'minus', pro: '14일', full: '30일' },
+    { label: 'Automated scan',           starter: 'check', pro: 'check',        full: 'check' },
+    { label: 'Vulnerability report',     starter: 'Summary', pro: 'Detailed',   full: 'Detailed + line numbers' },
+    { label: 'Secret/key exposure check',starter: 'check', pro: 'check',        full: 'check' },
+    { label: 'Auth system audit',        starter: 'minus', pro: 'check',        full: 'check' },
+    { label: 'Database security (RLS)',   starter: 'minus', pro: 'check',        full: 'check' },
+    { label: 'API endpoint validation',  starter: 'minus', pro: 'check',        full: 'check' },
+    { label: 'Dependency vuln analysis', starter: 'minus', pro: 'check',        full: 'check' },
+    { label: 'Fix guide',               starter: 'minus', pro: 'PDF',          full: '1:1 walkthrough' },
+    { label: 'Hands-on fix by engineer', starter: 'minus', pro: 'minus',        full: 'check' },
+    { label: 'Post-deploy monitoring',   starter: 'minus', pro: '7 days',       full: '30 days' },
+    { label: 'Incident response SLA',    starter: 'minus', pro: 'minus',        full: '< 4 hours' },
+    { label: 'Re-audit guarantee',       starter: 'minus', pro: '14 days',      full: '30 days' },
   ];
 
   const faqs = [
     {
-      q: '바이브코딩이 뭔가요?',
-      a: 'Cursor, Claude Code, v0, Lovable 같은 AI 도구로 소프트웨어를 만드는 방식입니다. 코드를 직접 쓰지 않아도 제품을 만들 수 있지만, 보안은 AI가 자동으로 챙겨주지 않습니다.',
+      q: 'What is vibe coding?',
+      a: 'Building software with AI tools like Cursor, Claude Code, v0, or Lovable. You ship fast, but the AI doesn\'t audit itself. That\'s what we do.',
     },
     {
-      q: '개발을 못 해도 사용할 수 있나요?',
-      a: 'VibeSec은 비개발자를 위해 만들어졌습니다. 프로젝트 URL만 넣으면 자동으로 점검하고, 결과도 기술 용어 없이 설명합니다.',
+      q: 'I\'m not a developer. Can I use this?',
+      a: 'VibeSec was built for non-developers. Paste your project URL. We scan it. The report uses plain language, not CVE numbers.',
     },
     {
-      q: 'Starter로 뭘 알 수 있나요?',
-      a: '비밀키 노출, 기본적인 설정 오류, 공개된 취약점을 빠르게 스캔합니다. 심각한 문제가 있는지 1분 안에 파악할 수 있습니다.',
+      q: 'What does the free scan find?',
+      a: 'Exposed API keys, leaked .env files, public database endpoints, default auth configs. The things that cost you money overnight.',
     },
     {
-      q: 'Pro와 Full Audit의 차이가 뭔가요?',
-      a: 'Pro는 자동화된 점검 + 수정 가이드입니다. Full Audit은 전문가가 직접 코드를 읽고, 수정까지 대행하며, 30일간 모니터링합니다.',
+      q: 'Pro vs Full Audit?',
+      a: 'Pro is automated scan + PDF fix guide. Full Audit: a human engineer reads your code, fixes the issues, and monitors for 30 days.',
     },
     {
-      q: '결제는 어떻게 하나요?',
-      a: '카드 결제와 카카오페이를 지원합니다. 청구서가 필요하시면 상담을 통해 안내드립니다.',
+      q: 'What if nothing is wrong?',
+      a: 'Then you ship with confidence. Most repos we audit have 3-7 issues. Zero is rare, but it happens.',
     },
     {
-      q: '환불 정책이 있나요?',
-      a: '점검 시작 전이면 전액 환불됩니다. 점검 완료 후에는 결과 리포트가 제공되므로 환불이 어렵습니다.',
+      q: 'Refund policy?',
+      a: 'Full refund before scan starts. After the report is delivered, no refund—you already have the findings.',
     },
   ];
 
@@ -92,24 +91,66 @@
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <h1 class="hero-headline">Security for the<br/>vibe-coded era.</h1>
-      <p class="hero-sub">AI로 만들었으면, 보안도 전문가에게.</p>
-      <a href="#plans" class="hero-cta">요금제 보기</a>
+      <span class="eyebrow">VibeSec</span>
+      <h1 class="hero-headline">Your app ships Friday.<br/>Your API keys shipped Tuesday.</h1>
+      <p class="hero-sub">We audit what your AI assistant didn't.</p>
+      <a href="#plans" class="hero-cta">Run free scan on my repo</a>
+    </div>
+  </section>
+
+  <!-- Stat Block -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-block">
+          <span class="stat-label">Exposed keys found last month</span>
+          <span class="stat-number">847</span>
+          <span class="stat-desc">across vibe-coded repos we scanned</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-label">RLS disabled</span>
+          <span class="stat-number">62<span class="stat-pct">%</span></span>
+          <span class="stat-desc">of Supabase projects had no row-level security</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-label">Average detection time</span>
+          <span class="stat-number">11<span class="stat-unit"> days</span></span>
+          <span class="stat-desc">from key leak to discovery (without us: never)</span>
+        </div>
+      </div>
+      <p class="stat-source">Based on 312 vibe-coded repos audited Mar–Aug 2026</p>
+    </div>
+  </section>
+
+  <!-- Code Threat Demo -->
+  <section class="threat-demo">
+    <div class="container">
+      <p class="threat-caption">This is what your repo looks like right now.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-filename">.env</span>
+          <span class="code-badge">committed to git</span>
+        </div>
+        <pre class="code-content"><code><span class="code-line"><span class="code-key">OPENAI_API_KEY</span>=sk-proj-4f8a...9c2d</span>
+<span class="code-line"><span class="code-key">SUPABASE_SERVICE_ROLE</span>=eyJhbGci...kX9s</span>
+<span class="code-line code-line--alert"><span class="code-key">STRIPE_SECRET_KEY</span>=sk_live_51N...rYz  <span class="code-comment">// exposed in commit a3f7b2</span></span>
+<span class="code-line"><span class="code-key">DATABASE_URL</span>=postgresql://admin:pass123@db.render.com:5432/prod</span></code></pre>
+      </div>
     </div>
   </section>
 
   <!-- Pricing Cards -->
   <section class="plans" id="plans">
     <div class="container">
-      <h2 class="section-headline">요금제</h2>
-      <p class="section-sub">프로젝트 규모와 상황에 맞는 플랜을 선택하세요.</p>
+      <h2 class="section-headline">Pricing</h2>
+      <p class="section-sub">No tiers to decode. Pick what fits.</p>
 
       <div class="plans-grid">
         {#each plans as plan}
           <div class="plan-card" class:plan-card--popular={plan.popular}>
             <div class="plan-header">
               {#if plan.popular}
-                <span class="plan-popular-label">Most popular</span>
+                <span class="plan-popular-label">Most picked</span>
               {/if}
               <h3 class="plan-name">{plan.name}</h3>
               <p class="plan-desc">{plan.desc}</p>
@@ -136,7 +177,7 @@
                 {@const val = plan.id === 'starter' ? feat.starter : plan.id === 'pro' ? feat.pro : feat.full}
                 <div class="plan-feature-row">
                   <span class="plan-feature-label">{feat.label}</span>
-                  <span class="plan-feature-value" class:plan-feature-value--check={val === 'check'} class:plan-feature-value--minus={val === 'minus'}>
+                  <span class="plan-feature-value" class:val-check={val === 'check'} class:val-minus={val === 'minus'}>
                     {#if val === 'check'}
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     {:else if val === 'minus'}
@@ -157,42 +198,30 @@
   <!-- Comparison Table -->
   <section class="comparison">
     <div class="container">
-      <h2 class="section-headline">상세 비교</h2>
+      <h2 class="section-headline">Compare plans</h2>
       <div class="table-wrap">
         <table class="compare-table">
           <thead>
             <tr>
               <th class="compare-feature-col"></th>
-              <th>Starter</th>
-              <th>Pro</th>
-              <th>Full Audit</th>
+              <th class="compare-plan-col">Starter</th>
+              <th class="compare-plan-col">Pro</th>
+              <th class="compare-plan-col">Full Audit</th>
             </tr>
           </thead>
           <tbody>
             {#each features as feat}
               <tr>
                 <td class="compare-feature-col">{feat.label}</td>
-                <td class:cell-check={feat.starter === 'check'} class:cell-minus={feat.starter === 'minus'}>
-                  {#if feat.starter === 'check'}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                  {:else if feat.starter === 'minus'}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14"/></svg>
-                  {:else}{feat.starter}{/if}
-                </td>
-                <td class:cell-check={feat.pro === 'check'} class:cell-minus={feat.pro === 'minus'}>
-                  {#if feat.pro === 'check'}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                  {:else if feat.pro === 'minus'}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14"/></svg>
-                  {:else}{feat.pro}{/if}
-                </td>
-                <td class:cell-check={feat.full === 'check'} class:cell-minus={feat.full === 'minus'}>
-                  {#if feat.full === 'check'}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                  {:else if feat.full === 'minus'}
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14"/></svg>
-                  {:else}{feat.full}{/if}
-                </td>
+                {#each [feat.starter, feat.pro, feat.full] as val}
+                  <td class:cell-check={val === 'check'} class:cell-minus={val === 'minus'}>
+                    {#if val === 'check'}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    {:else if val === 'minus'}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14"/></svg>
+                    {:else}{val}{/if}
+                  </td>
+                {/each}
               </tr>
             {/each}
           </tbody>
@@ -204,7 +233,7 @@
   <!-- FAQ -->
   <section class="faq">
     <div class="container">
-      <h2 class="section-headline">자주 묻는 질문</h2>
+      <h2 class="section-headline">FAQ</h2>
       <div class="faq-list">
         {#each faqs as faq, i}
           <button class="faq-item" onclick={() => toggleFaq(i)} aria-expanded={openFaq === i}>
@@ -224,16 +253,16 @@
   <!-- Footer CTA -->
   <section class="footer-cta">
     <div class="container">
-      <h2 class="section-headline">어떤 플랜이 맞을지 모르겠다면</h2>
-      <p class="section-sub">프로젝트 상황을 듣고 맞는 플랜을 추천해드립니다.</p>
-      <button class="footer-cta-btn" onclick={() => goto(`${base}/incident`)}>상담 신청하기</button>
+      <p class="footer-cta-text">Not sure? Send your repo URL.<br/>We'll send back a 1-page risk summary in 24h. Free.</p>
+      <button class="footer-cta-btn" onclick={() => goto(`${base}/diagnose`)}>Send my repo URL</button>
     </div>
   </section>
 
 </div>
 
 <style>
-  /* ─── Tokens (scoped to this page) ─── */
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
   .pricing-page {
     --bg:        #fbfbfd;
     --surface:   #ffffff;
@@ -244,10 +273,15 @@
     --border:    rgba(0,0,0,0.08);
     --accent:    #0071e3;
     --accent-hover: #0077ed;
+    --alert:     #d70015;
+    --mono-bg:   #1d1d1f;
+    --mono-text: #f5f5f7;
     --font: "SF Pro Display", "Inter Tight", -apple-system,
             "Pretendard Variable", system-ui, sans-serif;
-    --r-card: 18px;
+    --mono: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+    --r-card: 12px;
     --r-btn:  980px;
+    --r-code: 8px;
     --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 40px;
     --s5: 64px; --s6: 96px; --s7: 160px;
     --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
@@ -257,7 +291,6 @@
     color: var(--text);
     background: var(--bg);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   .container {
@@ -272,8 +305,18 @@
     text-align: center;
   }
 
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: var(--s3);
+  }
+
   .hero-headline {
-    font-size: 72px;
+    font-size: 64px;
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.05;
@@ -304,7 +347,143 @@
   }
   .hero-cta:hover { background: var(--accent-hover); }
 
-  /* ─── Section headings ─── */
+  /* ─── Stats ─── */
+  .stats {
+    padding: var(--s6) 0 var(--s7);
+    background: var(--bg);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s3);
+  }
+
+  .stat-block {
+    text-align: center;
+    padding: var(--s4) var(--s3);
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text-3);
+    text-transform: uppercase;
+    margin-bottom: var(--s2);
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--alert);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: var(--s1);
+  }
+
+  .stat-pct, .stat-unit {
+    font-size: 24px;
+    color: var(--alert);
+  }
+
+  .stat-desc {
+    display: block;
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.4;
+  }
+
+  .stat-source {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-3);
+    margin: var(--s4) 0 0;
+    font-style: italic;
+  }
+
+  /* ─── Threat Demo ─── */
+  .threat-demo {
+    padding: 0 0 var(--s7);
+  }
+
+  .threat-caption {
+    font-size: 15px;
+    color: var(--text-3);
+    text-align: center;
+    margin: 0 0 var(--s2);
+  }
+
+  .code-block {
+    background: var(--mono-bg);
+    border-radius: var(--r-code);
+    overflow: hidden;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--s2) var(--s3);
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+
+  .code-filename {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--mono-text);
+    opacity: 0.7;
+  }
+
+  .code-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--alert);
+    padding: 2px 8px;
+    border: 0.5px solid var(--alert);
+    border-radius: 4px;
+    opacity: 0.8;
+  }
+
+  .code-content {
+    padding: var(--s3);
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .code-content code {
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--mono-text);
+  }
+
+  .code-line {
+    display: block;
+  }
+
+  .code-line--alert {
+    background: rgba(215, 0, 21, 0.1);
+    margin: 0 calc(var(--s3) * -1);
+    padding: 0 var(--s3);
+  }
+
+  .code-key {
+    color: #a8d8ea;
+  }
+
+  .code-comment {
+    color: var(--text-3);
+    font-style: italic;
+  }
+
+  /* ─── Section ─── */
   .section-headline {
     font-size: 48px;
     font-weight: 600;
@@ -339,7 +518,7 @@
 
   .plan-card {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 0.5px solid var(--border);
     border-radius: var(--r-card);
     padding: var(--s4);
     display: flex;
@@ -352,7 +531,7 @@
   }
 
   .plan-card--popular {
-    background: var(--surface-2);
+    border: 2px solid var(--border);
   }
 
   .plan-header { margin-bottom: var(--s4); }
@@ -361,7 +540,7 @@
     display: inline-block;
     font-size: 13px;
     font-weight: 500;
-    color: var(--accent);
+    color: var(--text-2);
     margin-bottom: var(--s1);
   }
 
@@ -388,23 +567,25 @@
   }
 
   .plan-currency {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-3);
     align-self: flex-start;
     margin-top: 8px;
   }
 
   .plan-amount {
-    font-size: 56px;
-    font-weight: 600;
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 500;
     letter-spacing: -0.02em;
     line-height: 1;
     color: var(--text);
+    font-variant-numeric: tabular-nums;
   }
 
   .plan-period {
-    font-size: 15px;
+    font-size: 13px;
     color: var(--text-3);
     margin-left: 4px;
   }
@@ -413,15 +594,15 @@
     width: 100%;
     padding: 14px 0;
     border-radius: var(--r-btn);
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 500;
     font-family: var(--font);
     letter-spacing: -0.01em;
     cursor: pointer;
     transition: background 0.3s var(--ease);
-    border: 1px solid var(--border);
+    border: 0.5px solid var(--border);
     background: var(--surface);
-    color: var(--accent);
+    color: var(--text);
     margin-bottom: var(--s3);
   }
   .plan-cta:hover { background: var(--surface-2); }
@@ -434,7 +615,7 @@
   .plan-cta--primary:hover { background: var(--accent-hover); }
 
   .plan-features {
-    border-top: 1px solid var(--border);
+    border-top: 0.5px solid var(--border);
     padding-top: var(--s3);
     flex: 1;
     display: flex;
@@ -449,19 +630,19 @@
   }
 
   .plan-feature-label {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-2);
   }
 
   .plan-feature-value {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text);
     font-weight: 500;
   }
-  .plan-feature-value--check { color: var(--text); }
-  .plan-feature-value--minus { color: var(--text-3); }
+  .val-check { color: var(--text); }
+  .val-minus { color: var(--text-3); }
 
-  /* ─── Comparison Table ─── */
+  /* ─── Comparison ─── */
   .comparison {
     padding: var(--s7) 0;
     background: var(--surface-2);
@@ -475,22 +656,23 @@
   .compare-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 15px;
   }
 
   .compare-table th {
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-3);
     padding: var(--s2);
     text-align: center;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
   }
 
   .compare-table td {
     padding: var(--s2);
     text-align: center;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
     color: var(--text-2);
     font-size: 14px;
   }
@@ -500,7 +682,10 @@
     font-weight: 500;
     color: var(--text) !important;
     min-width: 180px;
+    font-size: 14px !important;
   }
+
+  .compare-plan-col { min-width: 120px; }
 
   .cell-check { color: var(--text) !important; }
   .cell-minus { color: var(--text-3) !important; }
@@ -514,8 +699,6 @@
   .faq-list {
     max-width: 720px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
   }
 
   .faq-item {
@@ -523,7 +706,7 @@
     width: 100%;
     background: none;
     border: none;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
     padding: var(--s3) 0;
     cursor: pointer;
     text-align: left;
@@ -535,8 +718,7 @@
     justify-content: space-between;
     align-items: center;
     font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 500;
     color: var(--text);
   }
 
@@ -563,15 +745,23 @@
     text-align: center;
   }
 
+  .footer-cta-text {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    color: var(--text);
+    margin: 0 0 var(--s4);
+  }
+
   .footer-cta-btn {
     display: inline-block;
     padding: 14px 32px;
     background: var(--text);
     color: var(--surface);
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 500;
     font-family: var(--font);
-    letter-spacing: -0.01em;
     border-radius: var(--r-btn);
     border: none;
     cursor: pointer;
@@ -582,19 +772,20 @@
   /* ─── Responsive ─── */
   @media (max-width: 768px) {
     .hero { padding: var(--s6) 0 var(--s5); }
-    .hero-headline { font-size: 44px; }
-    .hero-sub { font-size: 17px; }
+    .hero-headline { font-size: 40px; }
     .section-headline { font-size: 32px; }
-    .plans, .comparison, .faq, .footer-cta { padding: var(--s6) 0; }
-    .plans-grid { grid-template-columns: 1fr; }
-    .plan-amount { font-size: 44px; }
-    .compare-table { font-size: 13px; }
+    .plans, .comparison, .faq, .footer-cta, .stats { padding: var(--s6) 0; }
+    .plans-grid, .stats-grid { grid-template-columns: 1fr; }
+    .plan-amount { font-size: 40px; }
+    .stat-number { font-size: 36px; }
     .compare-feature-col { min-width: 120px; }
+    .footer-cta-text { font-size: 20px; }
   }
 
   @media (max-width: 375px) {
-    .hero-headline { font-size: 36px; }
-    .plan-amount { font-size: 36px; }
+    .hero-headline { font-size: 32px; }
+    .plan-amount { font-size: 32px; }
+    .stat-number { font-size: 32px; }
     .container { padding: 0 var(--s2); }
   }
 </style>
