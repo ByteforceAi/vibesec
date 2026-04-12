@@ -92,40 +92,42 @@
   <section class="hero">
     <div class="container">
       <span class="eyebrow">Byteforce Security</span>
-      <h1 class="hero-headline">당신의 앱은 금요일에 나갑니다.<br/>당신의 API 키는 화요일에 나갔습니다.</h1>
-      <p class="hero-sub">AI가 안 챙긴 보안, 저희가 챙깁니다.</p>
-      <a href="#plans" class="hero-cta">내 레포 무료 스캔</a>
+      <h1 class="hero-headline">바이브코딩 보안.<br/>그게 저희 일입니다.</h1>
+      <p class="hero-tools">Cursor &middot; Claude Code &middot; v0 &middot; Lovable &middot; bolt.new</p>
+      <p class="hero-sub">배포 전 보안 점검. 바이브코더를 위해 만들었습니다.</p>
+      <a href="#plans" class="hero-cta">레포 점검 시작</a>
     </div>
   </section>
 
   <!-- Stat Block -->
   <section class="stats">
     <div class="container">
+      <h2 class="section-headline">저희가 보는 것들</h2>
       <div class="stats-grid">
         <div class="stat-block">
-          <span class="stat-label">지난달 발견된 노출 키</span>
+          <span class="stat-label">지난달 발견</span>
           <span class="stat-number">847</span>
-          <span class="stat-desc">바이브코딩 레포에서 발견</span>
+          <span class="stat-desc">노출된 API 키</span>
         </div>
         <div class="stat-block">
-          <span class="stat-label">RLS 미설정</span>
+          <span class="stat-label">점검 레포 중</span>
           <span class="stat-number">62<span class="stat-pct">%</span></span>
-          <span class="stat-desc">Supabase 프로젝트 중 행 수준 보안 없음</span>
+          <span class="stat-desc">RLS 미설정 상태</span>
         </div>
         <div class="stat-block">
-          <span class="stat-label">평균 탐지 시간</span>
+          <span class="stat-label">평균 탐지까지</span>
           <span class="stat-number">11<span class="stat-unit">일</span></span>
-          <span class="stat-desc">키 유출부터 발견까지 (저희 없이는: 영원히)</span>
+          <span class="stat-desc">키 노출 후 발견</span>
         </div>
       </div>
-      <p class="stat-source">2026년 3~8월 점검한 바이브코딩 레포 312개 기준</p>
+      <p class="stat-source">2026년 3~8월, 바이브코딩 레포 312개 점검 기준</p>
     </div>
   </section>
 
   <!-- Code Threat Demo -->
   <section class="threat-demo">
     <div class="container">
-      <p class="threat-caption">지금 당신의 레포가 이렇게 생겼을 수 있습니다.</p>
+      <p class="threat-caption">점검 시 확인하는 항목 예시</p>
       <div class="code-block">
         <div class="code-header">
           <span class="code-filename">.env</span>
@@ -143,7 +145,7 @@
   <section class="plans" id="plans">
     <div class="container">
       <h2 class="section-headline">요금제</h2>
-      <p class="section-sub">복잡하게 안 만들었습니다. 맞는 걸 고르세요.</p>
+      <p class="section-sub">세 가지. 고르시면 됩니다.</p>
 
       <div class="plans-grid">
         {#each plans as plan}
@@ -253,7 +255,7 @@
   <!-- Footer CTA -->
   <section class="footer-cta">
     <div class="container">
-      <p class="footer-cta-text">잘 모르겠으면 레포 URL만 보내주세요.<br/>24시간 안에 1페이지 리스크 요약을 보내드립니다. 무료.</p>
+      <p class="footer-cta-text">어떤 플랜이 맞는지 모르겠으면<br/>레포 URL만 보내주세요. 24시간 안에 요약 보내드립니다.</p>
       <button class="footer-cta-btn" onclick={() => goto(`${base}/diagnose`)}>레포 URL 보내기</button>
     </div>
   </section>
@@ -325,8 +327,17 @@
     word-break: keep-all;
   }
 
+  .hero-tools {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-3);
+    letter-spacing: 0.02em;
+    margin: 0 0 var(--s2);
+  }
+
   .hero-sub {
-    font-size: 21px;
+    font-size: 17px;
     font-weight: 400;
     letter-spacing: -0.01em;
     line-height: 1.5;
