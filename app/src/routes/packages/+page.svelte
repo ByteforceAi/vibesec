@@ -296,34 +296,34 @@
 
   /* ─── OS Tokens ─── */
   .app-window {
-    --bg: #ececec;
-    --surface: #ffffff;
-    --surface-inset: #f6f6f6;
-    --sidebar-bg: #f2f2f7;
-    --sidebar-active: rgba(0,0,0,0.06);
-    --titlebar-bg: #e8e8ed;
-    --text: #1d1d1f;
-    --text-2: #6e6e73;
-    --text-3: #aeaeb2;
-    --border: rgba(0,0,0,0.09);
-    --accent: #007aff;
-    --accent-hover: #0066d6;
-    --green: #34c759;
-    --red: #ff3b30;
-    --yellow: #ffcc00;
-    --orange: #ff9500;
+    --bg: #1a1a1e;
+    --surface: #2a2a2e;
+    --surface-inset: #222226;
+    --sidebar-bg: #1e1e22;
+    --sidebar-active: rgba(255,255,255,0.06);
+    --titlebar-bg: #28282c;
+    --text: #e4e4e8;
+    --text-2: #8e8e93;
+    --text-3: #5a5a5e;
+    --border: rgba(255,255,255,0.08);
+    --accent: #6cb4ee;
+    --accent-hover: #89c4f4;
+    --green: #32d74b;
+    --red: #ff453a;
+    --yellow: #ffd60a;
+    --orange: #ff9f0a;
     --font: -apple-system, "SF Pro Text", "Pretendard Variable", system-ui, sans-serif;
     --mono: "JetBrains Mono", "SF Mono", "Menlo", monospace;
-    --r: 10px;
-    --r-sm: 6px;
-    --r-lg: 12px;
-    --shadow-window: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 0.5px rgba(0,0,0,0.1);
-    --shadow-group: 0 0.5px 1px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+    --r: 8px;
+    --r-sm: 4px;
+    --r-lg: 10px;
+    --shadow-window: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.05);
+    --shadow-group: 0 0.5px 1px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.15);
     --ease: cubic-bezier(0.4, 0, 0.2, 1);
 
     font-family: var(--font);
     color: var(--text);
-    background: #d2d2d7;
+    background: #111114;
     min-height: 100dvh;
     padding: 24px;
     -webkit-font-smoothing: antialiased;
@@ -361,9 +361,9 @@
     border-radius: 50%;
   }
   .dot--sm { width: 10px; height: 10px; }
-  .dot--red { background: var(--red); }
-  .dot--yellow { background: var(--yellow); }
-  .dot--green { background: var(--green); }
+  .dot--red { background: #6e3630; }
+  .dot--yellow { background: #6e5c28; }
+  .dot--green { background: #2e5e35; }
 
   .titlebar-title {
     flex: 1;
@@ -509,9 +509,9 @@
     transition: all 0.2s var(--ease);
   }
   .seg-btn--active {
-    background: var(--surface);
+    background: rgba(255,255,255,0.1);
     color: var(--text);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 0.5px 1px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 0.5px 0 rgba(255,255,255,0.06);
   }
 
   /* ─── Plan hero ─── */
@@ -587,10 +587,10 @@
     color: var(--accent);
     transition: background 0.2s var(--ease);
   }
-  .plan-cta:hover { background: rgba(0,0,0,0.08); }
+  .plan-cta:hover { background: rgba(255,255,255,0.08); }
   .plan-cta--popular {
     background: var(--accent);
-    color: white;
+    color: #111;
   }
   .plan-cta--popular:hover { background: var(--accent-hover); }
 
@@ -638,7 +638,7 @@
     font-family: var(--font);
     text-align: left;
   }
-  .row--faq:hover { background: var(--surface-inset); }
+  .row--faq:hover { background: rgba(255,255,255,0.03); }
 
   .row-col {
     display: flex;
@@ -674,7 +674,7 @@
     font-size: 12px;
     font-weight: 500;
     padding: 2px 8px;
-    background: rgba(0,122,255,0.08);
+    background: rgba(108,180,238,0.12);
     color: var(--accent);
     border-radius: 4px;
   }
@@ -789,7 +789,7 @@
     border-radius: 8px;
     border: none;
     background: var(--accent);
-    color: white;
+    color: #111;
     font-family: var(--font);
     font-size: 15px;
     font-weight: 500;
