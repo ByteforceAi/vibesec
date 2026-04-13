@@ -457,46 +457,27 @@
       <main class="content">
         <!-- ===== HERO ===== -->
         <section class="hero">
-          <div class="shield-wrap" class:shield-wrap--pulse={glowPulse}>
-            <!-- Outer dashed ring, slowly rotating -->
+          <div class="core-wrap" class:core-wrap--pulse={glowPulse}>
+            <!-- Outer orbit ring -->
             <div class="outer-ring"></div>
 
-            <!-- 3D App Icon Objet -->
-            <div class="objet">
-              <div class="objet-face">
-                <svg class="hero-shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="shield-grad" x1="32" y1="0" x2="32" y2="76" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stop-color="#1a6eff" stop-opacity="0.35"/>
-                      <stop offset="100%" stop-color="#0047b3" stop-opacity="0.15"/>
-                    </linearGradient>
-                    <linearGradient id="shield-stroke-grad" x1="32" y1="0" x2="32" y2="76" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stop-color="#5aabff" stop-opacity="0.9"/>
-                      <stop offset="100%" stop-color="#0A84FF" stop-opacity="0.5"/>
-                    </linearGradient>
-                    <filter id="scanblur"><feGaussianBlur stdDeviation="2"/></filter>
-                    <clipPath id="shield-clip">
-                      <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"/>
-                    </clipPath>
-                  </defs>
-                  <!-- Shield fill with gradient -->
-                  <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" fill="url(#shield-grad)"/>
-                  <!-- Shield stroke with gradient -->
-                  <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="url(#shield-stroke-grad)" stroke-width="2" fill="none"/>
-                  <!-- Inner highlight (top edge reflection) -->
-                  <path d="M32 4L6 17v19" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
-                  <!-- Center core glow -->
-                  <circle class="core-pulse" cx="32" cy="40" r="10" fill="var(--blue-glow)" opacity="0.85"/>
-                  <!-- Checkmark (thicker, more visible) -->
-                  <path d="M24 40l6 6 14-16" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
-                  <!-- Hammer dents (subtle) -->
-                  <circle cx="18" cy="24" r="3.5" fill="none" stroke="rgba(90,170,255,0.15)" stroke-width="0.8"/>
-                  <circle cx="46" cy="30" r="2.5" fill="none" stroke="rgba(90,170,255,0.12)" stroke-width="0.8"/>
-                  <ellipse cx="38" cy="57" rx="4" ry="2" fill="none" stroke="rgba(90,170,255,0.12)" stroke-width="0.8"/>
-                  <!-- Scanline -->
-                  <line x1="0" x2="64" y1={6 + scanlineY * 68} y2={6 + scanlineY * 68} stroke="var(--cyan-scan)" stroke-width="1.5" opacity="0.5" filter="url(#scanblur)" clip-path="url(#shield-clip)"/>
+            <!-- Naisser-style soft core objet -->
+            <div class="core-objet">
+              <!-- Ambient glow layer -->
+              <div class="core-ambient"></div>
+              <!-- Main sphere -->
+              <div class="core-sphere">
+                <!-- Inner light -->
+                <div class="core-inner"></div>
+                <!-- Scanline sweeping across -->
+                <div class="core-scanline" style="top: {10 + scanlineY * 80}%"></div>
+                <!-- Check icon -->
+                <svg class="core-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6L9 17l-5-5"/>
                 </svg>
               </div>
+              <!-- Rim highlight -->
+              <div class="core-rim"></div>
             </div>
           </div>
 
@@ -1026,7 +1007,7 @@
   }
 
   /* Shield wrapper */
-  .shield-wrap {
+  .core-wrap {
     position: relative;
     width: 220px;
     height: 220px;
@@ -1035,73 +1016,133 @@
     justify-content: center;
     flex-shrink: 0;
   }
-  .shield-wrap--pulse .hero-shield {
+  .core-wrap--pulse .core-sphere {
     animation: glowPulseAnim 0.6s var(--ease-pulse);
   }
   @keyframes glowPulseAnim {
-    0% { filter: drop-shadow(0 0 30px rgba(10,132,255,0.1)); }
-    50% { filter: drop-shadow(0 0 60px rgba(10,132,255,0.4)); }
-    100% { filter: drop-shadow(0 0 30px rgba(10,132,255,0.1)); }
+    0% { box-shadow: 0 0 40px rgba(10,132,255,0.15); }
+    50% { box-shadow: 0 0 80px rgba(10,132,255,0.4); }
+    100% { box-shadow: 0 0 40px rgba(10,132,255,0.15); }
   }
 
-  /* 3D App Icon Objet */
-  .objet {
+  /* Naisser-style soft core objet */
+  .core-objet {
     position: relative;
     z-index: 2;
-    width: 140px;
-    height: 140px;
-    perspective: 600px;
+    width: 120px;
+    height: 120px;
   }
 
-  .objet-face {
+  /* Ambient glow behind sphere */
+  .core-ambient {
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,132,255,0.15) 0%, transparent 70%);
+    animation: ambientPulse 3s var(--ease-pulse) infinite;
+  }
+  @keyframes ambientPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* Main sphere */
+  .core-sphere {
     width: 100%;
     height: 100%;
-    background: linear-gradient(145deg, #0e1e40 0%, #081428 40%, #0a1a3a 100%);
-    border-radius: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 28px;
     position: relative;
+    overflow: hidden;
+    background: linear-gradient(155deg,
+      #1a3a6e 0%,
+      #0d2040 30%,
+      #081830 60%,
+      #0a2248 100%
+    );
     box-shadow:
-      0 2px 4px rgba(0,0,0,0.4),
-      0 8px 24px rgba(0,0,0,0.3),
-      0 24px 48px rgba(0,10,40,0.4),
-      inset 0 1px 0 rgba(255,255,255,0.08),
-      inset 0 -1px 0 rgba(0,0,0,0.2),
-      0 0 80px rgba(10,132,255,0.12);
-    transform: translateZ(0);
+      0 4px 12px rgba(0,0,0,0.5),
+      0 12px 32px rgba(0,0,0,0.35),
+      0 24px 56px rgba(0,10,50,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      inset 0 -2px 4px rgba(0,0,0,0.3),
+      0 0 60px rgba(10,132,255,0.12);
     transition: transform 0.5s var(--ease-organic), box-shadow 0.5s var(--ease-organic);
   }
 
-  .objet-face:hover {
-    transform: translateY(-4px) scale(1.02);
+  .core-objet:hover .core-sphere {
+    transform: translateY(-4px) scale(1.03);
     box-shadow:
-      0 4px 8px rgba(0,0,0,0.4),
-      0 16px 40px rgba(0,0,0,0.35),
-      0 32px 64px rgba(0,10,40,0.45),
-      inset 0 1px 0 rgba(255,255,255,0.1),
-      inset 0 -1px 0 rgba(0,0,0,0.2),
-      0 0 100px rgba(10,132,255,0.2);
+      0 8px 20px rgba(0,0,0,0.5),
+      0 20px 48px rgba(0,0,0,0.4),
+      0 32px 72px rgba(0,10,50,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      inset 0 -2px 4px rgba(0,0,0,0.3),
+      0 0 100px rgba(10,132,255,0.22);
   }
 
-  /* Subtle glass reflection on top */
-  .objet-face::before {
+  /* Glass top reflection */
+  .core-sphere::before {
     content: '';
     position: absolute;
     top: 0;
+    left: 10%;
+    right: 10%;
+    height: 45%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    border-radius: 28px 28px 50% 50%;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Inner core light */
+  .core-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,160,255,0.5) 0%, rgba(10,132,255,0.15) 50%, transparent 70%);
+    animation: corePulse 2.5s var(--ease-pulse) infinite;
+  }
+
+  /* Scanline */
+  .core-scanline {
+    position: absolute;
     left: 0;
     right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
-    border-radius: 32px 32px 0 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--cyan-scan) 30%, var(--cyan-scan) 70%, transparent 100%);
+    opacity: 0.4;
+    filter: blur(1px);
+    z-index: 4;
     pointer-events: none;
   }
 
-  .hero-shield {
-    width: 80px;
-    height: 95px;
-    position: relative;
-    z-index: 2;
+  /* Check icon */
+  .core-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    z-index: 5;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+  }
+
+  /* Rim highlight */
+  .core-rim {
+    position: absolute;
+    inset: -1px;
+    border-radius: 29px;
+    border: 1px solid rgba(90,170,255,0.15);
+    pointer-events: none;
+    z-index: 6;
+  }
+  .core-objet:hover .core-rim {
+    border-color: rgba(90,170,255,0.3);
   }
 
   /* Core pulse */
@@ -1132,13 +1173,13 @@
     to { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
-  /* Halo synced with core pulse — on objet */
-  .objet-face {
+  /* Halo synced with core pulse — on sphere */
+  .core-sphere {
     animation: haloSync 2.5s var(--ease-pulse) infinite;
   }
   @keyframes haloSync {
-    0%, 100% { box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3), 0 24px 48px rgba(0,10,40,0.4), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2), 0 0 60px rgba(10,132,255,0.1); }
-    50% { box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3), 0 24px 48px rgba(0,10,40,0.4), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2), 0 0 100px rgba(10,132,255,0.25); }
+    0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 12px 32px rgba(0,0,0,0.35), 0 24px 56px rgba(0,10,50,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -2px 4px rgba(0,0,0,0.3), 0 0 50px rgba(10,132,255,0.1); }
+    50% { box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 12px 32px rgba(0,0,0,0.35), 0 24px 56px rgba(0,10,50,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -2px 4px rgba(0,0,0,0.3), 0 0 90px rgba(10,132,255,0.22); }
   }
 
   /* Status text with terminal style */
@@ -1611,11 +1652,11 @@
       min-height: 300px;
       padding-top: 24px;
     }
-    .hero-shield {
-      width: 130px;
-      height: 155px;
+    .core-objet {
+      width: 100px;
+      height: 100px;
     }
-    .shield-wrap {
+    .core-wrap {
       width: 180px;
       height: 180px;
     }
@@ -1635,10 +1676,11 @@
   @media (prefers-reduced-motion: reduce) {
     .splash, .splash-shield, .splash-label, .splash-brand,
     .app, .menubar, .elem-fade-in, .elem-rise-in,
-    .shield-wrap--pulse .hero-shield,
+    .core-wrap--pulse .core-sphere,
     .outer-ring,
-    .core-pulse,
-    .hero-shield,
+    .core-inner,
+    .core-ambient,
+    .core-sphere,
     .card,
     .dot-circle--pulse,
     .cursor-blink,
