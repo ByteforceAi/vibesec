@@ -461,57 +461,43 @@
             <!-- Outer dashed ring, slowly rotating -->
             <div class="outer-ring"></div>
 
-            <svg class="hero-shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Shield fill -->
-              <path
-                d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-                fill="rgba(10,132,255,0.04)"
-              />
-              <!-- Shield stroke -->
-              <path
-                d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-                stroke="rgba(10,132,255,0.6)"
-                stroke-width="1.5"
-                fill="none"
-              />
-              <!-- Center core glow -->
-              <circle class="core-pulse" cx="32" cy="40" r="8" fill="var(--blue-glow)" opacity="0.9"/>
-              <!-- Checkmark -->
-              <path
-                d="M26 38l6 6 12-14"
-                stroke="#0A84FF"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <!-- Hammer dents -->
-              <circle cx="20" cy="25" r="3" fill="none" stroke="rgba(10,132,255,0.2)" stroke-width="0.8"/>
-              <line x1="17" y1="23" x2="15.5" y2="21.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-              <line x1="22" y1="22.5" x2="23.5" y2="21" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-              <circle cx="44" cy="30" r="2.5" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
-              <line x1="46" y1="28" x2="47.5" y2="26.5" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-              <ellipse cx="38" cy="55" rx="4" ry="2" fill="none" stroke="rgba(10,132,255,0.18)" stroke-width="0.8"/>
-              <line x1="41" y1="53.5" x2="43" y2="52" stroke="rgba(10,132,255,0.12)" stroke-width="0.5"/>
-              <!-- Scanline -->
-              <clipPath id="shield-clip">
-                <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"/>
-              </clipPath>
-              <line
-                x1="0" x2="64"
-                y1={6 + scanlineY * 68}
-                y2={6 + scanlineY * 68}
-                stroke="var(--cyan-scan)"
-                stroke-width="1.5"
-                opacity="0.7"
-                filter="url(#scanblur)"
-                clip-path="url(#shield-clip)"
-              />
-              <defs>
-                <filter id="scanblur">
-                  <feGaussianBlur stdDeviation="2"/>
-                </filter>
-              </defs>
-            </svg>
+            <!-- 3D App Icon Objet -->
+            <div class="objet">
+              <div class="objet-face">
+                <svg class="hero-shield" viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="shield-grad" x1="32" y1="0" x2="32" y2="76" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#1a6eff" stop-opacity="0.35"/>
+                      <stop offset="100%" stop-color="#0047b3" stop-opacity="0.15"/>
+                    </linearGradient>
+                    <linearGradient id="shield-stroke-grad" x1="32" y1="0" x2="32" y2="76" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#5aabff" stop-opacity="0.9"/>
+                      <stop offset="100%" stop-color="#0A84FF" stop-opacity="0.5"/>
+                    </linearGradient>
+                    <filter id="scanblur"><feGaussianBlur stdDeviation="2"/></filter>
+                    <clipPath id="shield-clip">
+                      <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"/>
+                    </clipPath>
+                  </defs>
+                  <!-- Shield fill with gradient -->
+                  <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" fill="url(#shield-grad)"/>
+                  <!-- Shield stroke with gradient -->
+                  <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="url(#shield-stroke-grad)" stroke-width="2" fill="none"/>
+                  <!-- Inner highlight (top edge reflection) -->
+                  <path d="M32 4L6 17v19" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+                  <!-- Center core glow -->
+                  <circle class="core-pulse" cx="32" cy="40" r="10" fill="var(--blue-glow)" opacity="0.85"/>
+                  <!-- Checkmark (thicker, more visible) -->
+                  <path d="M24 40l6 6 14-16" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+                  <!-- Hammer dents (subtle) -->
+                  <circle cx="18" cy="24" r="3.5" fill="none" stroke="rgba(90,170,255,0.15)" stroke-width="0.8"/>
+                  <circle cx="46" cy="30" r="2.5" fill="none" stroke="rgba(90,170,255,0.12)" stroke-width="0.8"/>
+                  <ellipse cx="38" cy="57" rx="4" ry="2" fill="none" stroke="rgba(90,170,255,0.12)" stroke-width="0.8"/>
+                  <!-- Scanline -->
+                  <line x1="0" x2="64" y1={6 + scanlineY * 68} y2={6 + scanlineY * 68} stroke="var(--cyan-scan)" stroke-width="1.5" opacity="0.5" filter="url(#scanblur)" clip-path="url(#shield-clip)"/>
+                </svg>
+              </div>
+            </div>
           </div>
 
           {#if phase === 'alive' && showStatus}
@@ -1058,12 +1044,64 @@
     100% { filter: drop-shadow(0 0 30px rgba(10,132,255,0.1)); }
   }
 
-  .hero-shield {
-    width: 160px;
-    height: 190px;
+  /* 3D App Icon Objet */
+  .objet {
     position: relative;
     z-index: 2;
-    filter: drop-shadow(0 0 60px rgba(10,132,255,0.25));
+    width: 140px;
+    height: 140px;
+    perspective: 600px;
+  }
+
+  .objet-face {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #0e1e40 0%, #081428 40%, #0a1a3a 100%);
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.4),
+      0 8px 24px rgba(0,0,0,0.3),
+      0 24px 48px rgba(0,10,40,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      inset 0 -1px 0 rgba(0,0,0,0.2),
+      0 0 80px rgba(10,132,255,0.12);
+    transform: translateZ(0);
+    transition: transform 0.5s var(--ease-organic), box-shadow 0.5s var(--ease-organic);
+  }
+
+  .objet-face:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.4),
+      0 16px 40px rgba(0,0,0,0.35),
+      0 32px 64px rgba(0,10,40,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      inset 0 -1px 0 rgba(0,0,0,0.2),
+      0 0 100px rgba(10,132,255,0.2);
+  }
+
+  /* Subtle glass reflection on top */
+  .objet-face::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
+    border-radius: 32px 32px 0 0;
+    pointer-events: none;
+  }
+
+  .hero-shield {
+    width: 80px;
+    height: 95px;
+    position: relative;
+    z-index: 2;
   }
 
   /* Core pulse */
@@ -1094,13 +1132,13 @@
     to { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
-  /* Halo synced with core pulse */
-  .hero-shield {
+  /* Halo synced with core pulse — on objet */
+  .objet-face {
     animation: haloSync 2.5s var(--ease-pulse) infinite;
   }
   @keyframes haloSync {
-    0%, 100% { filter: drop-shadow(0 0 40px rgba(10,132,255,0.2)); }
-    50% { filter: drop-shadow(0 0 70px rgba(10,132,255,0.35)); }
+    0%, 100% { box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3), 0 24px 48px rgba(0,10,40,0.4), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2), 0 0 60px rgba(10,132,255,0.1); }
+    50% { box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3), 0 24px 48px rgba(0,10,40,0.4), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2), 0 0 100px rgba(10,132,255,0.25); }
   }
 
   /* Status text with terminal style */
