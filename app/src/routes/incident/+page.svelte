@@ -95,19 +95,25 @@
 
 <style>
   .page {
-    --black: #000000;
-    --s1: #060608;
-    --s2: #0c0c0e;
-    --s3: #141416;
-    --tx: #ffffff;
-    --tx2: #9a9a9f;
-    --tx3: #4a4a4f;
-    --brd: rgba(255,255,255,0.055);
-    --ok: #32d74b;
+    --bg-void: #05060A;
+    --bg-abyss: #0A0E1A;
+    --bg-deep: #0D1528;
+    --border-dim: rgba(120, 160, 220, 0.08);
+    --border-active: rgba(10, 132, 255, 0.45);
+    --blue-core: #0A84FF;
+    --blue-glow: #3BA0FF;
+    --text-primary: #EAF2FF;
+    --text-secondary: rgba(234, 242, 255, 0.62);
+    --text-tertiary: rgba(234, 242, 255, 0.38);
+    --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
     --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
 
     display: flex; flex-direction: column; min-height: 100dvh;
-    background: var(--black); color: var(--tx); font-family: var(--font);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 71, 179, 0.08) 0%, transparent 50%),
+      var(--bg-void);
+    color: var(--text-primary); font-family: var(--font);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -115,14 +121,18 @@
   .bar {
     position: sticky; top: 0; z-index: 90; height: 48px;
     display: flex; align-items: center; gap: 12px;
-    padding: 0 24px; background: var(--black); border-bottom: 1px solid var(--brd);
+    padding: 0 24px;
+    background: rgba(5,6,10,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-dim);
   }
   .bar-back {
-    background: none; border: none; color: var(--tx2); cursor: pointer;
+    background: none; border: none; color: var(--text-secondary); cursor: pointer;
     display: flex; align-items: center; padding: 4px; transition: color 0.15s;
   }
-  .bar-back:hover { color: var(--tx); }
-  .bar-title { font-size: 14px; font-weight: 600; color: var(--tx); }
+  .bar-back:hover { color: var(--text-primary); }
+  .bar-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
   .bar-spacer { flex: 1; }
 
   .content {
@@ -130,12 +140,10 @@
   }
 
   /* Header */
-  .emer-header {
-    padding: 16px 0;
-  }
+  .emer-header { padding: 16px 0; }
   .emer-title {
     font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
-    color: var(--tx); margin: 0;
+    color: var(--text-primary); margin: 0;
   }
 
   /* Symptoms */
@@ -143,15 +151,17 @@
 
   .symptom-btn {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 16px; border-radius: 6px;
-    border: 1px solid var(--brd); background: var(--s1);
-    color: var(--tx2); font-family: var(--font); font-size: 14px;
+    padding: 14px 16px; border-radius: 14px;
+    border: 1px solid var(--border-dim);
+    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
+    color: var(--text-secondary); font-family: var(--font); font-size: 14px;
     cursor: pointer; width: 100%; text-align: left;
     transition: background 0.15s, border-color 0.15s, color 0.15s;
   }
-  .symptom-btn:hover { background: var(--s2); color: var(--tx); }
+  .symptom-btn:hover { border-color: var(--border-active); color: var(--text-primary); }
   .symptom-btn--on {
-    border-color: rgba(255,255,255,0.12); background: var(--s2); color: var(--tx);
+    border-color: var(--border-active);
+    color: var(--text-primary);
   }
 
   .symptom-label { flex: 1; }
@@ -159,11 +169,11 @@
 
   /* Tip */
   .tip {
-    border-left: 2px solid var(--tx3);
+    border-left: 2px solid var(--blue-core);
     padding-left: 16px;
   }
   .tip-text {
-    font-size: 13px; color: var(--tx3); margin: 0; line-height: 1.5;
+    font-size: 13px; color: var(--text-tertiary); margin: 0; line-height: 1.5;
   }
 
   /* CTAs */
@@ -173,21 +183,21 @@
   }
 
   .cta-primary {
-    width: 100%; padding: 10px 28px; border-radius: 6px; border: none;
-    background: var(--tx); color: var(--black);
+    width: 100%; padding: 10px 28px; border-radius: 980px; border: none;
+    background: var(--blue-core); color: #fff;
     font-family: var(--font); font-size: 14px; font-weight: 600;
     cursor: pointer; transition: background 0.2s;
   }
-  .cta-primary:hover { background: #e0e0e0; }
+  .cta-primary:hover { background: var(--blue-glow); }
   .cta-primary:disabled { opacity: 0.3; cursor: not-allowed; }
 
   .btn-outline {
-    padding: 8px 20px; border-radius: 6px; border: 1px solid var(--brd);
-    background: transparent; color: var(--tx2); font-family: var(--font);
+    padding: 8px 20px; border-radius: 980px; border: 1px solid var(--border-dim);
+    background: transparent; color: var(--text-secondary); font-family: var(--font);
     font-size: 13px; font-weight: 500; cursor: pointer;
     transition: color 0.2s, border-color 0.2s;
   }
-  .btn-outline:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .btn-outline:hover { color: var(--text-primary); border-color: var(--border-active); }
   .btn-outline:disabled { opacity: 0.3; cursor: not-allowed; }
   .btn-full { width: 100%; }
 
@@ -198,10 +208,18 @@
   .state-card {
     display: flex; flex-direction: column; align-items: center;
     text-align: center; gap: 16px; padding: 40px 24px;
-    background: var(--s1); border: 1px solid var(--brd); border-radius: 8px;
+    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
+    border: 1px solid var(--border-dim); border-radius: 14px;
     max-width: 360px; width: 100%;
   }
   .state-icon { margin-bottom: 8px; }
-  .state-title { font-size: 20px; font-weight: 700; color: var(--tx); margin: 0; }
-  .state-body { font-size: 14px; color: var(--tx2); margin: 0; line-height: 1.5; }
+  .state-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 0; }
+  .state-body { font-size: 14px; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>

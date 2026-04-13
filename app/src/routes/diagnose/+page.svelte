@@ -64,7 +64,9 @@
 <div class="page">
 
   <header class="bar">
-    <span class="bar-brand">Byteforce Security</span>
+    <div class="bar-left">
+      <span class="bar-brand">BYTEFORCE</span>
+    </div>
     <button class="bar-action" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
   </header>
 
@@ -113,17 +115,17 @@
       <section class="scanning-section">
         <div class="progress-ring-wrap">
           <svg class="progress-ring" width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,0.06)" stroke-width="3" fill="none" />
+            <circle cx="40" cy="40" r="36" stroke="rgba(120,160,220,0.08)" stroke-width="3" fill="none" />
             <circle
               cx="40" cy="40" r="36"
-              stroke="#ffffff"
+              stroke="var(--blue-core)"
               stroke-width="3"
               fill="none"
               stroke-linecap="round"
               stroke-dasharray={2 * Math.PI * 36}
               stroke-dashoffset={2 * Math.PI * 36 * (1 - progress / 100)}
               transform="rotate(-90 40 40)"
-              style="transition: stroke-dashoffset 0.4s ease"
+              style="transition: stroke-dashoffset 0.4s var(--ease-organic)"
             />
           </svg>
           <span class="progress-pct">{Math.round(progress)}</span>
@@ -140,32 +142,40 @@
   </div>
 
   <nav class="nav">
-    <button class="nav-item" onclick={() => goto(`${base}/`)}>홈</button>
-    <button class="nav-item nav-item--on" onclick={() => goto(`${base}/diagnose`)}>진단</button>
-    <button class="nav-item" onclick={() => goto(`${base}/report`)}>리포트</button>
-    <button class="nav-item" onclick={() => goto(`${base}/packages`)}>요금제</button>
+    <button class="nav-i" onclick={() => goto(`${base}/`)}>홈</button>
+    <button class="nav-i nav-i--on" onclick={() => goto(`${base}/diagnose`)}>진단</button>
+    <button class="nav-i" onclick={() => goto(`${base}/report`)}>리포트</button>
+    <button class="nav-i" onclick={() => goto(`${base}/packages`)}>요금제</button>
   </nav>
 
 </div>
 
 <style>
   .page {
-    --black: #000000;
-    --s1: #060608;
-    --s2: #0c0c0e;
-    --s3: #141416;
-    --tx: #ffffff;
-    --tx2: #9a9a9f;
-    --tx3: #4a4a4f;
-    --brd: rgba(255,255,255,0.055);
-    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --bg-void: #05060A;
+    --bg-abyss: #0A0E1A;
+    --bg-deep: #0D1528;
+    --border-dim: rgba(120, 160, 220, 0.08);
+    --border-active: rgba(10, 132, 255, 0.45);
+    --blue-core: #0A84FF;
+    --blue-glow: #3BA0FF;
+    --cyan-scan: #5AC8FA;
+    --coral-alert: #FF6B47;
+    --text-primary: #EAF2FF;
+    --text-secondary: rgba(234, 242, 255, 0.62);
+    --text-tertiary: rgba(234, 242, 255, 0.38);
+    --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
     --mono: "JetBrains Mono", "SF Mono", monospace;
+    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
 
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    background: var(--black);
-    color: var(--tx);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 71, 179, 0.08) 0%, transparent 50%),
+      var(--bg-void);
+    color: var(--text-primary);
     font-family: var(--font);
     -webkit-font-smoothing: antialiased;
   }
@@ -174,15 +184,19 @@
     position: sticky; top: 0; z-index: 90;
     height: 48px; display: flex; align-items: center;
     justify-content: space-between; padding: 0 24px;
-    background: var(--black); border-bottom: 1px solid var(--brd);
+    background: rgba(5,6,10,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-dim);
   }
-  .bar-brand { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tx3); }
+  .bar-left { display: flex; align-items: center; }
+  .bar-brand { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary); }
   .bar-action {
-    font-family: var(--font); font-size: 13px; font-weight: 500; color: var(--tx2);
-    background: none; border: 1px solid var(--brd); border-radius: 6px; padding: 5px 14px; cursor: pointer;
+    font-family: var(--font); font-size: 13px; font-weight: 500; color: var(--text-secondary);
+    background: none; border: 1px solid var(--border-dim); border-radius: 980px; padding: 5px 14px; cursor: pointer;
     transition: color 0.2s, border-color 0.2s;
   }
-  .bar-action:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .bar-action:hover { color: var(--text-primary); border-color: var(--border-active); }
 
   .content {
     flex: 1; padding: 32px 24px 100px;
@@ -196,47 +210,47 @@
 
   .page-title {
     font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
-    color: var(--tx); margin: 0;
+    color: var(--text-primary); margin: 0;
   }
 
   .page-hint {
-    font-size: 14px; color: var(--tx3); margin: 0; line-height: 1.5;
+    font-size: 14px; color: var(--text-tertiary); margin: 0; line-height: 1.5;
   }
 
   .field-wrap { width: 100%; }
 
   .field {
     width: 100%; box-sizing: border-box;
-    padding: 12px 16px; border-radius: 6px;
-    border: 1px solid var(--brd); background: var(--s1);
-    color: var(--tx); font-family: var(--mono); font-size: 14px;
+    padding: 12px 16px; border-radius: 10px;
+    border: 1px solid var(--border-dim); background: var(--bg-abyss);
+    color: var(--text-primary); font-family: var(--mono); font-size: 14px;
     outline: none; transition: border-color 0.2s;
   }
-  .field::placeholder { color: var(--tx3); }
-  .field:focus { border-color: rgba(255,255,255,0.15); }
+  .field::placeholder { color: var(--text-tertiary); }
+  .field:focus { border-color: var(--border-active); }
 
   .error-msg {
-    font-size: 13px; color: #ff453a; margin: 0;
+    font-size: 13px; color: var(--coral-alert); margin: 0;
   }
 
   .cta-primary {
-    padding: 10px 28px; border-radius: 6px; border: none;
-    background: var(--tx); color: var(--black);
+    padding: 10px 28px; border-radius: 980px; border: none;
+    background: var(--blue-core); color: #fff;
     font-family: var(--font); font-size: 14px; font-weight: 600;
     cursor: pointer; transition: background 0.2s;
     align-self: flex-start;
   }
-  .cta-primary:hover { background: #e0e0e0; }
+  .cta-primary:hover { background: var(--blue-glow); }
   .cta-primary:disabled { opacity: 0.3; cursor: not-allowed; }
 
   .btn-outline {
-    padding: 8px 20px; border-radius: 6px;
-    border: 1px solid var(--brd); background: transparent;
-    color: var(--tx2); font-family: var(--font); font-size: 13px; font-weight: 500;
+    padding: 8px 20px; border-radius: 980px;
+    border: 1px solid var(--border-dim); background: transparent;
+    color: var(--text-secondary); font-family: var(--font); font-size: 13px; font-weight: 500;
     cursor: pointer; align-self: flex-start;
     transition: color 0.2s, border-color 0.2s;
   }
-  .btn-outline:hover { color: var(--tx); border-color: rgba(255,255,255,0.15); }
+  .btn-outline:hover { color: var(--text-primary); border-color: var(--border-active); }
 
   /* Scanning */
   .scanning-section {
@@ -254,34 +268,45 @@
   }
 
   .progress-pct {
-    font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--tx);
+    font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text-primary);
   }
 
   .progress-msg {
-    font-family: var(--mono); font-size: 14px; color: var(--tx2);
+    font-family: var(--mono); font-size: 14px; color: var(--text-secondary);
     margin: 0; min-height: 2em;
   }
 
   .progress-bar {
     width: 100%; max-width: 280px; height: 2px;
-    background: rgba(255,255,255,0.06); border-radius: 1px; overflow: hidden;
+    background: var(--border-dim); border-radius: 1px; overflow: hidden;
   }
 
   .progress-bar-fill {
-    height: 100%; background: var(--tx);
-    transition: width 0.4s ease; border-radius: 1px;
+    height: 100%; background: var(--blue-core);
+    transition: width 0.4s var(--ease-organic); border-radius: 1px;
   }
 
   /* Nav */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-    display: flex; background: var(--s1); border-top: 1px solid var(--brd);
+    display: flex;
+    background: rgba(5,6,10,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border-dim);
   }
-  .nav-item {
+  .nav-i {
     flex: 1; padding: 12px 0; background: none; border: none;
     font-family: var(--font); font-size: 13px; font-weight: 500;
-    color: var(--tx3); cursor: pointer; transition: color 0.15s;
+    color: var(--text-tertiary); cursor: pointer; transition: color 0.15s;
   }
-  .nav-item:hover { color: var(--tx2); }
-  .nav-item--on { color: var(--tx); }
+  .nav-i:hover { color: var(--text-secondary); }
+  .nav-i--on { color: var(--blue-core); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>

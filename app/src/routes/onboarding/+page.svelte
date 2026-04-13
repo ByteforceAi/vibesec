@@ -91,23 +91,29 @@
 
 <style>
   .page {
-    --black: #000000;
-    --s1: #060608;
-    --s2: #0c0c0e;
-    --s3: #141416;
-    --tx: #ffffff;
-    --tx2: #9a9a9f;
-    --tx3: #4a4a4f;
-    --brd: rgba(255,255,255,0.055);
-    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --bg-void: #05060A;
+    --bg-abyss: #0A0E1A;
+    --bg-deep: #0D1528;
+    --border-dim: rgba(120, 160, 220, 0.08);
+    --border-active: rgba(10, 132, 255, 0.45);
+    --blue-core: #0A84FF;
+    --blue-glow: #3BA0FF;
+    --text-primary: #EAF2FF;
+    --text-secondary: rgba(234, 242, 255, 0.62);
+    --text-tertiary: rgba(234, 242, 255, 0.38);
+    --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
     --mono: "JetBrains Mono", "SF Mono", monospace;
+    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
 
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
     padding: 24px;
-    background: var(--black);
-    color: var(--tx);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 71, 179, 0.08) 0%, transparent 50%),
+      var(--bg-void);
+    color: var(--text-primary);
     font-family: var(--font);
     -webkit-font-smoothing: antialiased;
   }
@@ -122,10 +128,10 @@
   .skip-btn {
     background: none; border: none;
     font-family: var(--font); font-size: 13px; font-weight: 500;
-    color: var(--tx3); cursor: pointer;
+    color: var(--text-tertiary); cursor: pointer;
     transition: color 0.15s;
   }
-  .skip-btn:hover { color: var(--tx2); }
+  .skip-btn:hover { color: var(--text-secondary); }
 
   .step-area {
     flex: 1;
@@ -141,9 +147,9 @@
     text-align: center;
     gap: 16px;
     padding: 32px 24px;
-    background: var(--s1);
-    border: 1px solid var(--brd);
-    border-radius: 8px;
+    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
+    border: 1px solid var(--border-dim);
+    border-radius: 14px;
     max-width: 360px;
     width: 100%;
   }
@@ -152,7 +158,7 @@
     font-family: var(--mono);
     font-size: 40px;
     font-weight: 500;
-    color: var(--tx3);
+    color: var(--blue-core);
     line-height: 1;
   }
 
@@ -160,13 +166,13 @@
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--tx);
+    color: var(--text-primary);
     margin: 0;
   }
 
   .step-body {
     font-size: 15px;
-    color: var(--tx2);
+    color: var(--text-secondary);
     margin: 0;
     max-width: 280px;
     line-height: 1.5;
@@ -183,18 +189,18 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    transition: all 300ms ease;
+    background: var(--border-dim);
+    transition: all 300ms var(--ease-organic);
   }
 
   .dot--active {
-    background: var(--tx);
+    background: var(--blue-core);
     width: 24px;
     border-radius: 4px;
   }
 
   .dot--done {
-    background: var(--tx);
+    background: var(--blue-core);
     opacity: 0.3;
   }
 
@@ -205,15 +211,22 @@
   .cta-primary {
     width: 100%;
     padding: 12px 28px;
-    border-radius: 6px;
+    border-radius: 980px;
     border: none;
-    background: var(--tx);
-    color: var(--black);
+    background: var(--blue-core);
+    color: #fff;
     font-family: var(--font);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
   }
-  .cta-primary:hover { background: #e0e0e0; }
+  .cta-primary:hover { background: var(--blue-glow); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
