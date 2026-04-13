@@ -245,6 +245,18 @@
           <span class="side-name">자주 묻는 질문</span>
         </button>
       </div>
+      <div class="side-group">
+        <span class="side-label">바로가기</span>
+        <button class="side-item" onclick={() => goto(`${base}/`)}>
+          <span class="side-name">홈</span>
+        </button>
+        <button class="side-item" onclick={() => goto(`${base}/check`)}>
+          <span class="side-name">자가진단</span>
+        </button>
+        <button class="side-item" onclick={() => goto(`${base}/contact`)}>
+          <span class="side-name">상담예약</span>
+        </button>
+      </div>
     </nav>
 
     <!-- Main -->

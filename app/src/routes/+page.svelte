@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { scanHistory } from '$lib/stores/scan';
-  import type { ScanResult } from '$lib/stores/scan';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
 
@@ -30,8 +28,6 @@
   let scanlineY = $state(0);
 
   // --- Data ---
-  let activeTab = $state('home');
-  let history = $state<ScanResult[]>([]);
 
   // --- Reduced motion ---
   let reducedMotion = $state(false);
@@ -44,11 +40,6 @@
 
   // --- Clock for statusbar ---
   let clock = $state('');
-
-  $effect(() => {
-    const unsub = scanHistory.subscribe((h) => { history = h; });
-    return unsub;
-  });
 
   // --- Clock updater ---
   $effect(() => {
@@ -294,18 +285,6 @@
     };
   });
 
-  function navTo(tab: string) {
-    activeTab = tab;
-    if (tab === 'home') goto(`${base}/`);
-    else goto(`${base}/${tab}`);
-  }
-
-  function fmtDate(iso: string): string {
-    try {
-      return new Date(iso).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-    } catch { return iso; }
-  }
-
   const shieldPathLen = 220;
   const checkPathLen = 40;
 
@@ -405,7 +384,7 @@
       </div>
       <div class="menubar-right">
         <span class="menubar-kbd">{'\u2318K'}</span>
-        <button class="menubar-btn" onclick={() => goto(`${base}/incident`)}>{'\uC0C1\uB2F4 \uC608\uC57D'}</button>
+        <button class="menubar-btn" onclick={() => goto(`${base}/contact`)}>{'\uC0C1\uB2F4 \uC608\uC57D'}</button>
       </div>
     </header>
 
@@ -413,18 +392,19 @@
     <div class="workspace">
       <!-- Side Dock -->
       <aside class="dock">
-        <button class="dock-item dock-item--active" onclick={() => navTo('home')}>
+        <button class="dock-item dock-item--active" onclick={() => goto(`${base}/`)}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
             <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L12 2z"/>
             <path d="M9 12l2 2 4-4"/>
           </svg>
           <span class="dock-tooltip">{'\uD648'}</span>
         </button>
-        <button class="dock-item" onclick={() => goto(`${base}/incident`)}>
+        <button class="dock-item" onclick={() => goto(`${base}/check`)}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
-            <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
           </svg>
-          <span class="dock-tooltip">{'\uAE34\uAE09'}</span>
+          <span class="dock-tooltip">{'\uC790\uAC00\uC9C4\uB2E8'}</span>
         </button>
         <button class="dock-item" onclick={() => goto(`${base}/packages`)}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
@@ -435,13 +415,11 @@
           </svg>
           <span class="dock-tooltip">{'\uC694\uAE08\uC81C'}</span>
         </button>
-        <button class="dock-item" onclick={() => navTo('report')}>
+        <button class="dock-item" onclick={() => goto(`${base}/contact`)}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
-            <line x1="12" y1="20" x2="12" y2="10"/>
-            <line x1="18" y1="20" x2="18" y2="4"/>
-            <line x1="6" y1="20" x2="6" y2="16"/>
+            <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
           </svg>
-          <span class="dock-tooltip">{'\uB9AC\uD3EC\uD2B8'}</span>
+          <span class="dock-tooltip">{'\uC0C1\uB2F4\uC608\uC57D'}</span>
         </button>
         <div class="dock-spacer"></div>
         <button class="dock-item" onclick={() => goto(`${base}/packages`)}>
@@ -486,14 +464,14 @@
           {/if}
 
           {#if phase === 'alive' && showCta}
-            <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/diagnose`)}>{'\uB0B4 \uD504\uB85C\uC81D\uD2B8 \uC810\uAC80 \uBC1B\uAE30'}</button>
+            <button class="hero-cta elem-rise-in" onclick={() => goto(`${base}/contact`)}>{'\uB0B4 \uD504\uB85C\uC81D\uD2B8 \uC810\uAC80 \uBC1B\uAE30'}</button>
           {/if}
         </section>
 
         <!-- ===== SERVICE CARDS ===== -->
         <section class="cards">
           {#if phase === 'alive' && showCard0}
-            <button class="card card--blue elem-rise-in" onclick={() => goto(`${base}/packages`)}>
+            <button class="card card--blue elem-rise-in" onclick={() => goto(`${base}/contact`)}>
               <div class="card-status-dot dot--green">
                 <span class="dot-circle dot-circle--green"></span>
                 <span class="dot-label">ONLINE</span>
@@ -515,7 +493,7 @@
           {/if}
 
           {#if phase === 'alive' && showCard1}
-            <button class="card card--coral card--urgent elem-rise-in" onclick={() => goto(`${base}/incident`)}>
+            <button class="card card--coral card--urgent elem-rise-in" onclick={() => goto(`${base}/contact`)}>
               <div class="card-status-dot dot--coral">
                 <span class="dot-circle dot-circle--coral dot-circle--pulse"></span>
                 <span class="dot-label">STANDBY</span>
@@ -561,44 +539,14 @@
           {/if}
         </section>
 
-        <!-- ===== RECENT SCANS - TERMINAL LOG ===== -->
+        <!-- ===== REPORT PREVIEW LINK ===== -->
         {#if phase === 'alive' && showRecent}
           <section class="recent elem-fade-in">
-            <h2 class="sec-head">{'\uCD5C\uADFC \uC810\uAC80'}</h2>
-            <div class="terminal-log">
-              <div class="log-line">
-                <span class="log-ts">[2026.04.13 00:18]</span>
-                <span class="log-status">SCAN COMPLETE</span>
-              </div>
-              <div class="log-tree">
-                <span class="tree-char">{'\u2514\u2500'}</span>
-                <a class="log-url" href="https://github.com/hangyeolalmighty/TeacherConnect" target="_blank" rel="noopener">https://github.com/hangyeolalmighty/TeacherConnect</a>
-              </div>
-              <div class="log-tree log-tree--sub">
-                <span class="tree-char">{'\u251C\u2500'}</span>
-                <span class="log-detail"><span class="badge badge--blue">6</span> issues detected</span>
-              </div>
-              <div class="log-tree log-tree--sub">
-                <span class="tree-char">{'\u2514\u2500'}</span>
-                <span class="log-detail"><span class="badge badge--coral">1</span> critical</span>
-              </div>
-            </div>
-
-            {#if history.length > 0}
-              {#each history.slice(0, 5) as scan}
-                <button class="scan-row" onclick={() => goto(`${base}/report/${scan.scanId}`)}>
-                  <div class="scan-info">
-                    <span class="scan-url">{scan.target}</span>
-                    <span class="scan-date">{fmtDate(scan.finishedAt)}</span>
-                  </div>
-                  <div class="scan-tags">
-                    {#if scan.summary.critical > 0}<span class="tag tag--c">{scan.summary.critical}</span>{/if}
-                    {#if scan.summary.warning > 0}<span class="tag tag--w">{scan.summary.warning}</span>{/if}
-                    {#if scan.summary.ok > 0}<span class="tag tag--o">{scan.summary.ok}</span>{/if}
-                  </div>
-                </button>
-              {/each}
-            {/if}
+            <h2 class="sec-head">{'\uBCF4\uACE0\uC11C \uBBF8\uB9AC\uBCF4\uAE30'}</h2>
+            <button class="preview-link" onclick={() => goto(`${base}/sample`)}>
+              <span class="preview-text">{'\uC2E4\uC81C \uBCF4\uACE0\uC11C\uB294 \uC774\uB807\uAC8C \uC0DD\uACBC\uC2B5\uB2C8\uB2E4'}</span>
+              <span class="preview-arrow">{'\uBBF8\uB9AC\uBCF4\uAE30'} &gt;</span>
+            </button>
           </section>
         {/if}
       </main>
@@ -608,11 +556,9 @@
     <footer class="statusbar">
       <div class="statusbar-left">
         <span class="sb-dot sb-dot--pulse"></span>
-        <span class="sb-text">STANDBY</span>
+        <span class="sb-text">ONLINE</span>
         <span class="sb-sep"> &middot; </span>
-        <span class="sb-text">3 agents ready</span>
-        <span class="sb-sep"> &middot; </span>
-        <span class="sb-text">v0.1.2</span>
+        <span class="sb-text">BYTEFORCE SECURITY</span>
       </div>
       <div class="statusbar-right">
         <span class="sb-clock">{clock}</span>
@@ -621,13 +567,13 @@
 
     <!-- Bottom nav -->
     <nav class="nav">
-      <button class="nav-i nav-i--on" onclick={() => navTo('home')}>
+      <button class="nav-i nav-i--on" onclick={() => goto(`${base}/`)}>
         <span class="nav-indicator"></span>
         {'\uD648'}
       </button>
-      <button class="nav-i" onclick={() => navTo('diagnose')}>{'\uC9C4\uB2E8'}</button>
-      <button class="nav-i" onclick={() => navTo('report')}>{'\uB9AC\uD3EC\uD2B8'}</button>
-      <button class="nav-i" onclick={() => navTo('packages')}>{'\uC694\uAE08\uC81C'}</button>
+      <button class="nav-i" onclick={() => goto(`${base}/check`)}>{'\uC790\uAC00\uC9C4\uB2E8'}</button>
+      <button class="nav-i" onclick={() => goto(`${base}/packages`)}>{'\uC694\uAE08\uC81C'}</button>
+      <button class="nav-i" onclick={() => goto(`${base}/contact`)}>{'\uC0C1\uB2F4\uC608\uC57D'}</button>
     </nav>
   </div>
 </div>
@@ -1494,120 +1440,36 @@
     border-bottom: 1px solid var(--border-dim);
   }
 
-  .terminal-log {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text-secondary);
-    padding: 16px;
-    background: rgba(10, 14, 26, 0.6);
-    border: 1px solid var(--border-dim);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 12px;
-  }
-  .log-line {
-    display: flex;
-    gap: 10px;
-  }
-  .log-ts {
-    color: var(--text-tertiary);
-  }
-  .log-status {
-    color: var(--blue-core);
-    font-weight: 500;
-  }
-  .log-tree {
-    display: flex;
-    gap: 6px;
-    padding-left: 4px;
-  }
-  .log-tree--sub {
-    padding-left: 28px;
-  }
-  .tree-char {
-    color: var(--text-tertiary);
-  }
-  .log-url {
-    color: var(--text-secondary);
-    text-decoration: none;
-    position: relative;
-    transition: color 0.4s var(--ease-organic);
-  }
-  .log-url::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--blue-core);
-    transition: width 0.4s var(--ease-organic);
-  }
-  .log-url:hover {
-    color: var(--blue-glow);
-  }
-  .log-url:hover::after {
-    width: 100%;
-  }
-  .log-detail {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .badge {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 1px 6px;
-    border-radius: 4px;
-  }
-  .badge--blue {
-    color: var(--blue-core);
-    background: rgba(10, 132, 255, 0.12);
-  }
-  .badge--coral {
-    color: var(--coral-alert);
-    background: rgba(255, 107, 71, 0.12);
-  }
-
-  .scan-row {
+  .preview-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border-dim);
-    background: none;
+    padding: 16px 20px;
+    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
+    border: 1px solid var(--border-dim);
+    border-radius: 12px;
+    cursor: pointer;
     width: 100%;
     font-family: var(--font);
-    cursor: pointer;
-    text-align: left;
     color: var(--text-primary);
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    transition: background 0.4s var(--ease-organic);
+    text-align: left;
+    transition: border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic);
   }
-  .scan-row:hover {
-    background: rgba(13, 21, 40, 0.5);
+  .preview-link:hover {
+    border-color: var(--border-active);
+    background: rgba(13, 21, 40, 0.8);
   }
-  .scan-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    overflow: hidden;
-  }
-  .scan-url {
+  .preview-text {
     font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: var(--text-secondary);
   }
-  .scan-date {
-    font-size: 11px;
-    color: var(--text-tertiary);
+  .preview-arrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue-core);
+    flex-shrink: 0;
   }
+
   .scan-tags {
     display: flex;
     gap: 6px;

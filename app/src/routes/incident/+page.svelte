@@ -242,7 +242,9 @@
     // Save to localStorage + console
     saveFormData();
 
-    await addBotMsg('접수되었습니다. 24시간 내로 연락드리겠습니다.');
+    await addBotMsg('접수되었습니다. 24시간 내 이메일로 견적서를 보내드립니다.');
+    await addBotMsg('입금 확인 후 점검 일정이 확정됩니다.');
+    await addBotMsg('계좌: 신한은행 110-XXX-XXXXXX (주)바이트포스');
     await addBotMsg('급하시면 카카오톡 채널로도 연락 가능합니다.');
     phase = 'done';
     showChoices = false;

@@ -73,9 +73,9 @@
 
   <nav class="nav">
     <button class="nav-i" onclick={() => goto(`${base}/`)}>홈</button>
-    <button class="nav-i" onclick={() => goto(`${base}/diagnose`)}>진단</button>
-    <button class="nav-i nav-i--on" onclick={() => goto(`${base}/report`)}>리포트</button>
+    <button class="nav-i" onclick={() => goto(`${base}/check`)}>자가진단</button>
     <button class="nav-i" onclick={() => goto(`${base}/packages`)}>요금제</button>
+    <button class="nav-i" onclick={() => goto(`${base}/contact`)}>상담예약</button>
   </nav>
 
 </div>
