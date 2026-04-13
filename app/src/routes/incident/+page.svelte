@@ -53,6 +53,18 @@
   }
 </script>
 
+<svelte:head>
+  <title>상담 예약 | Byteforce Security</title>
+  <meta name="description" content="바이브코딩 보안 점검 상담을 예약하세요. 24시간 내 견적서 발송. 서울, 부산, 온라인." />
+  <meta property="og:title" content="상담 예약 | Byteforce Security" />
+  <meta property="og:description" content="바이브코딩 보안 점검 상담을 예약하세요. 24시간 내 견적서 발송. 서울, 부산, 온라인." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://byteforceai.github.io/vibesec/incident" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="상담 예약 | Byteforce Security" />
+  <meta name="twitter:description" content="바이브코딩 보안 점검 상담을 예약하세요. 24시간 내 견적서 발송. 서울, 부산, 온라인." />
+</svelte:head>
+
 <div class="page">
   <header class="bar">
     <span class="bar-brand">BYTEFORCE</span>

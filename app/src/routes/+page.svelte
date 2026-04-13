@@ -304,6 +304,18 @@
   }
 </script>
 
+<svelte:head>
+  <title>Byteforce Security -- 바이브코딩 보안 점검</title>
+  <meta name="description" content="AI 코딩 도구로 만든 서비스의 보안을 사람 엔지니어가 직접 점검합니다. Cursor, Claude Code, v0 전문." />
+  <meta property="og:title" content="Byteforce Security -- 바이브코딩 보안 점검" />
+  <meta property="og:description" content="AI 코딩 도구로 만든 서비스의 보안을 사람 엔지니어가 직접 점검합니다. Cursor, Claude Code, v0 전문." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://byteforceai.github.io/vibesec/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Byteforce Security -- 바이브코딩 보안 점검" />
+  <meta name="twitter:description" content="AI 코딩 도구로 만든 서비스의 보안을 사람 엔지니어가 직접 점검합니다. Cursor, Claude Code, v0 전문." />
+</svelte:head>
+
 <div class="os-shell">
   <canvas
     class="matrix-canvas"

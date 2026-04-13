@@ -204,6 +204,18 @@
   }
 </script>
 
+<svelte:head>
+  <title>요금제 | Byteforce Security</title>
+  <meta name="description" content="기본 점검 39만원부터. 1:1 대면 보안 점검, 정밀 코드 리뷰, 풀 정비까지. 서울 마곡, 부산 해운대, 온라인." />
+  <meta property="og:title" content="요금제 | Byteforce Security" />
+  <meta property="og:description" content="기본 점검 39만원부터. 1:1 대면 보안 점검, 정밀 코드 리뷰, 풀 정비까지. 서울 마곡, 부산 해운대, 온라인." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://byteforceai.github.io/vibesec/packages" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="요금제 | Byteforce Security" />
+  <meta name="twitter:description" content="기본 점검 39만원부터. 1:1 대면 보안 점검, 정밀 코드 리뷰, 풀 정비까지. 서울 마곡, 부산 해운대, 온라인." />
+</svelte:head>
+
 <div class="void" class:void--in={loaded}>
 
   <!-- App bar -->
@@ -504,6 +516,7 @@
     color: var(--text-primary);
     transform: translateX(2px);
     filter: brightness(1.15);
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.08);
   }
   .side-item--on { background: var(--bg-deep); color: var(--text-primary); }
   .side-item--static { cursor: default; }
@@ -555,13 +568,14 @@
     position: absolute;
     top: 3px;
     left: 3px;
-    width: calc((100% - 6px) / 3);
+    width: calc((100% - 6px) / 4);
     height: calc(100% - 6px);
     background: var(--bg-deep);
     border-radius: 7px;
     transition: transform 0.3s var(--ease);
     z-index: 0;
     pointer-events: none;
+    box-shadow: 0 0 16px rgba(10, 132, 255, 0.1);
   }
 
   .seg {
@@ -580,6 +594,7 @@
   }
   .seg--on {
     color: var(--text-primary);
+    text-shadow: 0 0 12px rgba(10, 132, 255, 0.3);
   }
 
   /* -- Plan card -- */
@@ -670,15 +685,18 @@
     color: var(--text-primary);
     border-color: var(--border-active);
     transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
   }
   .plan-cta--pop {
     background: var(--blue-core);
     color: #fff;
     border-color: var(--blue-core);
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
   }
   .plan-cta--pop:hover {
     background: var(--blue-glow);
     transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
   }
 
   /* -- Group -- */
@@ -809,9 +827,15 @@
   /* -- 1. Terminal typing -- */
   .term {
     background: var(--bg-abyss);
-    border: 1px solid var(--border-dim);
-    border-radius: 14px;
+    border: 1px solid rgba(10, 132, 255, 0.12);
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .term:hover {
+    border-color: rgba(10, 132, 255, 0.3);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
   }
 
   .term-head {
@@ -911,7 +935,12 @@
     cursor: pointer;
     transition: all 0.2s var(--ease);
   }
-  .foot-btn:hover { background: var(--bg-deep); border-color: var(--border-active); }
+  .foot-btn:hover {
+    background: var(--bg-deep);
+    border-color: var(--border-active);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
+    transform: translateY(-1px);
+  }
 
   /* -- prefers-reduced-motion -- */
   @media (prefers-reduced-motion: reduce) {

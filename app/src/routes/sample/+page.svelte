@@ -67,6 +67,18 @@
   const okCount = findings.filter((f) => f.severity === 'ok').length;
 </script>
 
+<svelte:head>
+  <title>보고서 샘플 | Byteforce Security</title>
+  <meta name="description" content="실제 보안 점검 보고서는 이렇게 생겼습니다. 기술 용어 없이, 비유로 설명하는 보고서." />
+  <meta property="og:title" content="보고서 샘플 | Byteforce Security" />
+  <meta property="og:description" content="실제 보안 점검 보고서는 이렇게 생겼습니다. 기술 용어 없이, 비유로 설명하는 보고서." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://byteforceai.github.io/vibesec/sample" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="보고서 샘플 | Byteforce Security" />
+  <meta name="twitter:description" content="실제 보안 점검 보고서는 이렇게 생겼습니다. 기술 용어 없이, 비유로 설명하는 보고서." />
+</svelte:head>
+
 <div class="page">
 
   <!-- App bar -->
@@ -252,11 +264,17 @@
   /* Report card */
   .report {
     background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid var(--border-dim);
-    border-radius: 16px;
+    border: 1px solid rgba(10, 132, 255, 0.12);
+    border-radius: 20px;
     overflow: hidden;
     animation: reportIn var(--ease-organic) forwards;
     opacity: 0;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .report:hover {
+    border-color: rgba(10, 132, 255, 0.3);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
   }
   @keyframes reportIn {
     from { opacity: 0; transform: translateY(12px); }
@@ -352,9 +370,9 @@
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  .finding--critical { border-left: 3px solid var(--coral-alert); }
-  .finding--warning { border-left: 3px solid var(--amber-warn); }
-  .finding--ok { border-left: 3px solid var(--green-ok); }
+  .finding--critical { border-left: 3px solid var(--coral-alert); box-shadow: -4px 0 12px rgba(255, 107, 71, 0.08); }
+  .finding--warning { border-left: 3px solid var(--amber-warn); box-shadow: -4px 0 12px rgba(255, 214, 10, 0.06); }
+  .finding--ok { border-left: 3px solid var(--green-ok); box-shadow: -4px 0 12px rgba(50, 215, 75, 0.06); }
 
   .finding-header {
     display: flex; align-items: center; gap: 8px;
@@ -406,10 +424,15 @@
     padding: 13px 36px; border-radius: 980px; border: none;
     background: var(--blue-core); color: #fff;
     font-family: var(--font); font-size: 15px; font-weight: 600;
-    cursor: pointer; transition: background 0.2s;
-    box-shadow: 0 0 30px rgba(10,132,255,0.2);
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
+    transition: background 0.2s, box-shadow 0.3s, transform 0.2s;
   }
-  .cta-btn:hover { background: var(--blue-glow); }
+  .cta-btn:hover {
+    background: var(--blue-glow);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
+    transform: translateY(-1px);
+  }
 
   /* Bottom nav */
   .nav {

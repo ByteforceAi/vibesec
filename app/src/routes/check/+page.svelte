@@ -126,6 +126,18 @@
   const result = $derived(getResult());
 </script>
 
+<svelte:head>
+  <title>자가 진단 | Byteforce Security</title>
+  <meta name="description" content="5가지 질문으로 내 프로젝트의 보안 상태를 빠르게 확인하세요. 1분이면 됩니다." />
+  <meta property="og:title" content="자가 진단 | Byteforce Security" />
+  <meta property="og:description" content="5가지 질문으로 내 프로젝트의 보안 상태를 빠르게 확인하세요. 1분이면 됩니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://byteforceai.github.io/vibesec/check" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="자가 진단 | Byteforce Security" />
+  <meta name="twitter:description" content="5가지 질문으로 내 프로젝트의 보안 상태를 빠르게 확인하세요. 1분이면 됩니다." />
+</svelte:head>
+
 <div class="page">
 
   <!-- App bar -->
@@ -310,10 +322,16 @@
   /* Question card */
   .question-card {
     background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid var(--border-dim);
-    border-radius: 16px;
+    border: 1px solid rgba(10, 132, 255, 0.12);
+    border-radius: 20px;
     padding: 32px 28px;
     display: flex; flex-direction: column; gap: 20px;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .question-card:hover {
+    border-color: rgba(10, 132, 255, 0.3);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
   }
   .question-num {
     font-size: 12px; font-weight: 600;
@@ -336,11 +354,13 @@
     color: var(--text-primary);
     font-family: var(--font); font-size: 15px; font-weight: 500;
     text-align: left; cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.3s, background 0.2s, box-shadow 0.3s, transform 0.2s;
   }
   .option-btn:hover {
-    border-color: var(--border-active);
+    border-color: rgba(10, 132, 255, 0.3);
     background: var(--bg-deep);
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
+    transform: translateY(-1px);
   }
   .option-btn--selected {
     border-color: var(--blue-core);
@@ -354,11 +374,17 @@
   }
   .result-card {
     background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid var(--border-dim);
-    border-radius: 16px;
+    border: 1px solid rgba(10, 132, 255, 0.12);
+    border-radius: 20px;
     padding: 40px 28px;
     display: flex; flex-direction: column;
     align-items: center; text-align: center; gap: 16px;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .result-card:hover {
+    border-color: rgba(10, 132, 255, 0.3);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
   }
   .result-card--recommend { border-color: rgba(10, 132, 255, 0.3); }
   .result-card--warning { border-color: rgba(255, 107, 71, 0.3); }
@@ -389,9 +415,15 @@
     padding: 13px 36px; border-radius: 980px; border: none;
     background: var(--blue-core); color: #fff;
     font-family: var(--font); font-size: 15px; font-weight: 600;
-    cursor: pointer; transition: background 0.2s;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
+    transition: background 0.2s, box-shadow 0.3s, transform 0.2s;
   }
-  .cta-btn:hover { background: var(--blue-glow); }
+  .cta-btn:hover {
+    background: var(--blue-glow);
+    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
+    transform: translateY(-1px);
+  }
 
   .retry-btn {
     padding: 8px 20px; border-radius: 980px;
