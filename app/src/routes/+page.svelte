@@ -471,57 +471,62 @@
         <!-- ===== SERVICE CARDS ===== -->
         <section class="cards">
           {#if phase === 'alive' && showCard0}
-            <button class="card card--blue elem-rise-in" onclick={() => goto(`${base}/contact`)}>
-              <div class="card-status-dot dot--green">
-                <span class="dot-circle dot-circle--green"></span>
-                <span class="dot-label">ONLINE</span>
-              </div>
-              <div class="card-body">
-                <div class="card-icon card-icon--blue">
-                  <svg viewBox="0 0 64 76" fill="none">
+            <button class="service-card service-card--blue elem-rise-in" onclick={() => goto(`${base}/contact`)}>
+              <div class="card-glow card-glow--blue"></div>
+              <div class="card-top">
+                <div class="card-objet card-objet--blue">
+                  <svg viewBox="0 0 64 76" fill="none" width="28" height="28">
                     <path d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z" stroke="currentColor" stroke-width="2" fill="none"/>
                     <path d="M26 38l6 6 12-14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <div class="card-text">
-                  <span class="card-title">{'1:1 \uB300\uBA74 \uC810\uAC80'}</span>
-                  <span class="card-sub">{'\uB9C8\uACE1 \uBC29\uBB38 \uB610\uB294 \uD654\uC0C1'}</span>
+                <div class="card-status">
+                  <span class="status-dot status-dot--green"></span>
+                  <span class="status-label">ONLINE</span>
                 </div>
               </div>
-              <span class="card-link card-link--blue">{'\uC608\uC57D\uD558\uAE30'} &gt;</span>
+              <div class="card-info">
+                <h3 class="card-title">{'1:1 \uB300\uBA74 \uC810\uAC80'}</h3>
+                <p class="card-desc">{'\uB9C8\uACE1 \uBC29\uBB38 \uB610\uB294 \uD654\uC0C1. \uD575\uC2EC \uD56D\uBAA9 \uC704\uC8FC \uBCF4\uC548 \uC810\uAC80.'}</p>
+              </div>
+              <div class="card-bottom">
+                <span class="card-price">{'\u20A9390,000'}</span>
+                <span class="card-cta">{'\uC608\uC57D\uD558\uAE30 \u2192'}</span>
+              </div>
             </button>
           {/if}
 
           {#if phase === 'alive' && showCard1}
-            <button class="card card--coral card--urgent elem-rise-in" onclick={() => goto(`${base}/contact`)}>
-              <div class="card-status-dot dot--coral">
-                <span class="dot-circle dot-circle--coral dot-circle--pulse"></span>
-                <span class="dot-label">STANDBY</span>
-              </div>
-              <div class="card-body">
-                <div class="card-icon card-icon--coral">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <button class="service-card service-card--coral service-card--urgent elem-rise-in" onclick={() => goto(`${base}/contact`)}>
+              <div class="card-glow card-glow--coral"></div>
+              <div class="card-top">
+                <div class="card-objet card-objet--coral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
                     <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
                   </svg>
                 </div>
-                <div class="card-text">
-                  <span class="card-title">{'\uAE34\uAE09 \uC810\uAC80'}</span>
-                  <span class="card-sub">{'24\uC2DC\uAC04 \uC774\uB0B4 \uB300\uC751'}</span>
+                <div class="card-status">
+                  <span class="status-dot status-dot--coral status-dot--pulse"></span>
+                  <span class="status-label">STANDBY</span>
                 </div>
               </div>
-              <span class="card-link card-link--coral">{'\uAE34\uAE09 \uC694\uCCAD'} &gt;</span>
+              <div class="card-info">
+                <h3 class="card-title">{'\uAE34\uAE09 \uC810\uAC80'}</h3>
+                <p class="card-desc">{'24\uC2DC\uAC04 \uC774\uB0B4 \uB300\uC751. \uC9C0\uAE08 \uBB38\uC81C\uAC00 \uC0DD\uACBC\uB2E4\uBA74 \uBC14\uB85C \uC5F0\uB77D\uD558\uC138\uC694.'}</p>
+              </div>
+              <div class="card-bottom">
+                <span class="card-price">{'\u20A9790,000'}</span>
+                <span class="card-cta">{'\uAE34\uAE09 \uC694\uCCAD \u2192'}</span>
+              </div>
             </button>
           {/if}
 
           {#if phase === 'alive' && showCard2}
-            <button class="card card--green elem-rise-in" onclick={() => goto(`${base}/packages`)}>
-              <div class="card-status-dot dot--blue">
-                <span class="dot-circle dot-circle--blue"></span>
-                <span class="dot-label">SCHEDULED</span>
-              </div>
-              <div class="card-body">
-                <div class="card-icon card-icon--green">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <button class="service-card service-card--green elem-rise-in" onclick={() => goto(`${base}/packages`)}>
+              <div class="card-glow card-glow--green"></div>
+              <div class="card-top">
+                <div class="card-objet card-objet--green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
                     <rect x="3" y="4" width="18" height="18" rx="2"/>
                     <line x1="16" y1="2" x2="16" y2="6"/>
                     <line x1="8" y1="2" x2="8" y2="6"/>
@@ -529,24 +534,75 @@
                     <rect x="8" y="14" width="3" height="3" rx="0.5"/>
                   </svg>
                 </div>
-                <div class="card-text">
-                  <span class="card-title">{'\uC6D4 \uAD00\uB9AC'}</span>
-                  <span class="card-sub">{'\uC815\uAE30 \uC810\uAC80 + \uBAA8\uB2C8\uD130\uB9C1'}</span>
+                <div class="card-status">
+                  <span class="status-dot status-dot--blue"></span>
+                  <span class="status-label">SCHEDULED</span>
                 </div>
               </div>
-              <span class="card-link card-link--green">{'\uC790\uC138\uD788 \uBCF4\uAE30'} &gt;</span>
+              <div class="card-info">
+                <h3 class="card-title">{'\uC6D4 \uAD00\uB9AC'}</h3>
+                <p class="card-desc">{'\uC815\uAE30 \uC810\uAC80 + \uBAA8\uB2C8\uD130\uB9C1. \uBB38\uC81C\uAC00 \uC0DD\uAE30\uAE30 \uC804\uC5D0 \uBBF8\uB9AC \uBC29\uC9C0.'}</p>
+              </div>
+              <div class="card-bottom">
+                <span class="card-price">{'\uC6D4 \u20A9190,000'}</span>
+                <span class="card-cta">{'\uC790\uC138\uD788 \uBCF4\uAE30 \u2192'}</span>
+              </div>
             </button>
           {/if}
         </section>
 
-        <!-- ===== REPORT PREVIEW LINK ===== -->
+        <!-- ===== REPORT PREVIEW ===== -->
         {#if phase === 'alive' && showRecent}
-          <section class="recent elem-fade-in">
-            <h2 class="sec-head">{'\uBCF4\uACE0\uC11C \uBBF8\uB9AC\uBCF4\uAE30'}</h2>
-            <button class="preview-link" onclick={() => goto(`${base}/sample`)}>
-              <span class="preview-text">{'\uC2E4\uC81C \uBCF4\uACE0\uC11C\uB294 \uC774\uB807\uAC8C \uC0DD\uACBC\uC2B5\uB2C8\uB2E4'}</span>
-              <span class="preview-arrow">{'\uBBF8\uB9AC\uBCF4\uAE30'} &gt;</span>
-            </button>
+          <section class="report-preview elem-fade-in">
+            <h2 class="section-label">{'\uBCF4\uACE0\uC11C \uBBF8\uB9AC\uBCF4\uAE30'}</h2>
+
+            <div class="report-card">
+              <div class="report-header">
+                <div class="report-brand">
+                  <span class="report-logo">BYTEFORCE</span>
+                  <span class="report-type">{'\uBCF4\uC548 \uC810\uAC80 \uBCF4\uACE0\uC11C'}</span>
+                </div>
+                <div class="report-meta">
+                  <span>{'\uD504\uB85C\uC81D\uD2B8: \uC1FC\uD551\uBAB0 MVP (\uC0D8\uD50C)'}</span>
+                  <span>{'\uC810\uAC80\uC77C: 2026.03.15'}</span>
+                  <span>{'\uC810\uAC80\uC790: \uAE40\uBCF4\uC548 \uC2DC\uB2C8\uC5B4 \uC5D4\uC9C0\uB2C8\uC5B4'}</span>
+                </div>
+              </div>
+
+              <div class="report-summary">
+                {'\uCD1D 5\uAC74\uC758 \uD655\uC778 \uC0AC\uD56D. \uC774 \uC911 1\uAC74\uC740 \uC989\uC2DC \uC870\uCE58\uAC00 \uD544\uC694\uD569\uB2C8\uB2E4.'}
+              </div>
+
+              <div class="report-badges">
+                <div class="badge badge--critical">
+                  <span class="badge-num">1</span>
+                  <span class="badge-label">{'\uAE34\uAE09'}</span>
+                </div>
+                <div class="badge badge--warning">
+                  <span class="badge-num">2</span>
+                  <span class="badge-label">{'\uC8FC\uC758'}</span>
+                </div>
+                <div class="badge badge--ok">
+                  <span class="badge-num">2</span>
+                  <span class="badge-label">{'\uC548\uC804'}</span>
+                </div>
+              </div>
+
+              <div class="report-finding">
+                <span class="finding-severity finding-severity--critical">{'\uAE34\uAE09'}</span>
+                <div class="finding-body">
+                  <h4 class="finding-title">{'\uBE44\uBC00\uBC88\uD638\uAC00 \uBB38 \uC55E\uC5D0 \uB193\uC5EC \uC788\uC5B4\uC694'}</h4>
+                  <p class="finding-desc">{'.env \uD30C\uC77C\uC774 GitHub\uC5D0 \uC62C\uB77C\uAC00 \uC788\uC2B5\uB2C8\uB2E4. OpenAI API \uD0A4\uAC00 \uB204\uAD6C\uB098 \uBCFC \uC218 \uC788\uB294 \uC0C1\uD0DC\uC785\uB2C8\uB2E4.'}</p>
+                </div>
+              </div>
+
+              <div class="report-fade"></div>
+
+              <div class="report-cta">
+                <button class="report-btn report-btn--outline" onclick={() => goto(`${base}/sample`)}>{'\uC804\uCCB4 \uBCF4\uACE0\uC11C \uBCF4\uAE30 \u2192'}</button>
+                <button class="report-btn report-btn--fill" onclick={() => goto(`${base}/contact`)}>{'\uB0B4 \uD504\uB85C\uC81D\uD2B8\uB3C4 \uC810\uAC80 \uBC1B\uAE30'}</button>
+              </div>
+            </div>
           </section>
         {/if}
       </main>
@@ -1193,152 +1249,203 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ===== SERVICE CARDS ===== */
+  /* ===== SERVICE CARDS (vybe style) ===== */
   .cards {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
 
-  .card {
+  .service-card {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    background: linear-gradient(165deg, #0D1528 0%, #0A0E1A 100%);
+    gap: 20px;
+    padding: 28px;
+    border-radius: 20px;
     border: 1px solid rgba(10, 132, 255, 0.12);
-    border-radius: 14px;
-    padding: 24px;
+    background: linear-gradient(165deg, rgba(13, 21, 40, 0.8) 0%, rgba(10, 14, 26, 0.9) 100%);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
     cursor: pointer;
     text-align: left;
     color: var(--text-primary);
     font-family: var(--font);
     width: 100%;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
-    transition: transform 0.4s var(--ease-organic), border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Left light bar (::before) */
-  .card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    border-radius: 3px 0 0 3px;
-    transform: scaleY(0);
-    transform-origin: center;
-    transition: transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
-  }
-  .card--blue::before {
-    background: var(--blue-core);
-    box-shadow: 0 0 12px rgba(10, 132, 255, 0.4);
-  }
-  .card--coral::before {
-    background: var(--coral-alert);
-    box-shadow: 0 0 12px var(--coral-glow);
-  }
-  .card--green::before {
-    background: #32d74b;
-    box-shadow: 0 0 12px rgba(50, 215, 75, 0.4);
-  }
-  .card:hover::before {
-    transform: scaleY(1);
-  }
-
-  /* Card binary pattern overlay (::after) */
-  .card::after {
+  /* Glowing border on hover */
+  .service-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 17px,
-      rgba(58, 160, 255, 0.02) 17px,
-      rgba(58, 160, 255, 0.02) 18px
-    );
-    opacity: 0.3;
-    transition: opacity 0.5s var(--ease-organic);
-    border-radius: inherit;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(10,132,255,0.2) 0%, transparent 50%, rgba(10,132,255,0.1) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
   }
-  .card:hover::after {
-    opacity: 0.8;
+  .service-card--blue:hover::after {
+    opacity: 1;
+  }
+  .service-card--coral::after {
+    background: linear-gradient(135deg, rgba(255,107,71,0.2) 0%, transparent 50%, rgba(255,107,71,0.1) 100%);
+  }
+  .service-card--coral:hover::after {
+    opacity: 1;
+  }
+  .service-card--green::after {
+    background: linear-gradient(135deg, rgba(50,215,75,0.2) 0%, transparent 50%, rgba(50,215,75,0.1) 100%);
+  }
+  .service-card--green:hover::after {
+    opacity: 1;
   }
 
-  /* Card hover */
-  .card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(10, 132, 255, 0.35);
-    background: linear-gradient(165deg, #112041 0%, #0A0E1A 100%);
+  /* Hover: card lifts */
+  .service-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    border-color: rgba(10, 132, 255, 0.3);
     box-shadow:
-      0 0 30px rgba(10, 132, 255, 0.12),
-      0 12px 40px rgba(0, 71, 179, 0.2),
-      0 0 0 1px rgba(10, 132, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 0 40px rgba(10, 132, 255, 0.1),
+      0 20px 60px rgba(0, 20, 60, 0.3);
   }
 
-  /* Icon hover */
-  .card:hover .card-icon--blue {
-    box-shadow: 0 2px 8px rgba(10,132,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(10,132,255,0.25);
-    transform: scale(1.06);
+  /* Urgent (coral) card */
+  .service-card--urgent {
+    background: linear-gradient(165deg, rgba(30, 18, 14, 0.8) 0%, rgba(10, 14, 26, 0.9) 100%);
+    border-color: rgba(255, 107, 71, 0.12);
   }
-  .card:hover .card-icon--coral {
-    box-shadow: 0 2px 8px rgba(255,107,71,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(255,107,71,0.25);
-    transform: scale(1.06);
-  }
-  .card:hover .card-icon--green {
-    box-shadow: 0 2px 8px rgba(50,215,75,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(50,215,75,0.25);
-    transform: scale(1.06);
-  }
-
-  /* Urgent card (coral) special */
-  .card--urgent {
-    background: linear-gradient(165deg, #1F1410 0%, #0A0E1A 100%);
-    border-color: rgba(255, 107, 71, 0.1);
-    box-shadow: 0 0 20px rgba(255, 107, 71, 0.03);
-  }
-  .card--urgent:hover {
-    background: linear-gradient(165deg, #2A1A14 0%, #0A0E1A 100%);
+  .service-card--urgent:hover {
     border-color: rgba(255, 107, 71, 0.3);
     box-shadow:
-      0 0 30px rgba(255, 107, 71, 0.1),
-      0 12px 40px rgba(255, 107, 71, 0.12),
-      0 0 0 1px rgba(255, 107, 71, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 0 40px rgba(255, 107, 71, 0.1),
+      0 20px 60px rgba(60, 15, 0, 0.3);
   }
 
-  /* Status dots */
-  .card-status-dot {
+  /* Green card */
+  .service-card--green {
+    border-color: rgba(50, 215, 75, 0.1);
+  }
+  .service-card--green:hover {
+    border-color: rgba(50, 215, 75, 0.3);
+    box-shadow:
+      0 0 40px rgba(50, 215, 75, 0.08),
+      0 20px 60px rgba(0, 40, 20, 0.3);
+  }
+
+  /* Background glow layer */
+  .card-glow {
     position: absolute;
-    top: 12px;
-    right: 14px;
+    top: -50%;
+    right: -30%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    opacity: 0.5;
+  }
+  .card-glow--blue {
+    background: radial-gradient(circle, rgba(10,132,255,0.08) 0%, transparent 70%);
+  }
+  .card-glow--coral {
+    background: radial-gradient(circle, rgba(255,107,71,0.08) 0%, transparent 70%);
+  }
+  .card-glow--green {
+    background: radial-gradient(circle, rgba(50,215,75,0.06) 0%, transparent 70%);
+  }
+  .service-card:hover .card-glow {
+    opacity: 1;
+  }
+
+  /* Card top row: objet + status */
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Objet icon (56px) */
+  .card-objet {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
+  }
+  .card-objet::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 40%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    border-radius: 16px 16px 50% 50%;
+    pointer-events: none;
+  }
+  .card-objet svg {
+    position: relative;
+    z-index: 1;
+  }
+  .card-objet--blue {
+    color: #fff;
+    background: linear-gradient(155deg, #1a5aaa 0%, #0a3d7a 100%);
+    box-shadow: 0 4px 12px rgba(10,132,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .card-objet--coral {
+    color: #fff;
+    background: linear-gradient(155deg, #a83a20 0%, #6e2010 100%);
+    box-shadow: 0 4px 12px rgba(255,107,71,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .card-objet--green {
+    color: #fff;
+    background: linear-gradient(155deg, #1a8a3a 0%, #0a5a22 100%);
+    box-shadow: 0 4px 12px rgba(50,215,75,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .service-card:hover .card-objet {
+    transform: scale(1.06);
+  }
+  .service-card:hover .card-objet--blue {
+    box-shadow: 0 4px 12px rgba(10,132,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 24px rgba(10,132,255,0.3);
+  }
+  .service-card:hover .card-objet--coral {
+    box-shadow: 0 4px 12px rgba(255,107,71,0.25), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 24px rgba(255,107,71,0.3);
+  }
+  .service-card:hover .card-objet--green {
+    box-shadow: 0 4px 12px rgba(50,215,75,0.25), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 24px rgba(50,215,75,0.3);
+  }
+
+  /* Status indicator */
+  .card-status {
     display: flex;
     align-items: center;
     gap: 6px;
+    position: relative;
     z-index: 1;
   }
-  .dot-circle {
+  .status-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
   }
-  .dot-circle--green {
-    background: #32d74b;
-  }
-  .dot-circle--coral {
-    background: var(--coral-alert);
-  }
-  .dot-circle--blue {
-    background: var(--blue-core);
-  }
-  .dot-circle--pulse {
+  .status-dot--green { background: #32d74b; }
+  .status-dot--coral { background: var(--coral-alert); }
+  .status-dot--blue { background: var(--blue-core); }
+  .status-dot--pulse {
     animation: urgent-pulse 1.2s var(--ease-pulse) infinite;
   }
-  .dot-label {
+  .status-label {
     font-family: var(--mono);
     font-size: 9px;
     font-weight: 500;
@@ -1352,147 +1459,234 @@
     100% { box-shadow: 0 0 0 0 rgba(255, 107, 71, 0); }
   }
 
-  .card-body {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Mini objet icons (same design language as hero core) */
-  .card-icon {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    position: relative;
-    transition: transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
-  }
-  .card-icon::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 10%; right: 10%; height: 40%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
-    border-radius: 12px 12px 50% 50%;
-    pointer-events: none;
-  }
-  .card-icon svg {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    z-index: 1;
-  }
-  .card-icon--blue {
-    color: #fff;
-    background: linear-gradient(155deg, #1a5aaa 0%, #0a3d7a 100%);
-    box-shadow: 0 2px 8px rgba(10,132,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-  .card-icon--coral {
-    color: #fff;
-    background: linear-gradient(155deg, #a83a20 0%, #6e2010 100%);
-    box-shadow: 0 2px 8px rgba(255,107,71,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-  .card-icon--green {
-    color: #fff;
-    background: linear-gradient(155deg, #1a8a3a 0%, #0a5a22 100%);
-    box-shadow: 0 2px 8px rgba(50,215,75,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-
-  .card-text {
+  /* Card info (title + desc) */
+  .card-info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     position: relative;
     z-index: 1;
   }
   .card-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--text-primary);
+    margin: 0;
   }
-  .card-sub {
+  .card-desc {
     font-size: 13px;
+    line-height: 1.5;
     color: var(--text-secondary);
+    margin: 0;
   }
 
-  .card-link {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+  /* Card bottom (price + CTA) */
+  .card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: relative;
     z-index: 1;
   }
-  .card-link--blue { color: var(--blue-core); }
-  .card-link--coral { color: var(--coral-alert); }
-  .card-link--green { color: #32d74b; }
+  .card-price {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .card-cta {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue-core);
+    transition: transform 0.3s;
+  }
+  .service-card--coral .card-cta { color: var(--coral-alert); }
+  .service-card--green .card-cta { color: #32d74b; }
+  .service-card:hover .card-cta {
+    transform: translateX(4px);
+  }
 
-  /* ===== RECENT - TERMINAL LOG ===== */
-  .recent {
+  /* ===== REPORT PREVIEW ===== */
+  .report-preview {
     display: flex;
     flex-direction: column;
   }
-  .sec-head {
+  .section-label {
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text-tertiary);
-    margin: 0 0 8px;
+    margin: 0 0 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-dim);
   }
 
-  .preview-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid var(--border-dim);
-    border-radius: 12px;
-    cursor: pointer;
-    width: 100%;
-    font-family: var(--font);
-    color: var(--text-primary);
-    text-align: left;
-    transition: border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic);
-  }
-  .preview-link:hover {
-    border-color: var(--border-active);
-    background: rgba(13, 21, 40, 0.8);
-  }
-  .preview-text {
-    font-size: 14px;
-    color: var(--text-secondary);
-  }
-  .preview-arrow {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--blue-core);
-    flex-shrink: 0;
+  .report-card {
+    background: linear-gradient(180deg, #0a0e1a 0%, #080c16 100%);
+    border: 1px solid rgba(10,132,255,0.1);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .scan-tags {
+  .report-header {
     display: flex;
-    gap: 6px;
-    flex-shrink: 0;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(120,160,220,0.06);
+    margin-bottom: 20px;
   }
-  .tag {
+  .report-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .report-logo {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--blue-core);
+  }
+  .report-type {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .report-meta {
     font-family: var(--mono);
     font-size: 11px;
-    font-weight: 500;
-    padding: 2px 7px;
-    border-radius: 3px;
-    border: 1px solid var(--border-dim);
-    background: var(--bg-deep);
+    color: var(--text-tertiary);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: right;
   }
-  .tag--c { color: var(--coral-alert); }
-  .tag--w { color: #ff9500; }
-  .tag--o { color: #32d74b; }
+
+  .report-summary {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* Badges */
+  .report-badges {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    background: transparent;
+  }
+  .badge--critical { border-color: rgba(255,69,58,0.2); background: rgba(255,69,58,0.06); }
+  .badge--warning { border-color: rgba(255,159,10,0.2); background: rgba(255,159,10,0.06); }
+  .badge--ok { border-color: rgba(50,215,75,0.2); background: rgba(50,215,75,0.06); }
+  .badge-num {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .badge--critical .badge-num { color: #FF453A; }
+  .badge--warning .badge-num { color: #FF9F0A; }
+  .badge--ok .badge-num { color: #32d74b; }
+  .badge-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* Finding item */
+  .report-finding {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255,69,58,0.04);
+    border-left: 3px solid #FF453A;
+    border-radius: 0 8px 8px 0;
+  }
+  .finding-severity {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+  .finding-severity--critical {
+    background: rgba(255,69,58,0.15);
+    color: #FF453A;
+  }
+  .finding-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .finding-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .finding-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Fade out (report cutoff effect) */
+  .report-fade {
+    height: 60px;
+    background: linear-gradient(180deg, transparent 0%, #080c16 100%);
+    margin: -20px -32px 0;
+    padding: 0 32px;
+  }
+
+  /* Report CTA */
+  .report-cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .report-btn {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-organic);
+  }
+  .report-btn--outline {
+    border: 1px solid rgba(10,132,255,0.3);
+    background: transparent;
+    color: var(--blue-core);
+  }
+  .report-btn--outline:hover {
+    border-color: rgba(10,132,255,0.5);
+    background: rgba(10,132,255,0.06);
+  }
+  .report-btn--fill {
+    border: none;
+    background: var(--blue-core);
+    color: #fff;
+  }
+  .report-btn--fill:hover {
+    background: var(--blue-glow);
+    box-shadow: 0 0 20px rgba(10,132,255,0.3);
+  }
 
   /* ===== BOTTOM NAV ===== */
   .nav {
@@ -1559,6 +1753,16 @@
     }
     .status-text { font-size: 14px; }
     .content { padding: 32px 16px 100px; }
+    .service-card { padding: 22px; gap: 16px; }
+    .card-objet { width: 48px; height: 48px; border-radius: 14px; }
+    .card-price { font-size: 16px; }
+    .report-card { padding: 20px; }
+    .report-header { flex-direction: column; gap: 12px; }
+    .report-meta { text-align: left; }
+    .report-badges { flex-wrap: wrap; }
+    .report-cta { flex-direction: column; }
+    .report-cta button { width: 100%; }
+    .report-fade { margin: -20px -20px 0; padding: 0 20px; }
   }
 
   @media (min-width: 1200px) {
@@ -1574,8 +1778,8 @@
     .core-inner,
     .core-ambient,
     .core-sphere,
-    .card,
-    .dot-circle--pulse,
+    .service-card,
+    .status-dot--pulse,
     .cursor-blink,
     .sb-dot--pulse,
     .dock-item,
