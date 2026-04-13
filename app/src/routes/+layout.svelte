@@ -1,12 +1,25 @@
 <script lang="ts">
 	import '../app.css';
 	import type { Snippet } from 'svelte';
+	import { onNavigate } from '$app/navigation';
+	import { navigating } from '$app/stores';
 
 	interface LayoutProps {
 		children: Snippet;
 	}
 
 	let { children }: LayoutProps = $props();
+
+	/* ── Page transition via View Transition API ── */
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 </script>
 
 <svelte:head>
@@ -27,6 +40,11 @@
 	<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </svelte:head>
 
+<!-- Top page-loading progress bar -->
+{#if $navigating}
+	<div class="page-progress"></div>
+{/if}
+
 <div class="app-shell">
 	<main class="app-main">
 		{@render children()}
@@ -34,6 +52,9 @@
 </div>
 
 <style>
+	/* ══════════════════════════════════════════════
+	   BASE LAYOUT
+	   ══════════════════════════════════════════════ */
 	:global(body) {
 		margin: 0;
 		padding: 0;
@@ -57,5 +78,178 @@
 		display: flex;
 		flex-direction: column;
 		position: relative;
+		view-transition-name: main;
+	}
+
+	/* ══════════════════════════════════════════════
+	   1. BUTTON RIPPLE EFFECT
+	   ══════════════════════════════════════════════ */
+	:global(button),
+	:global([role="button"]) {
+		position: relative;
+		overflow: hidden;
+	}
+
+	:global(button::after) {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(
+			circle at var(--ripple-x, 50%) var(--ripple-y, 50%),
+			rgba(255, 255, 255, 0.12) 0%,
+			transparent 60%
+		);
+		opacity: 0;
+		transition: opacity 0.4s;
+		pointer-events: none;
+		border-radius: inherit;
+	}
+
+	:global(button:active::after) {
+		opacity: 1;
+		transition: opacity 0s;
+	}
+
+	/* ══════════════════════════════════════════════
+	   2. PAGE VIEW TRANSITIONS
+	   ══════════════════════════════════════════════ */
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(4px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+
+	@keyframes fadeOut {
+		from { opacity: 1; transform: translateY(0); }
+		to   { opacity: 0; transform: translateY(-4px); }
+	}
+
+	:global(::view-transition-old(main)) {
+		animation: fadeOut 0.15s ease-out;
+	}
+
+	:global(::view-transition-new(main)) {
+		animation: fadeIn 0.2s ease-out;
+	}
+
+	/* ══════════════════════════════════════════════
+	   3. SCROLL-RESPONSIVE APP BAR
+	   ══════════════════════════════════════════════ */
+	:global(.bar) {
+		transition: backdrop-filter 0.3s, background 0.3s, border-color 0.3s;
+	}
+
+	/* ══════════════════════════════════════════════
+	   4. TAB INDICATOR SLIDE
+	   ══════════════════════════════════════════════ */
+	:global(.nav) {
+		position: relative;
+	}
+
+	:global(.nav-i) {
+		position: relative;
+	}
+
+	:global(.nav-i--on)::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 25%;
+		right: 25%;
+		height: 2px;
+		background: #0A84FF;
+		border-radius: 0 0 2px 2px;
+		box-shadow: 0 0 8px rgba(10, 132, 255, 0.3);
+	}
+
+	/* ══════════════════════════════════════════════
+	   5. INPUT FOCUS GLOW
+	   ══════════════════════════════════════════════ */
+	:global(input:focus),
+	:global(textarea:focus),
+	:global(select:focus) {
+		outline: none;
+		border-color: rgba(10, 132, 255, 0.4) !important;
+		box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.08), 0 0 16px rgba(10, 132, 255, 0.06) !important;
+		transition: border-color 0.2s, box-shadow 0.2s;
+	}
+
+	/* ══════════════════════════════════════════════
+	   6. TOP PAGE-LOADING PROGRESS BAR
+	   ══════════════════════════════════════════════ */
+	.page-progress {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 2px;
+		background: linear-gradient(90deg, transparent, #0A84FF, transparent);
+		z-index: 9999;
+		animation: progressSlide 1s ease-in-out infinite;
+	}
+
+	@keyframes progressSlide {
+		0%   { transform: translateX(-100%); }
+		100% { transform: translateX(100%); }
+	}
+
+	/* ══════════════════════════════════════════════
+	   7. CARD SELECT GLOW PULSE
+	   ══════════════════════════════════════════════ */
+	:global(.service-card:active),
+	:global(.card:active),
+	:global(.visit-card:active) {
+		animation: selectPulse 0.3s ease-out;
+	}
+
+	@keyframes selectPulse {
+		0%  { box-shadow: 0 0 0 0 rgba(10, 132, 255, 0.4); }
+		50% { box-shadow: 0 0 20px 4px rgba(10, 132, 255, 0.15); }
+		100%{ box-shadow: 0 0 0 0 rgba(10, 132, 255, 0); }
+	}
+
+	/* ══════════════════════════════════════════════
+	   8. CUSTOM SCROLLBAR
+	   ══════════════════════════════════════════════ */
+	:global(::-webkit-scrollbar) {
+		width: 6px;
+	}
+
+	:global(::-webkit-scrollbar-track) {
+		background: transparent;
+	}
+
+	:global(::-webkit-scrollbar-thumb) {
+		background: rgba(120, 160, 220, 0.15);
+		border-radius: 3px;
+	}
+
+	:global(::-webkit-scrollbar-thumb:hover) {
+		background: rgba(120, 160, 220, 0.3);
+	}
+
+	/* ══════════════════════════════════════════════
+	   9. TEXT SELECTION COLOR
+	   ══════════════════════════════════════════════ */
+	:global(::selection) {
+		background: rgba(10, 132, 255, 0.3);
+		color: #EAF2FF;
+	}
+
+	/* ══════════════════════════════════════════════
+	   10. PREFERS-REDUCED-MOTION
+	   ══════════════════════════════════════════════ */
+	@media (prefers-reduced-motion: reduce) {
+		:global(::view-transition-old(main)),
+		:global(::view-transition-new(main)) {
+			animation: none !important;
+		}
+
+		:global(button::after) {
+			display: none;
+		}
+
+		.page-progress {
+			animation: none;
+		}
 	}
 </style>
