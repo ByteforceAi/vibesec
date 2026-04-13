@@ -2,402 +2,203 @@
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
 
-  type MsgRole = 'bot' | 'user';
-  type Phase = 'greeting' | 'check-tool' | 'check-url' | 'check-visit' | 'urgent' | 'email' | 'done';
+  // --- Form state ---
+  let checkType = $state<'check' | 'urgent' | null>(null);
+  let tool = $state<string | null>(null);
+  let projectUrl = $state('');
+  let visitType = $state<string | null>(null);
+  let email = $state('');
+  let phone = $state('');
+  let message = $state('');
+  let submitted = $state(false);
+  let emailError = $state('');
 
-  interface ChatMsg {
-    role: MsgRole;
-    text: string;
-    id: number;
+  const tools = ['Cursor', 'Claude Code', 'v0', 'Lovable', 'bolt.new', '기타'];
+  const visits = [
+    { id: 'seoul', label: '서울 지점', sub: '마곡나루역' },
+    { id: 'busan', label: '부산 지점', sub: '해운대 오션타워' },
+    { id: 'online', label: '온라인', sub: 'Zoom / Meet' },
+  ];
+
+  function validateEmail(e: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
   }
 
-  interface FormData {
-    type: 'check' | 'urgent' | 'pricing' | 'other' | null;
-    tool: string | null;
-    projectUrl: string | null;
-    visitType: string | null;
-    urgentDetail: string | null;
-    email: string | null;
-    timestamp: string | null;
-  }
-
-  let messages = $state<ChatMsg[]>([]);
-  let phase = $state<Phase>('greeting');
-  let showChoices = $state(false);
-  let showInput = $state(false);
-  let showTyping = $state(false);
-  let inputValue = $state('');
-  let inputType = $state<'url' | 'email'>('url');
-  let msgCounter = $state(0);
-  let chatContainer: HTMLDivElement | undefined = $state(undefined);
-  let reducedMotion = $state(false);
-
-  let formData = $state<FormData>({
-    type: null,
-    tool: null,
-    projectUrl: null,
-    visitType: null,
-    urgentDetail: null,
-    email: null,
-    timestamp: null,
-  });
-
-  // Current choices for pill buttons
-  let currentChoices = $state<{ label: string; value: string }[]>([]);
-  // Whether to show a skip button alongside the input
-  let showSkip = $state(false);
-  // CTA button for special actions (e.g. navigate to /packages)
-  let ctaButton = $state<{ label: string; action: () => void } | null>(null);
-
-  // Check reduced motion
-  if (typeof window !== 'undefined') {
-    reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  const DELAY = reducedMotion ? 50 : 600;
-  const ANIM_MS = reducedMotion ? 0 : 300;
-
-  function nextId(): number {
-    msgCounter += 1;
-    return msgCounter;
-  }
-
-  function scrollToBottom() {
-    if (chatContainer) {
-      requestAnimationFrame(() => {
-        chatContainer!.scrollTop = chatContainer!.scrollHeight;
-      });
+  function handleSubmit() {
+    if (!checkType) return;
+    if (!email || !validateEmail(email)) {
+      emailError = '올바른 이메일 주소를 입력해주세요.';
+      return;
     }
-  }
+    emailError = '';
 
-  async function addBotMsg(text: string): Promise<void> {
-    showTyping = true;
-    showChoices = false;
-    showInput = false;
-    ctaButton = null;
-    scrollToBottom();
-
-    await sleep(DELAY);
-    showTyping = false;
-    messages = [...messages, { role: 'bot', text, id: nextId() }];
-    await sleep(50);
-    scrollToBottom();
-  }
-
-  function addUserMsg(text: string) {
-    messages = [...messages, { role: 'user', text, id: nextId() }];
-    scrollToBottom();
-  }
-
-  function sleep(ms: number): Promise<void> {
-    return new Promise((r) => setTimeout(r, ms));
-  }
-
-  function presentChoices(choices: { label: string; value: string }[]) {
-    currentChoices = choices;
-    showChoices = true;
-    showInput = false;
-    ctaButton = null;
-    scrollToBottom();
-  }
-
-  function presentInput(type: 'url' | 'email', skip: boolean = false) {
-    inputType = type;
-    inputValue = '';
-    showInput = true;
-    showChoices = false;
-    showSkip = skip;
-    ctaButton = null;
-    scrollToBottom();
-  }
-
-  function presentCta(label: string, action: () => void) {
-    ctaButton = { label, action };
-    showChoices = false;
-    showInput = false;
-    scrollToBottom();
-  }
-
-  // ---- Flow logic ----
-
-  async function startGreeting() {
-    await addBotMsg('안녕하세요. Byteforce 상담 데스크입니다.');
-    await addBotMsg('어떤 도움이 필요하세요?');
-    phase = 'greeting';
-    presentChoices([
-      { label: '프로젝트 점검 받고 싶어요', value: 'check' },
-      { label: '긴급 상황이에요', value: 'urgent' },
-      { label: '요금제가 궁금해요', value: 'pricing' },
-      { label: '기타 문의', value: 'other' },
-    ]);
-  }
-
-  async function handleGreetingChoice(value: string) {
-    if (value === 'check') {
-      formData.type = 'check';
-      addUserMsg('프로젝트 점검 받고 싶어요');
-      await addBotMsg('프로젝트 점검이요. 어떤 도구로 만드셨나요?');
-      phase = 'check-tool';
-      presentChoices([
-        { label: 'Cursor', value: 'cursor' },
-        { label: 'Claude Code', value: 'claude' },
-        { label: 'v0 / Lovable', value: 'v0-lovable' },
-        { label: 'bolt.new / Replit', value: 'bolt-replit' },
-        { label: '기타', value: 'other' },
-      ]);
-    } else if (value === 'urgent') {
-      formData.type = 'urgent';
-      addUserMsg('긴급 상황이에요');
-      await addBotMsg('무슨 일이 있으셨나요?');
-      phase = 'urgent';
-      presentChoices([
-        { label: '요금이 갑자기 많이 나왔어요', value: 'billing' },
-        { label: '데이터가 사라졌어요', value: 'data' },
-        { label: '사이트가 이상하게 바뀌었어요', value: 'site' },
-        { label: '계정에 접근이 안 돼요', value: 'account' },
-        { label: '기타', value: 'other' },
-      ]);
-    } else if (value === 'pricing') {
-      formData.type = 'pricing';
-      addUserMsg('요금제가 궁금해요');
-      await addBotMsg('요금제 페이지를 안내해드릴게요.');
-      presentCta('요금제 보기', () => goto(`${base}/packages`));
-      // Also allow continuing to email
-      await sleep(800);
-      await goToEmail();
-    } else {
-      formData.type = 'other';
-      addUserMsg('기타 문의');
-      await goToEmail();
-    }
-  }
-
-  async function handleToolChoice(value: string) {
-    formData.tool = value;
-    const labels: Record<string, string> = {
-      cursor: 'Cursor',
-      claude: 'Claude Code',
-      'v0-lovable': 'v0 / Lovable',
-      'bolt-replit': 'bolt.new / Replit',
-      other: '기타',
-    };
-    addUserMsg(labels[value] || value);
-    await addBotMsg('프로젝트 URL이 있으시면 알려주세요. 없으면 건너뛰셔도 돼요.');
-    phase = 'check-url';
-    presentInput('url', true);
-  }
-
-  async function handleUrlSubmit(url: string | null) {
-    formData.projectUrl = url;
-    if (url) {
-      addUserMsg(url);
-    } else {
-      addUserMsg('건너뛰기');
-    }
-    await addBotMsg('어떤 방식으로 점검 받으시겠어요?');
-    phase = 'check-visit';
-    presentChoices([
-      { label: '서울 지점 방문', value: 'seoul' },
-      { label: '부산 지점 방문', value: 'busan' },
-      { label: '온라인 (Zoom/Meet)', value: 'online' },
-    ]);
-  }
-
-  async function handleVisitChoice(value: string) {
-    formData.visitType = value;
-    const labels: Record<string, string> = {
-      seoul: '서울 지점 방문',
-      busan: '부산 지점 방문',
-      online: '온라인 (Zoom/Meet)',
-    };
-    addUserMsg(labels[value] || value);
-    await goToEmail();
-  }
-
-  async function handleUrgentChoice(value: string) {
-    formData.urgentDetail = value;
-    const labels: Record<string, string> = {
-      billing: '요금이 갑자기 많이 나왔어요',
-      data: '데이터가 사라졌어요',
-      site: '사이트가 이상하게 바뀌었어요',
-      account: '계정에 접근이 안 돼요',
-      other: '기타',
-    };
-    addUserMsg(labels[value] || value);
-    await goToEmail();
-  }
-
-  async function goToEmail() {
-    await addBotMsg('접수 완료를 위해 이메일을 알려주세요.');
-    await addBotMsg('점검 결과 리포트도 이 이메일로 보내드립니다.');
-    phase = 'email';
-    presentInput('email', false);
-  }
-
-  async function handleEmailSubmit(email: string) {
-    formData.email = email;
-    formData.timestamp = new Date().toISOString();
-    addUserMsg(email);
-
-    // Save to localStorage + console
-    saveFormData();
-
-    await addBotMsg('접수되었습니다. 24시간 내 이메일로 견적서를 보내드립니다.');
-    await addBotMsg('입금 확인 후 점검 일정이 확정됩니다.');
-    await addBotMsg('계좌: 신한은행 110-XXX-XXXXXX (주)바이트포스');
-    await addBotMsg('급하시면 카카오톡 채널로도 연락 가능합니다.');
-    phase = 'done';
-    showChoices = false;
-    showInput = false;
-    ctaButton = null;
-    presentCta('홈으로 돌아가기', () => goto(`${base}/`));
-  }
-
-  function saveFormData() {
     const data = {
-      type: formData.type,
-      tool: formData.tool,
-      projectUrl: formData.projectUrl,
-      visitType: formData.visitType,
-      urgentDetail: formData.urgentDetail,
-      email: formData.email,
-      timestamp: formData.timestamp,
+      type: checkType,
+      tool,
+      projectUrl: projectUrl || null,
+      visitType,
+      email,
+      phone: phone || null,
+      message: message || null,
+      timestamp: new Date().toISOString(),
     };
-    console.log('[Byteforce] 상담 접수 데이터:', data);
-    try {
-      const existing = JSON.parse(localStorage.getItem('byteforce_inquiries') || '[]');
-      existing.push(data);
-      localStorage.setItem('byteforce_inquiries', JSON.stringify(existing));
-    } catch {
-      // localStorage unavailable
-    }
-  }
 
-  // Choice click handler
-  function onChoiceClick(value: string) {
-    if (phase === 'greeting') handleGreetingChoice(value);
-    else if (phase === 'check-tool') handleToolChoice(value);
-    else if (phase === 'check-visit') handleVisitChoice(value);
-    else if (phase === 'urgent') handleUrgentChoice(value);
-  }
+    // Save to localStorage
+    const existing = JSON.parse(localStorage.getItem('byteforce_inquiries') || '[]');
+    existing.push(data);
+    localStorage.setItem('byteforce_inquiries', JSON.stringify(existing));
+    console.log('[Byteforce] New inquiry:', data);
 
-  // Input submit handler
-  function onInputSubmit() {
-    const val = inputValue.trim();
-    if (inputType === 'url') {
-      handleUrlSubmit(val || null);
-    } else if (inputType === 'email') {
-      if (!val || !val.includes('@')) return;
-      handleEmailSubmit(val);
-    }
-  }
-
-  function onSkip() {
-    if (phase === 'check-url') {
-      handleUrlSubmit(null);
-    }
-  }
-
-  function onKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      onInputSubmit();
-    }
-  }
-
-  // Start on mount
-  if (typeof window !== 'undefined') {
-    startGreeting();
+    submitted = true;
   }
 </script>
 
 <div class="page">
-
-  <!-- App bar -->
   <header class="bar">
-    <button class="bar-back" onclick={() => goto(`${base}/`)}>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-    </button>
-    <span class="bar-title">BYTEFORCE</span>
-    <span class="bar-spacer"></span>
+    <span class="bar-brand">BYTEFORCE</span>
+    <button class="bar-link" onclick={() => goto(`${base}/`)}>홈으로</button>
   </header>
 
-  <!-- Chat area -->
-  <div class="chat-area" bind:this={chatContainer}>
-    <div class="chat-inner">
-
-      {#each messages as msg (msg.id)}
-        <div
-          class="msg msg--{msg.role}"
-          style="animation-duration: {ANIM_MS}ms;"
-        >
-          <div class="msg-bubble msg-bubble--{msg.role}">
-            {msg.text}
+  <div class="form-area">
+    {#if submitted}
+      <!-- Done -->
+      <div class="done">
+        <div class="done-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0A84FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h1 class="done-title">접수되었습니다</h1>
+        <div class="done-msgs">
+          <p class="done-msg">견적서를 이메일로 보내드립니다.</p>
+          <p class="done-msg">입금 확인 후 점검 일정이 확정됩니다.</p>
+          <div class="done-account">
+            <span class="done-label">입금 계좌</span>
+            <span class="done-value">신한은행 110-XXX-XXXXXX</span>
+            <span class="done-value">(주)바이트포스</span>
           </div>
         </div>
-      {/each}
+        <button class="btn-primary" onclick={() => goto(`${base}/`)}>홈으로 돌아가기</button>
+      </div>
+    {:else}
+      <!-- Form -->
+      <h1 class="page-title">상담 예약</h1>
+      <p class="page-sub">필요한 정보를 선택해주세요. 24시간 내 연락드립니다.</p>
 
-      <!-- Typing indicator -->
-      {#if showTyping}
-        <div class="msg msg--bot" style="animation-duration: {ANIM_MS}ms;">
-          <div class="msg-bubble msg-bubble--bot typing-bubble">
-            <span class="typing-dots">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </div>
-        </div>
-      {/if}
-
-      <!-- Choice pills -->
-      {#if showChoices}
-        <div class="choices" style="animation-duration: {ANIM_MS}ms;">
-          {#each currentChoices as choice}
-            <button class="choice-pill" onclick={() => onChoiceClick(choice.value)}>
-              {choice.label}
+      <!-- Group: 점검 유형 -->
+      <div class="group">
+        <span class="group-label">점검 유형</span>
+        <div class="group-body">
+          <div class="pill-row">
+            <button class="pill" class:pill--blue={checkType === 'check'} onclick={() => { checkType = 'check'; }}>
+              프로젝트 점검
             </button>
-          {/each}
+            <button class="pill" class:pill--coral={checkType === 'urgent'} onclick={() => { checkType = 'urgent'; }}>
+              긴급 점검
+            </button>
+          </div>
+          {#if checkType === 'urgent'}
+            <p class="group-note">긴급 점검은 24시간 이내 대응입니다. 별도 요금이 적용됩니다.</p>
+          {/if}
         </div>
-      {/if}
+      </div>
 
-      <!-- CTA button -->
-      {#if ctaButton}
-        <div class="cta-wrap" style="animation-duration: {ANIM_MS}ms;">
-          <button class="cta-btn" onclick={ctaButton.action}>
-            {ctaButton.label}
-          </button>
+      <!-- Group: 사용 도구 -->
+      <div class="group">
+        <span class="group-label">사용 도구</span>
+        <div class="group-body">
+          <div class="pill-row pill-row--wrap">
+            {#each tools as t}
+              <button class="pill" class:pill--blue={tool === t} onclick={() => { tool = t; }}>
+                {t}
+              </button>
+            {/each}
+          </div>
         </div>
-      {/if}
+      </div>
 
-    </div>
+      <!-- Group: 프로젝트 URL -->
+      <div class="group">
+        <span class="group-label">프로젝트 URL <span class="optional">(선택)</span></span>
+        <div class="group-body">
+          <input
+            class="input"
+            type="url"
+            placeholder="https://github.com/..."
+            bind:value={projectUrl}
+          />
+        </div>
+      </div>
+
+      <!-- Group: 점검 방식 -->
+      <div class="group">
+        <span class="group-label">점검 방식</span>
+        <div class="group-body">
+          <div class="visit-cards">
+            {#each visits as v}
+              <button class="visit-card" class:visit-card--on={visitType === v.id} onclick={() => { visitType = v.id; }}>
+                <span class="visit-name">{v.label}</span>
+                <span class="visit-sub">{v.sub}</span>
+              </button>
+            {/each}
+          </div>
+        </div>
+      </div>
+
+      <!-- Group: 연락처 -->
+      <div class="group">
+        <span class="group-label">연락처</span>
+        <div class="group-body">
+          <input
+            class="input"
+            type="email"
+            placeholder="이메일 주소"
+            bind:value={email}
+            class:input--error={emailError}
+          />
+          {#if emailError}
+            <p class="error-msg">{emailError}</p>
+          {/if}
+          <input
+            class="input"
+            type="tel"
+            placeholder="연락처 (선택)"
+            bind:value={phone}
+          />
+        </div>
+      </div>
+
+      <!-- Group: 추가 메시지 -->
+      <div class="group">
+        <span class="group-label">추가 메시지 <span class="optional">(선택)</span></span>
+        <div class="group-body">
+          <textarea
+            class="input textarea"
+            placeholder="궁금한 점이 있으면 적어주세요"
+            bind:value={message}
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button
+        class="btn-submit"
+        class:btn-submit--disabled={!checkType || !email}
+        disabled={!checkType || !email}
+        onclick={handleSubmit}
+      >
+        접수하기
+      </button>
+
+      <p class="footer-note">접수 후 24시간 내 견적서를 이메일로 보내드립니다.</p>
+    {/if}
   </div>
 
-  <!-- Input bar (conditionally shown) -->
-  {#if showInput}
-    <div class="input-bar" style="animation-duration: {ANIM_MS}ms;">
-      <div class="input-row">
-        <input
-          class="input-field"
-          type={inputType === 'email' ? 'email' : 'text'}
-          placeholder={inputType === 'email' ? 'email@example.com' : 'https://...'}
-          bind:value={inputValue}
-          onkeydown={onKeydown}
-        />
-        {#if showSkip}
-          <button class="skip-btn" onclick={onSkip}>건너뛰기</button>
-        {/if}
-        <button
-          class="send-btn"
-          onclick={onInputSubmit}
-          disabled={inputType === 'email' && (!inputValue.trim() || !inputValue.includes('@'))}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
-        </button>
-      </div>
-    </div>
-  {/if}
-
+  <nav class="nav">
+    <button class="nav-i" onclick={() => goto(`${base}/`)}>홈</button>
+    <button class="nav-i" onclick={() => goto(`${base}/check`)}>자가진단</button>
+    <button class="nav-i" onclick={() => goto(`${base}/packages`)}>요금제</button>
+    <button class="nav-i nav-i--on" onclick={() => goto(`${base}/contact`)}>상담예약</button>
+  </nav>
 </div>
 
 <style>
@@ -408,201 +209,192 @@
     --border-dim: rgba(120, 160, 220, 0.08);
     --border-active: rgba(10, 132, 255, 0.45);
     --blue-core: #0A84FF;
-    --blue-glow: #3BA0FF;
+    --coral-alert: #FF6B47;
     --text-primary: #EAF2FF;
     --text-secondary: rgba(234, 242, 255, 0.62);
     --text-tertiary: rgba(234, 242, 255, 0.38);
     --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
     --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", monospace;
 
-    display: flex; flex-direction: column; height: 100dvh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 71, 179, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.1) 0%, transparent 60%),
       var(--bg-void);
-    color: var(--text-primary); font-family: var(--font);
+    color: var(--text-primary);
+    font-family: var(--font);
     -webkit-font-smoothing: antialiased;
   }
 
-  /* App bar */
+  /* Bar */
   .bar {
-    position: sticky; top: 0; z-index: 90; height: 48px;
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 24px; flex-shrink: 0;
-    background: rgba(5,6,10,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    position: sticky; top: 0; z-index: 50;
+    height: 48px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-dim);
   }
-  .bar-back {
-    background: none; border: none; color: var(--text-secondary); cursor: pointer;
-    display: flex; align-items: center; padding: 4px; transition: color 0.15s;
+  .bar-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--text-tertiary); }
+  .bar-link {
+    font-family: var(--font); font-size: 13px; color: var(--blue-core);
+    background: none; border: none; cursor: pointer;
   }
-  .bar-back:hover { color: var(--text-primary); }
-  .bar-title {
-    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+
+  /* Form area */
+  .form-area {
+    flex: 1; padding: 32px 20px 100px;
+    max-width: 560px; margin: 0 auto; width: 100%;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+
+  .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+  .page-sub { font-size: 15px; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+  /* Group */
+  .group { display: flex; flex-direction: column; gap: 8px; }
+  .group-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-tertiary); padding-left: 4px;
+  }
+  .optional { font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .group-body {
+    background: var(--bg-abyss);
+    border: 1px solid var(--border-dim);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .group-note {
+    font-size: 12px; color: var(--coral-alert); margin: 0; opacity: 0.8;
+  }
+
+  /* Pill buttons */
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-row--wrap { flex-wrap: wrap; }
+  .pill {
+    padding: 10px 20px;
+    border-radius: 980px;
+    border: 1px solid var(--border-dim);
+    background: transparent;
     color: var(--text-secondary);
-  }
-  .bar-spacer { flex: 1; }
-
-  /* Chat area */
-  .chat-area {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-  .chat-inner {
-    max-width: 640px; margin: 0 auto;
-    padding: 24px 16px 32px;
-    display: flex; flex-direction: column; gap: 8px;
-  }
-
-  /* Message rows */
-  .msg {
-    display: flex;
-    animation: msgIn var(--ease-organic) forwards;
-    opacity: 0;
-  }
-  .msg--bot { justify-content: flex-start; }
-  .msg--user { justify-content: flex-end; }
-
-  @keyframes msgIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Bubbles */
-  .msg-bubble {
-    padding: 14px 18px;
-    font-size: 14px; line-height: 1.55;
-    max-width: 80%; word-break: break-word;
-  }
-  .msg-bubble--bot {
-    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid var(--border-dim);
-    border-radius: 16px 16px 16px 4px;
-    color: var(--text-primary);
-  }
-  .msg-bubble--user {
-    background: rgba(10, 132, 255, 0.12);
-    border: 1px solid rgba(10, 132, 255, 0.25);
-    border-radius: 16px 16px 4px 16px;
-    color: var(--text-primary);
-  }
-
-  /* Typing indicator */
-  .typing-bubble {
-    display: flex; align-items: center; padding: 14px 22px;
-  }
-  .typing-dots {
-    display: flex; gap: 5px; align-items: center;
-  }
-  .typing-dots span {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--text-tertiary);
-    animation: dotBounce 1.4s infinite;
-  }
-  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes dotBounce {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-    30% { transform: translateY(-4px); opacity: 1; }
-  }
-
-  /* Choices */
-  .choices {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    padding: 4px 0;
-    animation: msgIn var(--ease-organic) forwards;
-    opacity: 0;
-  }
-  .choice-pill {
-    padding: 10px 18px; border-radius: 980px;
-    border: 1px solid var(--border-dim);
-    background: var(--bg-abyss);
-    color: var(--text-primary);
-    font-family: var(--font); font-size: 13px; font-weight: 500;
+    font-family: var(--font);
+    font-size: 14px; font-weight: 500;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
+    transition: all 0.25s var(--ease-organic);
   }
-  .choice-pill:hover {
-    border-color: var(--border-active);
-    background: var(--bg-deep);
+  .pill:hover { border-color: rgba(120, 160, 220, 0.2); color: var(--text-primary); }
+  .pill--blue {
+    background: var(--blue-core); color: #fff; border-color: var(--blue-core);
+  }
+  .pill--coral {
+    background: var(--coral-alert); color: #fff; border-color: var(--coral-alert);
   }
 
-  /* CTA button */
-  .cta-wrap {
-    padding: 8px 0;
-    animation: msgIn var(--ease-organic) forwards;
-    opacity: 0;
-  }
-  .cta-btn {
-    padding: 12px 28px; border-radius: 980px; border: none;
-    background: var(--blue-core); color: #fff;
-    font-family: var(--font); font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: background 0.2s;
-  }
-  .cta-btn:hover { background: var(--blue-glow); }
-
-  /* Input bar */
-  .input-bar {
-    flex-shrink: 0;
-    padding: 12px 16px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-    background: rgba(5,6,10,0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border-dim);
-    animation: msgIn var(--ease-organic) forwards;
-    opacity: 0;
-  }
-  .input-row {
-    max-width: 640px; margin: 0 auto;
-    display: flex; gap: 8px; align-items: center;
-  }
-  .input-field {
-    flex: 1;
-    background: var(--bg-abyss);
-    border: 1px solid var(--border-dim);
+  /* Visit cards */
+  .visit-cards { display: flex; gap: 8px; }
+  .visit-card {
+    flex: 1; padding: 14px 12px;
     border-radius: 12px;
-    padding: 12px 16px;
+    border: 1px solid var(--border-dim);
+    background: var(--bg-deep);
+    display: flex; flex-direction: column; gap: 4px; align-items: center;
+    cursor: pointer; font-family: var(--font); text-align: center;
+    transition: all 0.25s var(--ease-organic);
+  }
+  .visit-card:hover { border-color: rgba(120, 160, 220, 0.2); }
+  .visit-card--on { border-color: var(--blue-core); background: rgba(10, 132, 255, 0.08); }
+  .visit-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .visit-sub { font-size: 11px; color: var(--text-tertiary); }
+  .visit-card--on .visit-name { color: var(--blue-core); }
+
+  /* Input */
+  .input {
+    width: 100%; padding: 12px 16px;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
     color: var(--text-primary);
     font-family: var(--font); font-size: 14px;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
   }
-  .input-field::placeholder { color: var(--text-tertiary); }
-  .input-field:focus { border-color: var(--border-active); }
+  .input::placeholder { color: var(--text-tertiary); }
+  .input:focus { border-color: var(--border-active); }
+  .input--error { border-color: var(--coral-alert); }
+  .textarea { resize: vertical; min-height: 60px; }
+  .error-msg { font-size: 12px; color: var(--coral-alert); margin: 0; }
 
-  .skip-btn {
-    padding: 10px 16px; border-radius: 980px;
+  /* Submit */
+  .btn-submit {
+    padding: 14px 0; width: 100%;
+    border-radius: 980px;
+    border: none;
+    background: var(--blue-core);
+    color: #fff;
+    font-family: var(--font); font-size: 16px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s var(--ease-organic);
+  }
+  .btn-submit:hover { background: #2196ff; transform: translateY(-1px); }
+  .btn-submit--disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-submit--disabled:hover { transform: none; background: var(--blue-core); }
+
+  .footer-note { font-size: 12px; color: var(--text-tertiary); text-align: center; margin: 0; }
+
+  /* Done */
+  .done {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 20px; padding: 48px 0;
+  }
+  .done-icon {
+    width: 80px; height: 80px;
+    border-radius: 20px;
+    background: linear-gradient(155deg, #0D1528 0%, #0A0E1A 100%);
     border: 1px solid var(--border-dim);
-    background: transparent; color: var(--text-secondary);
-    font-family: var(--font); font-size: 13px; font-weight: 500;
-    cursor: pointer; white-space: nowrap;
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .skip-btn:hover {
-    border-color: var(--border-active); color: var(--text-primary);
-  }
-
-  .send-btn {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: none; background: var(--blue-core);
-    color: #fff; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.15s, opacity 0.15s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 40px rgba(10,132,255,0.1);
   }
-  .send-btn:hover { background: var(--blue-glow); }
-  .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .done-title { font-size: 24px; font-weight: 700; margin: 0; }
+  .done-msgs { display: flex; flex-direction: column; gap: 8px; }
+  .done-msg { font-size: 15px; color: var(--text-secondary); margin: 0; }
+  .done-account {
+    margin-top: 12px; padding: 16px;
+    background: var(--bg-abyss); border: 1px solid var(--border-dim);
+    border-radius: 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .done-label { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.1em; }
+  .done-value { font-family: var(--mono); font-size: 14px; color: var(--text-primary); }
+  .btn-primary {
+    padding: 12px 32px; border-radius: 980px; border: 1px solid var(--border-dim);
+    background: transparent; color: var(--text-secondary);
+    font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { color: var(--text-primary); border-color: rgba(120,160,220,0.2); }
 
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-delay: 0s !important;
-      transition-duration: 0.01ms !important;
-    }
+  /* Nav */
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    display: flex;
+    background: rgba(5, 6, 10, 0.9);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border-dim);
+  }
+  .nav-i {
+    flex: 1; padding: 12px 0; background: none; border: none;
+    font-family: var(--font); font-size: 12px; font-weight: 500;
+    color: var(--text-tertiary); cursor: pointer; transition: color 0.15s;
+  }
+  .nav-i:hover { color: var(--text-secondary); }
+  .nav-i--on { color: var(--blue-core); }
+
+  @media (max-width: 480px) {
+    .visit-cards { flex-direction: column; }
+    .page-title { font-size: 24px; }
   }
 </style>
