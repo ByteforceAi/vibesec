@@ -2,13 +2,13 @@
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
 
-  interface Feature { label: string; starter: string; pro: string; full: string }
+  interface Feature { label: string; starter: string; pro: string; full: string; enterprise: string }
 
   const plans = [
     {
       id: 'check',
       name: '기본 점검',
-      desc: '1:1 대면. 레포 전체 보안 스캔 + 리포트.',
+      desc: '1:1 대면. 핵심 항목 위주 보안 점검 + 리포트.',
       price: 390000,
       priceLabel: '390,000',
       period: '/ 1회',
@@ -18,7 +18,7 @@
     {
       id: 'pro',
       name: '정밀 점검',
-      desc: '점검 + 수정 가이드 + 코드 리뷰.',
+      desc: '주요 영역 전수 점검 + 수정 가이드 + 코드 리뷰.',
       price: 890000,
       priceLabel: '890,000',
       period: '/ 프로젝트',
@@ -36,6 +36,16 @@
       cta: '상담 후 진행',
       details: '소요 3~7일. 30일 모니터링 포함.',
     },
+    {
+      id: 'enterprise',
+      name: 'Enterprise',
+      desc: '312개+ 전체 항목 점검. 커스텀 항목 추가 가능.',
+      price: 0,
+      priceLabel: '별도 견적',
+      period: '',
+      cta: '견적 문의',
+      details: '팀 단위 점검. 전담 엔지니어 배정. 90일 모니터링.',
+    },
   ];
 
   const extras = [
@@ -46,18 +56,21 @@
   ];
 
   const features: Feature[] = [
-    { label: '1:1 대면 점검',         starter: 'check', pro: 'check',           full: 'check' },
-    { label: '취약점 리포트',          starter: '요약',   pro: '상세',            full: '상세 + 라인 번호' },
-    { label: '비밀키 노출 검사',       starter: 'check', pro: 'check',           full: 'check' },
-    { label: '인증 체계 점검',         starter: 'minus', pro: 'check',           full: 'check' },
-    { label: '데이터베이스 보안 (RLS)', starter: 'minus', pro: 'check',           full: 'check' },
-    { label: 'API 엔드포인트 검증',    starter: 'minus', pro: 'check',           full: 'check' },
-    { label: '의존성 취약점 분석',      starter: 'minus', pro: 'check',           full: 'check' },
-    { label: '수정 가이드',            starter: 'minus', pro: 'PDF',            full: '1:1 화면 공유' },
-    { label: '엔지니어 직접 수정',      starter: 'minus', pro: 'minus',           full: 'check' },
-    { label: '배포 후 모니터링',       starter: 'minus', pro: '7일',             full: '30일' },
-    { label: '긴급 대응 SLA',         starter: 'minus', pro: 'minus',           full: '4시간 이내' },
-    { label: '재점검 보증',            starter: 'minus', pro: '14일',            full: '30일' },
+    { label: '1:1 대면 점검',         starter: 'check', pro: 'check',           full: 'check',          enterprise: 'check' },
+    { label: '취약점 리포트',          starter: '요약',   pro: '상세',            full: '상세 + 라인 번호', enterprise: '전수 + 커스텀' },
+    { label: '점검 항목 수',           starter: '핵심 20+', pro: '주요 60+',      full: '전체 120+',       enterprise: '312+ 전항목' },
+    { label: '비밀키 노출 검사',       starter: 'check', pro: 'check',           full: 'check',          enterprise: 'check' },
+    { label: '인증 체계 점검',         starter: 'minus', pro: 'check',           full: 'check',          enterprise: 'check' },
+    { label: '데이터베이스 보안 (RLS)', starter: 'minus', pro: 'check',           full: 'check',          enterprise: 'check' },
+    { label: 'API 엔드포인트 검증',    starter: 'minus', pro: 'check',           full: 'check',          enterprise: 'check' },
+    { label: '의존성 취약점 분석',      starter: 'minus', pro: 'check',           full: 'check',          enterprise: 'check' },
+    { label: '수정 가이드',            starter: 'minus', pro: 'PDF',            full: '1:1 화면 공유',    enterprise: '전담 엔지니어' },
+    { label: '엔지니어 직접 수정',      starter: 'minus', pro: 'minus',           full: 'check',          enterprise: 'check' },
+    { label: '배포 후 모니터링',       starter: 'minus', pro: '7일',             full: '30일',            enterprise: '90일' },
+    { label: '긴급 대응 SLA',         starter: 'minus', pro: 'minus',           full: '4시간 이내',       enterprise: '2시간 이내' },
+    { label: '재점검 보증',            starter: 'minus', pro: '14일',            full: '30일',            enterprise: '90일' },
+    { label: '전담 엔지니어 배정',      starter: 'minus', pro: 'minus',           full: 'minus',           enterprise: 'check' },
+    { label: '커스텀 점검 항목 추가',    starter: 'minus', pro: 'minus',           full: 'minus',           enterprise: 'check' },
   ];
 
   const faqs = [
@@ -183,7 +196,7 @@
 
   function toggleFaq(i: number) { openFaq = openFaq === i ? null : i; }
   function getVal(feat: Feature): string {
-    return activePlan === 0 ? feat.starter : activePlan === 1 ? feat.pro : feat.full;
+    return activePlan === 0 ? feat.starter : activePlan === 1 ? feat.pro : activePlan === 2 ? feat.full : feat.enterprise;
   }
   function handleScroll(e: Event) {
     const el = e.target as HTMLElement;
