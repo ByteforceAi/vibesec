@@ -1,0 +1,50 @@
+- generic [ref=e3]:
+  - region "Notifications (F8)":
+    - list
+  - generic [ref=e31]:
+    - generic [ref=e33]:
+      - button:
+        - img
+      - generic [ref=e35]:
+        - button "Login" [ref=e36] [cursor=pointer]:
+          - img [ref=e37]
+          - generic [ref=e39]: Login
+        - button "0" [ref=e40] [cursor=pointer]:
+          - img [ref=e41]
+          - generic [ref=e43]: "0"
+    - generic [ref=e47]:
+      - heading "vybe ✨" [level=1] [ref=e48]:
+        - text: vybe
+        - generic [ref=e49]: ✨
+      - paragraph [ref=e50]: find your vibe
+      - generic [ref=e52]:
+        - heading "Choose your vybe 🎭" [level=2] [ref=e53]
+        - paragraph [ref=e54]: Pick an AI personality to transform your text
+      - generic [ref=e56]:
+        - button "✨ 💫 ⚡ ✨ Vybe Mode Equipped" [ref=e57] [cursor=pointer]:
+          - generic [ref=e58]:
+            - generic [ref=e59]: ✨
+            - generic [ref=e60]: 💫
+            - generic [ref=e61]: ⚡
+          - generic [ref=e62]:
+            - generic [ref=e63]: ✨
+            - generic [ref=e64]: Vybe Mode
+            - generic:
+              - generic:
+                - img
+                - generic: Equipped
+            - img [ref=e66]
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - generic [ref=e72]: ⚡
+              - generic [ref=e73]: ✨ Lit Mode
+            - button [ref=e74] [cursor=pointer]:
+              - img [ref=e75]
+          - paragraph [ref=e77]: Turn the vybe up to 11 - maximum Gen Z energy activated
+          - generic [ref=e83]: Ready
+      - button "Continue →" [ref=e84] [cursor=pointer]
+    - link "Contact Us" [ref=e86] [cursor=pointer]:
+      - /url: mailto:leehangyeol@outlook.com
+      - img [ref=e87]
+      - generic [ref=e89]: Contact Us

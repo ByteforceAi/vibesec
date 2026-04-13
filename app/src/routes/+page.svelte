@@ -1206,7 +1206,7 @@
     flex-direction: column;
     gap: 14px;
     background: linear-gradient(165deg, #0D1528 0%, #0A0E1A 100%);
-    border: 1px solid var(--border-dim);
+    border: 1px solid rgba(10, 132, 255, 0.12);
     border-radius: 14px;
     padding: 24px;
     cursor: pointer;
@@ -1215,6 +1215,7 @@
     font-family: var(--font);
     width: 100%;
     overflow: hidden;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
     transition: transform 0.4s var(--ease-organic), border-color 0.4s var(--ease-organic), background 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
   }
 
@@ -1271,11 +1272,12 @@
   /* Card hover */
   .card:hover {
     transform: translateY(-4px);
-    border-color: var(--border-active);
+    border-color: rgba(10, 132, 255, 0.35);
     background: linear-gradient(165deg, #112041 0%, #0A0E1A 100%);
     box-shadow:
-      0 12px 40px rgba(0, 71, 179, 0.25),
-      0 0 0 1px rgba(10, 132, 255, 0.3),
+      0 0 30px rgba(10, 132, 255, 0.12),
+      0 12px 40px rgba(0, 71, 179, 0.2),
+      0 0 0 1px rgba(10, 132, 255, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
@@ -1296,12 +1298,16 @@
   /* Urgent card (coral) special */
   .card--urgent {
     background: linear-gradient(165deg, #1F1410 0%, #0A0E1A 100%);
+    border-color: rgba(255, 107, 71, 0.1);
+    box-shadow: 0 0 20px rgba(255, 107, 71, 0.03);
   }
   .card--urgent:hover {
     background: linear-gradient(165deg, #2A1A14 0%, #0A0E1A 100%);
+    border-color: rgba(255, 107, 71, 0.3);
     box-shadow:
-      0 12px 40px rgba(255, 107, 71, 0.15),
-      0 0 0 1px rgba(255, 107, 71, 0.3),
+      0 0 30px rgba(255, 107, 71, 0.1),
+      0 12px 40px rgba(255, 107, 71, 0.12),
+      0 0 0 1px rgba(255, 107, 71, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 

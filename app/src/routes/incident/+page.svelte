@@ -262,10 +262,16 @@
   .optional { font-weight: 400; text-transform: none; letter-spacing: 0; }
   .group-body {
     background: var(--bg-abyss);
-    border: 1px solid var(--border-dim);
+    border: 1px solid rgba(10, 132, 255, 0.1);
     border-radius: 14px;
     padding: 16px;
     display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 0 16px rgba(10, 132, 255, 0.03);
+    transition: border-color 0.3s var(--ease-organic), box-shadow 0.3s var(--ease-organic);
+  }
+  .group-body:focus-within {
+    border-color: rgba(10, 132, 255, 0.25);
+    box-shadow: 0 0 24px rgba(10, 132, 255, 0.08);
   }
   .group-note {
     font-size: 12px; color: var(--coral-alert); margin: 0; opacity: 0.8;
