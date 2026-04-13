@@ -1335,16 +1335,16 @@
 
   /* Icon hover */
   .card:hover .card-icon--blue {
-    filter: drop-shadow(0 0 12px var(--blue-glow));
-    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(10,132,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(10,132,255,0.25);
+    transform: scale(1.06);
   }
   .card:hover .card-icon--coral {
-    filter: drop-shadow(0 0 12px var(--coral-alert));
-    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(255,107,71,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(255,107,71,0.25);
+    transform: scale(1.06);
   }
   .card:hover .card-icon--green {
-    filter: drop-shadow(0 0 12px #32d74b);
-    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(50,215,75,0.2), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 20px rgba(50,215,75,0.25);
+    transform: scale(1.06);
   }
 
   /* Urgent card (coral) special */
@@ -1408,22 +1408,47 @@
     z-index: 1;
   }
 
+  /* Mini objet icons (same design language as hero core) */
   .card-icon {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: filter 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
+    border-radius: 12px;
+    position: relative;
+    transition: transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
+  }
+  .card-icon::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%; height: 40%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+    border-radius: 12px 12px 50% 50%;
+    pointer-events: none;
   }
   .card-icon svg {
-    width: 100%;
-    height: 100%;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    z-index: 1;
   }
-  .card-icon--blue { color: var(--blue-core); }
-  .card-icon--coral { color: var(--coral-alert); }
-  .card-icon--green { color: #32d74b; }
+  .card-icon--blue {
+    color: #fff;
+    background: linear-gradient(155deg, #1a5aaa 0%, #0a3d7a 100%);
+    box-shadow: 0 2px 8px rgba(10,132,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .card-icon--coral {
+    color: #fff;
+    background: linear-gradient(155deg, #a83a20 0%, #6e2010 100%);
+    box-shadow: 0 2px 8px rgba(255,107,71,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .card-icon--green {
+    color: #fff;
+    background: linear-gradient(155deg, #1a8a3a 0%, #0a5a22 100%);
+    box-shadow: 0 2px 8px rgba(50,215,75,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
 
   .card-text {
     display: flex;
