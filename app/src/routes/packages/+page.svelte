@@ -407,6 +407,7 @@
       <!-- Footer -->
       <section class="foot" data-reveal="foot" class:reveal--in={revealedSections.has('foot') || reducedMotion}>
         <p class="foot-text">뭐가 필요한지 모르겠으면 일단 오세요.<br/>보고 말씀드리겠습니다.</p>
+        <p class="foot-note">코드를 보내지 않아도 됩니다. 현장에서 직접 확인합니다.</p>
         <button class="foot-btn" onclick={() => goto(`${base}/incident`)}>상담 예약</button>
       </section>
 
@@ -1002,9 +1003,15 @@
     font-size: 18px;
     font-weight: 500;
     color: var(--text-secondary);
-    margin: 0 0 24px;
+    margin: 0 0 12px;
     line-height: 1.5;
     word-break: keep-all;
+  }
+
+  .foot-note {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    margin: 0 0 24px;
   }
 
   .foot-btn {
