@@ -124,6 +124,20 @@
   }
 
   const result = $derived(getResult());
+
+  // Compute progress for SVG ring
+  const ringProgress = $derived(() => {
+    const answered = answers.filter(a => a !== null).length;
+    return answered / questions.length;
+  });
+
+  // Ring color based on result
+  const ringColor = $derived(() => {
+    if (!showResult) return 'var(--blue-core)';
+    if (result.type === 'safe') return 'var(--green-ok)';
+    if (result.type === 'warning') return 'var(--blue-core)';
+    return 'var(--coral-alert)';
+  });
 </script>
 
 <svelte:head>
@@ -152,9 +166,48 @@
   <!-- Content -->
   <div class="content">
 
+    <!-- Scan Ring Objet -->
+    <div class="objet-wrap fade-in" style="animation-delay: 0s;">
+      <div class="objet-ring">
+        <svg class="ring-svg" width="72" height="72" viewBox="0 0 72 72">
+          <!-- Track -->
+          <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(10,132,255,0.1)" stroke-width="3"/>
+          <!-- Progress arc -->
+          <circle
+            cx="36" cy="36" r="30"
+            fill="none"
+            stroke={ringColor()}
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-dasharray={2 * Math.PI * 30}
+            stroke-dashoffset={2 * Math.PI * 30 * (1 - ringProgress())}
+            class="ring-progress"
+            transform="rotate(-90 36 36)"
+          />
+          <!-- Glow filter -->
+          <circle
+            cx="36" cy="36" r="30"
+            fill="none"
+            stroke={ringColor()}
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-dasharray={2 * Math.PI * 30}
+            stroke-dashoffset={2 * Math.PI * 30 * (1 - ringProgress())}
+            transform="rotate(-90 36 36)"
+            opacity="0.4"
+            filter="blur(4px)"
+          />
+          <!-- Center icon: shield -->
+          <path d="M36 22 L36 22 C36 22 46 26 46 34 C46 42 36 50 36 50 C36 50 26 42 26 34 C26 26 36 22 36 22Z" fill="none" stroke={ringColor()} stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>
+          <!-- Center text -->
+          <text x="36" y="39" text-anchor="middle" fill="var(--text-primary)" font-size="11" font-weight="600" font-family="var(--mono)">{showResult ? '100' : Math.round(ringProgress() * 100)}%</text>
+        </svg>
+      </div>
+    </div>
+
     {#if !showResult}
       <!-- Progress -->
-      <div class="progress-wrap">
+      <div class="progress-wrap fade-in" style="animation-delay: 0.1s;">
         <div class="progress-bar">
           <div
             class="progress-fill"
@@ -166,9 +219,9 @@
 
       <!-- Question card -->
       <div
-        class="card-wrap"
+        class="card-wrap fade-in"
         class:card-wrap--out={transitioning}
-        style="animation-duration: {ANIM_MS}ms;"
+        style="animation-duration: {ANIM_MS}ms; animation-delay: 0.2s;"
       >
         <div class="question-card">
           <span class="question-num">Q{currentIndex + 1}</span>
@@ -239,6 +292,7 @@
     --text-tertiary: rgba(234, 242, 255, 0.38);
     --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
     --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", monospace;
 
     display: flex; flex-direction: column; min-height: 100dvh;
     background:
@@ -247,6 +301,37 @@
       var(--bg-void);
     color: var(--text-primary); font-family: var(--font);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Page entry animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: pageIn 0.5s var(--ease-organic) forwards;
+  }
+  @keyframes pageIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scan Ring Objet */
+  .objet-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 12px;
+  }
+  .objet-ring {
+    position: relative;
+    animation: objetPulse 3s ease-in-out infinite;
+  }
+  .ring-svg {
+    filter: drop-shadow(0 2px 12px rgba(10, 132, 255, 0.2));
+  }
+  .ring-progress {
+    transition: stroke-dashoffset 0.5s var(--ease-organic), stroke 0.4s;
+  }
+  @keyframes objetPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
   }
 
   /* App bar */
@@ -264,6 +349,7 @@
     display: flex; align-items: center; padding: 4px; transition: color 0.15s;
   }
   .bar-back:hover { color: var(--text-primary); }
+  .bar-back:active { transform: scale(0.95); }
   .bar-title {
     font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
     color: var(--text-secondary);
@@ -275,7 +361,7 @@
     flex: 1;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    padding: 32px 20px;
+    padding: 24px 20px;
     max-width: 480px; margin: 0 auto; width: 100%;
   }
 
@@ -283,7 +369,7 @@
   .progress-wrap {
     width: 100%;
     display: flex; align-items: center; gap: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
   .progress-bar {
     flex: 1; height: 4px;
@@ -334,11 +420,12 @@
     box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
   }
   .question-num {
-    font-size: 12px; font-weight: 600;
-    color: var(--blue-core); letter-spacing: 0.05em;
+    font-size: 11px; font-weight: 600;
+    color: var(--blue-core); letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   .question-text {
-    font-size: 20px; font-weight: 600; line-height: 1.4;
+    font-size: 22px; font-weight: 700; line-height: 1.4;
     margin: 0;
   }
 
@@ -348,13 +435,14 @@
   }
   .option-btn {
     padding: 14px 20px;
+    min-height: 44px;
     border: 1px solid var(--border-dim);
-    border-radius: 12px;
+    border-radius: 980px;
     background: var(--bg-abyss);
     color: var(--text-primary);
     font-family: var(--font); font-size: 15px; font-weight: 500;
-    text-align: left; cursor: pointer;
-    transition: border-color 0.3s, background 0.2s, box-shadow 0.3s, transform 0.2s;
+    text-align: center; cursor: pointer;
+    transition: border-color 0.3s, background 0.2s, box-shadow 0.3s, transform 0.15s;
   }
   .option-btn:hover {
     border-color: rgba(10, 132, 255, 0.3);
@@ -362,9 +450,13 @@
     box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
     transform: translateY(-1px);
   }
+  .option-btn:active {
+    transform: scale(0.97);
+  }
   .option-btn--selected {
     border-color: var(--blue-core);
     background: rgba(10, 132, 255, 0.1);
+    box-shadow: 0 0 16px rgba(10, 132, 255, 0.12);
   }
 
   /* Result */
@@ -401,40 +493,42 @@
   .result-card--safe .result-icon { color: var(--green-ok); }
 
   .result-title {
-    font-size: 20px; font-weight: 600; line-height: 1.4;
+    font-size: 22px; font-weight: 700; line-height: 1.4;
     margin: 0;
   }
   .result-body {
-    font-size: 14px; line-height: 1.6;
+    font-size: 15px; line-height: 1.6;
     color: var(--text-secondary); margin: 0;
     max-width: 320px;
   }
 
   .cta-btn {
     margin-top: 8px;
-    padding: 13px 36px; border-radius: 980px; border: none;
+    padding: 14px 36px; border-radius: 980px; border: none;
     background: var(--blue-core); color: #fff;
-    font-family: var(--font); font-size: 15px; font-weight: 600;
+    font-family: var(--font); font-size: 16px; font-weight: 600;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
-    transition: background 0.2s, box-shadow 0.3s, transform 0.2s;
+    transition: background 0.2s, box-shadow 0.3s, transform 0.15s;
   }
   .cta-btn:hover {
     background: var(--blue-glow);
     box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
     transform: translateY(-1px);
   }
+  .cta-btn:active { transform: scale(0.97); }
 
   .retry-btn {
-    padding: 8px 20px; border-radius: 980px;
+    padding: 10px 24px; border-radius: 980px;
     border: 1px solid var(--border-dim);
     background: transparent; color: var(--text-secondary);
-    font-family: var(--font); font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    font-family: var(--font); font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: border-color 0.15s, color 0.15s, transform 0.15s;
   }
   .retry-btn:hover {
     border-color: var(--border-active); color: var(--text-primary);
   }
+  .retry-btn:active { transform: scale(0.97); }
 
   /* Bottom nav */
   .nav {
@@ -446,15 +540,21 @@
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--border-dim);
     flex-shrink: 0;
+    z-index: 90;
   }
   .nav-i {
     background: none; border: none;
+    border-top: 2px solid transparent;
     font-family: var(--font); font-size: 13px; font-weight: 500;
     color: var(--text-tertiary); cursor: pointer;
     transition: color 0.15s;
+    padding: 8px 16px 6px;
   }
   .nav-i:hover { color: var(--text-secondary); }
-  .nav-i--on { color: var(--blue-core); }
+  .nav-i--on {
+    color: var(--blue-core);
+    border-top-color: var(--blue-core);
+  }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
@@ -462,6 +562,10 @@
       animation-duration: 0.01ms !important;
       animation-delay: 0s !important;
       transition-duration: 0.01ms !important;
+    }
+    .fade-in {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>

@@ -274,8 +274,39 @@
     <!-- Main -->
     <main class="main" bind:this={mainEl} onscroll={handleScroll}>
 
+      <!-- Stacked Cards Objet -->
+      <div class="objet-wrap fade-in" style="animation-delay: 0s;">
+        <div class="objet-cards">
+          <svg class="objet-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Card 3 (back) -->
+            <rect x="16" y="2" width="48" height="34" rx="8" fill="rgba(10,132,255,0.06)" stroke="rgba(10,132,255,0.15)" stroke-width="1"/>
+            <!-- Card 2 (middle) -->
+            <rect x="10" y="8" width="50" height="34" rx="8" fill="rgba(10,132,255,0.1)" stroke="rgba(10,132,255,0.25)" stroke-width="1"/>
+            <rect x="18" y="16" width="16" height="2" rx="1" fill="rgba(234,242,255,0.15)"/>
+            <rect x="18" y="22" width="28" height="2" rx="1" fill="rgba(234,242,255,0.08)"/>
+            <!-- Card 1 (front) -->
+            <rect x="4" y="14" width="52" height="36" rx="8" fill="rgba(13,21,40,0.95)" stroke="rgba(10,132,255,0.4)" stroke-width="1.2"/>
+            <!-- Glass highlight -->
+            <rect x="6" y="16" width="48" height="12" rx="4" fill="url(#pkgGlass)" opacity="0.5"/>
+            <!-- Content lines in front card -->
+            <rect x="14" y="24" width="20" height="2.5" rx="1" fill="rgba(10,132,255,0.6)"/>
+            <rect x="14" y="30" width="32" height="2" rx="1" fill="rgba(234,242,255,0.18)"/>
+            <rect x="14" y="36" width="24" height="2" rx="1" fill="rgba(234,242,255,0.1)"/>
+            <!-- Checkmark in front card -->
+            <circle cx="44" cy="40" r="4" fill="rgba(10,132,255,0.15)" stroke="rgba(10,132,255,0.4)" stroke-width="0.8"/>
+            <path d="M42 40l1.5 1.5 3-3" stroke="rgba(10,132,255,0.8)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <defs>
+              <linearGradient id="pkgGlass" x1="6" y1="16" x2="6" y2="28">
+                <stop offset="0" stop-color="white" stop-opacity="0.08"/>
+                <stop offset="1" stop-color="white" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
       <!-- 5. Segment with sliding indicator -->
-      <div class="seg-wrap">
+      <div class="seg-wrap fade-in" style="animation-delay: 0.15s;">
         <div class="seg-indicator" style="transform: translateX({activePlan * 100}%)"></div>
         {#each plans as plan, i}
           <button class="seg" class:seg--on={activePlan === i} onclick={() => switchPlan(i)}>{plan.name}</button>
@@ -284,7 +315,7 @@
 
       <!-- Plan detail with 3. price countup -->
       {#key activePlan}
-      <section class="plan-card">
+      <section class="plan-card fade-in" style="animation-delay: 0.25s;">
         <div class="plan-top">
           <div>
             <h1 class="plan-title">{plans[activePlan].name}</h1>
@@ -381,6 +412,14 @@
 
     </main>
   </div>
+
+  <!-- Bottom nav -->
+  <nav class="nav">
+    <button class="nav-i" onclick={() => goto(`${base}/`)}>홈</button>
+    <button class="nav-i" onclick={() => goto(`${base}/check`)}>자가진단</button>
+    <button class="nav-i nav-i--on" onclick={() => goto(`${base}/packages`)}>요금제</button>
+    <button class="nav-i" onclick={() => goto(`${base}/contact`)}>상담예약</button>
+  </nav>
 </div>
 
 <style>
@@ -417,6 +456,36 @@
     transition: opacity 0.6s var(--ease);
   }
   .void--in { opacity: 1; }
+
+  /* -- Page entry animation -- */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: pageIn 0.5s var(--ease) forwards;
+  }
+  @keyframes pageIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* -- Objet: Stacked Cards -- */
+  .objet-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 4px;
+  }
+  .objet-cards {
+    position: relative;
+    width: 80px;
+    height: 60px;
+    animation: objetFloat 4s ease-in-out infinite;
+  }
+  .objet-svg {
+    filter: drop-shadow(0 4px 16px rgba(10, 132, 255, 0.15));
+  }
+  @keyframes objetFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
 
   /* -- Bar -- */
   .bar {
@@ -455,9 +524,10 @@
     border-radius: 980px;
     padding: 5px 14px;
     cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
+    transition: color 0.2s, border-color 0.2s, transform 0.1s;
   }
   .bar-action:hover { color: var(--text-primary); border-color: var(--border-active); }
+  .bar-action:active { transform: scale(0.97); }
 
   /* -- Shell -- */
   .shell {
@@ -518,9 +588,10 @@
     filter: brightness(1.15);
     box-shadow: 0 0 20px rgba(10, 132, 255, 0.08);
   }
+  .side-item:active { transform: scale(0.97); }
   .side-item--on { background: var(--bg-deep); color: var(--text-primary); }
   .side-item--static { cursor: default; }
-  .side-item--static:hover { background: transparent; color: var(--text-secondary); transform: none; filter: none; }
+  .side-item--static:hover { background: transparent; color: var(--text-secondary); transform: none; filter: none; box-shadow: none; }
 
   .side-name { flex: 1; }
 
@@ -558,7 +629,7 @@
     display: inline-flex;
     background: var(--bg-abyss);
     border: 1px solid var(--border-dim);
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 3px;
     align-self: flex-start;
     position: relative;
@@ -571,7 +642,7 @@
     width: calc((100% - 6px) / 4);
     height: calc(100% - 6px);
     background: var(--bg-deep);
-    border-radius: 7px;
+    border-radius: 9px;
     transition: transform 0.3s var(--ease);
     z-index: 0;
     pointer-events: none;
@@ -579,19 +650,24 @@
   }
 
   .seg {
-    padding: 6px 18px;
+    padding: 10px 20px;
+    min-height: 44px;
     border: none;
     background: transparent;
-    border-radius: 7px;
+    border-radius: 9px;
     font-family: var(--font);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-tertiary);
     cursor: pointer;
-    transition: color 0.2s var(--ease);
+    transition: color 0.2s var(--ease), transform 0.1s;
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  .seg:active { transform: scale(0.97); }
   .seg--on {
     color: var(--text-primary);
     text-shadow: 0 0 12px rgba(10, 132, 255, 0.3);
@@ -644,17 +720,17 @@
 
   .plan-won {
     font-family: var(--mono);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--text-tertiary);
     margin-right: 2px;
     align-self: flex-start;
-    margin-top: 6px;
+    margin-top: 8px;
   }
 
   .plan-num {
     font-family: var(--mono);
-    font-size: 44px;
+    font-size: 48px;
     font-weight: 500;
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
@@ -668,15 +744,15 @@
     margin-left: 6px;
   }
 
-  /* 8. CTA button hover */
+  /* 8. CTA button hover + active feedback */
   .plan-cta {
-    padding: 10px 24px;
+    padding: 12px 28px;
     border-radius: 980px;
     border: 1px solid var(--border-dim);
     background: transparent;
     color: var(--text-secondary);
     font-family: var(--font);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s var(--ease);
@@ -687,6 +763,7 @@
     transform: translateY(-1px);
     box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
   }
+  .plan-cta:active { transform: scale(0.97); }
   .plan-cta--pop {
     background: var(--blue-core);
     color: #fff;
@@ -717,9 +794,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 11px 0;
+    padding: 11px 8px 11px 0;
     border-bottom: 1px solid var(--border-dim);
     font-size: 14px;
+    border-radius: 4px;
+    transition: background 0.15s, padding-left 0.15s;
+  }
+  .row:hover {
+    background: rgba(10, 132, 255, 0.03);
+    padding-left: 8px;
   }
 
   /* 2. Feature row stagger animation */
@@ -760,7 +843,8 @@
     color: var(--text-primary);
     padding: 11px 0;
   }
-  .row--btn:hover { color: var(--text-primary); }
+  .row--btn:hover { color: var(--text-primary); background: rgba(10, 132, 255, 0.03); }
+  .row--btn:active { transform: scale(0.99); }
 
   .row-col { display: flex; flex-direction: column; gap: 2px; }
 
@@ -941,6 +1025,40 @@
     box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
     transform: translateY(-1px);
   }
+  .foot-btn:active { transform: scale(0.97); }
+
+  /* -- Bottom nav -- */
+  .nav {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    height: 52px;
+    align-items: center;
+    background: rgba(5,6,10,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border-dim);
+    flex-shrink: 0;
+    z-index: 90;
+  }
+  .nav-i {
+    background: none;
+    border: none;
+    border-top: 2px solid transparent;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: color 0.15s;
+    padding: 8px 16px 6px;
+  }
+  .nav-i:hover { color: var(--text-secondary); }
+  .nav-i--on {
+    color: var(--blue-core);
+    border-top-color: var(--blue-core);
+  }
 
   /* -- prefers-reduced-motion -- */
   @media (prefers-reduced-motion: reduce) {
@@ -957,6 +1075,10 @@
       opacity: 1;
       transform: none;
     }
+    .fade-in {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   /* -- Mobile -- */
@@ -964,15 +1086,15 @@
     .side { display: none; }
     .main { padding: 20px 16px 48px; }
     .plan-top { flex-direction: column; gap: 16px; }
-    .plan-num { font-size: 36px; }
+    .plan-num { font-size: 40px; }
     .plan-title { font-size: 26px; }
     .seg-wrap { align-self: stretch; }
-    .seg { flex: 1; font-size: 12px; padding: 6px 8px; }
+    .seg { flex: 1; font-size: 12px; padding: 10px 8px; }
     .bar { padding: 0 16px; }
   }
 
   @media (max-width: 375px) {
-    .plan-num { font-size: 28px; }
+    .plan-num { font-size: 32px; }
     .plan-title { font-size: 22px; }
     .main { padding: 16px 12px 40px; gap: 24px; }
   }

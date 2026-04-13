@@ -93,11 +93,29 @@
   <!-- Content -->
   <div class="content">
 
-    <p class="page-label">보고서 미리보기</p>
-    <h1 class="page-heading">이런 보고서를 받게 됩니다</h1>
+    <!-- Document Objet -->
+    <div class="objet-wrap fade-in" style="animation-delay: 0s;">
+      <div class="objet-doc">
+        <div class="doc-body">
+          <div class="doc-fold"></div>
+          <!-- Mini content lines -->
+          <div class="doc-line doc-line--title"></div>
+          <div class="doc-line doc-line--text"></div>
+          <div class="doc-line doc-line--text doc-line--short"></div>
+          <div class="doc-line doc-line--gap"></div>
+          <div class="doc-line doc-line--badge doc-line--badge-red"></div>
+          <div class="doc-line doc-line--text"></div>
+          <div class="doc-line doc-line--badge doc-line--badge-green"></div>
+          <div class="doc-line doc-line--text doc-line--short"></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="page-label fade-in" style="animation-delay: 0.1s;">보고서 미리보기</p>
+    <h1 class="page-heading fade-in" style="animation-delay: 0.2s;">이런 보고서를 받게 됩니다</h1>
 
     <!-- Report document -->
-    <div class="report" style="animation-duration: {ANIM_MS}ms;">
+    <div class="report fade-in" style="animation-delay: 0.3s;">
 
       <!-- Report header -->
       <div class="report-header">
@@ -148,8 +166,7 @@
           {#each findings as finding, i}
             <div class="finding finding--{finding.severity}" style="animation-delay: {i * 80}ms; animation-duration: {ANIM_MS}ms;">
               <div class="finding-header">
-                <span class="finding-icon finding-icon--{finding.severity}">{finding.icon}</span>
-                <span class="finding-sev">
+                <span class="finding-badge finding-badge--{finding.severity}">
                   {#if finding.severity === 'critical'}긴급{:else if finding.severity === 'warning'}주의{:else}안전{/if}
                 </span>
                 <span class="finding-title">{finding.title}</span>
@@ -169,7 +186,7 @@
       <div class="report-section">
         <h3 class="section-label">지금 당장 할 일</h3>
         <ol class="todo-list">
-          {#each todoItems as item, i}
+          {#each todoItems as item}
             <li class="todo-item">{item}</li>
           {/each}
         </ol>
@@ -178,8 +195,11 @@
     </div>
 
     <!-- CTA -->
-    <div class="cta-area">
-      <button class="cta-btn" onclick={() => goto(`${base}/contact`)}>
+    <div class="cta-area fade-in" style="animation-delay: 0.4s;">
+      <button class="cta-btn cta-btn--full" onclick={() => goto(`${base}/packages`)}>
+        전체 보고서 보기
+      </button>
+      <button class="cta-btn cta-btn--primary" onclick={() => goto(`${base}/contact`)}>
         내 프로젝트도 점검 받기
       </button>
     </div>
@@ -223,6 +243,93 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Page entry animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: pageIn 0.5s var(--ease-organic) forwards;
+  }
+  @keyframes pageIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Document Objet */
+  .objet-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 8px;
+  }
+  .objet-doc {
+    animation: docFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 6px 20px rgba(10, 132, 255, 0.15));
+  }
+  @keyframes docFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-4px) rotate(0.5deg); }
+  }
+  .doc-body {
+    width: 64px;
+    height: 80px;
+    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
+    border: 1px solid rgba(10, 132, 255, 0.25);
+    border-radius: 6px;
+    position: relative;
+    padding: 14px 8px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+  }
+  .doc-fold {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, transparent 50%, rgba(10, 132, 255, 0.12) 50%);
+    border-bottom-left-radius: 4px;
+  }
+  .doc-fold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, var(--bg-void) 50%, transparent 50%);
+  }
+  .doc-line {
+    height: 2px;
+    border-radius: 1px;
+  }
+  .doc-line--title {
+    width: 60%;
+    background: rgba(10, 132, 255, 0.5);
+    height: 3px;
+    margin-bottom: 2px;
+  }
+  .doc-line--text {
+    width: 90%;
+    background: rgba(234, 242, 255, 0.1);
+  }
+  .doc-line--short {
+    width: 60%;
+  }
+  .doc-line--gap {
+    height: 4px;
+  }
+  .doc-line--badge {
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+  }
+  .doc-line--badge-red {
+    background: rgba(255, 107, 71, 0.6);
+  }
+  .doc-line--badge-green {
+    background: rgba(50, 215, 75, 0.5);
+  }
+
   /* App bar */
   .bar {
     position: sticky; top: 0; z-index: 90; height: 48px;
@@ -238,6 +345,7 @@
     display: flex; align-items: center; padding: 4px; transition: color 0.15s;
   }
   .bar-back:hover { color: var(--text-primary); }
+  .bar-back:active { transform: scale(0.95); }
   .bar-title {
     font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
     color: var(--text-secondary);
@@ -247,17 +355,17 @@
   /* Content */
   .content {
     flex: 1;
-    padding: 32px 20px;
+    padding: 24px 20px;
     max-width: 640px; margin: 0 auto; width: 100%;
   }
 
   .page-label {
-    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
     color: var(--blue-core); margin: 0 0 8px;
     text-transform: uppercase;
   }
   .page-heading {
-    font-size: 22px; font-weight: 700; margin: 0 0 24px;
+    font-size: 28px; font-weight: 700; margin: 0 0 24px;
     line-height: 1.3;
   }
 
@@ -267,8 +375,6 @@
     border: 1px solid rgba(10, 132, 255, 0.12);
     border-radius: 20px;
     overflow: hidden;
-    animation: reportIn var(--ease-organic) forwards;
-    opacity: 0;
     box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
     transition: border-color 0.3s, box-shadow 0.3s;
   }
@@ -276,13 +382,9 @@
     border-color: rgba(10, 132, 255, 0.3);
     box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
   }
-  @keyframes reportIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 
   .report-header {
-    padding: 28px 24px 20px;
+    padding: 32px 32px 24px;
     border-bottom: 1px solid var(--border-dim);
   }
   .report-logo {
@@ -293,7 +395,7 @@
     margin-bottom: 12px;
   }
   .report-title {
-    font-size: 18px; font-weight: 700;
+    font-size: 20px; font-weight: 700;
     margin: 0 0 16px;
   }
   .report-meta {
@@ -315,13 +417,13 @@
   }
 
   .report-section {
-    padding: 20px 24px;
+    padding: 24px 32px;
   }
   .section-label {
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em;
     color: var(--text-tertiary);
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     text-transform: uppercase;
   }
   .summary-text {
@@ -336,7 +438,7 @@
   }
   .health-item {
     font-size: 14px; font-weight: 600;
-    padding: 6px 14px; border-radius: 8px;
+    padding: 8px 16px; border-radius: 10px;
   }
   .health-item--critical {
     background: rgba(255, 107, 71, 0.12);
@@ -356,15 +458,19 @@
 
   /* Findings */
   .findings {
-    display: flex; flex-direction: column; gap: 12px;
+    display: flex; flex-direction: column; gap: 16px;
   }
   .finding {
-    padding: 16px;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 12px;
     border: 1px solid var(--border-dim);
     background: rgba(5, 6, 10, 0.5);
     animation: findingIn var(--ease-organic) forwards;
     opacity: 0;
+    transition: background 0.2s;
+  }
+  .finding:hover {
+    background: rgba(10, 132, 255, 0.03);
   }
   @keyframes findingIn {
     from { opacity: 0; transform: translateY(8px); }
@@ -375,37 +481,47 @@
   .finding--ok { border-left: 3px solid var(--green-ok); box-shadow: -4px 0 12px rgba(50, 215, 75, 0.06); }
 
   .finding-header {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
   }
-  .finding-icon { font-size: 12px; }
-  .finding-icon--critical { color: var(--coral-alert); }
-  .finding-icon--warning { color: var(--amber-warn); }
-  .finding-icon--ok { color: var(--green-ok); }
-
-  .finding-sev {
+  .finding-badge {
     font-size: 11px; font-weight: 600;
     letter-spacing: 0.03em;
-    color: var(--text-tertiary);
+    padding: 3px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
   }
+  .finding-badge--critical {
+    background: rgba(255, 107, 71, 0.15);
+    color: var(--coral-alert);
+  }
+  .finding-badge--warning {
+    background: rgba(255, 214, 10, 0.1);
+    color: var(--amber-warn);
+  }
+  .finding-badge--ok {
+    background: rgba(50, 215, 75, 0.1);
+    color: var(--green-ok);
+  }
+
   .finding-title {
-    font-size: 14px; font-weight: 600;
+    font-size: 15px; font-weight: 600;
   }
   .finding-detail {
     font-size: 13px; line-height: 1.5;
     color: var(--text-secondary);
-    margin: 0 0 4px; padding-left: 20px;
+    margin: 0 0 4px; padding-left: 0;
   }
   .finding-fix {
     font-size: 12px;
     color: var(--blue-core);
-    padding-left: 20px;
+    font-weight: 500;
   }
 
   /* Todo */
   .todo-list {
     margin: 0; padding-left: 20px;
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: column; gap: 10px;
   }
   .todo-item {
     font-size: 14px; line-height: 1.5;
@@ -418,19 +534,34 @@
   /* CTA */
   .cta-area {
     padding: 32px 0 16px;
-    display: flex; justify-content: center;
+    display: flex; flex-direction: column; gap: 12px;
+    align-items: stretch;
   }
   .cta-btn {
-    padding: 13px 36px; border-radius: 980px; border: none;
-    background: var(--blue-core); color: #fff;
-    font-family: var(--font); font-size: 15px; font-weight: 600;
+    padding: 14px 36px; border-radius: 980px; border: none;
+    font-family: var(--font); font-size: 16px; font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
-    transition: background 0.2s, box-shadow 0.3s, transform 0.2s;
+    transition: background 0.2s, box-shadow 0.3s, transform 0.15s;
+    text-align: center;
   }
-  .cta-btn:hover {
+  .cta-btn:active { transform: scale(0.97); }
+  .cta-btn--primary {
+    background: var(--blue-core); color: #fff;
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
+  }
+  .cta-btn--primary:hover {
     background: var(--blue-glow);
     box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
+    transform: translateY(-1px);
+  }
+  .cta-btn--full {
+    background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--border-dim);
+  }
+  .cta-btn--full:hover {
+    color: var(--text-primary);
+    border-color: var(--border-active);
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.1);
     transform: translateY(-1px);
   }
 
@@ -444,15 +575,21 @@
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--border-dim);
     flex-shrink: 0;
+    z-index: 90;
   }
   .nav-i {
     background: none; border: none;
+    border-top: 2px solid transparent;
     font-family: var(--font); font-size: 13px; font-weight: 500;
     color: var(--text-tertiary); cursor: pointer;
     transition: color 0.15s;
+    padding: 8px 16px 6px;
   }
   .nav-i:hover { color: var(--text-secondary); }
-  .nav-i--on { color: var(--blue-core); }
+  .nav-i--on {
+    color: var(--blue-core);
+    border-top-color: var(--blue-core);
+  }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
@@ -460,6 +597,10 @@
       animation-duration: 0.01ms !important;
       animation-delay: 0s !important;
       transition-duration: 0.01ms !important;
+    }
+    .fade-in {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>
