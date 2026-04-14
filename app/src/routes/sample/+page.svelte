@@ -2,17 +2,8 @@
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
 
-  let reducedMotion = $state(false);
-
-  if (typeof window !== 'undefined') {
-    reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  const ANIM_MS = reducedMotion ? 0 : 400;
-
   interface Finding {
     severity: 'critical' | 'warning' | 'ok';
-    icon: string;
     title: string;
     detail: string;
     fixTime: string;
@@ -21,192 +12,212 @@
   const findings: Finding[] = [
     {
       severity: 'critical',
-      icon: '\u25CF',
       title: '비밀번호가 문 앞에 놓여 있어요',
-      detail: '.env 파일이 GitHub에 올라가 있습니다.',
-      fixTime: '지금 고치면: 10분',
+      detail: '.env 파일이 GitHub 커밋 히스토리에 포함되어 있습니다. OpenAI API 키(sk-proj-***), Supabase 서비스 키가 공개 상태입니다. 이 키를 가진 누구나 본인 명의로 API를 호출할 수 있으며, 요금이 청구됩니다.',
+      fixTime: '10분',
     },
     {
       severity: 'warning',
-      icon: '\u25B2',
       title: '금고 문이 열려 있어요',
-      detail: '데이터베이스 접근 제한이 설정되지 않았습니다.',
-      fixTime: '지금 고치면: 30분',
+      detail: 'Supabase 프로젝트의 Row Level Security(RLS)가 비활성화되어 있습니다. anon 키만 있으면 모든 테이블의 데이터를 읽고, 쓰고, 삭제할 수 있는 상태입니다.',
+      fixTime: '30분',
     },
     {
       severity: 'warning',
-      icon: '\u25B2',
       title: '출입증 없이 들어올 수 있어요',
-      detail: 'API 엔드포인트에 인증이 적용되지 않았습니다.',
-      fixTime: '지금 고치면: 1시간',
+      detail: '/api/admin 엔드포인트에 인증 미들웨어가 적용되지 않았습니다. URL을 아는 사람은 누구나 관리자 기능에 접근할 수 있습니다.',
+      fixTime: '1시간',
     },
     {
       severity: 'ok',
-      icon: '\u2713',
       title: 'HTTPS 연결이 잘 되어 있어요',
-      detail: 'SSL 인증서가 정상적으로 설정되어 있습니다.',
+      detail: 'Vercel 배포를 통해 SSL 인증서가 자동으로 적용되어 있습니다. 전송 중 데이터 도청 위험은 없습니다.',
       fixTime: '',
     },
     {
       severity: 'ok',
-      icon: '\u2713',
       title: '기본 보안 헤더가 설정되어 있어요',
-      detail: 'X-Frame-Options, CSP 헤더가 적용되어 있습니다.',
+      detail: 'X-Frame-Options, Content-Security-Policy 헤더가 Vercel 기본값으로 적용되어 있습니다.',
       fixTime: '',
     },
   ];
 
-  const todoItems = [
-    'GitHub에서 .env 파일 삭제',
-    'API 키 재발급',
-    '데이터베이스 접근 제한 설정',
+  const actions = [
+    { step: '01', text: 'GitHub에서 .env 파일을 삭제하고, 커밋 히스토리에서도 제거', priority: 'critical' },
+    { step: '02', text: 'OpenAI, Supabase 대시보드에서 기존 키를 폐기하고 재발급', priority: 'critical' },
+    { step: '03', text: 'Supabase에서 RLS를 활성화하고, 테이블별 정책 설정', priority: 'warning' },
   ];
 
-  const criticalCount = findings.filter((f) => f.severity === 'critical').length;
-  const warningCount = findings.filter((f) => f.severity === 'warning').length;
-  const okCount = findings.filter((f) => f.severity === 'ok').length;
+  const criticalCount = findings.filter(f => f.severity === 'critical').length;
+  const warningCount = findings.filter(f => f.severity === 'warning').length;
+  const okCount = findings.filter(f => f.severity === 'ok').length;
 </script>
 
 <svelte:head>
   <title>보고서 샘플 | Byteforce Security</title>
   <meta name="description" content="실제 보안 점검 보고서는 이렇게 생겼습니다. 기술 용어 없이, 비유로 설명하는 보고서." />
   <meta property="og:title" content="보고서 샘플 | Byteforce Security" />
-  <meta property="og:description" content="실제 보안 점검 보고서는 이렇게 생겼습니다. 기술 용어 없이, 비유로 설명하는 보고서." />
+  <meta property="og:description" content="실제 보안 점검 보고서는 이렇게 생겼습니다." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://byteforceai.github.io/vibesec/sample" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="보고서 샘플 | Byteforce Security" />
-  <meta name="twitter:description" content="실제 보안 점검 보고서는 이렇게 생겼습니다. 기술 용어 없이, 비유로 설명하는 보고서." />
 </svelte:head>
 
-<div class="page">
-
-  <!-- App bar -->
+<div class="report-page">
   <header class="bar">
-    <button class="bar-back" onclick={() => goto(`${base}/`)}>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-    </button>
-    <span class="bar-title">BYTEFORCE</span>
-    <span class="bar-spacer"></span>
+    <span class="bar-brand">BYTEFORCE</span>
+    <button class="bar-link" onclick={() => goto(`${base}/`)}>홈으로</button>
   </header>
 
-  <!-- Content -->
-  <div class="content">
+  <article class="document">
 
-    <!-- Document Objet -->
-    <div class="objet-wrap fade-in" style="animation-delay: 0s;">
-      <div class="objet-doc">
-        <div class="doc-body">
-          <div class="doc-fold"></div>
-          <!-- Mini content lines -->
-          <div class="doc-line doc-line--title"></div>
-          <div class="doc-line doc-line--text"></div>
-          <div class="doc-line doc-line--text doc-line--short"></div>
-          <div class="doc-line doc-line--gap"></div>
-          <div class="doc-line doc-line--badge doc-line--badge-red"></div>
-          <div class="doc-line doc-line--text"></div>
-          <div class="doc-line doc-line--badge doc-line--badge-green"></div>
-          <div class="doc-line doc-line--text doc-line--short"></div>
+    <!-- Document header -->
+    <header class="doc-header">
+      <div class="doc-header-top">
+        <span class="doc-org">BYTEFORCE SECURITY</span>
+        <span class="doc-type">보안 점검 보고서</span>
+      </div>
+      <div class="doc-divider"></div>
+
+      <h1 class="doc-project">쇼핑몰 MVP</h1>
+      <span class="doc-sample-badge">SAMPLE</span>
+
+      <dl class="doc-meta">
+        <div class="meta-row">
+          <dt>프로젝트</dt>
+          <dd>쇼핑몰 MVP (샘플)</dd>
+        </div>
+        <div class="meta-row">
+          <dt>점검일</dt>
+          <dd>2026. 03. 15</dd>
+        </div>
+        <div class="meta-row">
+          <dt>점검자</dt>
+          <dd>김보안 시니어 엔지니어</dd>
+        </div>
+        <div class="meta-row">
+          <dt>점검 범위</dt>
+          <dd>핵심 20+ 항목</dd>
+        </div>
+        <div class="meta-row">
+          <dt>보고서 번호</dt>
+          <dd>BF-2026-0315-001</dd>
+        </div>
+      </dl>
+    </header>
+
+    <!-- Executive Summary -->
+    <section class="doc-section">
+      <h2 class="section-label">Executive Summary</h2>
+
+      <p class="summary-text">
+        총 <strong>{criticalCount + warningCount + okCount}건</strong>의 확인 사항이 발견되었습니다.<br/>
+        이 중 <strong class="text-critical">{criticalCount}건</strong>은 즉시 조치가 필요합니다.
+      </p>
+
+      <div class="summary-stats">
+        <div class="stat stat--critical">
+          <span class="stat-num">{criticalCount}</span>
+          <span class="stat-label">긴급</span>
+        </div>
+        <div class="stat stat--warning">
+          <span class="stat-num">{warningCount}</span>
+          <span class="stat-label">주의</span>
+        </div>
+        <div class="stat stat--ok">
+          <span class="stat-num">{okCount}</span>
+          <span class="stat-label">안전</span>
         </div>
       </div>
-    </div>
+    </section>
 
-    <p class="page-label fade-in" style="animation-delay: 0.1s;">보고서 미리보기</p>
-    <h1 class="page-heading fade-in" style="animation-delay: 0.2s;">이런 보고서를 받게 됩니다</h1>
+    <!-- Findings -->
+    <section class="doc-section">
+      <h2 class="section-label">Findings</h2>
 
-    <!-- Report document -->
-    <div class="report fade-in" style="animation-delay: 0.3s;">
-
-      <!-- Report header -->
-      <div class="report-header">
-        <div class="report-logo">BYTEFORCE SECURITY</div>
-        <h2 class="report-title">보안 점검 보고서</h2>
-        <div class="report-meta">
-          <div class="meta-row">
-            <span class="meta-key">프로젝트</span>
-            <span class="meta-val">(샘플) 쇼핑몰 MVP</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-key">점검일</span>
-            <span class="meta-val">2026년 3월 15일</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-key">점검자</span>
-            <span class="meta-val">김보안 시니어 엔지니어</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="report-divider"></div>
-
-      <!-- Summary -->
-      <div class="report-section">
-        <h3 class="section-label">한 줄 요약</h3>
-        <p class="summary-text">총 5건의 확인 사항이 발견되었습니다. 이 중 1건은 즉시 조치가 필요합니다.</p>
-      </div>
-
-      <div class="report-divider"></div>
-
-      <!-- Health check -->
-      <div class="report-section">
-        <h3 class="section-label">건강검진표</h3>
-        <div class="health-bar">
-          <span class="health-item health-item--critical">긴급 {criticalCount}건</span>
-          <span class="health-item health-item--warning">주의 {warningCount}건</span>
-          <span class="health-item health-item--ok">안전 {okCount}건</span>
-        </div>
-      </div>
-
-      <div class="report-divider"></div>
-
-      <!-- Findings -->
-      <div class="report-section">
-        <h3 class="section-label">발견 항목</h3>
-        <div class="findings">
-          {#each findings as finding, i}
-            <div class="finding finding--{finding.severity}" style="animation-delay: {i * 80}ms; animation-duration: {ANIM_MS}ms;">
-              <div class="finding-header">
-                <span class="finding-badge finding-badge--{finding.severity}">
-                  {#if finding.severity === 'critical'}긴급{:else if finding.severity === 'warning'}주의{:else}안전{/if}
-                </span>
-                <span class="finding-title">{finding.title}</span>
-              </div>
-              <p class="finding-detail">{finding.detail}</p>
-              {#if finding.fixTime}
-                <span class="finding-fix">{finding.fixTime}</span>
-              {/if}
+      {#each findings as finding, i}
+        <div class="finding">
+          <div class="finding-num">{String(i + 1).padStart(2, '0')}</div>
+          <div class="finding-body">
+            <div class="finding-head">
+              <span class="severity severity--{finding.severity}">
+                {finding.severity === 'critical' ? '긴급' : finding.severity === 'warning' ? '주의' : '안전'}
+              </span>
             </div>
-          {/each}
+            <h3 class="finding-title">{finding.title}</h3>
+            <p class="finding-detail">{finding.detail}</p>
+            {#if finding.fixTime}
+              <span class="finding-fix">예상 수정 시간: {finding.fixTime}</span>
+            {/if}
+          </div>
+        </div>
+        {#if i < findings.length - 1}
+          <div class="finding-divider"></div>
+        {/if}
+      {/each}
+    </section>
+
+    <!-- Immediate Actions -->
+    <section class="doc-section">
+      <h2 class="section-label">Immediate Actions</h2>
+
+      <p class="actions-intro">아래 항목을 순서대로 진행하시면 긴급 이슈가 해결됩니다.</p>
+
+      <ol class="action-list">
+        {#each actions as action}
+          <li class="action-item">
+            <span class="action-num">{action.step}</span>
+            <span class="action-text">{action.text}</span>
+            <span class="action-priority action-priority--{action.priority}">
+              {action.priority === 'critical' ? '긴급' : '주의'}
+            </span>
+          </li>
+        {/each}
+      </ol>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="doc-section">
+      <h2 class="section-label">Next Steps</h2>
+
+      <p class="next-text">
+        이 보고서는 <strong>기본 점검</strong>(핵심 20+ 항목) 결과입니다.
+        인증 체계, 데이터베이스 보안, API 전수 검증 등 더 깊은 점검이 필요하시면
+        <strong>정밀 점검</strong>(60+ 항목)을 추천합니다.
+      </p>
+
+      <div class="next-table">
+        <div class="next-row">
+          <span class="next-plan">기본 점검</span>
+          <span class="next-scope">20+ 항목</span>
+          <span class="next-tag next-tag--current">현재</span>
+        </div>
+        <div class="next-row">
+          <span class="next-plan">정밀 점검</span>
+          <span class="next-scope">60+ 항목</span>
+          <span class="next-tag next-tag--rec">추천</span>
+        </div>
+        <div class="next-row">
+          <span class="next-plan">풀 정비</span>
+          <span class="next-scope">120+ 항목 + 직접 수정</span>
+          <span class="next-tag"></span>
         </div>
       </div>
+    </section>
 
-      <div class="report-divider"></div>
-
-      <!-- Action items -->
-      <div class="report-section">
-        <h3 class="section-label">지금 당장 할 일</h3>
-        <ol class="todo-list">
-          {#each todoItems as item}
-            <li class="todo-item">{item}</li>
-          {/each}
-        </ol>
-      </div>
-
+    <!-- Confidentiality -->
+    <div class="confidential">
+      <p>이 보고서는 샘플입니다. 실제 보고서에는 프로젝트별 상세 분석, 코드 위치, 스크린샷이 포함됩니다.</p>
+      <p>CONFIDENTIAL -- BYTEFORCE SECURITY -- BF-2026-0315-001</p>
     </div>
 
     <!-- CTA -->
-    <div class="cta-area fade-in" style="animation-delay: 0.4s;">
-      <button class="cta-btn cta-btn--full" onclick={() => goto(`${base}/packages`)}>
-        전체 보고서 보기
-      </button>
-      <button class="cta-btn cta-btn--primary" onclick={() => goto(`${base}/contact`)}>
-        내 프로젝트도 점검 받기
-      </button>
+    <div class="doc-cta">
+      <button class="cta-btn" onclick={() => goto(`${base}/contact`)}>내 프로젝트도 점검 받기</button>
+      <span class="cta-sub">24시간 내 견적서 발송</span>
     </div>
 
-  </div>
+  </article>
 
-  <!-- Bottom nav -->
   <nav class="nav">
     <button class="nav-i" onclick={() => goto(`${base}/`)}>홈</button>
     <button class="nav-i" onclick={() => goto(`${base}/check`)}>자가진단</button>
@@ -216,391 +227,418 @@
 </div>
 
 <style>
-  .page {
-    --bg-void: #05060A;
-    --bg-abyss: #0A0E1A;
-    --bg-deep: #0D1528;
-    --border-dim: rgba(120, 160, 220, 0.08);
-    --border-active: rgba(10, 132, 255, 0.45);
-    --blue-core: #0A84FF;
-    --blue-glow: #3BA0FF;
-    --coral-alert: #FF6B47;
-    --amber-warn: #FFD60A;
-    --green-ok: #32D74B;
-    --text-primary: #EAF2FF;
-    --text-secondary: rgba(234, 242, 255, 0.62);
-    --text-tertiary: rgba(234, 242, 255, 0.38);
-    --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
-    --mono: "JetBrains Mono", "SF Mono", monospace;
-    --font: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
 
-    display: flex; flex-direction: column; min-height: 100dvh;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(10, 132, 255, 0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 71, 179, 0.08) 0%, transparent 50%),
-      var(--bg-void);
-    color: var(--text-primary); font-family: var(--font);
+  .report-page {
+    --bg: #05060A;
+    --text-1: #EAF2FF;
+    --text-2: rgba(234, 242, 255, 0.62);
+    --text-3: rgba(234, 242, 255, 0.32);
+    --border: rgba(234, 242, 255, 0.08);
+    --critical: #FF453A;
+    --warning: #FF9F0A;
+    --ok: #32D74B;
+    --blue: #0A84FF;
+    --mono: "JetBrains Mono", "SF Mono", monospace;
+    --serif: "Cormorant Garamond", "Georgia", serif;
+    --sans: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--text-1);
+    font-family: var(--sans);
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Page entry animation */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(8px);
-    animation: pageIn 0.5s var(--ease-organic) forwards;
+  /* Bar */
+  .bar {
+    position: sticky; top: 0; z-index: 50;
+    height: 48px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(5,6,10,0.85); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
   }
-  @keyframes pageIn {
-    to { opacity: 1; transform: translateY(0); }
+  .bar-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--text-3); }
+  .bar-link { font-family: var(--sans); font-size: 13px; color: var(--blue); background: none; border: none; cursor: pointer; }
+
+  /* Document */
+  .document {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 48px 120px;
   }
 
-  /* Document Objet */
-  .objet-wrap {
+  /* Document header */
+  .doc-header { margin-bottom: 56px; }
+
+  .doc-header-top {
     display: flex;
-    justify-content: center;
-    padding: 12px 0 8px;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
   }
-  .objet-doc {
-    animation: docFloat 4s ease-in-out infinite;
-    filter: drop-shadow(0 6px 20px rgba(10, 132, 255, 0.15));
+
+  .doc-org {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
   }
-  @keyframes docFloat {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-4px) rotate(0.5deg); }
+
+  .doc-type {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-3);
   }
-  .doc-body {
-    width: 64px;
-    height: 80px;
-    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid rgba(10, 132, 255, 0.25);
-    border-radius: 6px;
-    position: relative;
-    padding: 14px 8px 8px;
+
+  .doc-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 40px;
+  }
+
+  .doc-project {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    color: var(--text-1);
+  }
+
+  .doc-sample-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
+
+  .doc-meta {
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    overflow: hidden;
-  }
-  .doc-fold {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 14px;
-    height: 14px;
-    background: linear-gradient(135deg, transparent 50%, rgba(10, 132, 255, 0.12) 50%);
-    border-bottom-left-radius: 4px;
-  }
-  .doc-fold::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 14px;
-    height: 14px;
-    background: linear-gradient(135deg, var(--bg-void) 50%, transparent 50%);
-  }
-  .doc-line {
-    height: 2px;
-    border-radius: 1px;
-  }
-  .doc-line--title {
-    width: 60%;
-    background: rgba(10, 132, 255, 0.5);
-    height: 3px;
-    margin-bottom: 2px;
-  }
-  .doc-line--text {
-    width: 90%;
-    background: rgba(234, 242, 255, 0.1);
-  }
-  .doc-line--short {
-    width: 60%;
-  }
-  .doc-line--gap {
-    height: 4px;
-  }
-  .doc-line--badge {
-    width: 24px;
-    height: 4px;
-    border-radius: 2px;
-  }
-  .doc-line--badge-red {
-    background: rgba(255, 107, 71, 0.6);
-  }
-  .doc-line--badge-green {
-    background: rgba(50, 215, 75, 0.5);
+    gap: 6px;
   }
 
-  /* App bar */
-  .bar {
-    position: sticky; top: 0; z-index: 90; height: 48px;
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 24px; flex-shrink: 0;
-    background: rgba(5,6,10,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-dim);
-  }
-  .bar-back {
-    background: none; border: none; color: var(--text-secondary); cursor: pointer;
-    display: flex; align-items: center; padding: 4px; transition: color 0.15s;
-  }
-  .bar-back:hover { color: var(--text-primary); }
-  .bar-back:active { transform: scale(0.95); }
-  .bar-title {
-    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
-    color: var(--text-secondary);
-  }
-  .bar-spacer { flex: 1; }
-
-  /* Content */
-  .content {
-    flex: 1;
-    padding: 24px 20px;
-    max-width: 640px; margin: 0 auto; width: 100%;
-  }
-
-  .page-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-    color: var(--blue-core); margin: 0 0 8px;
-    text-transform: uppercase;
-  }
-  .page-heading {
-    font-size: 28px; font-weight: 700; margin: 0 0 24px;
-    line-height: 1.3;
-  }
-
-  /* Report card */
-  .report {
-    background: linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-abyss) 100%);
-    border: 1px solid rgba(10, 132, 255, 0.12);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(10, 132, 255, 0.04);
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  .report:hover {
-    border-color: rgba(10, 132, 255, 0.3);
-    box-shadow: 0 0 30px rgba(10, 132, 255, 0.1), 0 12px 40px rgba(0, 20, 60, 0.2);
-  }
-
-  .report-header {
-    padding: 32px 32px 24px;
-    border-bottom: 1px solid var(--border-dim);
-  }
-  .report-logo {
-    font-family: var(--mono);
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.15em;
-    color: var(--text-tertiary);
-    margin-bottom: 12px;
-  }
-  .report-title {
-    font-size: 20px; font-weight: 700;
-    margin: 0 0 16px;
-  }
-  .report-meta {
-    display: flex; flex-direction: column; gap: 6px;
-  }
   .meta-row {
-    display: flex; gap: 12px; font-size: 13px;
-  }
-  .meta-key {
-    color: var(--text-tertiary); min-width: 60px;
-  }
-  .meta-val {
-    color: var(--text-secondary);
+    display: flex;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.5;
   }
 
-  .report-divider {
-    height: 1px;
-    background: var(--border-dim);
+  .meta-row dt {
+    color: var(--text-3);
+    min-width: 80px;
+    flex-shrink: 0;
   }
+  .meta-row dt::after { content: ''; }
 
-  .report-section {
-    padding: 24px 32px;
-  }
-  .section-label {
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.1em;
-    color: var(--text-tertiary);
-    margin: 0 0 14px;
-    text-transform: uppercase;
-  }
-  .summary-text {
-    font-size: 15px; line-height: 1.6;
-    color: var(--text-primary);
+  .meta-row dd {
     margin: 0;
+    color: var(--text-2);
   }
 
-  /* Health bar */
-  .health-bar {
-    display: flex; gap: 12px; flex-wrap: wrap;
+  /* Sections */
+  .doc-section {
+    margin-bottom: 48px;
   }
-  .health-item {
-    font-size: 14px; font-weight: 600;
-    padding: 8px 16px; border-radius: 10px;
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
   }
-  .health-item--critical {
-    background: rgba(255, 107, 71, 0.12);
-    color: var(--coral-alert);
-    border: 1px solid rgba(255, 107, 71, 0.25);
+
+  /* Summary */
+  .summary-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-2);
+    margin: 0 0 32px;
   }
-  .health-item--warning {
-    background: rgba(255, 214, 10, 0.08);
-    color: var(--amber-warn);
-    border: 1px solid rgba(255, 214, 10, 0.2);
+  .summary-text strong { color: var(--text-1); font-weight: 500; }
+  .text-critical { color: var(--critical); }
+
+  .summary-stats {
+    display: flex;
+    gap: 48px;
   }
-  .health-item--ok {
-    background: rgba(50, 215, 75, 0.08);
-    color: var(--green-ok);
-    border: 1px solid rgba(50, 215, 75, 0.2);
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-num {
+    font-family: var(--mono);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat--critical .stat-num { color: var(--critical); }
+  .stat--warning .stat-num { color: var(--warning); }
+  .stat--ok .stat-num { color: var(--ok); }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-3);
   }
 
   /* Findings */
-  .findings {
-    display: flex; flex-direction: column; gap: 16px;
-  }
   .finding {
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid var(--border-dim);
-    background: rgba(5, 6, 10, 0.5);
-    animation: findingIn var(--ease-organic) forwards;
-    opacity: 0;
-    transition: background 0.2s;
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
   }
-  .finding:hover {
-    background: rgba(10, 132, 255, 0.03);
-  }
-  @keyframes findingIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .finding--critical { border-left: 3px solid var(--coral-alert); box-shadow: -4px 0 12px rgba(255, 107, 71, 0.08); }
-  .finding--warning { border-left: 3px solid var(--amber-warn); box-shadow: -4px 0 12px rgba(255, 214, 10, 0.06); }
-  .finding--ok { border-left: 3px solid var(--green-ok); box-shadow: -4px 0 12px rgba(50, 215, 75, 0.06); }
 
-  .finding-header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 8px;
-  }
-  .finding-badge {
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.03em;
-    padding: 3px 10px;
-    border-radius: 6px;
+  .finding-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+    padding-top: 2px;
     flex-shrink: 0;
+    min-width: 20px;
   }
-  .finding-badge--critical {
-    background: rgba(255, 107, 71, 0.15);
-    color: var(--coral-alert);
+
+  .finding-body { flex: 1; }
+
+  .finding-head { margin-bottom: 8px; }
+
+  .severity {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
   }
-  .finding-badge--warning {
-    background: rgba(255, 214, 10, 0.1);
-    color: var(--amber-warn);
-  }
-  .finding-badge--ok {
-    background: rgba(50, 215, 75, 0.1);
-    color: var(--green-ok);
-  }
+  .severity--critical { color: var(--critical); background: rgba(255, 69, 58, 0.1); }
+  .severity--warning { color: var(--warning); background: rgba(255, 159, 10, 0.1); }
+  .severity--ok { color: var(--ok); background: rgba(50, 215, 75, 0.1); }
 
   .finding-title {
-    font-size: 15px; font-weight: 600;
-  }
-  .finding-detail {
-    font-size: 13px; line-height: 1.5;
-    color: var(--text-secondary);
-    margin: 0 0 4px; padding-left: 0;
-  }
-  .finding-fix {
-    font-size: 12px;
-    color: var(--blue-core);
+    font-size: 17px;
     font-weight: 500;
+    line-height: 1.4;
+    margin: 0 0 8px;
+    color: var(--text-1);
   }
 
-  /* Todo */
-  .todo-list {
-    margin: 0; padding-left: 20px;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .todo-item {
-    font-size: 14px; line-height: 1.5;
-    color: var(--text-primary);
-  }
-  .todo-item::marker {
-    color: var(--blue-core);
+  .finding-detail {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-2);
+    margin: 0 0 8px;
   }
 
-  /* CTA */
-  .cta-area {
-    padding: 32px 0 16px;
-    display: flex; flex-direction: column; gap: 12px;
-    align-items: stretch;
+  .finding-fix {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
   }
-  .cta-btn {
-    padding: 14px 36px; border-radius: 980px; border: none;
-    font-family: var(--font); font-size: 16px; font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.3s, transform 0.15s;
+
+  .finding-divider {
+    height: 1px;
+    background: var(--border);
+    margin-left: 40px;
+  }
+
+  /* Actions */
+  .actions-intro {
+    font-size: 14px;
+    color: var(--text-2);
+    margin: 0 0 20px;
+    line-height: 1.6;
+  }
+
+  .action-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .action-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .action-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+    flex-shrink: 0;
+  }
+
+  .action-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-1);
+    flex: 1;
+  }
+
+  .action-priority {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .action-priority--critical { color: var(--critical); background: rgba(255,69,58,0.1); }
+  .action-priority--warning { color: var(--warning); background: rgba(255,159,10,0.1); }
+
+  /* Next Steps */
+  .next-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-2);
+    margin: 0 0 24px;
+  }
+  .next-text strong { color: var(--text-1); font-weight: 500; }
+
+  .next-table {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .next-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    gap: 12px;
+  }
+
+  .next-plan {
+    font-weight: 500;
+    color: var(--text-1);
+    min-width: 80px;
+  }
+
+  .next-scope {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-3);
+    flex: 1;
+  }
+
+  .next-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    min-width: 32px;
     text-align: center;
   }
-  .cta-btn:active { transform: scale(0.97); }
-  .cta-btn--primary {
-    background: var(--blue-core); color: #fff;
-    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
+  .next-tag--current { color: var(--text-3); border: 1px solid var(--border); }
+  .next-tag--rec { color: var(--blue); background: rgba(10,132,255,0.1); }
+
+  /* Confidential */
+  .confidential {
+    margin: 48px 0 40px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
-  .cta-btn--primary:hover {
-    background: var(--blue-glow);
-    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
-    transform: translateY(-1px);
+  .confidential p {
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--text-3);
+    margin: 0;
+    text-align: center;
   }
-  .cta-btn--full {
-    background: transparent; color: var(--text-secondary);
-    border: 1px solid var(--border-dim);
-  }
-  .cta-btn--full:hover {
-    color: var(--text-primary);
-    border-color: var(--border-active);
-    box-shadow: 0 0 20px rgba(10, 132, 255, 0.1);
-    transform: translateY(-1px);
+  .confidential p + p { margin-top: 4px; letter-spacing: 0.06em; }
+
+  /* CTA */
+  .doc-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 0;
   }
 
-  /* Bottom nav */
+  .cta-btn {
+    padding: 14px 40px;
+    border-radius: 980px;
+    border: none;
+    background: var(--blue);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(10,132,255,0.15);
+  }
+  .cta-btn:hover {
+    background: #2196ff;
+    transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(10,132,255,0.25);
+  }
+
+  .cta-sub {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  /* Nav */
   .nav {
-    position: sticky; bottom: 0;
-    display: flex; justify-content: space-around;
-    height: 52px; align-items: center;
-    background: rgba(5,6,10,0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border-dim);
-    flex-shrink: 0;
-    z-index: 90;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    display: flex;
+    background: rgba(5,6,10,0.9); backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
   }
   .nav-i {
-    background: none; border: none;
-    border-top: 2px solid transparent;
-    font-family: var(--font); font-size: 13px; font-weight: 500;
-    color: var(--text-tertiary); cursor: pointer;
-    transition: color 0.15s;
-    padding: 8px 16px 6px;
+    flex: 1; padding: 12px 0; background: none; border: none;
+    font-family: var(--sans); font-size: 12px; font-weight: 500;
+    color: var(--text-3); cursor: pointer;
   }
-  .nav-i:hover { color: var(--text-secondary); }
-  .nav-i--on {
-    color: var(--blue-core);
-    border-top-color: var(--blue-core);
-  }
+  .nav-i:hover { color: var(--text-2); }
 
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-delay: 0s !important;
-      transition-duration: 0.01ms !important;
-    }
-    .fade-in {
-      opacity: 1;
-      transform: none;
-    }
+  @media (max-width: 720px) {
+    .document { padding: 40px 20px 120px; }
+    .doc-project { font-size: 28px; }
+    .summary-stats { gap: 32px; }
+    .stat-num { font-size: 28px; }
+    .doc-header-top { flex-direction: column; gap: 4px; }
+    .finding { gap: 12px; }
+    .finding-divider { margin-left: 32px; }
   }
 </style>
