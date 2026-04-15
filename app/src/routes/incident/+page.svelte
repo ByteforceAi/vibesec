@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
+  import { addInquiry } from '$lib/stores/inquiries';
 
   // --- Form state ---
   let checkType = $state<'check' | 'urgent' | null>(null);
@@ -52,11 +53,8 @@
       timestamp: new Date().toISOString(),
     };
 
-    // Save to localStorage
-    const existing = JSON.parse(localStorage.getItem('byteforce_inquiries') || '[]');
-    existing.push(data);
-    localStorage.setItem('byteforce_inquiries', JSON.stringify(existing));
-    console.log('[Byteforce] New inquiry:', data);
+    // Save via data layer (swappable to Vercel KV later)
+    addInquiry(data);
 
     // Labor Illusion: show processing steps before completion
     processing = true;
