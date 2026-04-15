@@ -54,8 +54,16 @@
   let currentIndex = $state(0);
   let answers = $state<Answer[]>([null, null, null, null, null]);
   let showResult = $state(false);
+  let analyzing = $state(false);
+  let analyzeStep = $state(0);
   let reducedMotion = $state(false);
   let transitioning = $state(false);
+
+  const analyzeSteps = [
+    '응답을 확인하고 있습니다',
+    '보안 항목을 대조하고 있습니다',
+    '위험도를 계산하고 있습니다',
+  ];
 
   if (typeof window !== 'undefined') {
     reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -108,10 +116,27 @@
         transitioning = false;
       }, reducedMotion ? 0 : 250);
     } else {
+      // Labor Illusion: analyzing phase before showing result
       transitioning = true;
       setTimeout(() => {
-        showResult = true;
         transitioning = false;
+        analyzing = true;
+        analyzeStep = 0;
+
+        if (reducedMotion) {
+          analyzing = false;
+          showResult = true;
+          return;
+        }
+
+        for (let i = 1; i < analyzeSteps.length; i++) {
+          setTimeout(() => { analyzeStep = i; }, i * 700);
+        }
+
+        setTimeout(() => {
+          analyzing = false;
+          showResult = true;
+        }, analyzeSteps.length * 700);
       }, reducedMotion ? 0 : 250);
     }
   }
@@ -120,6 +145,8 @@
     answers = [null, null, null, null, null];
     currentIndex = 0;
     showResult = false;
+    analyzing = false;
+    analyzeStep = 0;
     transitioning = false;
   }
 
@@ -205,7 +232,28 @@
       </div>
     </div>
 
-    {#if !showResult}
+    {#if analyzing}
+      <!-- Analyzing: Labor Illusion -->
+      <div class="analyze-wrap">
+        <div class="analyze-spinner">
+          <svg width="56" height="56" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(10,132,255,0.1)" stroke-width="2"/>
+            <circle cx="28" cy="28" r="24" fill="none" stroke="var(--blue-core)" stroke-width="2.5" stroke-linecap="round"
+              stroke-dasharray={2 * Math.PI * 24 * 0.3}
+              stroke-dashoffset="0"
+              transform="rotate(-90 28 28)"
+              class="analyze-arc"
+            />
+          </svg>
+        </div>
+        <p class="analyze-text">{analyzeSteps[analyzeStep]}</p>
+        <div class="analyze-dots">
+          {#each analyzeSteps as _, i}
+            <span class="adot" class:adot--done={i <= analyzeStep}></span>
+          {/each}
+        </div>
+      </div>
+    {:else if !showResult}
       <!-- Progress -->
       <div class="progress-wrap fade-in" style="animation-delay: 0.1s;">
         <div class="progress-bar">
@@ -324,10 +372,11 @@
     animation: objetPulse 3s ease-in-out infinite;
   }
   .ring-svg {
-    filter: drop-shadow(0 2px 12px rgba(10, 132, 255, 0.2));
+    filter: drop-shadow(0 2px 12px rgba(10, 132, 255, 0.2)) drop-shadow(0 0 20px rgba(10, 132, 255, 0.1));
   }
   .ring-progress {
     transition: stroke-dashoffset 0.5s var(--ease-organic), stroke 0.4s;
+    filter: drop-shadow(0 0 6px currentColor);
   }
   @keyframes objetPulse {
     0%, 100% { transform: scale(1); }
@@ -343,6 +392,25 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-dim);
+    position: relative;
+  }
+  /* Neon glow on bar bottom edge */
+  .bar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.03) 20%,
+      rgba(59, 160, 255, 0.15) 45%,
+      rgba(90, 200, 250, 0.3) 50%,
+      rgba(59, 160, 255, 0.15) 55%,
+      rgba(10, 132, 255, 0.03) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
   .bar-back {
     background: none; border: none; color: var(--text-secondary); cursor: pointer;
@@ -459,6 +527,47 @@
     box-shadow: 0 0 16px rgba(10, 132, 255, 0.12);
   }
 
+  /* Analyzing: Labor Illusion */
+  .analyze-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 20px; padding: 40px 0;
+    animation: pageIn 0.4s var(--ease-organic) forwards;
+  }
+
+  .analyze-spinner {
+    position: relative;
+    animation: analyzeRotate 1.2s linear infinite;
+  }
+  .analyze-spinner svg {
+    filter: drop-shadow(0 0 10px rgba(10,132,255,0.2));
+  }
+  @keyframes analyzeRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .analyze-text {
+    font-size: 14px; color: var(--text-secondary); margin: 0;
+    animation: analyzeFade 0.5s var(--ease-organic);
+  }
+  @keyframes analyzeFade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .analyze-dots {
+    display: flex; gap: 8px;
+  }
+  .adot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border-dim);
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+  .adot--done {
+    background: var(--blue-core);
+    box-shadow: 0 0 6px rgba(10,132,255,0.4);
+  }
+
   /* Result */
   .result-wrap {
     width: 100%;
@@ -541,6 +650,7 @@
     border-top: 1px solid var(--border-dim);
     flex-shrink: 0;
     z-index: 90;
+    padding-bottom: var(--safe-bottom, 0px);
   }
   .nav-i {
     background: none; border: none;
@@ -554,6 +664,20 @@
   .nav-i--on {
     color: var(--blue-core);
     border-top-color: var(--blue-core);
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .bar { padding: 0 16px; padding-top: var(--safe-top, 0px); }
+    .content { padding: 20px 16px; }
+    .question-card { padding: 24px 20px; border-radius: 16px; }
+    .question-text { font-size: 17px; }
+    .option-btn { padding: 14px 20px; font-size: 15px; }
+    .result-card { padding: 32px 20px; }
+    .result-title { font-size: 20px; }
+    .cta-btn { width: 100%; padding: 16px; }
+    .retry-btn { width: 100%; }
+    .nav-i { font-size: 11px; padding: 10px 0 8px; }
   }
 
   /* Reduced motion */

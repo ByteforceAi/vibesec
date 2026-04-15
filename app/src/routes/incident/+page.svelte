@@ -11,7 +11,16 @@
   let phone = $state('');
   let message = $state('');
   let submitted = $state(false);
+  let processing = $state(false);
+  let processingStep = $state(0);
   let emailError = $state('');
+
+  const processingSteps = [
+    '접수 내용을 확인하고 있습니다',
+    '담당 엔지니어를 배정하고 있습니다',
+    '견적서 양식을 준비하고 있습니다',
+    '접수가 완료되었습니다',
+  ];
 
   const tools = ['Cursor', 'Claude Code', 'v0', 'Lovable', 'bolt.new', '기타'];
   const visits = [
@@ -49,7 +58,18 @@
     localStorage.setItem('byteforce_inquiries', JSON.stringify(existing));
     console.log('[Byteforce] New inquiry:', data);
 
-    submitted = true;
+    // Labor Illusion: show processing steps before completion
+    processing = true;
+    processingStep = 0;
+
+    for (let i = 1; i < processingSteps.length; i++) {
+      setTimeout(() => { processingStep = i; }, i * 800);
+    }
+
+    setTimeout(() => {
+      processing = false;
+      submitted = true;
+    }, processingSteps.length * 800);
   }
 </script>
 
@@ -72,7 +92,52 @@
   </header>
 
   <div class="form-area">
-    {#if submitted}
+    {#if processing}
+      <!-- Processing: Labor Illusion -->
+      <div class="processing">
+        <div class="proc-objet">
+          <div class="proc-ring">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(10,132,255,0.1)" stroke-width="2"/>
+              <circle cx="40" cy="40" r="34" fill="none" stroke="var(--blue-core)" stroke-width="2.5" stroke-linecap="round"
+                stroke-dasharray={2 * Math.PI * 34}
+                stroke-dashoffset={2 * Math.PI * 34 * (1 - (processingStep + 1) / processingSteps.length)}
+                transform="rotate(-90 40 40)"
+                style="transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1);"
+              />
+              <!-- Glow -->
+              <circle cx="40" cy="40" r="34" fill="none" stroke="var(--blue-core)" stroke-width="1" stroke-linecap="round"
+                stroke-dasharray={2 * Math.PI * 34}
+                stroke-dashoffset={2 * Math.PI * 34 * (1 - (processingStep + 1) / processingSteps.length)}
+                transform="rotate(-90 40 40)"
+                opacity="0.3" filter="blur(4px)"
+                style="transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1);"
+              />
+            </svg>
+            <span class="proc-percent">{Math.round(((processingStep + 1) / processingSteps.length) * 100)}%</span>
+          </div>
+        </div>
+
+        <p class="proc-step">{processingSteps[processingStep]}</p>
+
+        <div class="proc-steps">
+          {#each processingSteps as step, i}
+            <div class="proc-item" class:proc-item--done={i < processingStep} class:proc-item--active={i === processingStep} class:proc-item--pending={i > processingStep}>
+              <span class="proc-dot">
+                {#if i < processingStep}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--blue-core)" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                {:else if i === processingStep}
+                  <span class="proc-dot-active"></span>
+                {:else}
+                  <span class="proc-dot-pending"></span>
+                {/if}
+              </span>
+              <span class="proc-text">{step}</span>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {:else if submitted}
       <!-- Done -->
       <div class="done">
         <!-- Connection Objet transforms to checkmark -->
@@ -326,6 +391,25 @@
     background: rgba(5, 6, 10, 0.85);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-dim);
+    position: relative;
+  }
+  /* Neon glow on bar bottom edge */
+  .bar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.03) 20%,
+      rgba(59, 160, 255, 0.15) 45%,
+      rgba(90, 200, 250, 0.3) 50%,
+      rgba(59, 160, 255, 0.15) 55%,
+      rgba(10, 132, 255, 0.03) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
   .bar-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--text-tertiary); }
   .bar-link {
@@ -459,12 +543,86 @@
     transition: all 0.25s var(--ease-organic);
     box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
   }
-  .btn-submit:hover { background: var(--blue-glow); transform: translateY(-1px); box-shadow: 0 0 30px rgba(10, 132, 255, 0.25); }
+  .btn-submit:hover { background: var(--blue-glow); transform: translateY(-2px); box-shadow: 0 0 40px rgba(10, 132, 255, 0.35), 0 0 80px rgba(10, 132, 255, 0.15); }
   .btn-submit:active { transform: scale(0.97); }
   .btn-submit--disabled { opacity: 0.4; cursor: not-allowed; }
   .btn-submit--disabled:hover { transform: none; background: var(--blue-core); box-shadow: 0 0 20px rgba(10, 132, 255, 0.15); }
 
   .footer-note { font-size: 12px; color: var(--text-tertiary); text-align: center; margin: 0; }
+
+  /* Processing: Labor Illusion */
+  .processing {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 28px; padding: 64px 0;
+    animation: pageIn 0.5s var(--ease-organic) forwards;
+  }
+
+  .proc-objet { position: relative; }
+
+  .proc-ring {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .proc-ring svg {
+    filter: drop-shadow(0 0 12px rgba(10,132,255,0.15));
+  }
+  .proc-percent {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 16px; font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .proc-step {
+    font-size: 15px; color: var(--text-secondary);
+    margin: 0;
+    animation: procFade 0.5s var(--ease-organic);
+  }
+
+  @keyframes procFade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .proc-steps {
+    display: flex; flex-direction: column; gap: 12px;
+    align-items: flex-start;
+    width: 100%; max-width: 320px;
+  }
+
+  .proc-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--text-tertiary);
+    transition: color 0.4s var(--ease-organic);
+  }
+  .proc-item--done { color: var(--blue-core); }
+  .proc-item--active { color: var(--text-primary); }
+
+  .proc-dot {
+    width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .proc-dot-active {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue-core);
+    box-shadow: 0 0 8px rgba(10,132,255,0.5);
+    animation: procPulse 1s var(--ease-organic) infinite;
+  }
+  @keyframes procPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+  }
+
+  .proc-dot-pending {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border-dim);
+  }
+
+  .proc-text { transition: color 0.3s; }
 
   /* Done */
   .done {
@@ -499,6 +657,7 @@
     background: rgba(5, 6, 10, 0.92);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--border-dim);
+    padding-bottom: var(--safe-bottom, 0px);
   }
   .nav-i {
     flex: 1; padding: 12px 0; background: none; border: none;
@@ -513,8 +672,13 @@
   }
 
   @media (max-width: 480px) {
+    .bar { padding: 0 16px; padding-top: var(--safe-top, 0px); }
     .visit-cards { flex-direction: column; }
     .page-title { font-size: 24px; }
+    .form-area { padding: 20px 16px calc(80px + var(--safe-bottom, 0px)); }
+    .pill { padding: 10px 16px; font-size: 13px; }
+    .btn-submit { font-size: 15px; }
+    .nav-i { font-size: 11px; }
   }
 
   /* Reduced motion */

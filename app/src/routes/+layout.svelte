@@ -24,7 +24,13 @@
 
 <svelte:head>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+	<!-- iOS native app meta tags -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-title" content="Byteforce" />
+	<meta name="theme-color" content="#05060A" />
+	<meta name="mobile-web-app-capable" content="yes" />
 	<title>Byteforce Security -- 바이브코딩 보안</title>
 	<meta name="description" content="AI 코딩 도구(Cursor, Claude Code, v0)로 만든 서비스의 보안을 사람이 직접 점검합니다." />
 	<meta property="og:title" content="Byteforce Security -- 바이브코딩 보안" />
@@ -63,6 +69,57 @@
 		font-family: "Instrument Sans", "Pretendard Variable", -apple-system, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+		/* Native mobile feel */
+		overscroll-behavior-y: contain;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	/* Prevent pull-to-refresh on mobile (native app feel) */
+	:global(html) {
+		overscroll-behavior: none;
+	}
+
+	/* Safe area insets for notched phones */
+	:global(:root) {
+		--safe-top: env(safe-area-inset-top, 0px);
+		--safe-bottom: env(safe-area-inset-bottom, 0px);
+		--safe-left: env(safe-area-inset-left, 0px);
+		--safe-right: env(safe-area-inset-right, 0px);
+	}
+
+	/* Disable text selection on interactive elements (native feel) */
+	:global(button),
+	:global(nav),
+	:global(.nav),
+	:global(.bar),
+	:global(.menubar) {
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
+	/* Native-like touch feedback */
+	:global(button:active) {
+		transform: scale(0.97);
+		transition: transform 0.08s ease-out;
+	}
+
+	/* Disable long-press context menu on mobile (app feel) */
+	:global(button),
+	:global(a),
+	:global(nav) {
+		-webkit-touch-callout: none;
+	}
+
+	/* Smooth momentum scrolling */
+	:global(.content),
+	:global(.main),
+	:global(.form-area) {
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Hide mobile tap highlight */
+	:global(*) {
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	.app-shell {

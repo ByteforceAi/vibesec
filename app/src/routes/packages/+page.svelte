@@ -506,6 +506,28 @@
   }
   .bar--scrolled { border-color: var(--border-dim); }
 
+  /* Neon glow on bar bottom edge */
+  .bar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.03) 20%,
+      rgba(59, 160, 255, 0.15) 45%,
+      rgba(90, 200, 250, 0.3) 50%,
+      rgba(59, 160, 255, 0.15) 55%,
+      rgba(10, 132, 255, 0.03) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .bar--scrolled::after { opacity: 1; }
+
   .bar-left { display: flex; align-items: center; }
   .bar-brand {
     font-size: 12px;
@@ -769,12 +791,17 @@
     background: var(--blue-core);
     color: #fff;
     border-color: var(--blue-core);
-    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15);
+    box-shadow: 0 0 20px rgba(10, 132, 255, 0.15), 0 0 50px rgba(10, 132, 255, 0.08);
+    animation: ctaNeonPop 3s ease-in-out infinite;
   }
   .plan-cta--pop:hover {
     background: var(--blue-glow);
-    transform: translateY(-1px);
-    box-shadow: 0 0 30px rgba(10, 132, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(10, 132, 255, 0.35), 0 0 80px rgba(10, 132, 255, 0.15);
+  }
+  @keyframes ctaNeonPop {
+    0%, 100% { box-shadow: 0 0 20px rgba(10, 132, 255, 0.15), 0 0 50px rgba(10, 132, 255, 0.08); }
+    50% { box-shadow: 0 0 30px rgba(10, 132, 255, 0.25), 0 0 60px rgba(10, 132, 255, 0.12); }
   }
 
   /* -- Group -- */
@@ -1048,6 +1075,7 @@
     border-top: 1px solid var(--border-dim);
     flex-shrink: 0;
     z-index: 90;
+    padding-bottom: var(--safe-bottom, 0px);
   }
   .nav-i {
     background: none;
@@ -1091,18 +1119,23 @@
   /* -- Mobile -- */
   @media (max-width: 768px) {
     .side { display: none; }
-    .main { padding: 20px 16px 48px; }
+    .main { padding: 20px 16px calc(60px + var(--safe-bottom, 0px)); }
     .plan-top { flex-direction: column; gap: 16px; }
     .plan-num { font-size: 40px; }
     .plan-title { font-size: 26px; }
     .seg-wrap { align-self: stretch; }
     .seg { flex: 1; font-size: 12px; padding: 10px 8px; }
-    .bar { padding: 0 16px; }
+    .bar { padding: 0 16px; padding-top: var(--safe-top, 0px); }
+    .plan-cta { width: 100%; }
+    .row-key { font-size: 13px; }
+    .foot-text { font-size: 16px; }
+    .foot-btn { width: 100%; }
+    .nav-i { font-size: 11px; padding: 10px 0 8px; }
   }
 
   @media (max-width: 375px) {
     .plan-num { font-size: 32px; }
     .plan-title { font-size: 22px; }
-    .main { padding: 16px 12px 40px; gap: 24px; }
+    .main { padding: 16px 12px calc(60px + var(--safe-bottom, 0px)); gap: 24px; }
   }
 </style>

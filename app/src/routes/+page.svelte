@@ -4,7 +4,7 @@
 
   // --- Phase machine ---
   let phase = $state<
-    'black'|'shield-in'|'check-draw'|'splash-text'|'brand-text'|'fade-out'|'home-in'|'alive'
+    'black'|'objet-in'|'ring-spin'|'brand-in'|'fade-out'|'home-in'|'alive'
   >('black');
 
   // --- Sub-element visibility ---
@@ -103,33 +103,32 @@
 
   // --- Full first-visit sequence (~3s splash + home reveal) ---
   function startFullSequence() {
-    setTimeout(() => { phase = 'shield-in'; }, 500);
+    // 1. 3D objet emerges from darkness with aurora
+    setTimeout(() => { phase = 'objet-in'; }, 400);
 
-    setTimeout(() => {
-      phase = 'check-draw';
-      animateDrawProgress(400);
-    }, 800);
+    // 2. Neon ring starts spinning around it
+    setTimeout(() => { phase = 'ring-spin'; }, 1000);
 
-    setTimeout(() => { phase = 'splash-text'; }, 1200);
+    // 3. Brand name fades in (just "BYTEFORCE", nothing else)
+    setTimeout(() => { phase = 'brand-in'; }, 1600);
 
-    setTimeout(() => { phase = 'brand-text'; }, 1500);
-
-    setTimeout(() => { phase = 'fade-out'; }, 2000);
+    // 4. Everything fades out into main app
+    setTimeout(() => { phase = 'fade-out'; }, 2200);
 
     setTimeout(() => {
       phase = 'home-in';
       animateCanvasOpacity();
-    }, 2200);
+    }, 2500);
 
     setTimeout(() => {
       phase = 'alive';
       showStatus = true;
-    }, 2500);
-    setTimeout(() => { showCta = true; }, 2700);
-    setTimeout(() => { showCard0 = true; }, 2900);
-    setTimeout(() => { showCard1 = true; }, 3050);
-    setTimeout(() => { showCard2 = true; }, 3200);
-    setTimeout(() => { showRecent = true; }, 3400);
+    }, 2800);
+    setTimeout(() => { showCta = true; }, 3000);
+    setTimeout(() => { showCard0 = true; }, 3150);
+    setTimeout(() => { showCard1 = true; }, 3300);
+    setTimeout(() => { showCard2 = true; }, 3450);
+    setTimeout(() => { showRecent = true; }, 3600);
   }
 
   // Recent revisit: skip splash, glow pulse only
@@ -148,17 +147,6 @@
       showRecent = true;
     }, 300);
     setTimeout(() => { glowPulse = false; }, 600);
-  }
-
-  function animateDrawProgress(duration: number) {
-    const start = performance.now();
-    function tick() {
-      const elapsed = performance.now() - start;
-      const t = Math.min(elapsed / duration, 1);
-      drawProgress = t;
-      if (t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
   }
 
   function animateCanvasOpacity() {
@@ -285,19 +273,8 @@
     };
   });
 
-  const shieldPathLen = 220;
-  const checkPathLen = 40;
-
-  function shieldDashOffset(): number {
-    return shieldPathLen * (1 - drawProgress);
-  }
-  function checkDashOffset(): number {
-    const t = Math.max(0, (drawProgress - 0.5) / 0.5);
-    return checkPathLen * (1 - t);
-  }
-
   function isSplashVisible(): boolean {
-    return ['black','shield-in','check-draw','splash-text','brand-text','fade-out'].includes(phase);
+    return ['black','objet-in','ring-spin','brand-in','fade-out'].includes(phase);
   }
   function isAppVisible(): boolean {
     return ['home-in','alive'].includes(phase);
@@ -323,7 +300,7 @@
     style="opacity: {canvasOpacity}"
   ></canvas>
 
-  <!-- ===== SPLASH (3s) ===== -->
+  <!-- ===== SPLASH — 3D Objet + Neon Ring ===== -->
   {#if isSplashVisible()}
     <div
       class="splash"
@@ -331,45 +308,42 @@
     >
       {#if phase !== 'black'}
         <div class="splash-center">
-          <svg
-            class="splash-shield"
-            class:splash-shield--in={phase !== 'black'}
-            viewBox="0 0 64 76" fill="none" xmlns="http://www.w3.org/2000/svg"
+          <!-- Aurora glow behind objet -->
+          <div class="sp-aurora" class:sp-aurora--in={phase !== 'black'}></div>
+
+          <!-- Neon ring -->
+          <div
+            class="sp-ring"
+            class:sp-ring--spin={phase === 'ring-spin' || phase === 'brand-in' || phase === 'fade-out'}
+          ></div>
+
+          <!-- 3D Core Objet (same naisser style as homepage) -->
+          <div
+            class="sp-objet"
+            class:sp-objet--in={phase !== 'black'}
           >
-            <path
-              d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-              stroke="rgba(10,132,255,0.7)"
-              stroke-width="1.5"
-              fill="none"
-              stroke-dasharray="{shieldPathLen}"
-              stroke-dashoffset="{shieldDashOffset()}"
-            />
-            <path
-              d="M32 2L4 16v20c0 18.67 11.93 36.13 28 42 16.07-5.87 28-23.33 28-42V16L32 2z"
-              fill="rgba(10,132,255,0.03)"
-            />
-            <path
-              d="M26 38l6 6 12-14"
-              stroke="#0A84FF"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-dasharray="{checkPathLen}"
-              stroke-dashoffset="{checkDashOffset()}"
-            />
-            <circle cx="20" cy="25" r="3" fill="none" stroke="rgba(10,132,255,0.25)" stroke-width="0.8" opacity={drawProgress > 0.3 ? 1 : 0}/>
-            <line x1="17" y1="23" x2="15.5" y2="21.5" stroke="rgba(10,132,255,0.15)" stroke-width="0.5" opacity={drawProgress > 0.3 ? 1 : 0}/>
-            <line x1="22" y1="22.5" x2="23.5" y2="21" stroke="rgba(10,132,255,0.15)" stroke-width="0.5" opacity={drawProgress > 0.3 ? 1 : 0}/>
-            <circle cx="44" cy="30" r="2.5" fill="none" stroke="rgba(10,132,255,0.2)" stroke-width="0.8" opacity={drawProgress > 0.4 ? 1 : 0}/>
-            <line x1="46" y1="28" x2="47.5" y2="26.5" stroke="rgba(10,132,255,0.15)" stroke-width="0.5" opacity={drawProgress > 0.4 ? 1 : 0}/>
-            <ellipse cx="38" cy="55" rx="4" ry="2" fill="none" stroke="rgba(10,132,255,0.2)" stroke-width="0.8" opacity={drawProgress > 0.5 ? 1 : 0}/>
-            <line x1="41" y1="53.5" x2="43" y2="52" stroke="rgba(10,132,255,0.15)" stroke-width="0.5" opacity={drawProgress > 0.5 ? 1 : 0}/>
-          </svg>
-          {#if phase === 'splash-text' || phase === 'brand-text' || phase === 'fade-out'}
-            <span class="splash-label splash-label--in">{'\uB450\uB4DC\uB824\uBD24\uC2B5\uB2C8\uB2E4.'}</span>
-          {/if}
-          {#if phase === 'brand-text' || phase === 'fade-out'}
-            <span class="splash-brand splash-brand--in">BYTEFORCE SECURITY</span>
+            <!-- Ambient glow -->
+            <div class="sp-ambient"></div>
+            <!-- Main rounded square -->
+            <div class="sp-sphere">
+              <!-- Glass reflection -->
+              <div class="sp-glass"></div>
+              <!-- Inner core light -->
+              <div class="sp-inner"></div>
+              <!-- Subtle scanline -->
+              <div class="sp-scanline"></div>
+              <!-- Check icon -->
+              <svg class="sp-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+            </div>
+            <!-- Rim -->
+            <div class="sp-rim"></div>
+          </div>
+
+          <!-- Brand (just the name, nothing else) -->
+          {#if phase === 'brand-in' || phase === 'fade-out'}
+            <span class="sp-brand sp-brand--in">BYTEFORCE</span>
           {/if}
         </div>
       {/if}
@@ -647,6 +621,18 @@
 </div>
 
 <style>
+  /* ===== @property for animated neon angle ===== */
+  @property --neon-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @property --aurora-shift {
+    syntax: '<percentage>';
+    initial-value: 0%;
+    inherits: false;
+  }
+
   .os-shell {
     --bg-void: #05060A;
     --bg-abyss: #0A0E1A;
@@ -690,7 +676,7 @@
     opacity: 0;
   }
 
-  /* ===== SPLASH ===== */
+  /* ===== SPLASH — 3D Objet Intro ===== */
   .splash {
     position: fixed;
     inset: 0;
@@ -699,7 +685,7 @@
     align-items: center;
     justify-content: center;
     background: var(--bg-void);
-    transition: opacity 0.5s var(--ease-organic);
+    transition: opacity 0.6s var(--ease-organic);
   }
   .splash--fade {
     opacity: 0;
@@ -710,46 +696,230 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
+    position: relative;
   }
 
-  .splash-shield {
-    width: 80px;
-    height: 95px;
+  /* Aurora glow behind objet */
+  .sp-aurora {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+      radial-gradient(ellipse 60% 50% at 40% 40%, rgba(10, 132, 255, 0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 65% 55%, rgba(59, 160, 255, 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 40% at 50% 70%, rgba(0, 71, 179, 0.12) 0%, transparent 70%);
+    filter: blur(50px);
     opacity: 0;
-    transform: scale(0.6);
-    animation: splashShieldIn 0.5s var(--ease-organic) forwards;
-    filter: drop-shadow(0 0 30px rgba(10,132,255,0.35));
+    transform: translate(-50%, -50%) scale(0.6);
+    transition: opacity 0.8s var(--ease-organic), transform 1.2s var(--ease-organic);
+    pointer-events: none;
   }
-  @keyframes splashShieldIn {
-    from { opacity: 0; transform: scale(0.6); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  .splash-label {
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    color: rgba(10,132,255,0.8);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
-  }
-  .splash-label--in {
+  .sp-aurora--in {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%) scale(1);
   }
 
-  .splash-brand {
+  /* Neon ring around objet */
+  .sp-ring {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .sp-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 55%,
+      rgba(10, 132, 255, 0.08) 68%,
+      rgba(59, 160, 255, 0.5) 83%,
+      rgba(90, 200, 250, 0.9) 88%,
+      rgba(59, 160, 255, 0.5) 93%,
+      rgba(10, 132, 255, 0.08) 96%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-organic);
+  }
+  .sp-ring::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    padding: 8px;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 60%,
+      rgba(10, 132, 255, 0.04) 72%,
+      rgba(59, 160, 255, 0.15) 86%,
+      rgba(10, 132, 255, 0.04) 94%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-organic);
+  }
+  .sp-ring--spin::before,
+  .sp-ring--spin::after {
+    opacity: 1;
+    animation: neonSpin 3s linear infinite;
+  }
+
+  /* 3D Core Objet in splash */
+  .sp-objet {
+    position: relative;
+    z-index: 4;
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.7s var(--ease-organic), transform 0.8s var(--ease-organic);
+  }
+  .sp-objet--in {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .sp-ambient {
+    position: absolute;
+    inset: -40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(10,132,255,0.2) 0%, transparent 70%);
+    animation: spAmbientPulse 2.5s var(--ease-pulse) infinite;
+  }
+  @keyframes spAmbientPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.08); }
+  }
+
+  .sp-sphere {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(155deg,
+      #1a3a6e 0%,
+      #0d2040 30%,
+      #081830 60%,
+      #0a2248 100%
+    );
+    box-shadow:
+      0 4px 12px rgba(0,0,0,0.5),
+      0 16px 40px rgba(0,0,0,0.4),
+      0 28px 64px rgba(0,10,50,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      inset 0 -2px 4px rgba(0,0,0,0.3),
+      0 0 80px rgba(10,132,255,0.15);
+    animation: spSphereGlow 2.5s var(--ease-pulse) infinite;
+  }
+  @keyframes spSphereGlow {
+    0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 16px 40px rgba(0,0,0,0.4), 0 28px 64px rgba(0,10,50,0.45), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -2px 4px rgba(0,0,0,0.3), 0 0 60px rgba(10,132,255,0.12); }
+    50% { box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 16px 40px rgba(0,0,0,0.4), 0 28px 64px rgba(0,10,50,0.45), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -2px 4px rgba(0,0,0,0.3), 0 0 100px rgba(10,132,255,0.28); }
+  }
+
+  .sp-glass {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 45%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    border-radius: 28px 28px 50% 50%;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .sp-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,160,255,0.5) 0%, rgba(10,132,255,0.15) 50%, transparent 70%);
+    animation: spCorePulse 2.5s var(--ease-pulse) infinite;
+  }
+  @keyframes spCorePulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  }
+
+  .sp-scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--cyan-scan) 30%, var(--cyan-scan) 70%, transparent 100%);
+    opacity: 0.3;
+    filter: blur(1px);
+    z-index: 4;
+    pointer-events: none;
+    animation: spScanMove 3s ease-in-out infinite;
+  }
+  @keyframes spScanMove {
+    0% { top: 10%; }
+    50% { top: 80%; }
+    100% { top: 10%; }
+  }
+
+  .sp-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    z-index: 5;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.35));
+    opacity: 0.9;
+  }
+
+  .sp-rim {
+    position: absolute;
+    inset: -1px;
+    border-radius: 29px;
+    border: 1px solid rgba(90,170,255,0.2);
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  /* Brand text — just the name */
+  .sp-brand {
+    font-family: var(--mono);
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-weight: 500;
+    letter-spacing: 0.25em;
     color: var(--text-tertiary);
     opacity: 0;
     transform: translateY(4px);
     transition: opacity 0.4s var(--ease-organic), transform 0.4s var(--ease-organic);
   }
-  .splash-brand--in {
+  .sp-brand--in {
     opacity: 1;
     transform: translateY(0);
   }
@@ -778,6 +948,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 14px;
+    padding-top: var(--safe-top, 0px);
     background: rgba(5, 6, 10, 0.72);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -789,6 +960,27 @@
   .menubar--in {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Neon glow on menubar bottom edge */
+  .menubar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.03) 20%,
+      rgba(59, 160, 255, 0.15) 45%,
+      rgba(90, 200, 250, 0.3) 50%,
+      rgba(59, 160, 255, 0.15) 55%,
+      rgba(10, 132, 255, 0.03) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
 
   .menubar-left {
@@ -1018,11 +1210,37 @@
     padding-bottom: 16px;
     min-height: 340px;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Aurora background behind hero */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background:
+      radial-gradient(ellipse 50% 40% at 30% 20%, rgba(10, 132, 255, 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 70% 60%, rgba(59, 160, 255, 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 30% at 50% 80%, rgba(0, 71, 179, 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 35% 45% at 80% 30%, rgba(90, 200, 250, 0.08) 0%, transparent 70%);
+    filter: blur(60px);
+    animation: auroraShift 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes auroraShift {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    33% { transform: translate(-3%, 2%) scale(1.02); opacity: 0.8; }
+    66% { transform: translate(2%, -1%) scale(0.98); opacity: 0.7; }
+    100% { transform: translate(-1%, 3%) scale(1.03); opacity: 0.9; }
   }
 
   /* Shield wrapper */
   .core-wrap {
     position: relative;
+    z-index: 1;
     width: 220px;
     height: 220px;
     display: flex;
@@ -1169,7 +1387,7 @@
     50% { transform: scale(1.15); opacity: 1; }
   }
 
-  /* Outer dashed ring */
+  /* Outer neon ring with traveling light */
   .outer-ring {
     position: absolute;
     width: 200px;
@@ -1178,13 +1396,60 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    border: 1px dashed rgba(10,132,255,0.15);
-    animation: ringRotate 20s linear infinite;
     pointer-events: none;
+    z-index: 1;
   }
-  @keyframes ringRotate {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+
+  /* Neon glow trail */
+  .outer-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 60%,
+      rgba(10, 132, 255, 0.06) 70%,
+      rgba(59, 160, 255, 0.4) 85%,
+      rgba(90, 200, 250, 0.8) 90%,
+      rgba(59, 160, 255, 0.4) 95%,
+      rgba(10, 132, 255, 0.06) 97%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: neonSpin 4s linear infinite;
+  }
+
+  /* Soft outer glow halo */
+  .outer-ring::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    padding: 6px;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 65%,
+      rgba(10, 132, 255, 0.03) 75%,
+      rgba(59, 160, 255, 0.12) 88%,
+      rgba(10, 132, 255, 0.03) 95%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: blur(4px);
+    animation: neonSpin 4s linear infinite;
+  }
+
+  @keyframes neonSpin {
+    from { --neon-angle: 0deg; }
+    to { --neon-angle: 360deg; }
   }
 
   /* Halo synced with core pulse — on sphere */
@@ -1207,6 +1472,8 @@
     display: flex;
     align-items: center;
     gap: 0;
+    position: relative;
+    z-index: 1;
   }
   .status-prompt {
     color: var(--blue-core);
@@ -1225,7 +1492,7 @@
     51%, 100% { opacity: 0; }
   }
 
-  /* CTA Button - pill */
+  /* CTA Button - pill with neon glow */
   .hero-cta {
     padding: 13px 40px;
     border-radius: 980px;
@@ -1236,13 +1503,26 @@
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    position: relative;
+    z-index: 1;
     transition: background 0.4s var(--ease-organic), transform 0.4s var(--ease-organic), box-shadow 0.4s var(--ease-organic);
-    box-shadow: 0 0 30px rgba(10,132,255,0.2);
+    box-shadow:
+      0 0 30px rgba(10,132,255,0.25),
+      0 0 60px rgba(10,132,255,0.1);
+    animation: ctaNeonPulse 3s var(--ease-pulse) infinite;
   }
   .hero-cta:hover {
     background: var(--blue-glow);
-    transform: translateY(-1px);
-    box-shadow: 0 0 50px rgba(10,132,255,0.35);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 40px rgba(10,132,255,0.4),
+      0 0 80px rgba(10,132,255,0.2),
+      0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  @keyframes ctaNeonPulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(10,132,255,0.25), 0 0 60px rgba(10,132,255,0.1); }
+    50% { box-shadow: 0 0 40px rgba(10,132,255,0.35), 0 0 80px rgba(10,132,255,0.15); }
   }
 
   /* Element animations */
@@ -1287,35 +1567,119 @@
     transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Glowing border on hover */
-  .service-card::after {
+  /* ===== NEON SPINNING BORDER on cards ===== */
+  .service-card::before {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: 20px;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(10,132,255,0.2) 0%, transparent 50%, rgba(10,132,255,0.1) 100%);
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 55%,
+      rgba(10, 132, 255, 0.05) 65%,
+      rgba(59, 160, 255, 0.35) 82%,
+      rgba(90, 200, 250, 0.7) 88%,
+      rgba(59, 160, 255, 0.35) 94%,
+      rgba(10, 132, 255, 0.05) 97%,
+      transparent 100%
+    );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.5s;
+    transition: opacity 0.6s var(--ease-organic);
+    z-index: 2;
   }
-  .service-card--blue:hover::after {
+
+  .service-card:hover::before {
     opacity: 1;
+    animation: neonSpin 3s linear infinite;
+  }
+
+  /* Neon outer glow halo on cards */
+  .service-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 21px;
+    padding: 3px;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 60%,
+      rgba(10, 132, 255, 0.02) 70%,
+      rgba(59, 160, 255, 0.12) 86%,
+      rgba(10, 132, 255, 0.02) 94%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: blur(6px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-organic);
+    z-index: 1;
+  }
+
+  .service-card:hover::after {
+    opacity: 1;
+    animation: neonSpin 3s linear infinite;
+  }
+
+  /* Coral card neon variant */
+  .service-card--coral::before {
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 55%,
+      rgba(255, 107, 71, 0.05) 65%,
+      rgba(255, 140, 100, 0.35) 82%,
+      rgba(255, 170, 130, 0.7) 88%,
+      rgba(255, 140, 100, 0.35) 94%,
+      rgba(255, 107, 71, 0.05) 97%,
+      transparent 100%
+    );
   }
   .service-card--coral::after {
-    background: linear-gradient(135deg, rgba(255,107,71,0.2) 0%, transparent 50%, rgba(255,107,71,0.1) 100%);
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 60%,
+      rgba(255, 107, 71, 0.02) 70%,
+      rgba(255, 140, 100, 0.12) 86%,
+      rgba(255, 107, 71, 0.02) 94%,
+      transparent 100%
+    );
   }
-  .service-card--coral:hover::after {
-    opacity: 1;
+
+  /* Green card neon variant */
+  .service-card--green::before {
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 55%,
+      rgba(50, 215, 75, 0.05) 65%,
+      rgba(80, 230, 100, 0.35) 82%,
+      rgba(120, 245, 140, 0.7) 88%,
+      rgba(80, 230, 100, 0.35) 94%,
+      rgba(50, 215, 75, 0.05) 97%,
+      transparent 100%
+    );
   }
   .service-card--green::after {
-    background: linear-gradient(135deg, rgba(50,215,75,0.2) 0%, transparent 50%, rgba(50,215,75,0.1) 100%);
-  }
-  .service-card--green:hover::after {
-    opacity: 1;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      transparent 60%,
+      rgba(50, 215, 75, 0.02) 70%,
+      rgba(80, 230, 100, 0.12) 86%,
+      rgba(50, 215, 75, 0.02) 94%,
+      transparent 100%
+    );
   }
 
   /* Hover: card lifts */
@@ -1544,6 +1908,53 @@
     overflow: hidden;
   }
 
+  /* Neon top-edge divider on report card */
+  .report-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.05) 15%,
+      rgba(59, 160, 255, 0.4) 40%,
+      rgba(90, 200, 250, 0.7) 50%,
+      rgba(59, 160, 255, 0.4) 60%,
+      rgba(10, 132, 255, 0.05) 85%,
+      transparent 100%
+    );
+    opacity: 0.6;
+    transition: opacity 0.5s;
+  }
+  .report-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Neon glow behind the top edge */
+  .report-card::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 15%;
+    right: 15%;
+    height: 8px;
+    background: radial-gradient(
+      ellipse 50% 100% at 50% 100%,
+      rgba(10, 132, 255, 0.2) 0%,
+      transparent 100%
+    );
+    filter: blur(4px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .report-card:hover::after {
+    opacity: 1;
+  }
+
   .report-header {
     display: flex;
     justify-content: space-between;
@@ -1712,6 +2123,28 @@
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid var(--border-dim);
+    padding-bottom: var(--safe-bottom, 0px);
+  }
+
+  /* Neon glow on nav top edge */
+  .nav::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.03) 20%,
+      rgba(59, 160, 255, 0.12) 45%,
+      rgba(90, 200, 250, 0.25) 50%,
+      rgba(59, 160, 255, 0.12) 55%,
+      rgba(10, 132, 255, 0.03) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
   .nav-i {
     flex: 1;
@@ -1741,15 +2174,21 @@
     height: 2px;
     background: var(--blue-core);
     border-radius: 0 0 2px 2px;
+    box-shadow: 0 0 8px rgba(10, 132, 255, 0.5), 0 0 20px rgba(10, 132, 255, 0.2);
   }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .dock { display: none; }
     .menubar-dot, .menubar-sub { display: none; }
+    .menubar {
+      height: 44px;
+      padding: 0 16px;
+      padding-top: var(--safe-top, 0px);
+    }
     .hero {
-      min-height: 300px;
-      padding-top: 24px;
+      min-height: 280px;
+      padding-top: 20px;
     }
     .core-objet {
       width: 100px;
@@ -1764,10 +2203,13 @@
       height: 170px;
     }
     .status-text { font-size: 14px; }
-    .content { padding: 32px 16px 100px; }
-    .service-card { padding: 22px; gap: 16px; }
+    .content { padding: 24px 16px calc(80px + var(--safe-bottom, 0px)); }
+    .service-card { padding: 20px; gap: 14px; }
     .card-objet { width: 48px; height: 48px; border-radius: 14px; }
     .card-price { font-size: 16px; }
+    .card-title { font-size: 16px; }
+    .card-desc { font-size: 12px; }
+    .hero-cta { padding: 14px 36px; font-size: 15px; }
     .report-card { padding: 20px; }
     .report-header { flex-direction: column; gap: 12px; }
     .report-meta { text-align: left; }
@@ -1775,6 +2217,8 @@
     .report-cta { flex-direction: column; }
     .report-cta button { width: 100%; }
     .report-fade { margin: -20px -20px 0; padding: 0 20px; }
+    .nav-i { font-size: 11px; padding: 10px 0 8px; }
+    .statusbar { display: none; }
   }
 
   @media (min-width: 1200px) {
@@ -1783,14 +2227,16 @@
 
   /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
-    .splash, .splash-shield, .splash-label, .splash-brand,
+    .splash, .sp-objet, .sp-aurora, .sp-ring, .sp-brand, .sp-sphere, .sp-ambient, .sp-inner, .sp-scanline,
     .app, .menubar, .elem-fade-in, .elem-rise-in,
     .core-wrap--pulse .core-sphere,
-    .outer-ring,
+    .outer-ring, .outer-ring::before, .outer-ring::after,
     .core-inner,
     .core-ambient,
     .core-sphere,
-    .service-card,
+    .service-card, .service-card::before, .service-card::after,
+    .hero::before,
+    .hero-cta,
     .status-dot--pulse,
     .cursor-blink,
     .sb-dot--pulse,
@@ -1803,6 +2249,15 @@
     }
     .outer-ring {
       transform: translate(-50%, -50%) !important;
+    }
+    /* Show static neon borders instead */
+    .outer-ring::before {
+      opacity: 0.3 !important;
+      background: rgba(10, 132, 255, 0.2) !important;
+      border-radius: 50% !important;
+    }
+    .hero::before {
+      opacity: 0.4 !important;
     }
   }
 </style>

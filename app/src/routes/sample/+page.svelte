@@ -51,6 +51,39 @@
   const criticalCount = findings.filter(f => f.severity === 'critical').length;
   const warningCount = findings.filter(f => f.severity === 'warning').length;
   const okCount = findings.filter(f => f.severity === 'ok').length;
+
+  // Labor Illusion: document loading sequence
+  let docReady = $state(false);
+  let loadStep = $state(0);
+  const loadSteps = ['보고서를 불러오고 있습니다', '내용을 복호화하고 있습니다', '열람 준비 완료'];
+
+  $effect(() => {
+    if (typeof window === 'undefined') return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      docReady = true;
+      return;
+    }
+
+    // Already viewed this session? Skip loading
+    if (sessionStorage.getItem('bf_sample_viewed')) {
+      docReady = true;
+      return;
+    }
+
+    loadStep = 0;
+    const timers = [
+      setTimeout(() => { loadStep = 1; }, 800),
+      setTimeout(() => { loadStep = 2; }, 1500),
+      setTimeout(() => {
+        docReady = true;
+        sessionStorage.setItem('bf_sample_viewed', '1');
+      }, 2000),
+    ];
+
+    return () => timers.forEach(clearTimeout);
+  });
 </script>
 
 <svelte:head>
@@ -67,6 +100,25 @@
     <span class="bar-brand">BYTEFORCE</span>
     <button class="bar-link" onclick={() => goto(`${base}/`)}>홈으로</button>
   </header>
+
+  {#if !docReady}
+    <!-- Document loading: Labor Illusion -->
+    <div class="doc-loading">
+      <div class="dl-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <rect x="10" y="4" width="28" height="40" rx="4" stroke="rgba(10,132,255,0.3)" stroke-width="1.5" fill="rgba(10,132,255,0.04)"/>
+          <line x1="16" y1="16" x2="32" y2="16" stroke="rgba(10,132,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="22" x2="28" y2="22" stroke="rgba(10,132,255,0.15)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="28" x2="30" y2="28" stroke="rgba(10,132,255,0.1)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="dl-text">{loadSteps[loadStep]}</p>
+      <div class="dl-bar">
+        <div class="dl-fill" style="width: {((loadStep + 1) / loadSteps.length) * 100}%"></div>
+      </div>
+      <span class="dl-badge">CONFIDENTIAL</span>
+    </div>
+  {:else}
 
   <article class="document">
 
@@ -217,6 +269,7 @@
     </div>
 
   </article>
+  {/if}
 
   <nav class="nav">
     <button class="nav-i" onclick={() => goto(`${base}/`)}>홈</button>
@@ -258,9 +311,84 @@
     padding: 0 20px;
     background: rgba(5,6,10,0.85); backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  /* Neon glow on bar bottom edge */
+  .bar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(10, 132, 255, 0.03) 20%,
+      rgba(59, 160, 255, 0.15) 45%,
+      rgba(90, 200, 250, 0.3) 50%,
+      rgba(59, 160, 255, 0.15) 55%,
+      rgba(10, 132, 255, 0.03) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
   .bar-brand { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--text-3); }
   .bar-link { font-family: var(--sans); font-size: 13px; color: var(--blue); background: none; border: none; cursor: pointer; }
+
+  /* Document Loading: Labor Illusion */
+  .doc-loading {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: calc(100dvh - 48px - 50px);
+    padding: 48px 20px;
+    animation: dlFadeIn 0.5s ease-out;
+  }
+  @keyframes dlFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .dl-icon {
+    animation: dlPulse 2s ease-in-out infinite;
+  }
+  @keyframes dlPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .dl-text {
+    font-size: 14px; color: var(--text-2);
+    margin: 0;
+    min-height: 20px;
+    animation: dlTextFade 0.4s ease-out;
+  }
+  @keyframes dlTextFade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dl-bar {
+    width: 200px; height: 2px;
+    background: rgba(120, 160, 220, 0.08);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .dl-fill {
+    height: 100%;
+    background: var(--blue);
+    border-radius: 1px;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 6px rgba(10, 132, 255, 0.3);
+  }
+
+  .dl-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--text-3);
+    opacity: 0.5;
+    margin-top: 8px;
+  }
 
   /* Document */
   .document {
@@ -624,6 +752,7 @@
     display: flex;
     background: rgba(5,6,10,0.9); backdrop-filter: blur(20px);
     border-top: 1px solid var(--border);
+    padding-bottom: var(--safe-bottom, 0px);
   }
   .nav-i {
     flex: 1; padding: 12px 0; background: none; border: none;
