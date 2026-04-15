@@ -1,0 +1,1 @@
+import"../chunks/Bzak7iHL.js";import{p as o,u as t,a}from"../chunks/BVdB5FdX.js";import{g as p,b as r}from"../chunks/De0VygF_.js";function m(s,e){o(e,!0),t(()=>{p(`${r}/incident`,{replaceState:!0})}),a()}export{m as component};
